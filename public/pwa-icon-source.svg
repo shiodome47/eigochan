@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- フルブリードのクリーム背景 -->
+  <rect width="512" height="512" fill="#fdf8ee"/>
+
+  <!-- やさしい空のレイヤー(上半分) -->
+  <rect width="512" height="300" fill="#eaf3f7" opacity="0.55"/>
+
+  <!-- 地面のミント(下) -->
+  <rect y="380" width="512" height="132" fill="#cfe6e3"/>
+
+  <!-- 太陽(右上、セーフゾーン内) -->
+  <circle cx="372" cy="160" r="42" fill="#f4c95d" opacity="0.95"/>
+  <circle cx="372" cy="160" r="58" fill="#f4c95d" opacity="0.18"/>
+
+  <!-- 小さな家(左) -->
+  <polygon points="118,278 170,212 222,278" fill="#e98a6a"/>
+  <rect x="124" y="278" width="96" height="120" rx="4" fill="#7fb3a6"/>
+  <rect x="150" y="334" width="32" height="64" rx="2" fill="#fdf8ee"/>
+  <rect x="150" y="334" width="32" height="64" rx="2" fill="none" stroke="#2f6c75" stroke-width="2"/>
+
+  <!-- 大きな家(右) -->
+  <polygon points="240,232 312,162 384,232" fill="#e98a6a"/>
+  <rect x="246" y="232" width="132" height="166" rx="4" fill="#9cc3d6"/>
+  <rect x="290" y="318" width="44" height="80" rx="2" fill="#fdf8ee"/>
+  <rect x="290" y="318" width="44" height="80" rx="2" fill="none" stroke="#2f6c75" stroke-width="2"/>
+  <rect x="266" y="262" width="30" height="30" rx="2" fill="#fdf8ee"/>
+  <line x1="281" y1="262" x2="281" y2="292" stroke="#2f6c75" stroke-width="1.6"/>
+  <line x1="266" y1="277" x2="296" y2="277" stroke="#2f6c75" stroke-width="1.6"/>
+
+  <!-- 街灯(左下) -->
+  <line x1="78" y1="262" x2="78" y2="404" stroke="#a26420" stroke-width="4"/>
+  <circle cx="78" cy="252" r="12" fill="#f4c95d"/>
+  <circle cx="78" cy="252" r="20" fill="#f4c95d" opacity="0.25"/>
+
+  <!-- 木(右下) -->
+  <rect x="426" y="346" width="6" height="40" fill="#7a5a3a"/>
+  <circle cx="429" cy="338" r="22" fill="#7fb3a6"/>
+  <circle cx="416" cy="346" r="14" fill="#7fb3a6"/>
+  <circle cx="442" cy="346" r="14" fill="#7fb3a6"/>
+</svg>
