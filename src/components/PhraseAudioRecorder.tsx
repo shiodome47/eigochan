@@ -12,6 +12,10 @@ import {
   type PhraseAudioSlot,
   type SavedPhraseAudio,
 } from "../utils/phraseAudioStorage";
+import {
+  enqueueAudioDelete,
+  enqueueAudioUpload,
+} from "../utils/autoSync";
 
 interface Props {
   phraseId: string;
@@ -151,6 +155,8 @@ export function PhraseAudioRecorder({
       setSaved(newSaved);
       setPhase("ready");
       onChange?.();
+      // 同期側へも反映予約(syncCode 無し / draft_ なら no-op)
+      enqueueAudioUpload(phraseId, slot);
     } catch {
       setError("録音の保存に失敗しました");
       setPhase("error");
@@ -165,6 +171,8 @@ export function PhraseAudioRecorder({
       setSaved(null);
       setPhase("idle");
       onChange?.();
+      // 同期側からも消す予約(syncCode 無し / draft_ なら no-op)
+      enqueueAudioDelete(phraseId, slot);
     } catch {
       setError("削除に失敗しました");
       setPhase("error");
@@ -198,6 +206,7 @@ export function PhraseAudioRecorder({
       setSaved(newSaved);
       setPhase("ready");
       onChange?.();
+      enqueueAudioUpload(phraseId, slot);
     } catch {
       setError("ファイルの保存に失敗しました");
       setPhase("error");

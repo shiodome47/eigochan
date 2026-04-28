@@ -20,6 +20,10 @@ import {
   loadPhraseAudio,
   savePhraseAudio,
 } from "../utils/phraseAudioStorage";
+import {
+  enqueueAudioDelete,
+  enqueueSnapshotPush,
+} from "../utils/autoSync";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
 import type { Phrase, PhraseCategory, PhraseLevel, PhraseMood } from "../types";
 
@@ -191,6 +195,9 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
           migrationFailed = true;
         }
 
+        // 同期が有効ならサーバへ反映予約(syncCode 無しなら no-op)
+        enqueueSnapshotPush();
+
         navigate(`/phrases/edit/${created.id}`, {
           state: migrationFailed ? { audioMigrationFailed: true } : undefined,
         });
@@ -202,6 +209,7 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
           setSaveError(STORAGE_FAIL_MESSAGE);
           return;
         }
+        enqueueSnapshotPush();
         navigate("/phrases");
         return;
       }
@@ -218,6 +226,11 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
     if (!target) return;
     if (!window.confirm("このフレーズを削除しますか？(取り消せません)")) return;
     deleteCustomPhrase(target.id);
+    // ローカル削除と同期側の削除を別々に予約。サーバ側の音声削除は 2 slot 分。
+    // (該当 slot に音声が無ければ server 側で no-op になるだけ。)
+    enqueueAudioDelete(target.id, "reference");
+    enqueueAudioDelete(target.id, "practice");
+    enqueueSnapshotPush();
     navigate("/phrases");
   };
 

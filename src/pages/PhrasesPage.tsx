@@ -11,6 +11,10 @@ import {
   listAllPhraseAudio,
   type PhraseAudioSlot,
 } from "../utils/phraseAudioStorage";
+import {
+  enqueueAudioDelete,
+  enqueueSnapshotPush,
+} from "../utils/autoSync";
 import type { Phrase, PhraseCategory, UserProgress } from "../types";
 
 interface PhrasesPageProps {
@@ -97,6 +101,10 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
   const handleDelete = (phrase: Phrase) => {
     if (!window.confirm(`「${phrase.english}」を削除しますか？(取り消せません)`)) return;
     deleteCustomPhrase(phrase.id);
+    // 同期側にも反映を予約(両 slot 分の音声 + 全件スナップショット)
+    enqueueAudioDelete(phrase.id, "reference");
+    enqueueAudioDelete(phrase.id, "practice");
+    enqueueSnapshotPush();
     setVersion((v) => v + 1);
   };
 

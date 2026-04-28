@@ -11,6 +11,7 @@ import { LogPage } from "./pages/LogPage";
 import { findPhraseById, getAllPhrases, PHRASES } from "./data/phrases";
 import { loadMission, loadProgress, saveMission, saveProgress } from "./utils/storage";
 import { todayString } from "./utils/date";
+import { bootstrapAutoSync, enqueueSnapshotPush } from "./utils/autoSync";
 import type { DailyMissionState, UserProgress } from "./types";
 
 function pickDailyPhraseId(date: string): string {
@@ -49,6 +50,17 @@ export function App() {
     return () => window.removeEventListener("focus", handler);
   }, []);
 
+  // 起動時に自動同期(syncCode が無ければ no-op)。
+  // pull 成功時は localStorage が書き換わっているので React state を再ロード。
+  useEffect(() => {
+    void bootstrapAutoSync().then((result) => {
+      if (result.pulled) {
+        setProgress(loadProgress());
+        setMission(ensureMission());
+      }
+    });
+  }, []);
+
   const todaysPhrase = useMemo(() => {
     return findPhraseById(mission.phraseId) ?? PHRASES[0];
   }, [mission.phraseId]);
@@ -56,6 +68,8 @@ export function App() {
   const commitProgress = useCallback((next: UserProgress) => {
     setProgress(next);
     saveProgress(next);
+    // 同期が有効ならサーバへ反映予約(失敗は queue に積まれて後で再送)
+    enqueueSnapshotPush();
   }, []);
 
   const handleMissionComplete = useCallback(

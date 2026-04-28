@@ -30,6 +30,13 @@ import {
   saveSyncCode,
   verifySyncCode,
 } from "../utils/syncClient";
+import {
+  clearAllSyncState,
+  getLastSyncedAt,
+  runFlush,
+  subscribeQueueChanged,
+} from "../utils/autoSync";
+import { loadQueue, type SyncQueueItem } from "../utils/syncQueue";
 
 type Notice =
   | { kind: "idle" }
@@ -60,6 +67,12 @@ export function SyncSettings() {
   } | null>(null);
   // フレーズ・進捗の手動同期(push/pull)
   const [snapshotBusy, setSnapshotBusy] = useState(false);
+  // 自動同期の状態(queue / 最終同期時刻)
+  const [queue, setQueue] = useState<SyncQueueItem[]>(() => loadQueue());
+  const [lastSyncedAt, setLastSyncedAt] = useState<string | null>(() =>
+    getLastSyncedAt(),
+  );
+  const [retryBusy, setRetryBusy] = useState(false);
   // 保存量の見える化
   const [storageBusy, setStorageBusy] = useState(false);
   const [storage, setStorage] = useState<{
@@ -79,6 +92,15 @@ export function SyncSettings() {
       setJoinInput("");
     }
   }, [code]);
+
+  // 自動同期の queue / 最終同期時刻を購読してリアルタイム更新
+  useEffect(() => {
+    const unsubscribe = subscribeQueueChanged(() => {
+      setQueue(loadQueue());
+      setLastSyncedAt(getLastSyncedAt());
+    });
+    return unsubscribe;
+  }, []);
 
   const isEnabled = code !== null;
 
@@ -196,12 +218,37 @@ export function SyncSettings() {
     );
     if (!ok) return;
     clearSyncCode();
+    // 自動同期の queue / 最終同期時刻も掃除する(古いコード前提のリトライを残さない)
+    clearAllSyncState();
     setCode(null);
     setShowCode(false);
+    setQueue([]);
+    setLastSyncedAt(null);
     setNotice({
       kind: "info",
       message: "同期を解除しました。データはこのブラウザ内に残っています。",
     });
+  };
+
+  // ---- 自動同期の失敗分を今すぐ再送 ---------------------------------
+  const handleRetryNow = async () => {
+    if (retryBusy) return;
+    setRetryBusy(true);
+    setNotice({ kind: "info", message: "未送信ぶんを再送しています…" });
+    try {
+      await runFlush();
+    } finally {
+      setRetryBusy(false);
+    }
+    const remaining = loadQueue().length;
+    if (remaining === 0) {
+      setNotice({ kind: "ok", message: "未送信ぶんを送信しました。" });
+    } else {
+      setNotice({
+        kind: "err",
+        message: `${remaining}件 まだ送れていません。電波を確認してもう一度試してね。`,
+      });
+    }
   };
 
   // ---- 音声メモを R2 へアップロード(手動) ---------------------------
@@ -573,6 +620,55 @@ export function SyncSettings() {
 
       {isEnabled && (
         <div style={{ marginTop: 8 }}>
+          {/* ---- 自動同期のミニサマリー --------------------------------- */}
+          <div
+            style={{
+              fontSize: 13,
+              color: "var(--text-soft)",
+              background: "var(--surface-soft)",
+              borderRadius: 12,
+              padding: "8px 12px",
+              marginBottom: 10,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "4px 14px",
+              alignItems: "center",
+            }}
+          >
+            <span>自動同期: <strong style={{ color: "var(--primary-strong)" }}>有効</strong></span>
+            <span>
+              未送信:{" "}
+              <strong style={{ color: queue.length > 0 ? "var(--warm)" : "var(--text)" }}>
+                {queue.length}件
+              </strong>
+            </span>
+            <span>
+              最終同期:{" "}
+              <strong style={{ color: "var(--text)" }}>
+                {lastSyncedAt
+                  ? new Date(lastSyncedAt).toLocaleString("ja-JP", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  : "—"}
+              </strong>
+            </span>
+            {queue.length > 0 && (
+              <button
+                type="button"
+                className="chip-btn"
+                onClick={handleRetryNow}
+                disabled={retryBusy}
+                style={{ marginLeft: "auto" }}
+              >
+                {retryBusy ? "再送中…" : "今すぐ再送"}
+              </button>
+            )}
+          </div>
+
           <p className="form-hint-small">
             この端末は同期に参加しています。コードを別の端末で入力すると同じデータが使えます。
           </p>
