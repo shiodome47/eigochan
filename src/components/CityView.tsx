@@ -6,6 +6,7 @@ import {
   findFacilityOverlay,
   type FacilityId,
 } from "../data/cityLayout";
+import { getCityStage } from "../data/cityAssets";
 import { pickPhraseForFacility } from "../utils/cityPhrases";
 import { speakText } from "../utils/speech";
 
@@ -28,6 +29,8 @@ const BUBBLE_DURATION_MS = 1600;
 export function CityView({ level, variant = "stage", interactive = false }: CityViewProps) {
   const mapVariant: "preview" | "full" = variant === "preview" ? "preview" : "full";
   const tapEnabled = mapVariant === "full" && interactive;
+  // 進捗から街ステージを決定。将来 Voice Energy 等への切替は cityAssets 側で行う。
+  const stage = useMemo(() => getCityStage({ level }), [level]);
 
   const [bubble, setBubble] = useState<ActiveBubble | null>(null);
   const timerRef = useRef<number | null>(null);
@@ -61,8 +64,9 @@ export function CityView({ level, variant = "stage", interactive = false }: City
     return unlockedFacilities(level).length === 0 && FACILITY_OVERLAYS.length === 0;
   }, [level]);
 
-  // 吹き出しの位置(画像幅・高さに対する % 指定)
-  const bubbleOverlay = bubble ? findFacilityOverlay(bubble.facilityId) : null;
+  // 吹き出しの位置(画像幅・高さに対する % 指定)。
+  // stage を渡すことで、stage 別の overlay 上書きが吹き出し位置にも反映される。
+  const bubbleOverlay = bubble ? findFacilityOverlay(bubble.facilityId, stage) : null;
   const bubbleDir = bubbleOverlay?.bubbleDirection ?? "top";
   const bubbleStyle = bubbleOverlay
     ? {
@@ -79,6 +83,7 @@ export function CityView({ level, variant = "stage", interactive = false }: City
         ) : (
           <CityMap
             level={level}
+            stage={stage}
             variant={mapVariant}
             onBuildingTap={tapEnabled ? handleTap : undefined}
             activeBuildingId={bubble?.facilityId ?? null}

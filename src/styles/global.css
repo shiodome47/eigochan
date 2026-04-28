@@ -688,6 +688,23 @@ ul {
   border-radius: inherit;
 }
 
+/* 背景・環境・オーバーレイをまとめる単一トランスフォーム単位。
+   将来 transform: scale(...) でズームを当てるときに、bg / 吹き出し /
+   タップ判定が一緒にスケールするためのコンテナ。 */
+.city-image-stage__transform {
+  position: absolute;
+  inset: 0;
+  transform-origin: center center;
+  /* zoom UI がない今はスケールなし。後で transform-property を上書きするだけ。 */
+  will-change: transform;
+}
+
+.city-image-stage__bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
 .city-image-stage picture {
   display: contents;
 }
@@ -699,7 +716,7 @@ ul {
   object-fit: cover;
   user-select: none;
   -webkit-user-drag: none;
-  /* 初期は不透明度 0 → onLoad 後にふわっと出現 */
+  /* 初期は不透明度 0 → onLoad 後にふわっと出現(stage 切替時のフェード) */
   opacity: 0;
   transition: opacity 320ms ease;
 }
@@ -708,12 +725,139 @@ ul {
   opacity: 1;
 }
 
+/* === 環境アニメーションレイヤー === */
+.city-env {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* 雲(CSS のみ。背景画像の上にうっすら) */
+.city-env__cloud {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  filter: blur(1px);
+}
+.city-env__cloud--a {
+  width: 18%;
+  height: 8%;
+  top: 6%;
+  left: -16%;
+  animation: env-cloud-drift 92s linear infinite;
+  opacity: 0.7;
+}
+.city-env__cloud--b {
+  width: 22%;
+  height: 7%;
+  top: 10%;
+  left: -25%;
+  animation: env-cloud-drift 130s linear infinite 18s;
+  opacity: 0.55;
+}
+.city-env__cloud--c {
+  width: 14%;
+  height: 6%;
+  top: 3%;
+  left: -10%;
+  animation: env-cloud-drift 76s linear infinite 40s;
+  opacity: 0.5;
+}
+
+@keyframes env-cloud-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(750%); }
+}
+
+/* 川のきらめき(右側を縦に走る帯) */
+.city-env__river {
+  position: absolute;
+  top: 28%;
+  right: 0%;
+  width: 14%;
+  height: 70%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  filter: blur(2px);
+  opacity: 0;
+  animation: env-river-shimmer 5s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes env-river-shimmer {
+  0%, 100% { opacity: 0; transform: translateY(0); }
+  50% { opacity: 0.5; transform: translateY(2%); }
+}
+
+/* 街灯のグロー(level 2 以降、full のみ) */
+.city-env__lamp {
+  position: absolute;
+  width: 9%;
+  height: 9%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(244, 201, 93, 0.55) 0%,
+    rgba(244, 201, 93, 0) 65%
+  );
+  animation: env-lamp-pulse 3.4s ease-in-out infinite;
+}
+.city-env__lamp--a {
+  top: 48%;
+  left: 28%;
+  animation-delay: 0s;
+}
+.city-env__lamp--b {
+  top: 58%;
+  left: 49%;
+  animation-delay: 1.2s;
+}
+.city-env__lamp--c {
+  top: 53%;
+  left: 67%;
+  animation-delay: 2.4s;
+}
+
+@keyframes env-lamp-pulse {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+}
+
 /* prefers-reduced-motion: 即時表示・トランジションなし */
 @media (prefers-reduced-motion: reduce) {
   .city-image-stage__img,
   .city-image-stage__img.is-loaded {
     opacity: 1;
     transition: none;
+  }
+  .city-env__cloud,
+  .city-env__cloud--a,
+  .city-env__cloud--b,
+  .city-env__cloud--c,
+  .city-env__river,
+  .city-env__lamp,
+  .city-env__lamp--a,
+  .city-env__lamp--b,
+  .city-env__lamp--c {
+    animation: none;
+  }
+  .city-env__cloud {
+    opacity: 0.45;
+  }
+  .city-env__river {
+    opacity: 0.25;
+  }
+  .city-env__lamp {
+    opacity: 0.45;
   }
 }
 
@@ -756,62 +900,113 @@ ul {
   100% { transform: translate(-50%, -50%) scale(1); }
 }
 
-/* 施設ラベル(白いピル) */
+/* 施設ラベル(白いピル + 三角しっぽで「そこを指している感」)。 */
 .city-label {
   position: absolute;
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(46, 108, 117, 0.18);
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(46, 108, 117, 0.22);
   border-radius: 999px;
-  padding: 2px 9px;
+  padding: 2px 10px;
   font-size: 10px;
   font-weight: 700;
   color: var(--primary-strong);
   white-space: nowrap;
-  box-shadow: 0 2px 6px rgba(80, 90, 100, 0.18);
+  box-shadow: 0 3px 9px rgba(80, 90, 100, 0.24);
   pointer-events: none;
   letter-spacing: 0.02em;
   z-index: 2;
 }
+/* ギャップを 22 → 12px に詰めて施設に寄せる。
+   さらに ::after の三角しっぽが残り 5px ぶん施設へ向けて伸びる。 */
 .city-label--top {
-  transform: translate(-50%, calc(-100% - 22px));
+  transform: translate(-50%, calc(-100% - 12px));
 }
 .city-label--bottom {
-  transform: translate(-50%, 22px);
+  transform: translate(-50%, 12px);
+}
+.city-label--top::after,
+.city-label--bottom::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.city-label--top::after {
+  bottom: -5px;
+  border-top: 5px solid rgba(255, 255, 255, 0.96);
+  filter: drop-shadow(0 1px 0 rgba(46, 108, 117, 0.22));
+}
+.city-label--bottom::after {
+  top: -5px;
+  border-bottom: 5px solid rgba(255, 255, 255, 0.96);
+  filter: drop-shadow(0 -1px 0 rgba(46, 108, 117, 0.22));
 }
 
 @media (max-width: 380px) {
   .city-label {
     font-size: 9px;
-    padding: 1.5px 7px;
+    padding: 1.5px 8px;
   }
   .city-label--top {
-    transform: translate(-50%, calc(-100% - 14px));
+    transform: translate(-50%, calc(-100% - 8px));
   }
   .city-label--bottom {
-    transform: translate(-50%, 14px);
+    transform: translate(-50%, 8px);
   }
 }
 
-/* ロックタグ(木の看板風) */
+/* ロックタグ(予定地・木の看板風)。背景画像が透けて見えるよう 92% 透明。
+   解放済みラベルとは見た目を明確に分ける目的:
+     - 形状: 角丸長方形(白ピル ⇆ 木の札)
+     - 色: クリーム/ベージュ + 茶字(白ピル ⇆ クリーム札)
+     - 名前: イタリック(「将来のもの」感)
+     - 不透明度: ベース 92% で背景が少し透ける
+     - グロー: ゆっくりした明滅(白ピルにはない) */
 .city-locked {
   position: absolute;
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(180deg, #fdf3d6 0%, #f0d9a5 100%);
+  background: linear-gradient(180deg, rgba(253, 243, 214, 0.92) 0%, rgba(240, 217, 165, 0.92) 100%);
   border: 1px solid #cfa783;
   border-radius: 5px;
-  padding: 3px 9px 3px;
+  padding: 3px 10px;
   pointer-events: none;
-  box-shadow: 0 2px 5px rgba(80, 60, 30, 0.18);
+  box-shadow: 0 2px 5px rgba(80, 60, 30, 0.20);
   z-index: 1;
   animation: city-locked-glow 3s ease-in-out infinite;
 }
 .city-locked--top {
-  transform: translate(-50%, calc(-100% - 18px));
+  transform: translate(-50%, calc(-100% - 10px));
 }
 .city-locked--bottom {
-  transform: translate(-50%, 18px);
+  transform: translate(-50%, 10px);
+}
+/* 木札のしっぽ(下/上に小さな三角)。色は札の下端/上端と揃える。 */
+.city-locked--top::after,
+.city-locked--bottom::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  margin-left: -5px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.city-locked--top::after {
+  bottom: -5px;
+  border-top: 5px solid rgba(240, 217, 165, 0.92);
+  filter: drop-shadow(0 1px 0 #cfa783);
+}
+.city-locked--bottom::after {
+  top: -5px;
+  border-bottom: 5px solid rgba(253, 243, 214, 0.92);
+  filter: drop-shadow(0 -1px 0 #cfa783);
 }
 .city-locked__lv {
   font-size: 10px;
@@ -823,8 +1018,10 @@ ul {
   font-size: 8px;
   font-weight: 600;
   color: #7a5a3a;
-  opacity: 0.85;
+  opacity: 0.82;
   line-height: 1.05;
+  /* 「これから建つ予定」のニュアンスを字面でも出す */
+  font-style: italic;
 }
 
 @keyframes city-locked-glow {
@@ -834,10 +1031,16 @@ ul {
 
 @media (max-width: 380px) {
   .city-locked {
-    padding: 2px 6px;
+    padding: 2px 8px;
   }
   .city-locked__lv { font-size: 9px; }
   .city-locked__name { font-size: 7px; }
+  .city-locked--top {
+    transform: translate(-50%, calc(-100% - 7px));
+  }
+  .city-locked--bottom {
+    transform: translate(-50%, 7px);
+  }
 }
 
 /* 装飾オーバーレイ(背景画像にない施設:気球・夜空のあかり) */

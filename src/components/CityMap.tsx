@@ -1,17 +1,28 @@
-// 背景画像の上に、施設ラベル・透明タップボタン・ロックタグ・吹き出しを重ねる。
+// 背景画像 + 環境アニメ + 施設オーバーレイ + 吹き出し対象。
 // 街そのものの見た目は背景画像に任せ、コードは状態とインタラクションだけ担当する。
+//
+// レイヤー構造:
+//   .city-image-stage
+//     .city-image-stage__bg        - <picture> 背景(stage 切替で fade)
+//     .city-image-stage__env       - 雲 / 川シマー / 街灯グロー(軽アニメ)
+//     .city-image-stage__overlay   - 施設ラベル・ロックタグ・タップ判定・吹き出し対象
+//     .city-image-stage__transform - bg/env/overlay をまとめる単一トランスフォーム単位
+//                                    (将来 transform: scale(...) で拡縮可能)
 
 import { Fragment, useState } from "react";
 import {
-  CITY_MAP_IMAGE,
-  CITY_MAP_IMAGE_WEBP,
-  FACILITY_OVERLAYS,
+  getFacilityOverlays,
   type FacilityId,
   type FacilityOverlay,
 } from "../data/cityLayout";
+import {
+  getCityStageAssets,
+  type CityStage,
+} from "../data/cityAssets";
 
 interface CityMapProps {
   level: number;
+  stage: CityStage;
   variant: "preview" | "full";
   onBuildingTap?: (id: FacilityId) => void;
   activeBuildingId?: FacilityId | null;
@@ -133,46 +144,88 @@ function FacilityOverlayItem({
   return null;
 }
 
-export function CityMap({ level, variant, onBuildingTap, activeBuildingId }: CityMapProps) {
+/** 環境アニメーションレイヤー(雲・川シマー・街灯グロー)。 */
+function CityEnvLayer({ level, variant }: { level: number; variant: "preview" | "full" }) {
+  const lampOn = level >= 2;
+  const detailed = variant === "full";
+
+  return (
+    <div className="city-env" aria-hidden="true">
+      {/* 雲(常時) */}
+      <span className="city-env__cloud city-env__cloud--a" />
+      <span className="city-env__cloud city-env__cloud--b" />
+      {detailed && <span className="city-env__cloud city-env__cloud--c" />}
+
+      {/* 川のきらめき(右下〜中央右) */}
+      <span className="city-env__river" />
+
+      {/* 街灯グロー(level 2 以上、full のみ) */}
+      {lampOn && detailed && (
+        <>
+          <span className="city-env__lamp city-env__lamp--a" />
+          <span className="city-env__lamp city-env__lamp--b" />
+          <span className="city-env__lamp city-env__lamp--c" />
+        </>
+      )}
+    </div>
+  );
+}
+
+export function CityMap({ level, stage, variant, onBuildingTap, activeBuildingId }: CityMapProps) {
   const isFull = variant === "full";
   const interactive = isFull && !!onBuildingTap;
   const showLabels = isFull;
   const showLocked = isFull;
   const showDecorative = isFull;
 
-  const [imageLoaded, setImageLoaded] = useState(false);
+  // stage 変更で <img> を再マウント → onLoad → fade-in が再走する。
+  // 同じ画像ファイル(stage2 と stage3)では多くのブラウザがキャッシュから即座に load イベントを返す。
+  const [imageLoadedKey, setImageLoadedKey] = useState<string | null>(null);
+  const stageAssets = getCityStageAssets(stage);
+  const isLoaded = imageLoadedKey === stage;
 
   return (
     <div className="city-image-stage">
-      <picture>
-        <source srcSet={CITY_MAP_IMAGE_WEBP} type="image/webp" />
-        <img
-          src={CITY_MAP_IMAGE}
-          className={`city-image-stage__img${imageLoaded ? " is-loaded" : ""}`}
-          alt="あなたの街の地図"
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-          onLoad={() => setImageLoaded(true)}
-        />
-      </picture>
-      <div className="city-image-stage__overlay">
-        {FACILITY_OVERLAYS.map((overlay) => {
-          const unlocked = level >= overlay.unlockLevel;
-          return (
-            <FacilityOverlayItem
-              key={overlay.id}
-              overlay={overlay}
-              unlocked={unlocked}
-              showLabels={showLabels}
-              showLocked={showLocked}
-              showDecorative={showDecorative}
-              interactive={interactive}
-              isActive={activeBuildingId === overlay.id}
-              onTap={onBuildingTap}
+      <div className="city-image-stage__transform">
+        {/* 1. 背景画像レイヤー */}
+        <div className="city-image-stage__bg">
+          <picture key={stage}>
+            <source srcSet={stageAssets.webp} type="image/webp" />
+            <img
+              src={stageAssets.png}
+              className={`city-image-stage__img${isLoaded ? " is-loaded" : ""}`}
+              alt="あなたの街の地図"
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              onLoad={() => setImageLoadedKey(stage)}
+              data-stage={stage}
             />
-          );
-        })}
+          </picture>
+        </div>
+
+        {/* 2. 環境アニメーションレイヤー */}
+        <CityEnvLayer level={level} variant={variant} />
+
+        {/* 3. 施設オーバーレイ + 吹き出し対象 (stage 別座標を反映) */}
+        <div className="city-image-stage__overlay">
+          {getFacilityOverlays(stage).map((overlay) => {
+            const unlocked = level >= overlay.unlockLevel;
+            return (
+              <FacilityOverlayItem
+                key={overlay.id}
+                overlay={overlay}
+                unlocked={unlocked}
+                showLabels={showLabels}
+                showLocked={showLocked}
+                showDecorative={showDecorative}
+                interactive={interactive}
+                isActive={activeBuildingId === overlay.id}
+                onTap={onBuildingTap}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

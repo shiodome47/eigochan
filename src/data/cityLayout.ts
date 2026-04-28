@@ -4,6 +4,7 @@
 // あとから微調整しやすいよう、施設の overlay 定義は1か所にまとめている。
 
 import type { PhraseCategory, PhraseMood } from "../types";
+import type { CityStage } from "./cityAssets";
 
 export type FacilityId =
   | "house"
@@ -134,8 +135,86 @@ export const FACILITY_OVERLAYS: FacilityOverlay[] = [
   },
 ];
 
-export function findFacilityOverlay(id: string): FacilityOverlay | undefined {
-  return FACILITY_OVERLAYS.find((o) => o.id === id);
+/**
+ * stage 別に施設座標を上書きするための部分プロパティ。
+ * id / label / unlockLevel / decorative は意味的に固定なので上書き不可。
+ * x / y / hitWidth / hitHeight / bubbleDirection だけを stage 別に微調整できる。
+ */
+export type StageOverlayOverride = Partial<
+  Pick<FacilityOverlay, "x" | "y" | "hitWidth" | "hitHeight" | "bubbleDirection">
+>;
+
+export type StageOverlayOverrides = Partial<Record<FacilityId, StageOverlayOverride>>;
+
+/**
+ * stage ごとの座標上書き。base = FACILITY_OVERLAYS(画像C / stage4 を想定して調整済み)。
+ * 必要な施設だけ部分上書きできる(全施設を再列挙する必要はない)。
+ *
+ * 現状はすべて空 = 全 stage で base 値をそのまま使う。
+ * 実機スクショを見て「明らかにズレる」と感じた施設だけここに足していく。
+ *
+ * --- 調整するときの目安 ---
+ *
+ * 1) base の値は画像C(stage4)前提でチューン済みなので、
+ *    画像A(stage1)/画像B(stage2 & stage3)では建物の位置が違う
+ *    施設だけ補正が必要。
+ *
+ * 2) 主に調整対象になりそうな施設(画像によって位置が動くもの):
+ *    - house    : 画像A/Bで少し左上にいる傾向
+ *    - cafe     : 画像Bでテラス込みの位置がやや上
+ *    - park     : 遊具(滑り台)の位置が画像B/Cで微妙に違う
+ *    - library  : 画像A/Bには建物が無い → 看板を空き地中央に
+ *    - station  : 同上、画像A/B では空き地+将来の駅予定地
+ *    - lamp     : 画像によって街灯ポストの位置が散らばる
+ *
+ * 3) 上書きできるのは座標系プロパティのみ。
+ *    label / unlockLevel / decorative などの意味は固定。
+ *
+ * 例(現状はコメントアウト。実機を見ながら値を入れていく):
+ *
+ *   stage1: {
+ *     library: { x: 50, y: 30 },     // 画像Aでは未来の図書館予定地に近づける
+ *     station: { x: 74, y: 33 },     // 画像Aでは駅予定地が少し下
+ *     cafe:    { x: 20, y: 42 },     // 画像Aではカフェ未建設、未来位置に寄せる
+ *   },
+ *   stage2: {
+ *     cafe:    { x: 18, y: 40 },     // 画像Bのカフェ屋根は base よりやや上
+ *     park:    { x: 58, y: 70 },     // 遊具の中心に寄せる
+ *   },
+ *   stage3: {
+ *     library: { x: 50, y: 28 },     // stage3 は画像B再利用なので空き地に寄せる
+ *   },
+ *   stage4: {
+ *     // 画像C は base のチューン対象。基本そのままで良い。
+ *   },
+ */
+export const STAGE_OVERLAY_OVERRIDES: Partial<Record<CityStage, StageOverlayOverrides>> = {
+  // stage1: { ... },
+  // stage2: { ... },
+  // stage3: { ... },
+  // stage4: { ... },
+};
+
+/** stage に応じて base + override をマージした overlay 配列を返す。 */
+export function getFacilityOverlays(stage: CityStage): FacilityOverlay[] {
+  const overrides = STAGE_OVERLAY_OVERRIDES[stage];
+  if (!overrides) return FACILITY_OVERLAYS;
+  return FACILITY_OVERLAYS.map((o) => {
+    const ov = overrides[o.id];
+    return ov ? { ...o, ...ov } : o;
+  });
+}
+
+/**
+ * id から overlay を引く。stage を指定するとその stage 用の値で返す。
+ * stage 未指定なら base(FACILITY_OVERLAYS)から検索。
+ */
+export function findFacilityOverlay(
+  id: string,
+  stage?: CityStage,
+): FacilityOverlay | undefined {
+  const list = stage ? getFacilityOverlays(stage) : FACILITY_OVERLAYS;
+  return list.find((o) => o.id === id);
 }
 
 /**

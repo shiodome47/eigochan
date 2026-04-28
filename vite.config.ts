@@ -16,8 +16,9 @@ export default defineConfig({
         "apple-touch-icon.png",
         "pwa-192x192.png",
         "pwa-512x512.png",
-        "city/city-map-base.png",
-        "city/city-map-base.webp",
+        "city/city-stage1.webp",
+        "city/city-stage2.webp",
+        "city/city-stage4.webp",
       ],
       manifest: {
         name: "eigochan",
@@ -52,13 +53,16 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // アプリシェル中心 + 静的アセットを precache
-        globPatterns: ["**/*.{js,css,html,svg,png,webp,ico,webmanifest}"],
+        // アプリシェル中心 + 静的アセットを precache。
+        // 街の背景は WebP のみ precache(stage1/2/4 で計 ~1.2MB)。
+        // 同サイズの PNG は配信のみ・キャッシュ不要(precache 膨張を防ぐ)。
+        globPatterns: ["**/*.{js,css,html,svg,webp,ico,webmanifest}", "pwa-*.png", "apple-touch-icon.png"],
+        globIgnores: ["**/city/*.png"],
         // SPA ルートを SW のフォールバックに
         navigateFallback: "/index.html",
         // localStorage や録音は触らない。HTTPで取れるアセットのみ runtime キャッシュも控えめに。
         cleanupOutdatedCaches: true,
-        // 街マップの背景画像(~3MB)を precache に含めるため上限を上げる
+        // 1ファイル上限(WebP は十分小さい)
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
       },
     }),
