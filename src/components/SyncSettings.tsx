@@ -39,6 +39,12 @@ type Notice =
 
 type View = "idle" | "creating" | "joining";
 
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
 export function SyncSettings() {
   const [code, setCode] = useState<string | null>(() => loadSyncCode());
   const [view, setView] = useState<View>("idle");
@@ -51,6 +57,19 @@ export function SyncSettings() {
     label: string;
     done: number;
     total: number;
+  } | null>(null);
+  // フレーズ・進捗の手動同期(push/pull)
+  const [snapshotBusy, setSnapshotBusy] = useState(false);
+  // 保存量の見える化
+  const [storageBusy, setStorageBusy] = useState(false);
+  const [storage, setStorage] = useState<{
+    localPhraseCount: number;
+    localAudioCount: number;
+    localAudioBytes: number;
+    remoteAudioOk: boolean;
+    remoteAudioCount: number;
+    remoteAudioBytes: number;
+    fetchedAt: string;
   } | null>(null);
 
   // 参加済になったら入力欄や中間ビューはクリア
@@ -335,6 +354,109 @@ export function SyncSettings() {
     }
   };
 
+  // ---- フレーズ・進捗をサーバへ送信(全件)---------------------------
+  // 現在のローカルを putSnapshot で投げる。LWW なのでサーバ側が古いものは更新される。
+  const handlePushSnapshot = async () => {
+    if (!code || snapshotBusy) return;
+    setSnapshotBusy(true);
+    setNotice({ kind: "info", message: "フレーズ・進捗をサーバへ送信しています…" });
+
+    const phrases = loadCustomPhrases();
+    const progress = loadProgress();
+    const result = await putSnapshot(code, { phrases, progress });
+
+    setSnapshotBusy(false);
+    if (result.ok) {
+      setNotice({
+        kind: "ok",
+        message: `フレーズ ${phrases.length}件 と進捗をサーバに送りました。`,
+      });
+    } else {
+      setNotice({ kind: "err", message: describeFailReason(result.reason) });
+    }
+  };
+
+  // ---- フレーズ・進捗をサーバから取り込み(全件)-----------------------
+  // ユーザー確認のあと、ローカルを上書きする。失敗時はローカル不変。
+  const handlePullSnapshot = async () => {
+    if (!code || snapshotBusy) return;
+    setSnapshotBusy(true);
+    setNotice({ kind: "info", message: "サーバから取得しています…" });
+
+    const result = await getSnapshot(code);
+    if (!result.ok) {
+      setSnapshotBusy(false);
+      setNotice({ kind: "err", message: describeFailReason(result.reason) });
+      return;
+    }
+
+    const localCount = loadCustomPhrases().length;
+    const serverCount = result.value.phrases.length;
+    const proceed = window.confirm(
+      [
+        "サーバから 取り込めるデータ:",
+        `  ・自作フレーズ ${serverCount}件`,
+        result.value.progress
+          ? `  ・進捗 XP=${result.value.progress.totalXp} / レベル=${result.value.progress.level}`
+          : "  ・進捗 まだ無し",
+        "",
+        `この端末のフレーズ ${localCount}件と進捗は、サーバ側のデータに置き換わります。`,
+        "(音声メモは自動で取り込まれません。必要なら下の「音声メモをサーバから取り込む」を)",
+        "続けますか？",
+      ].join("\n"),
+    );
+
+    if (!proceed) {
+      setSnapshotBusy(false);
+      setNotice({ kind: "info", message: "取り込みを取り消しました。" });
+      return;
+    }
+
+    saveCustomPhrases(result.value.phrases);
+    if (result.value.progress) {
+      saveProgress(result.value.progress);
+    }
+    setSnapshotBusy(false);
+    setNotice({
+      kind: "ok",
+      message: `フレーズ ${serverCount}件 と進捗をこの端末に取り込みました。`,
+    });
+  };
+
+  // ---- 保存量の更新 -----------------------------------------------------
+  const handleRefreshStorage = async () => {
+    if (storageBusy) return;
+    setStorageBusy(true);
+    try {
+      const localAudio = await listAllPhraseAudio();
+      const localPhrases = loadCustomPhrases();
+      let remoteAudioOk = false;
+      let remoteAudioCount = 0;
+      let remoteAudioBytes = 0;
+      if (code) {
+        const remote = await listRemoteAudio(code);
+        if (remote.ok) {
+          remoteAudioOk = true;
+          for (const m of remote.value) {
+            remoteAudioCount += 1;
+            remoteAudioBytes += m.size;
+          }
+        }
+      }
+      setStorage({
+        localPhraseCount: localPhrases.length,
+        localAudioCount: localAudio.length,
+        localAudioBytes: localAudio.reduce((s, a) => s + a.size, 0),
+        remoteAudioOk,
+        remoteAudioCount,
+        remoteAudioBytes,
+        fetchedAt: new Date().toISOString(),
+      });
+    } finally {
+      setStorageBusy(false);
+    }
+  };
+
   return (
     <section className="card">
       <h2 className="card__title">この端末のデータを同期する</h2>
@@ -480,6 +602,50 @@ export function SyncSettings() {
               コードをコピー
             </button>
           </div>
+
+          {/* ---- フレーズ・進捗の同期 ------------------------------------ */}
+          <div
+            style={{
+              marginTop: 18,
+              paddingTop: 14,
+              borderTop: "1px dashed var(--border)",
+            }}
+          >
+            <h3
+              style={{
+                fontSize: 15,
+                margin: "0 0 4px",
+                color: "var(--primary-strong)",
+              }}
+            >
+              フレーズ・進捗の同期
+            </h3>
+            <p className="form-hint-small">
+              ボタンを押したタイミングでだけ、フレーズと進捗をサーバとやり取りします。
+              スマホで増やしたフレーズを PC に反映するときは、スマホで「サーバへ送信」、
+              PC で「サーバから取り込む」を押してください。
+            </p>
+            <div className="btn-row">
+              <button
+                type="button"
+                className="btn btn--secondary"
+                onClick={handlePushSnapshot}
+                disabled={snapshotBusy || busy || audioBusy}
+              >
+                {snapshotBusy ? "処理中…" : "📤 サーバへ送信(全件)"}
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost"
+                onClick={handlePullSnapshot}
+                disabled={snapshotBusy || busy || audioBusy}
+              >
+                {snapshotBusy ? "処理中…" : "📥 サーバから取り込む(全件)"}
+              </button>
+            </div>
+          </div>
+
+          {/* ---- 音声メモの同期 ----------------------------------------- */}
           <div
             style={{
               marginTop: 18,
@@ -505,7 +671,7 @@ export function SyncSettings() {
                 type="button"
                 className="btn btn--secondary"
                 onClick={handleUploadAudio}
-                disabled={audioBusy || busy}
+                disabled={audioBusy || busy || snapshotBusy}
               >
                 {audioBusy && audioProgress?.label === "アップロード"
                   ? `送信中… ${audioProgress.done}/${audioProgress.total}`
@@ -515,11 +681,71 @@ export function SyncSettings() {
                 type="button"
                 className="btn btn--ghost"
                 onClick={handleDownloadAudio}
-                disabled={audioBusy || busy}
+                disabled={audioBusy || busy || snapshotBusy}
               >
                 {audioBusy && audioProgress?.label === "取り込み"
                   ? `取り込み中… ${audioProgress.done}/${audioProgress.total}`
                   : "音声メモをサーバから取り込む"}
+              </button>
+            </div>
+          </div>
+
+          {/* ---- 保存量の見える化 --------------------------------------- */}
+          <div
+            style={{
+              marginTop: 18,
+              paddingTop: 14,
+              borderTop: "1px dashed var(--border)",
+            }}
+          >
+            <h3
+              style={{
+                fontSize: 15,
+                margin: "0 0 4px",
+                color: "var(--primary-strong)",
+              }}
+            >
+              保存量
+            </h3>
+            <p className="form-hint-small">
+              この端末とサーバに保存されているデータの量を確認できます。
+            </p>
+            {storage ? (
+              <div
+                style={{
+                  fontSize: 13,
+                  color: "var(--text)",
+                  background: "var(--surface-soft)",
+                  borderRadius: 12,
+                  padding: "10px 12px",
+                  margin: "8px 0",
+                }}
+              >
+                <div>
+                  <strong>ローカル(この端末):</strong>{" "}
+                  フレーズ {storage.localPhraseCount}件 / 音声 {storage.localAudioCount}件 (
+                  {formatBytes(storage.localAudioBytes)})
+                </div>
+                <div style={{ marginTop: 4 }}>
+                  <strong>サーバ:</strong>{" "}
+                  {storage.remoteAudioOk
+                    ? `音声 ${storage.remoteAudioCount}件 (${formatBytes(storage.remoteAudioBytes)})`
+                    : "取得できませんでした"}
+                </div>
+              </div>
+            ) : (
+              <p className="form-hint-small" style={{ marginTop: 4 }}>
+                「更新」を押すと現在の保存量を表示します。
+              </p>
+            )}
+            <div className="btn-row">
+              <button
+                type="button"
+                className="btn btn--ghost"
+                onClick={handleRefreshStorage}
+                disabled={storageBusy}
+              >
+                {storageBusy ? "確認中…" : "保存量を更新"}
               </button>
             </div>
           </div>
