@@ -33,6 +33,7 @@ interface CompletionState {
   cityMessage: string;
   headline: string;
   streakDays: number;
+  totalVoiceEnergy: number;
 }
 
 function rateLabel(rate: number): string {
@@ -67,6 +68,10 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
   const [showEnglishInRecite, setShowEnglishInRecite] = useState(false);
   const [rate, setRate] = useState(0.9);
   const [completion, setCompletion] = useState<CompletionState | null>(null);
+  // 各 step の Voice Energy。録音なし / 解析失敗時は null。
+  const [chunksScore, setChunksScore] = useState<number | null>(null);
+  const [fullScore, setFullScore] = useState<number | null>(null);
+  const [reciteScore, setReciteScore] = useState<number | null>(null);
   const supported = isSpeechSupported();
 
   useEffect(() => {
@@ -76,6 +81,9 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
     setReciteDone(false);
     setShowEnglishInRecite(false);
     setCompletion(null);
+    setChunksScore(null);
+    setFullScore(null);
+    setReciteScore(null);
   }, [phrase.id, phrase.chunks.length]);
 
   useEffect(() => {
@@ -125,6 +133,17 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
     setChunkDone(next);
   };
 
+  // 各 step の Voice Energy を「セッション累計」として加算する。
+  // 録り直しは別練習扱いなので減算/上書きはしない。
+  // null(削除など)は通知が来ない設計なのでガードしておくだけ。
+  const accumulate = (set: typeof setChunksScore) => (score: number | null) => {
+    if (score == null || score <= 0) return;
+    set((prev) => (prev ?? 0) + score);
+  };
+  const handleChunksScore = accumulate(setChunksScore);
+  const handleFullScore = accumulate(setFullScore);
+  const handleReciteScore = accumulate(setReciteScore);
+
   const allChunksDone = chunkDone.every(Boolean);
   const chunkReadCount = chunkDone.filter(Boolean).length;
 
@@ -155,6 +174,8 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
     });
     const transition = diffLevels(progress.level, next.level);
     const cityMessage = pickCityGrowthMessage(`${todayString()}-${phrase.id}`);
+    const totalVoiceEnergy =
+      (chunksScore ?? 0) + (fullScore ?? 0) + (reciteScore ?? 0);
     onCommit(next);
     setCompletion({
       breakdown,
@@ -163,6 +184,7 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
       cityMessage,
       headline: getCompletionHeadline(next.streakDays),
       streakDays: next.streakDays,
+      totalVoiceEnergy,
     });
     setStep(5);
   };
@@ -304,6 +326,7 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
             title="チャンク音読を録音"
             hint="短いかたまりごとに読んだあと、最後に一度録音してみよう。"
             afterRecordingHint="再生して、英語のリズムをまねできているか聞いてみよう。"
+            onVoiceEnergyChange={handleChunksScore}
           />
 
           <div className="btn-row">
@@ -361,6 +384,7 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
             title="全文音読を録音"
             hint="全文をつなげて読めたら録音してみよう。"
             afterRecordingHint="つっかえた場所があっても大丈夫。もう一回録ればOK。"
+            onVoiceEnergyChange={handleFullScore}
           />
 
           <div className="btn-row">
@@ -429,6 +453,7 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
             title="暗唱を録音"
             hint="英文を見ずに言えたら録音して聞いてみよう。"
             afterRecordingHint="言えた部分だけでもOK。声に出したことが成果です。"
+            onVoiceEnergyChange={handleReciteScore}
           />
 
           <div className="btn-row">
@@ -476,6 +501,7 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
               missionComplete: completion.breakdown.some((b) => b.key === "missionComplete"),
             }}
             streakDays={completion.streakDays}
+            totalVoiceEnergy={completion.totalVoiceEnergy}
           />
           <div className="btn-row">
             <button type="button" className="btn" onClick={() => navigate("/city")}>

@@ -17,6 +17,8 @@ interface CompletionSummaryProps {
   levelTransition: LevelTransition;
   recap: PracticeRecap;
   streakDays: number;
+  /** 今回の練習セッション中に出た Voice Energy の累計。0 のときは表示しない。 */
+  totalVoiceEnergy?: number;
 }
 
 /**
@@ -53,6 +55,7 @@ export function CompletionSummary({
   levelTransition,
   recap,
   streakDays,
+  totalVoiceEnergy,
 }: CompletionSummaryProps) {
   return (
     <div className="complete-card">
@@ -64,6 +67,12 @@ export function CompletionSummary({
 
       {streakDays >= 2 && (
         <p className="complete-card__streak">🔥 {streakDays}日連続</p>
+      )}
+
+      {typeof totalVoiceEnergy === "number" && totalVoiceEnergy > 0 && (
+        <p className="complete-card__energy" aria-label={`今日の Voice Energy ${totalVoiceEnergy}`}>
+          🎤 街に届いた声 <strong>{totalVoiceEnergy}</strong>
+        </p>
       )}
 
       <ul className="recap-list" aria-label="今日やったこと">

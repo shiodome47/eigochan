@@ -10,6 +10,8 @@ import {
   useRecorderRegistry,
   type RecorderSlotKey,
 } from "../contexts/RecorderRegistry";
+import { analyzeAudioBlob, isAudioAnalysisSupported } from "../utils/audioAnalysis";
+import { VoiceEnergyMeter } from "./VoiceEnergyMeter";
 
 export interface RecorderControlsProps {
   /** ステップごとの目的(例:「暗唱を録音」)。 */
@@ -27,6 +29,12 @@ export interface RecorderControlsProps {
    */
   phraseId?: string;
   slot?: RecorderSlotKey;
+  /**
+   * Voice Energy のスコアが変わるたびに呼ばれる(録音保存・録り直し・削除・解析失敗で発火)。
+   * 録音がない / 解析できない場合は null。
+   * 親側で memo 化しなくても無限ループしないよう ref パターンで参照する。
+   */
+  onVoiceEnergyChange?: (score: number | null) => void;
 }
 
 type Transient = "none" | "starting" | "recording" | "denied" | "error";
@@ -38,6 +46,7 @@ export function RecorderControls({
   scopeId,
   phraseId,
   slot,
+  onVoiceEnergyChange,
 }: RecorderControlsProps) {
   const supported = isMediaRecorderSupported();
   const registry = useRecorderRegistry();
@@ -58,6 +67,18 @@ export function RecorderControls({
   const [playedOnce, setPlayedOnce] = useState(false);
   const [reviewedCheck, setReviewedCheck] = useState(false);
 
+  // Voice Energy(録音波形のエネルギー量だけを表示)
+  const [voiceEnergyScore, setVoiceEnergyScore] = useState<number | null>(null);
+  const [analyzing, setAnalyzing] = useState(false);
+
+  // 親への通知関数を最新参照で保持(deps に入れずに済むように)
+  const onScoreChangeRef = useRef(onVoiceEnergyChange);
+  onScoreChangeRef.current = onVoiceEnergyChange;
+
+  // 「次に走る解析は新規録音由来」を示すフラグ。
+  // セッション復元(remount)では false のままなので、累計の二重カウントを防ぐ。
+  const freshRecordingPendingRef = useRef(false);
+
   const recorderRef = useRef<AudioRecorder | null>(null);
 
   // ローカルモード時のみ:アンマウントで録音 URL を解放
@@ -75,6 +96,46 @@ export function RecorderControls({
       recorderRef.current = null;
     };
   }, []);
+
+  // 録音 Blob が変わったら Voice Energy を再計算する。
+  // 録音がない状態(削除直後など)はスコアもクリア。
+  // 親への通知は「freshRecordingPendingRef が true のとき」だけ行う:
+  //   - 新規録音(handleStop)→ true → 1回通知 → セッション内累計に加算される
+  //   - 削除 / 録り直し開始 / セッション復元(remount)→ false → 通知しない(累計は維持)
+  useEffect(() => {
+    if (!recording || !isAudioAnalysisSupported()) {
+      setVoiceEnergyScore(null);
+      setAnalyzing(false);
+      // 削除や「もう一回録る」直後はメーターを消すだけで、親には通知しない
+      // (累計を消したくないので)
+      freshRecordingPendingRef.current = false;
+      return;
+    }
+    let cancelled = false;
+    setAnalyzing(true);
+    analyzeAudioBlob(recording.blob)
+      .then((result) => {
+        if (cancelled) return;
+        setVoiceEnergyScore(result.voiceEnergyScore);
+        if (freshRecordingPendingRef.current) {
+          onScoreChangeRef.current?.(result.voiceEnergyScore);
+          freshRecordingPendingRef.current = false;
+        }
+      })
+      .catch(() => {
+        if (cancelled) return;
+        // 解析失敗時はメーターを出さない(機能しない端末を責めない)
+        setVoiceEnergyScore(null);
+        freshRecordingPendingRef.current = false;
+      })
+      .finally(() => {
+        if (cancelled) return;
+        setAnalyzing(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [recording]);
 
   const writeRecording = (rec: Recording | null) => {
     if (useRegistry) {
@@ -119,6 +180,9 @@ export function RecorderControls({
     const result = await rec.stop();
     recorderRef.current = null;
     if (result) {
+      // 新規録音を保存する直前にフラグを立てる。
+      // useEffect 側でこの録音だけ「累計通知」の対象にする。
+      freshRecordingPendingRef.current = true;
       writeRecording(result);
       setTransient("none");
     } else {
@@ -229,6 +293,8 @@ export function RecorderControls({
             onPlay={handlePlay}
             aria-label="録音した自分の声を再生"
           />
+
+          <VoiceEnergyMeter score={voiceEnergyScore} loading={analyzing} />
 
           {playedOnce && afterRecordingHint && (
             <p className="recorder__after-hint">{afterRecordingHint}</p>
