@@ -12,6 +12,21 @@
 
 export type CityStage = "stage1" | "stage2" | "stage3" | "stage4";
 
+const VALID_CITY_STAGES: readonly CityStage[] = [
+  "stage1",
+  "stage2",
+  "stage3",
+  "stage4",
+];
+
+/** 任意の値が CityStage か判定する型ガード(URL パラメータの検証などに)。 */
+export function isCityStage(value: unknown): value is CityStage {
+  return (
+    typeof value === "string" &&
+    (VALID_CITY_STAGES as readonly string[]).includes(value)
+  );
+}
+
 export interface CityStageAssets {
   /** WebP 優先で読み込む。 */
   webp: string;

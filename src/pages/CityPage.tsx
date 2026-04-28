@@ -1,6 +1,8 @@
+import { useSearchParams } from "react-router-dom";
 import type { UserProgress } from "../types";
 import { CityView } from "../components/CityView";
 import { lockedFacilities, unlockedFacilities } from "../utils/progress";
+import { isCityStage } from "../data/cityAssets";
 
 interface CityPageProps {
   progress: UserProgress;
@@ -10,12 +12,23 @@ export function CityPage({ progress }: CityPageProps) {
   const unlocked = unlockedFacilities(progress.level);
   const locked = lockedFacilities(progress.level);
 
+  // 開発用:?stage=stage1 などで街ステージを強制表示できる。
+  // 不正な値は無視して通常の level 判定に戻す。UI 上には出さない。
+  const [searchParams] = useSearchParams();
+  const stageParam = searchParams.get("stage");
+  const forcedStage = isCityStage(stageParam) ? stageParam : undefined;
+
   return (
     <>
       <section className="card">
         <h2 className="card__title">あなたの街</h2>
         <p className="card__heading">Your city is growing!</p>
-        <CityView level={progress.level} variant="stage" interactive />
+        <CityView
+          level={progress.level}
+          variant="stage"
+          interactive
+          forcedStage={forcedStage}
+        />
 
         <div className="progress-row">
           <div className="progress-cell">

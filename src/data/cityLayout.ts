@@ -188,11 +188,46 @@ export type StageOverlayOverrides = Partial<Record<FacilityId, StageOverlayOverr
  *     // 画像C は base のチューン対象。基本そのままで良い。
  *   },
  */
+// 画像B(stage2 / stage3 で共有)用の座標補正。
+// base は元 city-map-base.png に対してチューンされていて、画像Bでは建物が
+// やや上・右にあるため、ラベルが「左下にズレて」見えていた。
+// 実機スクショ(stage2)で2回チューン済み:cafe / lamp / park は左+上へ、
+// house は新規追加で base より上へ。
+const IMAGE_B_OVERRIDES: StageOverlayOverrides = {
+  cafe: { x: 22, y: 35 },     // カフェ屋根の中央へ
+  lamp: { x: 35, y: 38 },     // 見えている街灯ポスト直上へ
+  park: { x: 75, y: 62 },     // 遊具(滑り台)の中心へ
+  house: { x: 16, y: 68 },    // 屋根頂点付近へ(base 73 から上へ)
+  library: { x: 55, y: 28 },  // 画像Bには未建設。未来の予定地(階段上の空き地)中央
+};
+
+// 画像A(stage1)用の座標補正。
+// 画像A は「家+空き地ばかり」の育ち始め。家の位置が他stageとは大きく違い、
+// かなり上(中央寄り)にあるため、家ラベルだけ大幅に補正する。
+// 他施設は未建設なので base のままで「未来の予定地」マーカーとして機能する。
+const IMAGE_A_OVERRIDES: StageOverlayOverrides = {
+  house: { x: 18, y: 48 },   // 画像Aの小さな家(かなり上)
+  // cafe / lamp / park / library / station はすべて未建設 → base で空き地を指す
+};
+
+// 画像C(stage4)用の座標補正。
+// 画像C は base のチューン元(旧 city-map-base.png)と似ているが、新画像では
+// 建物全体がやや上・左に寄っているためラベルが「下にズレて」見えていた。
+// stage4 スクショ(image #18 / #19)を見ての値:
+const IMAGE_C_OVERRIDES: StageOverlayOverrides = {
+  cafe:    { x: 16, y: 36 },   // カフェ屋根の中央
+  lamp:    { x: 35, y: 45 },   // 見えている街灯ポスト
+  park:    { x: 58, y: 58 },   // 遊具(滑り台)中心(base 75 から大幅 up)
+  house:   { x: 16, y: 56 },   // 屋根頂点(base 73 から大幅 up)
+  library: { x: 40, y: 22 },   // 図書館の屋根中央(緑屋根の建物)
+  // station / balloon / stars は base のまま(画像C で違和感なし)
+};
+
 export const STAGE_OVERLAY_OVERRIDES: Partial<Record<CityStage, StageOverlayOverrides>> = {
-  // stage1: { ... },
-  // stage2: { ... },
-  // stage3: { ... },
-  // stage4: { ... },
+  stage1: IMAGE_A_OVERRIDES,
+  stage2: IMAGE_B_OVERRIDES,
+  stage3: IMAGE_B_OVERRIDES,
+  stage4: IMAGE_C_OVERRIDES,
 };
 
 /** stage に応じて base + override をマージした overlay 配列を返す。 */

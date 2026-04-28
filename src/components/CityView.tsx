@@ -6,7 +6,7 @@ import {
   findFacilityOverlay,
   type FacilityId,
 } from "../data/cityLayout";
-import { getCityStage } from "../data/cityAssets";
+import { getCityStage, type CityStage } from "../data/cityAssets";
 import { pickPhraseForFacility } from "../utils/cityPhrases";
 import { speakText } from "../utils/speech";
 
@@ -17,6 +17,12 @@ interface CityViewProps {
   variant?: "stage" | "preview";
   /** stage 時に施設をタップ可能にする(吹き出し+TTS)。 */
   interactive?: boolean;
+  /**
+   * 通常は level から自動判定する街ステージを、明示的に強制する。
+   * 開発時の見た目確認(URL `?stage=stageX`)向け。指定が無ければ
+   * 通常の getCityStage({ level }) で判定。
+   */
+  forcedStage?: CityStage;
 }
 
 interface ActiveBubble {
@@ -26,11 +32,20 @@ interface ActiveBubble {
 
 const BUBBLE_DURATION_MS = 1600;
 
-export function CityView({ level, variant = "stage", interactive = false }: CityViewProps) {
+export function CityView({
+  level,
+  variant = "stage",
+  interactive = false,
+  forcedStage,
+}: CityViewProps) {
   const mapVariant: "preview" | "full" = variant === "preview" ? "preview" : "full";
   const tapEnabled = mapVariant === "full" && interactive;
-  // 進捗から街ステージを決定。将来 Voice Energy 等への切替は cityAssets 側で行う。
-  const stage = useMemo(() => getCityStage({ level }), [level]);
+  // 進捗から街ステージを決定。forcedStage(URL パラメータ等)が来たらそれを優先。
+  // 将来 Voice Energy 等への切替は cityAssets 側で行う。
+  const stage = useMemo(
+    () => forcedStage ?? getCityStage({ level }),
+    [level, forcedStage],
+  );
 
   const [bubble, setBubble] = useState<ActiveBubble | null>(null);
   const timerRef = useRef<number | null>(null);
