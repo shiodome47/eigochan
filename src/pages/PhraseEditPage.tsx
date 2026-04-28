@@ -125,7 +125,9 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
 
     if (mode === "new") {
       const created = addCustomPhrase(input);
-      navigate(`/practice/${created.id}`);
+      // 音声メモ(お手本・練習音声)を続けて入れられるよう、編集ページへ遷移する。
+      // 編集ページの「🎤 このフレーズで練習する」ボタンで Practice へ進める。
+      navigate(`/phrases/edit/${created.id}`);
       return;
     }
     if (target && isCustomPhrase(target.id)) {
@@ -268,8 +270,17 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
 
         <div className="btn-row" style={{ marginTop: 16 }}>
           <button type="button" className="btn" onClick={handleSave}>
-            {mode === "new" ? "追加して練習する" : "保存する"}
+            {mode === "new" ? "追加 → 音声を入れる →" : "保存する"}
           </button>
+          {mode === "edit" && target && (
+            <button
+              type="button"
+              className="btn btn--accent"
+              onClick={() => navigate(`/practice/${target.id}`)}
+            >
+              🎤 このフレーズで練習する
+            </button>
+          )}
           <button type="button" className="btn btn--ghost" onClick={handleCancel}>
             キャンセル
           </button>
@@ -286,7 +297,7 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
 
         {mode === "new" && (
           <p className="form-hint-small" style={{ marginTop: 12 }}>
-            🎵 音声メモ(お手本・練習音声)は保存後に追加できます。
+            🎵 「追加」を押すと、続けてお手本音声・練習音声を入れる画面に進みます。
           </p>
         )}
       </section>

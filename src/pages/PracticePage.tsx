@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { findPhraseById, PHRASES } from "../data/phrases";
 import { StepIndicator } from "../components/StepIndicator";
@@ -16,6 +16,8 @@ import {
 } from "../utils/progress";
 import { getCompletionHeadline, pickCityGrowthMessage } from "../utils/messages";
 import { todayString } from "../utils/date";
+import { isCustomPhrase } from "../utils/customPhrases";
+import { loadPhraseAudio, type SavedPhraseAudio } from "../utils/phraseAudioStorage";
 import type { UserProgress } from "../types";
 
 type Step = 1 | 2 | 3 | 4 | 5;
@@ -72,6 +74,10 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
   const [chunksScore, setChunksScore] = useState<number | null>(null);
   const [fullScore, setFullScore] = useState<number | null>(null);
   const [reciteScore, setReciteScore] = useState<number | null>(null);
+  // 自作フレーズに保存された「お手本音声」(IndexedDB)。あれば再生ボタンを出す。
+  const [referenceAudio, setReferenceAudio] = useState<SavedPhraseAudio | null>(null);
+  const referenceUrlRef = useRef<string | null>(null);
+  const referencePlayerRef = useRef<HTMLAudioElement | null>(null);
   const supported = isSpeechSupported();
 
   useEffect(() => {
@@ -89,15 +95,61 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
   useEffect(() => {
     return () => {
       cancelSpeech();
+      // アンマウントでお手本音声も停止
+      if (referencePlayerRef.current) {
+        referencePlayerRef.current.pause();
+        referencePlayerRef.current = null;
+      }
+      if (referenceUrlRef.current) {
+        URL.revokeObjectURL(referenceUrlRef.current);
+        referenceUrlRef.current = null;
+      }
     };
   }, []);
 
-  // ステップ移動時には進行中のリピート再生も止める
+  // ステップ移動時には進行中のリピート再生もお手本音声も止める
   useEffect(() => {
     return () => {
       cancelSpeech();
+      if (referencePlayerRef.current) {
+        referencePlayerRef.current.pause();
+        referencePlayerRef.current = null;
+      }
     };
   }, [step]);
+
+  // フレーズ切替時にお手本音声をロード(自作フレーズの reference スロットのみ)
+  useEffect(() => {
+    let cancelled = false;
+    // 切替時に旧 URL を解放
+    if (referenceUrlRef.current) {
+      URL.revokeObjectURL(referenceUrlRef.current);
+      referenceUrlRef.current = null;
+    }
+    if (referencePlayerRef.current) {
+      referencePlayerRef.current.pause();
+      referencePlayerRef.current = null;
+    }
+    setReferenceAudio(null);
+
+    if (!isCustomPhrase(phrase.id)) return;
+
+    void loadPhraseAudio(phrase.id, "reference")
+      .then((audio) => {
+        if (cancelled) return;
+        if (audio) {
+          referenceUrlRef.current = URL.createObjectURL(audio.blob);
+          setReferenceAudio(audio);
+        }
+      })
+      .catch(() => {
+        // IDB 非対応や読み込み失敗時はお手本ボタンを出さない
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [phrase.id]);
 
   // 別フレーズへ切替 / PracticePage アンマウント時に
   // そのフレーズの録音を全 slot 破棄(URL も revoke)。
@@ -110,19 +162,51 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
     };
   }, [phrase.id, clearRecordingsForPhrase]);
 
+  const stopReferencePlayback = () => {
+    if (referencePlayerRef.current) {
+      referencePlayerRef.current.pause();
+      referencePlayerRef.current = null;
+    }
+  };
+
+  const handlePlayReference = () => {
+    if (!referenceUrlRef.current) return;
+    cancelSpeech();           // TTS と被らないように先に止める
+    stopReferencePlayback();  // 連打時、前回の再生も止める
+    const audio = new Audio(referenceUrlRef.current);
+    referencePlayerRef.current = audio;
+    audio.onended = () => {
+      if (referencePlayerRef.current === audio) {
+        referencePlayerRef.current = null;
+      }
+    };
+    audio.onerror = () => {
+      if (referencePlayerRef.current === audio) {
+        referencePlayerRef.current = null;
+      }
+    };
+    void audio.play().catch(() => {
+      // autoplay 制限などで再生できなかった場合は無視
+    });
+  };
+
   const handleSpeakAll = () => {
+    stopReferencePlayback();
     void speakText(phrase.english, { rate });
   };
 
   const handleRepeatAll = () => {
+    stopReferencePlayback();
     void speakRepeated(phrase.english, { rate }, { count: 3, gapMs: 600 });
   };
 
   const handleSpeakChunk = (chunk: string) => {
+    stopReferencePlayback();
     void speakText(chunk, { rate });
   };
 
   const handleRepeatChunk = (chunk: string) => {
+    stopReferencePlayback();
     void speakRepeated(chunk, { rate }, { count: 2, gapMs: 400 });
   };
 
@@ -233,13 +317,23 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
             意味が全部わからなくてOK。リズムと音のかたまりを感じてみよう。
           </p>
           <div className="btn-row">
+            {referenceAudio && (
+              <button
+                type="button"
+                className="btn"
+                onClick={handlePlayReference}
+                aria-label="保存しておいたお手本音声を聞く"
+              >
+                🎵 お手本音声を聞く
+              </button>
+            )}
             <button
               type="button"
-              className="btn"
+              className={referenceAudio ? "btn btn--secondary" : "btn"}
               onClick={handleSpeakAll}
               disabled={!supported}
             >
-              🔊 英文を聞く
+              🔊 英文を聞く{referenceAudio ? "(機械音声)" : ""}
             </button>
             <button
               type="button"
@@ -457,13 +551,23 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
           />
 
           <div className="btn-row">
+            {referenceAudio && (
+              <button
+                type="button"
+                className="btn btn--ghost"
+                onClick={handlePlayReference}
+                aria-label="お手本音声で答え合わせ"
+              >
+                🎵 お手本で答え合わせ
+              </button>
+            )}
             <button
               type="button"
               className="btn btn--ghost"
               onClick={handleSpeakAll}
               disabled={!supported}
             >
-              🔊 答え合わせに聞く
+              🔊 答え合わせに聞く{referenceAudio ? "(機械音声)" : ""}
             </button>
             <button
               type="button"
