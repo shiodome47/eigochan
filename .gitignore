@@ -9,3 +9,9 @@ dist-ssr
 
 # TypeScript build cache
 *.tsbuildinfo
+
+# Cloudflare wrangler の一時ファイル(ローカル D1 / R2 / KV のシミュレータ)
+.wrangler/
+
+# wrangler の `secret put` 等で使うローカル変数(コミット禁止)
+.dev.vars

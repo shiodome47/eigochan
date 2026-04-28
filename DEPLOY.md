@@ -159,3 +159,122 @@ wrangler pages deploy dist --project-name=eigochan
 3. PNG フォールバックを削除して dist を 0.6MB 程度に圧縮(任意)
 4. CF Pages にプロジェクト接続して初回デプロイ(本番作業)
 5. カスタムドメインの割当・DNS 設定(任意)
+
+---
+
+## 10. PC/スマホ同期 API(Phase 0–1)
+
+`functions/api/*` で Cloudflare Pages Functions を同居させ、D1 + R2 でデータ層を組む構成。
+Phase 1 では「同期コードの発行と認可疎通」だけが動く。フロント側は未連携。
+
+### 10.1 構成ファイル
+
+| パス | 役割 |
+|---|---|
+| `wrangler.toml` | Pages 用 binding 定義(`DB`=D1, `R2`=R2)、`migrations_dir = "migrations"` |
+| `migrations/0001_init.sql` | `users` / `phrases` / `progress` / `phrase_audio` の初期スキーマ |
+| `functions/_lib/env.ts` | `Env` 型(`DB: D1Database`, `R2: R2Bucket`) |
+| `functions/_lib/json.ts` | `json()` / `jsonError()` レスポンスヘルパ(`cache-control: no-store` 付き) |
+| `functions/_lib/auth.ts` | `generateSyncCode()` / `sha256Hex()` / `extractBearerToken()` / `authenticate()` |
+| `functions/api/codes.ts` | `POST /api/codes` 同期コード発行 |
+| `functions/api/me.ts`    | `GET  /api/me`    Bearer 検証 |
+| `tsconfig.functions.json` | `functions/**/*.ts` の typecheck 設定(`@cloudflare/workers-types`) |
+
+### 10.2 D1 と R2 の作成(初回のみ)
+
+```bash
+# D1 を作成。出力された database_id を wrangler.toml に書き戻す
+wrangler d1 create eigochan-sync
+
+# R2 バケットを作成
+wrangler r2 bucket create eigochan-audio
+
+# マイグレーションを適用(ローカル / 本番)
+wrangler d1 migrations apply eigochan-sync --local
+wrangler d1 migrations apply eigochan-sync --remote
+```
+
+`wrangler.toml` の `database_id = "REPLACE_WITH_D1_DATABASE_ID"` を、`d1 create` 出力の UUID で
+置換する。これを忘れると本番で D1 にアクセスできない。
+
+### 10.3 ローカルでの動作確認
+
+```bash
+# 1) フロントを一度ビルド(Pages Functions と組み合わせるため)
+npm run build
+
+# 2) Pages の dev サーバを起動。binding は wrangler.toml から読む
+wrangler pages dev dist
+```
+
+別ターミナルで、
+
+```bash
+# (A) 同期コード発行
+curl -i -X POST http://localhost:8788/api/codes
+# 期待: 201。 body 例: {"syncCode":"<43文字 base64url>","userId":"<uuid>","createdAt":"2026-..."}
+
+# (B) Bearer 検証(syncCode は (A) のレスポンスからコピー)
+curl -i http://localhost:8788/api/me \
+  -H "Authorization: Bearer <syncCode>"
+# 期待: 200。 body: {"userId":"<uuid>","lastSeenAt":"2026-..."}
+
+# (C) 認可失敗のケース
+curl -i http://localhost:8788/api/me
+# 期待: 401。 body: {"error":"unauthorized","message":"unauthorized"}
+```
+
+### 10.4 syncCode の保存・検証方式
+
+- 生コードは **32 byte の `crypto.getRandomValues()` を base64url(43文字)** で表現。
+- D1 に保存するのは **SHA-256(syncCode) の hex 64文字のみ**(`users.code_hash`)。
+- 検証時はクライアントが `Authorization: Bearer <syncCode>` を送り、サーバ側で同じ手順で
+  ハッシュして `code_hash` と照合する。
+- 生コードは `console.log` / 例外メッセージ / レスポンスエラーのいずれにも出さない。
+  生コードを返すのは `POST /api/codes` の 201 レスポンス **1 回限り**。
+
+### 10.5 Cloudflare Pages 側で必要な設定
+
+ダッシュボード(Pages → 該当プロジェクト → Settings → Functions)で以下を確認:
+
+1. **Compatibility date** … `2025-01-01` 以降(`wrangler.toml` と一致)
+2. **D1 database bindings** … `DB` → `eigochan-sync`(wrangler.toml と同期。dashboard でも明示しておくと安心)
+3. **R2 bucket bindings** … `R2` → `eigochan-audio`
+4. **Environment variables** … 現状不要(Phase 1)
+
+`wrangler.toml` をコミットしておけば、Git 連携デプロイ時に上記 binding が自動で適用される。
+
+### 10.6 typecheck / build 結果(Phase 1 完了時点)
+
+```
+$ npm run typecheck
+> tsc -b --noEmit
+(エラーなし)
+
+$ npm run build
+> tsc -b && vite build
+✓ 68 modules transformed.
+dist/index.html               1.05 kB
+dist/assets/index-*.css      35.16 kB │ gzip:  7.02 kB
+dist/assets/index-*.js      237.18 kB │ gzip: 76.52 kB
+✓ built in 516ms
+```
+
+`vite` は `src/` のみバンドルするので `functions/` は dist に含まれない。
+Cloudflare Pages 側がビルド時に `functions/` を別途ピックアップして Workers にデプロイする。
+
+### 10.7 Phase 2 へ進む場合の手順(参考)
+
+1. **API 追加**(`functions/api/sync/snapshot.ts`):
+   - `GET /api/sync/snapshot` … `phrases` と `progress` を `authenticate()` 後に返す
+   - `PUT /api/sync/snapshot` … 受信した phrases / progress を LWW で書き戻す
+2. **クライアント側の sync クライアント**(`src/utils/syncClient.ts` 等):
+   - `Authorization` ヘッダの管理(localStorage `eigochan.sync.code` に保存)
+   - 起動時 pull、書き込み後 push
+3. **設定画面 UI(最小)**:
+   - 「同期を有効にする」→ `POST /api/codes` → 表示&コピー
+   - 「コードで参加」→ 入力 → `GET /api/me` で疎通確認
+4. **R2 アップロード**(Phase 3):
+   - `PUT /api/audio/:phraseId/:slot`(body=binary、Content-Type 必須)
+   - `GET /api/audio/:phraseId/:slot`(stream で返却)
+   - 既存 IndexedDB はキャッシュとして残す

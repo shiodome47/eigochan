@@ -1,0 +1,23 @@
+name = "eigochan"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "./dist"
+
+# Cloudflare Pages Functions の binding 定義。
+# 本番のバインドは「Cloudflare ダッシュボード → Pages → Settings → Functions」でも
+# 設定できるが、wrangler.toml に置いておくと
+#   - ローカル `wrangler pages dev` で同じ binding が使える
+#   - レビュー時にスキーマと一緒に履歴が追える
+# というメリットがある。
+#
+# database_id は `wrangler d1 create eigochan-sync` 実行後に表示される値で置き換えること。
+# R2 バケットは `wrangler r2 bucket create eigochan-audio` で先に作っておく。
+
+[[d1_databases]]
+binding = "DB"
+database_name = "eigochan-sync"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "eigochan-audio"

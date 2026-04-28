@@ -5,6 +5,7 @@ import { formatDateLabel } from "../utils/date";
 import { resetAll } from "../utils/storage";
 import { getStreakEncouragement } from "../utils/messages";
 import { exportToFile, mergeImport, readImportFile } from "../utils/dataIo";
+import { SyncSettings } from "../components/SyncSettings";
 
 interface LogPageProps {
   progress: UserProgress;
@@ -157,6 +158,8 @@ export function LogPage({ progress }: LogPageProps) {
           </ul>
         )}
       </section>
+
+      <SyncSettings />
 
       <section className="card">
         <h2 className="card__title">データ管理</h2>
