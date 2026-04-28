@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   addCustomPhrase,
   autoChunkText,
@@ -15,6 +15,11 @@ import {
   VALID_LEVELS,
   VALID_MOODS,
 } from "../utils/customPhrases";
+import {
+  deletePhraseAudio,
+  loadPhraseAudio,
+  savePhraseAudio,
+} from "../utils/phraseAudioStorage";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
 import type { Phrase, PhraseCategory, PhraseLevel, PhraseMood } from "../types";
 
@@ -78,6 +83,7 @@ function fromPhrase(p: Phrase): FormState {
 export function PhraseEditPage({ mode }: PhraseEditPageProps) {
   const navigate = useNavigate();
   const params = useParams<{ phraseId?: string }>();
+  const location = useLocation();
 
   const target = useMemo<Phrase | null>(() => {
     if (mode !== "edit") return null;
@@ -85,19 +91,48 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
     return findCustomPhraseById(params.phraseId) ?? null;
   }, [mode, params.phraseId]);
 
+  // /phrases/new でフレーズ保存前に「お手本音声」を録っておくための一時 ID。
+  // useState の初期化関数で1回だけ生成し、画面が再描画されてもブレない。
+  // edit モードでは使わないので空文字。
+  const [draftId] = useState<string>(() => {
+    if (mode !== "new") return "";
+    const ts = Date.now();
+    const rand = Math.random().toString(36).slice(2, 9);
+    return `draft_custom_${ts}_${rand}`;
+  });
+
   const [form, setForm] = useState<FormState>(() =>
     target ? fromPhrase(target) : DEFAULT_FORM,
   );
   const [errors, setErrors] = useState<Partial<Record<keyof CustomPhraseInput, string>>>(
     {},
   );
+  // localStorage 書き込み失敗等、フォームレベルのエラー(入力エラーは errors と分離)
+  const [saveError, setSaveError] = useState<string | null>(null);
+  // 保存中の二重クリックを防ぐ
+  const [saving, setSaving] = useState(false);
 
-  // 編集モードで対象が見つからなかった場合は一覧へ戻す
+  // 直前画面で draft 音声の引き継ぎに失敗していた場合のフラグ
+  // (location.state は React Router のソフトナビゲーションで渡される)
+  const audioMigrationFailed =
+    mode === "edit" &&
+    (location.state as { audioMigrationFailed?: boolean } | null)?.audioMigrationFailed ===
+      true;
+
+  // /phrases/new からの離脱時(成功遷移を含む)、draft 音声を IndexedDB から消す。
+  //   - 成功パスでは handleSave 内で既に削除済 → ここは no-op
+  //   - 失敗パスや bottom nav 経由の離脱では、ここで掃除される
+  //   - 削除に失敗しても無視(orphan は将来の掃除機能で回収)
   useEffect(() => {
-    if (mode === "edit" && !target) {
-      navigate("/phrases", { replace: true });
-    }
-  }, [mode, target, navigate]);
+    if (mode !== "new") return;
+    return () => {
+      void deletePhraseAudio(draftId, "reference").catch(() => {
+        // 無視
+      });
+    };
+  }, [mode, draftId]);
+
+  // edit モードで対象が無いケースは return 直下の早期描画で扱う(暗黙リダイレクトしない)。
 
   const handleChange = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -117,27 +152,66 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
     mood: form.mood,
   });
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    if (saving) return;
     const input = buildInput();
     const validation = validateInput(input);
     setErrors(validation.errors);
     if (!validation.ok) return;
+    setSaveError(null);
+    setSaving(true);
 
-    if (mode === "new") {
-      const created = addCustomPhrase(input);
-      // 音声メモ(お手本・練習音声)を続けて入れられるよう、編集ページへ遷移する。
-      // 編集ページの「🎤 このフレーズで練習する」ボタンで Practice へ進める。
-      navigate(`/phrases/edit/${created.id}`);
-      return;
-    }
-    if (target && isCustomPhrase(target.id)) {
-      const updated = updateCustomPhrase(target.id, input);
-      if (updated) {
+    const STORAGE_FAIL_MESSAGE =
+      "保存できませんでした。ブラウザのストレージが満杯か、書き込みできない設定になっているかもしれません。\n入力内容はそのままです。もう一度お試しください。";
+
+    try {
+      if (mode === "new") {
+        const created = addCustomPhrase(input);
+        if (!created) {
+          // フレーズ自体が保存できなかった: 入力もお手本音声も維持する
+          setSaveError(STORAGE_FAIL_MESSAGE);
+          return;
+        }
+
+        // draft 音声を created.id へ移し替える。
+        // 失敗してもフレーズ作成自体は成立しているので edit 画面へは進む。
+        let migrationFailed = false;
+        try {
+          const draftAudio = await loadPhraseAudio(draftId, "reference");
+          if (draftAudio) {
+            await savePhraseAudio(
+              created.id,
+              "reference",
+              draftAudio.blob,
+              draftAudio.mimeType,
+            );
+            await deletePhraseAudio(draftId, "reference");
+          }
+        } catch {
+          migrationFailed = true;
+        }
+
+        navigate(`/phrases/edit/${created.id}`, {
+          state: migrationFailed ? { audioMigrationFailed: true } : undefined,
+        });
+        return;
+      }
+      if (target && isCustomPhrase(target.id)) {
+        const updated = updateCustomPhrase(target.id, input);
+        if (!updated) {
+          setSaveError(STORAGE_FAIL_MESSAGE);
+          return;
+        }
         navigate("/phrases");
         return;
       }
+      // mode === "edit" だが target が無いケース。通常はこの関数まで到達しない
+      // (return 直下の not-found 早期描画で先に止まる)。
+      navigate("/phrases");
+    } finally {
+      // navigate 後にアンマウントされても害はない(React 18 は無視)
+      setSaving(false);
     }
-    navigate("/phrases");
   };
 
   const handleDelete = () => {
@@ -148,14 +222,81 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
   };
 
   const handleCancel = () => {
+    if (mode === "new") {
+      // 新規作成のキャンセル時は draft 音声も掃除する(orphan を残さないため)。
+      // 失敗しても navigate は進める。
+      void deletePhraseAudio(draftId, "reference").catch(() => {
+        // 無視
+      });
+    }
     navigate("/phrases");
   };
+
+  // edit モードで対象フレーズが見つからない場合は、専用のエラー画面を表示する。
+  // 黙って一覧へ戻さない(同期で取り込み中、削除直後、URL 直打ち等を切り分けやすくするため)。
+  if (mode === "edit" && !target) {
+    return (
+      <>
+        <button
+          type="button"
+          className="btn btn--ghost btn--small back-link"
+          onClick={() => navigate("/phrases")}
+        >
+          ← 一覧へ戻る
+        </button>
+
+        <section className="card">
+          <h2 className="card__title">フレーズが見つかりませんでした</h2>
+          <p className="card__heading">
+            このフレーズはこの端末に保存されていないようです。
+          </p>
+          <p className="form-hint">
+            削除されたか、別の端末で作ったあと まだ取り込まれていない可能性があります。
+            一覧から確認してください。
+          </p>
+          <div className="btn-row" style={{ marginTop: 12 }}>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => navigate("/phrases")}
+            >
+              フレーズ一覧へ戻る
+            </button>
+          </div>
+        </section>
+      </>
+    );
+  }
 
   return (
     <>
       <button type="button" className="btn btn--ghost btn--small back-link" onClick={handleCancel}>
         ← 一覧へ戻る
       </button>
+
+      {/* /phrases/new では「お手本音声を先に録る」ことを推奨し、
+          フォームよりも上にこのカードを置く。draftId に紐づけて IndexedDB に保存される。 */}
+      {mode === "new" && (
+        <section className="card audio-section">
+          <h3 className="audio-section__title">お手本音声を先に録ろう(任意)</h3>
+          <p className="audio-section__lead">
+            まねしたい英語のワンフレーズを先に録音できます。
+            録音した音声を聞きながら、下のフォームに英文・日本語訳を入れていきましょう。
+          </p>
+          <p className="audio-section__notice">
+            録音はいったんこの端末に一時保存されます。
+            「保存する」を押すと、このフレーズに正式に紐づきます。
+            「キャンセル」を押すと削除されます。
+          </p>
+          <PhraseAudioRecorder
+            key={`draft-ref-${draftId}`}
+            phraseId={draftId}
+            slot="reference"
+            title="お手本音声"
+            description="まねしたい短い音声を録音できます。30〜60秒くらいがおすすめです。"
+          />
+        </section>
+      )}
 
       <section className="card">
         <h2 className="card__title">{mode === "new" ? "フレーズを追加" : "フレーズを編集"}</h2>
@@ -269,8 +410,17 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
         </div>
 
         <div className="btn-row" style={{ marginTop: 16 }}>
-          <button type="button" className="btn" onClick={handleSave}>
-            {mode === "new" ? "追加 → 音声を入れる →" : "保存する"}
+          <button
+            type="button"
+            className="btn"
+            onClick={handleSave}
+            disabled={saving}
+          >
+            {saving
+              ? "保存中…"
+              : mode === "new"
+                ? "フレーズを保存する"
+                : "保存する"}
           </button>
           {mode === "edit" && target && (
             <button
@@ -295,9 +445,19 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
           )}
         </div>
 
+        {saveError && (
+          <p
+            className="data-notice data-notice--err"
+            style={{ marginTop: 12, whiteSpace: "pre-line" }}
+          >
+            ⚠ {saveError}
+          </p>
+        )}
+
         {mode === "new" && (
           <p className="form-hint-small" style={{ marginTop: 12 }}>
-            🎵 「追加」を押すと、続けてお手本音声・練習音声を入れる画面に進みます。
+            🎵 まずお手本音声を録音できます。英文と日本語訳を入れて保存すると、
+            この音声がそのままフレーズに紐づきます。
           </p>
         )}
       </section>
@@ -311,6 +471,15 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
           <p className="audio-section__notice">
             録音データはクラウドには送信されません。この端末・このブラウザ内に保存されます。
           </p>
+
+          {audioMigrationFailed && (
+            <p
+              className="data-notice data-notice--err"
+              style={{ marginTop: 4, marginBottom: 8 }}
+            >
+              ⚠ お手本音声の引き継ぎに失敗しました。下の「お手本音声」でもう一度録音してください。
+            </p>
+          )}
 
           <PhraseAudioRecorder
             key={`ref-${target.id}`}

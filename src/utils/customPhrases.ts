@@ -92,11 +92,13 @@ function safeGet(): string | null {
   }
 }
 
-function safeSet(value: string): void {
+function safeSet(value: string): boolean {
   try {
     localStorage.setItem(STORAGE_KEY, value);
+    return true;
   } catch {
-    // localStorage が使えない環境では握りつぶす
+    // localStorage が使えない環境(プライベートモード、容量超過 等)
+    return false;
   }
 }
 
@@ -138,8 +140,8 @@ export function loadCustomPhrases(): Phrase[] {
   }
 }
 
-export function saveCustomPhrases(phrases: Phrase[]): void {
-  safeSet(JSON.stringify(phrases));
+export function saveCustomPhrases(phrases: Phrase[]): boolean {
+  return safeSet(JSON.stringify(phrases));
 }
 
 export interface CustomPhraseInput {
@@ -182,14 +184,23 @@ function normalize(input: CustomPhraseInput): Omit<Phrase, "id"> {
   };
 }
 
-export function addCustomPhrase(input: CustomPhraseInput): Phrase {
+/**
+ * 新規フレーズを追加。
+ * 戻り値: 保存に成功した Phrase。
+ *         localStorage 書き込みに失敗した場合は null(クォータ超過、プライベートモード 等)。
+ */
+export function addCustomPhrase(input: CustomPhraseInput): Phrase | null {
   const phrases = loadCustomPhrases();
   const phrase: Phrase = { id: generateCustomPhraseId(), ...normalize(input) };
   phrases.push(phrase);
-  saveCustomPhrases(phrases);
+  if (!saveCustomPhrases(phrases)) return null;
   return phrase;
 }
 
+/**
+ * 既存フレーズを上書き。
+ * 戻り値: 上書き後の Phrase。対象が無い・保存に失敗した場合は null。
+ */
 export function updateCustomPhrase(id: string, input: CustomPhraseInput): Phrase | null {
   if (!isCustomPhrase(id)) return null;
   const phrases = loadCustomPhrases();
@@ -197,16 +208,20 @@ export function updateCustomPhrase(id: string, input: CustomPhraseInput): Phrase
   if (idx === -1) return null;
   const updated: Phrase = { id, ...normalize(input) };
   phrases[idx] = updated;
-  saveCustomPhrases(phrases);
+  if (!saveCustomPhrases(phrases)) return null;
   return updated;
 }
 
+/**
+ * 自作フレーズを削除。
+ * 戻り値: true=削除成立、false=対象が無いか localStorage への書き戻しに失敗。
+ */
 export function deleteCustomPhrase(id: string): boolean {
   if (!isCustomPhrase(id)) return false;
   const phrases = loadCustomPhrases();
   const next = phrases.filter((p) => p.id !== id);
   if (next.length === phrases.length) return false;
-  saveCustomPhrases(next);
+  if (!saveCustomPhrases(next)) return false;
   // 紐づく音声メモも削除(IndexedDB は非同期 / fire-and-forget。
   // 失敗してもフレーズ削除自体は成立しているため握りつぶす)。
   void deleteAllPhraseAudioForPhrase(id).catch(() => {

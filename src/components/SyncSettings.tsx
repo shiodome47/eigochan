@@ -204,7 +204,13 @@ export function SyncSettings() {
       return;
     }
 
-    if (local.length === 0) {
+    // /phrases/new で使う一時 ID(draft_*)に紐づく音声は、保存前の下書きなので
+    // R2 へ送らない。通常はキャンセル/離脱で消えるが、orphan が残った場合の防御。
+    const uploadable = local.filter(
+      (item) => !item.phraseId.startsWith("draft_"),
+    );
+
+    if (uploadable.length === 0) {
       setAudioBusy(false);
       setNotice({
         kind: "info",
@@ -215,8 +221,8 @@ export function SyncSettings() {
 
     let done = 0;
     let failed = 0;
-    setAudioProgress({ label: "アップロード", done: 0, total: local.length });
-    for (const item of local) {
+    setAudioProgress({ label: "アップロード", done: 0, total: uploadable.length });
+    for (const item of uploadable) {
       const res = await putAudio(
         code,
         item.phraseId,
@@ -229,7 +235,11 @@ export function SyncSettings() {
       } else {
         failed += 1;
       }
-      setAudioProgress({ label: "アップロード", done: done + failed, total: local.length });
+      setAudioProgress({
+        label: "アップロード",
+        done: done + failed,
+        total: uploadable.length,
+      });
     }
 
     setAudioBusy(false);
