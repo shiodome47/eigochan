@@ -4,6 +4,7 @@ import type {
   PhraseLevel,
   PhraseMood,
 } from "../types";
+import { deleteAllPhraseAudioForPhrase } from "./phraseAudioStorage";
 
 const STORAGE_KEY = "eigochan.customPhrases.v1";
 
@@ -206,6 +207,11 @@ export function deleteCustomPhrase(id: string): boolean {
   const next = phrases.filter((p) => p.id !== id);
   if (next.length === phrases.length) return false;
   saveCustomPhrases(next);
+  // 紐づく音声メモも削除(IndexedDB は非同期 / fire-and-forget。
+  // 失敗してもフレーズ削除自体は成立しているため握りつぶす)。
+  void deleteAllPhraseAudioForPhrase(id).catch(() => {
+    // 無視
+  });
   return true;
 }
 

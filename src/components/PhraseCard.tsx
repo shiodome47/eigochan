@@ -4,6 +4,8 @@ import { isCustomPhrase } from "../utils/customPhrases";
 interface PhraseCardProps {
   phrase: Phrase;
   done?: boolean;
+  hasReferenceAudio?: boolean;
+  hasPracticeAudio?: boolean;
   onClick?: (phrase: Phrase) => void;
   onEdit?: (phrase: Phrase) => void;
   onDelete?: (phrase: Phrase) => void;
@@ -15,7 +17,15 @@ const LEVEL_LABEL: Record<Phrase["level"], string> = {
   advanced: "上級",
 };
 
-export function PhraseCard({ phrase, done, onClick, onEdit, onDelete }: PhraseCardProps) {
+export function PhraseCard({
+  phrase,
+  done,
+  hasReferenceAudio,
+  hasPracticeAudio,
+  onClick,
+  onEdit,
+  onDelete,
+}: PhraseCardProps) {
   const custom = isCustomPhrase(phrase.id);
   const showActions = custom && (onEdit || onDelete);
 
@@ -36,6 +46,8 @@ export function PhraseCard({ phrase, done, onClick, onEdit, onDelete }: PhraseCa
           <span className="tag">#{phrase.category}</span>
           <span className="tag">{LEVEL_LABEL[phrase.level]}</span>
           {done && <span className="tag tag--done">✓ 練習済み</span>}
+          {hasReferenceAudio && <span className="tag tag--audio">🎵 お手本あり</span>}
+          {hasPracticeAudio && <span className="tag tag--audio">🎙 練習あり</span>}
         </div>
       </button>
       {showActions && (

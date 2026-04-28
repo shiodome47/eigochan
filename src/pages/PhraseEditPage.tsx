@@ -15,6 +15,7 @@ import {
   VALID_LEVELS,
   VALID_MOODS,
 } from "../utils/customPhrases";
+import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
 import type { Phrase, PhraseCategory, PhraseLevel, PhraseMood } from "../types";
 
 interface PhraseEditPageProps {
@@ -282,7 +283,46 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
             </button>
           )}
         </div>
+
+        {mode === "new" && (
+          <p className="form-hint-small" style={{ marginTop: 12 }}>
+            🎵 音声メモ(お手本・練習音声)は保存後に追加できます。
+          </p>
+        )}
       </section>
+
+      {mode === "edit" && target && (
+        <section className="card audio-section">
+          <h3 className="audio-section__title">音声メモ</h3>
+          <p className="audio-section__lead">
+            お手本にしたい音声や、自分の練習音声をこのブラウザに保存できます。
+          </p>
+          <p className="audio-section__notice">
+            録音データはクラウドには送信されません。この端末・このブラウザ内に保存されます。
+          </p>
+
+          <PhraseAudioRecorder
+            key={`ref-${target.id}`}
+            phraseId={target.id}
+            slot="reference"
+            title="お手本音声"
+            description="まねしたい短い音声を保存できます。30〜60秒くらいがおすすめです。"
+          />
+
+          <PhraseAudioRecorder
+            key={`prc-${target.id}`}
+            phraseId={target.id}
+            slot="practice"
+            title="自分の練習音声"
+            description="自分で音読・暗唱した声を保存できます。"
+          />
+
+          <p className="audio-section__small">
+            外部サービスの音声を使う場合は、利用できる範囲に注意してください。
+            録音データはこのブラウザ内に保存されます。ブラウザのデータを削除すると、録音も消えます。
+          </p>
+        </section>
+      )}
     </>
   );
 }

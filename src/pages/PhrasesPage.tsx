@@ -7,6 +7,10 @@ import {
   isCustomPhrase,
   loadCustomPhrases,
 } from "../utils/customPhrases";
+import {
+  listAllPhraseAudio,
+  type PhraseAudioSlot,
+} from "../utils/phraseAudioStorage";
 import type { Phrase, PhraseCategory, UserProgress } from "../types";
 
 interface PhrasesPageProps {
@@ -39,6 +43,31 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
 
   const allPhrases = useMemo(() => getAllPhrases(), [version]);
   const customCount = useMemo(() => loadCustomPhrases().length, [version]);
+
+  // 自作フレーズの音声メモ存在マップ。{ phraseId: Set<slot> }
+  const [audioMap, setAudioMap] = useState<Map<string, Set<PhraseAudioSlot>>>(
+    () => new Map(),
+  );
+  useEffect(() => {
+    let active = true;
+    void listAllPhraseAudio()
+      .then((audios) => {
+        if (!active) return;
+        const m = new Map<string, Set<PhraseAudioSlot>>();
+        for (const a of audios) {
+          const set = m.get(a.phraseId) ?? new Set<PhraseAudioSlot>();
+          set.add(a.slot);
+          m.set(a.phraseId, set);
+        }
+        setAudioMap(m);
+      })
+      .catch(() => {
+        // IDB が使えない端末ではバッジを出さないだけ
+      });
+    return () => {
+      active = false;
+    };
+  }, [version]);
 
   const list = useMemo(() => {
     if (filter === "all") return allPhrases;
@@ -113,16 +142,21 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
         </div>
 
         <div className="phrase-list">
-          {list.map((p) => (
-            <PhraseCard
-              key={p.id}
-              phrase={p}
-              done={completed.has(p.id)}
-              onClick={handleClick}
-              onEdit={isCustomPhrase(p.id) ? handleEdit : undefined}
-              onDelete={isCustomPhrase(p.id) ? handleDelete : undefined}
-            />
-          ))}
+          {list.map((p) => {
+            const slots = audioMap.get(p.id);
+            return (
+              <PhraseCard
+                key={p.id}
+                phrase={p}
+                done={completed.has(p.id)}
+                hasReferenceAudio={slots?.has("reference")}
+                hasPracticeAudio={slots?.has("practice")}
+                onClick={handleClick}
+                onEdit={isCustomPhrase(p.id) ? handleEdit : undefined}
+                onDelete={isCustomPhrase(p.id) ? handleDelete : undefined}
+              />
+            );
+          })}
         </div>
         {list.length === 0 && (
           <p className="empty">

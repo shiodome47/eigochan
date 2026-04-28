@@ -198,6 +198,8 @@ export function LogPage({ progress }: LogPageProps) {
         )}
 
         <p className="form-hint-small" style={{ marginTop: 14 }}>
+          Exportされるのはフレーズデータのみです。音声メモは含まれません。
+          <br />
           端末やブラウザによっては、オフライン時に読み上げが使えない場合があります。
         </p>
 
