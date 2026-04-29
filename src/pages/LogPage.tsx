@@ -12,6 +12,12 @@ import {
   type Duo3ImportResult,
 } from "../utils/customPhrases";
 import { enqueueSnapshotPush } from "../utils/autoSync";
+import {
+  analyzeDuo3AudioFiles,
+  importDuo3AudioFiles,
+  type Duo3AudioImportResult,
+  type Duo3AudioPreview,
+} from "../utils/duo3AudioImport";
 import { SyncSettings } from "../components/SyncSettings";
 
 interface LogPageProps {
@@ -99,6 +105,58 @@ export function LogPage({ progress }: LogPageProps) {
     setDuoShowPreview(false);
     // syncCode が設定されていれば同期キューに積む。未設定なら no-op。
     if (result.imported > 0) enqueueSnapshotPush();
+  };
+
+  // DUO 3.0 音声 Import
+  const audioInputRef = useRef<HTMLInputElement | null>(null);
+  const [duoAudioFiles, setDuoAudioFiles] = useState<File[]>([]);
+  const [duoAudioPreview, setDuoAudioPreview] =
+    useState<Duo3AudioPreview | null>(null);
+  const [duoAudioResult, setDuoAudioResult] =
+    useState<Duo3AudioImportResult | null>(null);
+  const [duoAudioBusy, setDuoAudioBusy] = useState(false);
+  const [duoAudioError, setDuoAudioError] = useState<string | null>(null);
+
+  const handleDuoAudioFileChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const selected = Array.from(e.target.files ?? []);
+    // 同じファイルを再選択できるよう、毎回 value をリセット
+    e.target.value = "";
+    setDuoAudioFiles(selected);
+    setDuoAudioResult(null);
+    setDuoAudioError(null);
+    if (selected.length === 0) {
+      setDuoAudioPreview(null);
+      return;
+    }
+    try {
+      const preview = await analyzeDuo3AudioFiles(selected);
+      setDuoAudioPreview(preview);
+    } catch {
+      setDuoAudioPreview(null);
+      setDuoAudioError("ファイルの分析に失敗しました");
+    }
+  };
+
+  const handleDuoAudioImport = async () => {
+    if (duoAudioBusy || duoAudioFiles.length === 0) return;
+    setDuoAudioBusy(true);
+    setDuoAudioError(null);
+    try {
+      const result = await importDuo3AudioFiles(duoAudioFiles);
+      setDuoAudioResult(result);
+      setDuoAudioPreview(null);
+      setDuoAudioFiles([]);
+    } catch {
+      setDuoAudioError("Import 中にエラーが発生しました");
+    } finally {
+      setDuoAudioBusy(false);
+    }
+  };
+
+  const handleDuoAudioPickFile = () => {
+    audioInputRef.current?.click();
   };
 
   const handleReset = () => {
@@ -440,6 +498,132 @@ export function LogPage({ progress }: LogPageProps) {
             ✓ 取り込み {duoResult.imported} 件 (新規 {duoResult.inserted} /
             更新 {duoResult.replaced}
             {duoResult.skipped > 0 ? ` / スキップ ${duoResult.skipped}` : ""})
+          </p>
+        )}
+      </section>
+
+      <section className="card">
+        <h2 className="card__title">DUO 3.0 音声 Import</h2>
+        <p className="card__heading">
+          ファイル名でフレーズに紐づけて、お手本音声を一括取り込み
+        </p>
+        <p className="form-hint">
+          ファイル名 <code>duo3_sNN_NNN.mp3</code> を、対応する DUO フレーズの
+          お手本音声 (reference) として保存します。複数選択 OK。
+          先にテキスト Import でフレーズを作っておく必要があります。
+          1 ファイル 5MB を超えるものはスキップします。
+        </p>
+        <p className="form-hint-small">
+          DUO 3.0 の音声はリポジトリには含めません。お手元の正規データの範囲内で、
+          自分の端末にだけ取り込んで使ってください。
+        </p>
+
+        <div className="btn-row" style={{ marginTop: 8 }}>
+          <button
+            type="button"
+            className="btn btn--ghost"
+            onClick={handleDuoAudioPickFile}
+            disabled={duoAudioBusy}
+          >
+            🎵 音声ファイルを選ぶ
+          </button>
+          <button
+            type="button"
+            className="btn"
+            onClick={handleDuoAudioImport}
+            disabled={
+              duoAudioBusy ||
+              duoAudioFiles.length === 0 ||
+              !duoAudioPreview ||
+              duoAudioPreview.validCount === 0
+            }
+          >
+            {duoAudioBusy ? "Import 中…" : "📥 Import"}
+          </button>
+          <input
+            ref={audioInputRef}
+            type="file"
+            accept="audio/*,.mp3"
+            multiple
+            onChange={handleDuoAudioFileChange}
+            hidden
+          />
+        </div>
+
+        {duoAudioError && (
+          <p
+            className="data-notice data-notice--err"
+            style={{ marginTop: 12 }}
+          >
+            ⚠ {duoAudioError}
+          </p>
+        )}
+
+        {duoAudioPreview && (
+          <div
+            className="data-notice data-notice--ok"
+            style={{ marginTop: 12 }}
+          >
+            <strong>選択 {duoAudioPreview.totalSelected} 件</strong> ／
+            有効 {duoAudioPreview.validCount} 件 (うち上書き予定{" "}
+            {duoAudioPreview.overwriteCount} 件) ／
+            未対応フレーズ {duoAudioPreview.unmatchedCount} 件 ／
+            形式エラー {duoAudioPreview.invalidCount} 件
+            {duoAudioPreview.items.length > 0 && (
+              <>
+                <p
+                  className="form-hint-small"
+                  style={{ marginTop: 8, marginBottom: 4 }}
+                >
+                  最初の {Math.min(duoAudioPreview.items.length, 5)} 件:
+                </p>
+                <ul className="duo-preview-list">
+                  {duoAudioPreview.items.slice(0, 5).map((it, i) => (
+                    <li key={`${it.fileName}-${i}`}>
+                      <code>{it.fileName}</code> — {it.message}
+                    </li>
+                  ))}
+                </ul>
+                {duoAudioPreview.items.length > 5 && (
+                  <p
+                    className="form-hint-small"
+                    style={{ marginTop: 4 }}
+                  >
+                    …ほか {duoAudioPreview.items.length - 5} 件
+                  </p>
+                )}
+              </>
+            )}
+          </div>
+        )}
+
+        {duoAudioResult && (
+          <p
+            className="data-notice data-notice--ok"
+            style={{ marginTop: 12 }}
+          >
+            ✓ 保存 {duoAudioResult.saved} 件 (スキップ{" "}
+            {duoAudioResult.skipped} 件 ／ 失敗 {duoAudioResult.failed} 件)
+            {duoAudioResult.hasSyncCode && duoAudioResult.enqueuedForSync > 0 ? (
+              <>
+                <br />
+                ☁️ {duoAudioResult.enqueuedForSync} 件を自動同期キューに追加しました
+              </>
+            ) : null}
+          </p>
+        )}
+
+        {duoAudioResult && duoAudioResult.failures.length > 0 && (
+          <p
+            className="data-notice data-notice--err"
+            style={{ marginTop: 8 }}
+          >
+            ⚠ 失敗ファイル:
+            <br />
+            {duoAudioResult.failures
+              .slice(0, 5)
+              .map((f) => `${f.fileName} (${f.reason})`)
+              .join(" / ")}
           </p>
         )}
       </section>
