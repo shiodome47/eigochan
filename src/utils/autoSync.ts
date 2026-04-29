@@ -31,7 +31,6 @@ import type { SyncFailReason } from "./syncClient";
 const LAST_AUTO_PULL_KEY = "eigochan.sync.lastAutoPullAt";
 const LAST_SYNCED_KEY = "eigochan.sync.lastSyncedAt";
 
-const PULL_THROTTLE_MS = 60 * 60 * 1000; // 1 hour
 const FLUSH_DEBOUNCE_MS = 1000;
 
 let flushTimer: ReturnType<typeof setTimeout> | null = null;
@@ -264,7 +263,7 @@ export interface BootstrapResult {
   pullSkippedReason?:
     | "no_code"
     | "pending_writes"
-    | "throttle"
+    | "already_pulled"
     | "failed";
 }
 
@@ -272,8 +271,12 @@ export interface BootstrapResult {
  * 起動時に呼ぶ。
  *   1. queue を flush(失敗してもアプリは止めない)
  *   2. snapshotPush が未送信ならローカル上書きを避けるため pull を見送る
- *   3. 直近 1h 以内に pull していたら throttle スキップ
- *   4. それ以外は GET /api/sync/snapshot を呼んでローカルを更新
+ *   3. **auto-pull は「この端末で最初の 1 回だけ」**。
+ *      過去に一度でも auto-pull していれば (LAST_AUTO_PULL_KEY が立っていれば)
+ *      二度と自動上書きしない。
+ *      → ローカルが正しい状態のときに、サーバの古い snapshot で上書き
+ *        されてデータを失う事故を防ぐ。
+ *      → 端末をまたいだ反映は「サーバから取り込む(全件)」の手動操作で行う。
  *
  * 戻り値の result.pulled === true なら、呼び出し側は React state を再ロードする
  * (localStorage は既に書き換え済み)。
@@ -300,10 +303,12 @@ export async function bootstrapAutoSync(): Promise<BootstrapResult> {
 
   const last = getLastAutoPullAt();
   if (last) {
-    const ageMs = Date.now() - new Date(last).getTime();
-    if (ageMs < PULL_THROTTLE_MS) {
-      return { flushed: true, pulled: false, pullSkippedReason: "throttle" };
-    }
+    // 既に一度 auto-pull 済 → 以降は手動でのみ取り込む。
+    return {
+      flushed: true,
+      pulled: false,
+      pullSkippedReason: "already_pulled",
+    };
   }
 
   const result = await getSnapshot(code);
