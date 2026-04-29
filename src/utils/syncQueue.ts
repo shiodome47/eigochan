@@ -8,12 +8,23 @@
 
 const QUEUE_KEY = "eigochan.sync.queue.v1";
 
+/** 直近の同期失敗の概要。UI のデバッグ表示用。 */
+export interface SyncQueueLastError {
+  /** SyncFailReason ('network' | 'unauthorized' | 'bad_request' | 'server_error' | 'unknown') */
+  reason: string;
+  /** HTTP ステータス。fetch 自体が失敗した場合 (network) は undefined。 */
+  status?: number;
+  /** いつ失敗したか (ISO 8601 UTC)。 */
+  at: string;
+}
+
 export type SyncQueueItem =
   | {
       id: string;
       type: "snapshotPush";
       createdAt: string;
       attempts: number;
+      lastError?: SyncQueueLastError;
     }
   | {
       id: string;
@@ -22,6 +33,7 @@ export type SyncQueueItem =
       slot: "reference" | "practice";
       createdAt: string;
       attempts: number;
+      lastError?: SyncQueueLastError;
     }
   | {
       id: string;
@@ -30,7 +42,19 @@ export type SyncQueueItem =
       slot: "reference" | "practice";
       createdAt: string;
       attempts: number;
+      lastError?: SyncQueueLastError;
     };
+
+function isValidLastError(v: unknown): v is SyncQueueLastError {
+  if (!v || typeof v !== "object") return false;
+  const e = v as Record<string, unknown>;
+  if (typeof e.reason !== "string" || !e.reason) return false;
+  if (typeof e.at !== "string" || !e.at) return false;
+  if ("status" in e && e.status !== undefined && typeof e.status !== "number") {
+    return false;
+  }
+  return true;
+}
 
 function isValidItem(o: unknown): o is SyncQueueItem {
   if (!o || typeof o !== "object") return false;
@@ -38,6 +62,10 @@ function isValidItem(o: unknown): o is SyncQueueItem {
   if (typeof r.id !== "string" || !r.id) return false;
   if (typeof r.createdAt !== "string") return false;
   if (typeof r.attempts !== "number") return false;
+  // lastError は optional。値がある場合だけ型検査。
+  if ("lastError" in r && r.lastError !== undefined && !isValidLastError(r.lastError)) {
+    return false;
+  }
   if (r.type === "snapshotPush") return true;
   if (r.type === "audioUpload" || r.type === "audioDelete") {
     return (
@@ -114,5 +142,12 @@ export function incrementAttempts(id: string): void {
   const next = queue.map((q) =>
     q.id === id ? { ...q, attempts: q.attempts + 1 } : q,
   );
+  safeWrite(next);
+}
+
+/** 直近の失敗内容を queue に記録する。UI のデバッグ表示用。 */
+export function setLastError(id: string, lastError: SyncQueueLastError): void {
+  const queue = safeRead();
+  const next = queue.map((q) => (q.id === id ? { ...q, lastError } : q));
   safeWrite(next);
 }

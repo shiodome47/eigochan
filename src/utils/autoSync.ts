@@ -23,8 +23,10 @@ import {
   incrementAttempts,
   loadQueue,
   removeFromQueue,
+  setLastError,
   type SyncQueueItem,
 } from "./syncQueue";
+import type { SyncFailReason } from "./syncClient";
 
 const LAST_AUTO_PULL_KEY = "eigochan.sync.lastAutoPullAt";
 const LAST_SYNCED_KEY = "eigochan.sync.lastSyncedAt";
@@ -173,8 +175,12 @@ function scheduleFlush(): void {
   }, FLUSH_DEBOUNCE_MS);
 }
 
+type ProcessResult =
+  | { ok: true }
+  | { ok: false; reason: SyncFailReason; status?: number };
+
 /**
- * queue を上から順に処理。成功は remove、失敗は attempts++。
+ * queue を上から順に処理。成功は remove、失敗は attempts++ + lastError 記録。
  *   - 同時実行は flushing フラグで防ぐ
  *   - syncCode 無しなら早期 return
  *   - 個々の処理が throw しても全体は止めない
@@ -187,18 +193,23 @@ export async function runFlush(): Promise<void> {
   try {
     const queue = loadQueue();
     for (const item of queue) {
-      let success = false;
+      let result: ProcessResult;
       try {
-        success = await processItem(code, item);
+        result = await processItem(code, item);
       } catch {
-        success = false;
+        result = { ok: false, reason: "unknown" };
       }
-      if (success) {
+      if (result.ok) {
         removeFromQueue(item.id);
         setLastSyncedAt(nowIso());
         notifyListeners();
       } else {
         incrementAttempts(item.id);
+        setLastError(item.id, {
+          reason: result.reason,
+          status: result.status,
+          at: nowIso(),
+        });
         notifyListeners();
       }
     }
@@ -210,19 +221,20 @@ export async function runFlush(): Promise<void> {
 async function processItem(
   code: string,
   item: SyncQueueItem,
-): Promise<boolean> {
+): Promise<ProcessResult> {
   if (item.type === "snapshotPush") {
     const phrases = loadCustomPhrases();
     const progress = loadProgress();
     const result = await putSnapshot(code, { phrases, progress });
-    return result.ok;
+    if (result.ok) return { ok: true };
+    return { ok: false, reason: result.reason, status: result.status };
   }
   if (item.type === "audioUpload") {
-    if (isDraftPhraseId(item.phraseId)) return true; // 念のため
+    if (isDraftPhraseId(item.phraseId)) return { ok: true }; // 念のため
     const audio = await loadPhraseAudio(item.phraseId, item.slot);
     if (!audio) {
       // 既にローカル削除済 → upload は不要、成功扱いで queue から外す
-      return true;
+      return { ok: true };
     }
     const result = await putAudio(
       code,
@@ -231,14 +243,16 @@ async function processItem(
       audio.blob,
       audio.mimeType,
     );
-    return result.ok;
+    if (result.ok) return { ok: true };
+    return { ok: false, reason: result.reason, status: result.status };
   }
   if (item.type === "audioDelete") {
-    if (isDraftPhraseId(item.phraseId)) return true;
+    if (isDraftPhraseId(item.phraseId)) return { ok: true };
     const result = await deleteAudio(code, item.phraseId, item.slot);
-    return result.ok;
+    if (result.ok) return { ok: true };
+    return { ok: false, reason: result.reason, status: result.status };
   }
-  return false;
+  return { ok: false, reason: "unknown" };
 }
 
 // ---- bootstrap ------------------------------------------------------

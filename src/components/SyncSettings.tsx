@@ -36,7 +36,11 @@ import {
   runFlush,
   subscribeQueueChanged,
 } from "../utils/autoSync";
-import { loadQueue, type SyncQueueItem } from "../utils/syncQueue";
+import {
+  loadQueue,
+  removeFromQueue,
+  type SyncQueueItem,
+} from "../utils/syncQueue";
 
 type Notice =
   | { kind: "idle" }
@@ -50,6 +54,31 @@ function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
   return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function describeQueueItem(item: SyncQueueItem): string {
+  if (item.type === "snapshotPush") return "全件スナップショット送信";
+  if (item.type === "audioUpload")
+    return `音声アップロード ${item.phraseId} / ${item.slot}`;
+  return `音声削除 ${item.phraseId} / ${item.slot}`;
+}
+
+function describeQueueLastError(item: SyncQueueItem): string | null {
+  if (!item.lastError) return null;
+  const { reason, status } = item.lastError;
+  const statusPart = typeof status === "number" ? ` HTTP ${status}` : "";
+  switch (reason) {
+    case "network":
+      return `ネットワーク失敗${statusPart}`;
+    case "unauthorized":
+      return `認証エラー${statusPart} (同期コードを確認)`;
+    case "bad_request":
+      return `リクエスト不正${statusPart}`;
+    case "server_error":
+      return `サーバエラー${statusPart}`;
+    default:
+      return `失敗${statusPart} (${reason})`;
+  }
 }
 
 export function SyncSettings() {
@@ -228,6 +257,16 @@ export function SyncSettings() {
       kind: "info",
       message: "同期を解除しました。データはこのブラウザ内に残っています。",
     });
+  };
+
+  // ---- 詰まったキュー項目を 1 件だけ破棄 -------------------------------
+  const handleDiscardQueueItem = (id: string) => {
+    if (!window.confirm("この未送信アイテムを破棄しますか？(取り消せません)")) {
+      return;
+    }
+    removeFromQueue(id);
+    setQueue(loadQueue());
+    setNotice({ kind: "info", message: "未送信アイテムを破棄しました。" });
   };
 
   // ---- 自動同期の失敗分を今すぐ再送 ---------------------------------
@@ -668,6 +707,62 @@ export function SyncSettings() {
               </button>
             )}
           </div>
+
+          {/* キュー詳細: 1 件以上ある場合だけ表示。何が詰まっているか / 失敗理由 / 個別破棄 */}
+          {queue.length > 0 && (
+            <div
+              style={{
+                fontSize: 12,
+                background: "var(--surface-soft)",
+                borderRadius: 12,
+                padding: "8px 12px",
+                marginBottom: 10,
+                display: "flex",
+                flexDirection: "column",
+                gap: 6,
+              }}
+            >
+              {queue.map((item) => {
+                const errLabel = describeQueueLastError(item);
+                return (
+                  <div
+                    key={item.id}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <span style={{ flex: "1 1 auto", minWidth: 0 }}>
+                      <strong style={{ color: "var(--text)" }}>
+                        {describeQueueItem(item)}
+                      </strong>
+                      <span style={{ color: "var(--text-faint)" }}>
+                        {" "}
+                        — 失敗 {item.attempts} 回
+                        {errLabel ? ` / ${errLabel}` : ""}
+                      </span>
+                    </span>
+                    <button
+                      type="button"
+                      className="chip-btn"
+                      onClick={() => handleDiscardQueueItem(item.id)}
+                    >
+                      破棄
+                    </button>
+                  </div>
+                );
+              })}
+              <p
+                className="form-hint-small"
+                style={{ marginTop: 2, marginBottom: 0 }}
+              >
+                破棄すると未送信ぶんは送られず、ローカルだけに残ります。
+                次にローカルで何かを変更すれば、新しいスナップショットとして送信されます。
+              </p>
+            </div>
+          )}
 
           <p className="form-hint-small">
             この端末は同期に参加しています。コードを別の端末で入力すると同じデータが使えます。
