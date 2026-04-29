@@ -21,10 +21,12 @@ const VALID_CATEGORIES = [
   "custom",
 ] as const;
 const VALID_MOODS = ["casual", "polite", "warm", "neutral", "natural"] as const;
+const VALID_SOURCES = ["initial", "original", "duo3"] as const;
 
 type PhraseLevel = (typeof VALID_LEVELS)[number];
 type PhraseCategory = (typeof VALID_CATEGORIES)[number];
 type PhraseMood = (typeof VALID_MOODS)[number];
+type PhraseSource = (typeof VALID_SOURCES)[number];
 
 interface PhrasePayload {
   id: string;
@@ -34,6 +36,9 @@ interface PhrasePayload {
   level: PhraseLevel;
   category: PhraseCategory;
   mood: PhraseMood;
+  source?: PhraseSource;
+  sourceSection?: number;
+  sourceIndex?: number;
 }
 
 interface PracticeLogPayload {
@@ -78,6 +83,14 @@ function isPhraseCategory(v: unknown): v is PhraseCategory {
 function isPhraseMood(v: unknown): v is PhraseMood {
   return typeof v === "string" && (VALID_MOODS as readonly string[]).includes(v);
 }
+function isPhraseSource(v: unknown): v is PhraseSource {
+  return typeof v === "string" && (VALID_SOURCES as readonly string[]).includes(v);
+}
+function isPositiveInt(v: unknown): v is number {
+  return (
+    typeof v === "number" && Number.isFinite(v) && Number.isInteger(v) && v > 0
+  );
+}
 
 function validatePhrase(o: unknown): PhrasePayload | null {
   if (!o || typeof o !== "object") return null;
@@ -94,7 +107,7 @@ function validatePhrase(o: unknown): PhrasePayload | null {
   if (!isPhraseLevel(r.level)) return null;
   if (!isPhraseCategory(r.category)) return null;
   if (!isPhraseMood(r.mood)) return null;
-  return {
+  const out: PhrasePayload = {
     id: r.id,
     english: r.english.trim(),
     japanese: r.japanese.trim(),
@@ -103,6 +116,11 @@ function validatePhrase(o: unknown): PhrasePayload | null {
     category: r.category,
     mood: r.mood,
   };
+  // optional 出典メタ。未指定や不正値は単に省略する (旧クライアント互換)。
+  if (isPhraseSource(r.source)) out.source = r.source;
+  if (isPositiveInt(r.sourceSection)) out.sourceSection = r.sourceSection;
+  if (isPositiveInt(r.sourceIndex)) out.sourceIndex = r.sourceIndex;
+  return out;
 }
 
 function validatePracticeLog(o: unknown): PracticeLogPayload | null {
@@ -200,6 +218,9 @@ interface PhraseRow {
   level: string;
   category: string;
   mood: string;
+  source: string | null;
+  source_section: number | null;
+  source_index: number | null;
   updated_at: string;
 }
 
@@ -223,7 +244,8 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
   if (!user) return jsonError(401, "unauthorized");
 
   const phrasesResult = await env.DB.prepare(
-    `SELECT phrase_id, english, japanese, chunks, level, category, mood, updated_at
+    `SELECT phrase_id, english, japanese, chunks, level, category, mood,
+            source, source_section, source_index, updated_at
      FROM phrases
      WHERE user_id = ? AND deleted_at IS NULL
      ORDER BY phrase_id`,
@@ -247,7 +269,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
     if (!isPhraseLevel(row.level)) continue;
     if (!isPhraseCategory(row.category)) continue;
     if (!isPhraseMood(row.mood)) continue;
-    phrases.push({
+    const item: PhrasePayload = {
       id: row.phrase_id,
       english: row.english,
       japanese: row.japanese,
@@ -255,7 +277,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
       level: row.level,
       category: row.category,
       mood: row.mood,
-    });
+    };
+    if (isPhraseSource(row.source)) item.source = row.source;
+    if (isPositiveInt(row.source_section)) item.sourceSection = row.source_section;
+    if (isPositiveInt(row.source_index)) item.sourceIndex = row.source_index;
+    phrases.push(item);
     if (row.updated_at > maxUpdated) maxUpdated = row.updated_at;
   }
 
@@ -338,17 +364,22 @@ export const onRequestPut: PagesFunction<Env> = async ({ env, request }) => {
     await env.DB.prepare(
       `INSERT INTO phrases (
          user_id, phrase_id, english, japanese, chunks,
-         level, category, mood, updated_at, deleted_at
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
+         level, category, mood,
+         source, source_section, source_index,
+         updated_at, deleted_at
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
        ON CONFLICT(user_id, phrase_id) DO UPDATE SET
-         english    = excluded.english,
-         japanese   = excluded.japanese,
-         chunks     = excluded.chunks,
-         level      = excluded.level,
-         category   = excluded.category,
-         mood       = excluded.mood,
-         updated_at = excluded.updated_at,
-         deleted_at = NULL
+         english        = excluded.english,
+         japanese       = excluded.japanese,
+         chunks         = excluded.chunks,
+         level          = excluded.level,
+         category       = excluded.category,
+         mood           = excluded.mood,
+         source         = excluded.source,
+         source_section = excluded.source_section,
+         source_index   = excluded.source_index,
+         updated_at     = excluded.updated_at,
+         deleted_at     = NULL
        WHERE excluded.updated_at >= phrases.updated_at`,
     )
       .bind(
@@ -360,6 +391,9 @@ export const onRequestPut: PagesFunction<Env> = async ({ env, request }) => {
         p.level,
         p.category,
         p.mood,
+        p.source ?? null,
+        p.sourceSection ?? null,
+        p.sourceIndex ?? null,
         updatedAt,
       )
       .run();

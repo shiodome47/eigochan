@@ -11,6 +11,11 @@ export type PhraseCategory =
 
 export type PhraseMood = "casual" | "polite" | "warm" | "neutral" | "natural";
 
+// 出典: "initial"=同梱, "original"=ユーザー自作, "duo3"=DUO 3.0 取り込み。
+// 既存データで未設定 (undefined) の場合は "original" として解釈する。
+// DUO 3.0 等の市販教材本文・音声はリポジトリに含めない方針。
+export type PhraseSource = "initial" | "original" | "duo3";
+
 export interface Phrase {
   id: string;
   english: string;
@@ -19,6 +24,9 @@ export interface Phrase {
   level: PhraseLevel;
   category: PhraseCategory;
   mood: PhraseMood;
+  source?: PhraseSource;
+  sourceSection?: number;
+  sourceIndex?: number;
 }
 
 export interface PracticeLog {

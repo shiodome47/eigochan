@@ -6,6 +6,7 @@ import {
   chunksToText,
   CustomPhraseInput,
   deleteCustomPhrase,
+  effectiveSource,
   findCustomPhraseById,
   isCustomPhrase,
   parseChunkText,
@@ -25,11 +26,21 @@ import {
   enqueueSnapshotPush,
 } from "../utils/autoSync";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
-import type { Phrase, PhraseCategory, PhraseLevel, PhraseMood } from "../types";
+import type {
+  Phrase,
+  PhraseCategory,
+  PhraseLevel,
+  PhraseMood,
+  PhraseSource,
+} from "../types";
 
 interface PhraseEditPageProps {
   mode: "new" | "edit";
 }
+
+// 編集フォームに出す出典は original / duo3 の 2 種類のみ。
+// "initial" は同梱データ専用で、ユーザーが新規作成・編集する場面では選べない。
+type EditableSource = Extract<PhraseSource, "original" | "duo3">;
 
 interface FormState {
   english: string;
@@ -38,6 +49,9 @@ interface FormState {
   level: PhraseLevel;
   category: PhraseCategory;
   mood: PhraseMood;
+  source: EditableSource;
+  sourceSection: string; // 入力中は文字列、保存時に number へ
+  sourceIndex: string;
 }
 
 const CATEGORY_LABEL: Record<PhraseCategory, string> = {
@@ -64,6 +78,15 @@ const MOOD_LABEL: Record<PhraseMood, string> = {
   neutral: "ニュートラル",
 };
 
+const SOURCE_LABEL: Record<EditableSource, string> = {
+  original: "自作",
+  duo3: "DUO 3.0",
+};
+
+const EDITABLE_SOURCES: readonly EditableSource[] = ["original", "duo3"] as const;
+
+const DUO_SECTION_MAX = 45;
+
 const DEFAULT_FORM: FormState = {
   english: "",
   japanese: "",
@@ -71,9 +94,15 @@ const DEFAULT_FORM: FormState = {
   level: "beginner",
   category: "custom",
   mood: "natural",
+  source: "original",
+  sourceSection: "",
+  sourceIndex: "",
 };
 
 function fromPhrase(p: Phrase): FormState {
+  // initial 由来のものは編集対象外なので original として表示するだけ (実体は変えない)。
+  const src = effectiveSource(p);
+  const editable: EditableSource = src === "duo3" ? "duo3" : "original";
   return {
     english: p.english,
     japanese: p.japanese,
@@ -81,6 +110,11 @@ function fromPhrase(p: Phrase): FormState {
     level: p.level,
     category: p.category,
     mood: p.mood,
+    source: editable,
+    sourceSection:
+      typeof p.sourceSection === "number" ? String(p.sourceSection) : "",
+    sourceIndex:
+      typeof p.sourceIndex === "number" ? String(p.sourceIndex) : "",
   };
 }
 
@@ -147,14 +181,24 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
     handleChange("chunksText", chunksToText(chunks));
   };
 
-  const buildInput = (): CustomPhraseInput => ({
-    english: form.english,
-    japanese: form.japanese,
-    chunks: parseChunkText(form.chunksText),
-    level: form.level,
-    category: form.category,
-    mood: form.mood,
-  });
+  const buildInput = (): CustomPhraseInput => {
+    const base: CustomPhraseInput = {
+      english: form.english,
+      japanese: form.japanese,
+      chunks: parseChunkText(form.chunksText),
+      level: form.level,
+      category: form.category,
+      mood: form.mood,
+      source: form.source,
+    };
+    if (form.source === "duo3") {
+      const sec = Number(form.sourceSection);
+      const idx = Number(form.sourceIndex);
+      if (Number.isFinite(sec) && sec > 0) base.sourceSection = sec;
+      if (Number.isFinite(idx) && idx > 0) base.sourceIndex = idx;
+    }
+    return base;
+  };
 
   const handleSave = async () => {
     if (saving) return;
@@ -374,6 +418,68 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
               1行に1チャンク。あとから自由に編集できます。
             </span>
             {errors.chunks && <span className="form-error">{errors.chunks}</span>}
+          </div>
+
+          <div className="form-field-row">
+            <label className="form-field">
+              <span className="form-field__label">出典</span>
+              <select
+                className="form-input"
+                value={form.source}
+                onChange={(e) =>
+                  handleChange("source", e.target.value as EditableSource)
+                }
+              >
+                {EDITABLE_SOURCES.map((s) => (
+                  <option key={s} value={s}>
+                    {SOURCE_LABEL[s]}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {form.source === "duo3" && (
+              <>
+                <label className="form-field">
+                  <span className="form-field__label">Section</span>
+                  <select
+                    className="form-input"
+                    value={form.sourceSection}
+                    onChange={(e) =>
+                      handleChange("sourceSection", e.target.value)
+                    }
+                  >
+                    <option value="">—</option>
+                    {Array.from({ length: DUO_SECTION_MAX }, (_, i) => i + 1).map(
+                      (n) => (
+                        <option key={n} value={String(n)}>
+                          {n}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                  {errors.sourceSection && (
+                    <span className="form-error">{errors.sourceSection}</span>
+                  )}
+                </label>
+                <label className="form-field">
+                  <span className="form-field__label">通し番号</span>
+                  <input
+                    type="number"
+                    className="form-input"
+                    inputMode="numeric"
+                    min={1}
+                    value={form.sourceIndex}
+                    onChange={(e) =>
+                      handleChange("sourceIndex", e.target.value)
+                    }
+                    placeholder="例: 87"
+                  />
+                  {errors.sourceIndex && (
+                    <span className="form-error">{errors.sourceIndex}</span>
+                  )}
+                </label>
+              </>
+            )}
           </div>
 
           <div className="form-field-row">

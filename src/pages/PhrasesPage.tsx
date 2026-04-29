@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getAllPhrases, PHRASES } from "../data/phrases";
+import { getAllPhrases } from "../data/phrases";
 import { PhraseCard } from "../components/PhraseCard";
 import {
   deleteCustomPhrase,
+  effectiveSource,
   isCustomPhrase,
-  loadCustomPhrases,
 } from "../utils/customPhrases";
 import {
   listAllPhraseAudio,
@@ -21,11 +21,22 @@ interface PhrasesPageProps {
   progress: UserProgress;
 }
 
-type FilterId = PhraseCategory | "all" | "source-custom";
+// 出典軸: ぜんぶ / 初期 / 自作 / DUO 3.0
+type SourceFilter = "all" | "initial" | "original" | "duo3";
+// コンテキスト軸: カテゴリ (初期/自作/ぜんぶ 用)
+type CategoryFilter = PhraseCategory | "all";
+// コンテキスト軸: DUO Section (DUO 3.0 用)
+type SectionFilter = number | "all";
 
-const CATEGORIES: { id: FilterId; label: string }[] = [
+const SOURCE_FILTERS: { id: SourceFilter; label: string }[] = [
   { id: "all", label: "ぜんぶ" },
-  { id: "source-custom", label: "自作のみ" },
+  { id: "initial", label: "初期" },
+  { id: "original", label: "自作" },
+  { id: "duo3", label: "DUO 3.0" },
+];
+
+const CATEGORY_FILTERS: { id: CategoryFilter; label: string }[] = [
+  { id: "all", label: "ぜんぶ" },
   { id: "daily", label: "日常" },
   { id: "conversation", label: "会話" },
   { id: "feeling", label: "気持ち" },
@@ -34,10 +45,15 @@ const CATEGORIES: { id: FilterId; label: string }[] = [
   { id: "travel", label: "旅行" },
 ];
 
+// DUO 3.0 は Section 1〜45。
+const DUO_SECTION_MAX = 45;
+
 export function PhrasesPage({ progress }: PhrasesPageProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [filter, setFilter] = useState<FilterId>("all");
+  const [sourceFilter, setSourceFilter] = useState<SourceFilter>("all");
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all");
+  const [sectionFilter, setSectionFilter] = useState<SectionFilter>("all");
   const [version, setVersion] = useState(0);
 
   // 編集ページから戻ってきたら最新の自作フレーズを取り直す
@@ -46,7 +62,14 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
   }, [location.key]);
 
   const allPhrases = useMemo(() => getAllPhrases(), [version]);
-  const customCount = useMemo(() => loadCustomPhrases().length, [version]);
+  const sourceCounts = useMemo(() => {
+    const c = { initial: 0, original: 0, duo3: 0 };
+    for (const p of allPhrases) {
+      const s = effectiveSource(p);
+      c[s] += 1;
+    }
+    return c;
+  }, [allPhrases]);
 
   // 自作フレーズの音声メモ存在マップ。{ phraseId: Set<slot> }
   const [audioMap, setAudioMap] = useState<Map<string, Set<PhraseAudioSlot>>>(
@@ -74,12 +97,24 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
   }, [version]);
 
   const list = useMemo(() => {
-    if (filter === "all") return allPhrases;
-    if (filter === "source-custom") {
-      return allPhrases.filter((p) => isCustomPhrase(p.id));
-    }
-    return allPhrases.filter((p) => p.category === filter);
-  }, [filter, allPhrases]);
+    return allPhrases.filter((p) => {
+      // 1. 出典軸
+      if (sourceFilter !== "all" && effectiveSource(p) !== sourceFilter) {
+        return false;
+      }
+      // 2. コンテキスト軸 (出典で意味が変わる)
+      if (sourceFilter === "duo3") {
+        if (sectionFilter !== "all" && p.sourceSection !== sectionFilter) {
+          return false;
+        }
+      } else {
+        if (categoryFilter !== "all" && p.category !== categoryFilter) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [sourceFilter, categoryFilter, sectionFilter, allPhrases]);
 
   const completed = useMemo(
     () => new Set(progress.completedPhraseIds),
@@ -130,24 +165,67 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
           練習済み {completedCount} / {allPhrases.length}
           <span className="phrase-list-progress__sub">
             {" "}
-            (初期 {PHRASES.length} / 自作 {customCount})
+            (初期 {sourceCounts.initial} / 自作 {sourceCounts.original}
+            {sourceCounts.duo3 > 0 ? ` / DUO ${sourceCounts.duo3}` : ""})
           </span>
         </p>
 
-        <div className="filter-row" role="tablist" aria-label="カテゴリ">
-          {CATEGORIES.map((c) => (
+        {/* 1段目: 出典軸 */}
+        <div className="filter-row" role="tablist" aria-label="出典">
+          {SOURCE_FILTERS.map((c) => (
             <button
               type="button"
               key={c.id}
               role="tab"
-              aria-selected={filter === c.id}
-              className={`filter-chip${filter === c.id ? " is-active" : ""}`}
-              onClick={() => setFilter(c.id)}
+              aria-selected={sourceFilter === c.id}
+              className={`filter-chip${sourceFilter === c.id ? " is-active" : ""}`}
+              onClick={() => setSourceFilter(c.id)}
             >
               {c.label}
             </button>
           ))}
         </div>
+
+        {/* 2段目: コンテキスト軸 (出典で内容が変わる) */}
+        {sourceFilter === "duo3" ? (
+          <div className="filter-row" aria-label="DUO セクション">
+            <label className="form-field" style={{ flex: 1, marginBottom: 12 }}>
+              <span className="form-field__label">Section</span>
+              <select
+                className="form-input"
+                value={sectionFilter === "all" ? "all" : String(sectionFilter)}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setSectionFilter(v === "all" ? "all" : Number(v));
+                }}
+              >
+                <option value="all">ぜんぶ</option>
+                {Array.from({ length: DUO_SECTION_MAX }, (_, i) => i + 1).map(
+                  (n) => (
+                    <option key={n} value={n}>
+                      Section {n}
+                    </option>
+                  ),
+                )}
+              </select>
+            </label>
+          </div>
+        ) : (
+          <div className="filter-row" role="tablist" aria-label="カテゴリ">
+            {CATEGORY_FILTERS.map((c) => (
+              <button
+                type="button"
+                key={c.id}
+                role="tab"
+                aria-selected={categoryFilter === c.id}
+                className={`filter-chip${categoryFilter === c.id ? " is-active" : ""}`}
+                onClick={() => setCategoryFilter(c.id)}
+              >
+                {c.label}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="phrase-list">
           {list.map((p) => {
@@ -168,9 +246,11 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
         </div>
         {list.length === 0 && (
           <p className="empty">
-            {filter === "source-custom"
+            {sourceFilter === "original"
               ? "まだ自作フレーズはありません。「+ 追加」から作ってみよう。"
-              : "該当するフレーズがありません。"}
+              : sourceFilter === "duo3"
+                ? "DUO 3.0 のフレーズはまだ取り込まれていません。"
+                : "該当するフレーズがありません。"}
           </p>
         )}
       </section>

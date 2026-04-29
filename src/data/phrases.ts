@@ -1,7 +1,8 @@
 import type { Phrase } from "../types";
 import { isCustomPhrase, loadCustomPhrases } from "../utils/customPhrases";
 
-export const PHRASES: Phrase[] = [
+// 同梱フレーズの素データ。source は下で一括付与する。
+const RAW_INITIAL_PHRASES: Omit<Phrase, "source">[] = [
   {
     id: "phrase_001",
     english: "No worries. I got this.",
@@ -201,6 +202,11 @@ export const PHRASES: Phrase[] = [
     mood: "polite",
   },
 ];
+
+export const PHRASES: Phrase[] = RAW_INITIAL_PHRASES.map((p) => ({
+  ...p,
+  source: "initial",
+}));
 
 export function findPhraseById(id: string): Phrase | undefined {
   if (isCustomPhrase(id)) {

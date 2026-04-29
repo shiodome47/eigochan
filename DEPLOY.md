@@ -173,6 +173,7 @@ Phase 1 では「同期コードの発行と認可疎通」だけが動く。フ
 |---|---|
 | `wrangler.toml` | Pages 用 binding 定義(`DB`=D1, `R2`=R2)、`migrations_dir = "migrations"` |
 | `migrations/0001_init.sql` | `users` / `phrases` / `progress` / `phrase_audio` の初期スキーマ |
+| `migrations/0002_phrase_source.sql` | `phrases` に `source` / `source_section` / `source_index` を追加(NULL=従来=自作扱い)。市販教材本文・音声はリポジトリに同梱せず、ユーザー端末から取り込む。 |
 | `functions/_lib/env.ts` | `Env` 型(`DB: D1Database`, `R2: R2Bucket`) |
 | `functions/_lib/json.ts` | `json()` / `jsonError()` レスポンスヘルパ(`cache-control: no-store` 付き) |
 | `functions/_lib/auth.ts` | `generateSyncCode()` / `sha256Hex()` / `extractBearerToken()` / `authenticate()` |
