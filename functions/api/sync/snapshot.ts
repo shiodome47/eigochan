@@ -361,9 +361,13 @@ export const onRequestPut: PagesFunction<Env> = async ({ env, request }) => {
 
   // 1. UPSERT phrases。LWW: incoming.updated_at >= existing.updated_at なら勝つ。
   //    INSERT 時は deleted_at を NULL に戻す(復活)。
-  for (const p of phrases) {
-    await env.DB.prepare(
-      `INSERT INTO phrases (
+  //
+  //    DUO 3.0 取り込み等で数百件届くケースに備え、env.DB.batch() でまとめる。
+  //    逐次 run() だと Cloudflare Workers のサブリクエスト上限 (Free 50 / Paid 1000)
+  //    を超えて 500 になる。1 バッチ = 1 subrequest かつ 1 トランザクション。
+  //    1 バッチあたりは安全側で 100 件に分割。
+  if (phrases.length > 0) {
+    const upsertSql = `INSERT INTO phrases (
          user_id, phrase_id, english, japanese, chunks,
          level, category, mood,
          source, source_section, source_index,
@@ -381,49 +385,65 @@ export const onRequestPut: PagesFunction<Env> = async ({ env, request }) => {
          source_index   = excluded.source_index,
          updated_at     = excluded.updated_at,
          deleted_at     = NULL
-       WHERE excluded.updated_at >= phrases.updated_at`,
-    )
-      .bind(
-        user.user_id,
-        p.id,
-        p.english,
-        p.japanese,
-        JSON.stringify(p.chunks),
-        p.level,
-        p.category,
-        p.mood,
-        p.source ?? null,
-        p.sourceSection ?? null,
-        p.sourceIndex ?? null,
-        updatedAt,
-      )
-      .run();
+       WHERE excluded.updated_at >= phrases.updated_at`;
+    const BATCH_SIZE = 100;
+    for (let i = 0; i < phrases.length; i += BATCH_SIZE) {
+      const slice = phrases.slice(i, i + BATCH_SIZE);
+      const stmts = slice.map((p) =>
+        env.DB.prepare(upsertSql).bind(
+          user.user_id,
+          p.id,
+          p.english,
+          p.japanese,
+          JSON.stringify(p.chunks),
+          p.level,
+          p.category,
+          p.mood,
+          p.source ?? null,
+          p.sourceSection ?? null,
+          p.sourceIndex ?? null,
+          updatedAt,
+        ),
+      );
+      await env.DB.batch(stmts);
+    }
   }
 
   // 2. payload に含まれていない alive な phrase を tombstone(LWW)。
-  const incomingIds = phrases.map((p) => p.id);
-  if (incomingIds.length === 0) {
-    await env.DB.prepare(
-      `UPDATE phrases
+  //    巨大な NOT IN (?, ?, ...) は D1 の bind 上限に当たり得るため、
+  //    alive 一覧を取得 → JS 側で差分計算 → 個別 UPDATE を batch 化する。
+  const aliveRes = await env.DB.prepare(
+    `SELECT phrase_id FROM phrases
+     WHERE user_id = ? AND deleted_at IS NULL`,
+  )
+    .bind(user.user_id)
+    .all<{ phrase_id: string }>();
+  const incomingIdSet = new Set(phrases.map((p) => p.id));
+  const toTombstone = (aliveRes.results ?? [])
+    .map((r) => r.phrase_id)
+    .filter((id) => !incomingIdSet.has(id));
+
+  if (toTombstone.length > 0) {
+    const tombSql = `UPDATE phrases
        SET deleted_at = ?, updated_at = ?
        WHERE user_id = ?
+         AND phrase_id = ?
          AND deleted_at IS NULL
-         AND updated_at <= ?`,
-    )
-      .bind(updatedAt, updatedAt, user.user_id, updatedAt)
-      .run();
-  } else {
-    const placeholders = incomingIds.map(() => "?").join(",");
-    await env.DB.prepare(
-      `UPDATE phrases
-       SET deleted_at = ?, updated_at = ?
-       WHERE user_id = ?
-         AND deleted_at IS NULL
-         AND phrase_id NOT IN (${placeholders})
-         AND updated_at <= ?`,
-    )
-      .bind(updatedAt, updatedAt, user.user_id, ...incomingIds, updatedAt)
-      .run();
+         AND updated_at <= ?`;
+    const BATCH_SIZE = 100;
+    for (let i = 0; i < toTombstone.length; i += BATCH_SIZE) {
+      const slice = toTombstone.slice(i, i + BATCH_SIZE);
+      const stmts = slice.map((id) =>
+        env.DB.prepare(tombSql).bind(
+          updatedAt,
+          updatedAt,
+          user.user_id,
+          id,
+          updatedAt,
+        ),
+      );
+      await env.DB.batch(stmts);
+    }
   }
 
   // 3. UPSERT progress(1ユーザー1行)。LWW。
