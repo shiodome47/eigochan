@@ -97,7 +97,8 @@ function validatePhrase(o: unknown): PhrasePayload | null {
   const r = o as Record<string, unknown>;
   if (typeof r.id !== "string" || !r.id) return null;
   if (typeof r.english !== "string" || !r.english.trim()) return null;
-  if (typeof r.japanese !== "string" || !r.japanese.trim()) return null;
+  // japanese は空文字 ("") を許可する。DUO Import 等で訳を後追いするケースに対応。
+  if (typeof r.japanese !== "string") return null;
   if (!Array.isArray(r.chunks)) return null;
   const chunks = r.chunks
     .filter((c): c is string => typeof c === "string")

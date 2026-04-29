@@ -143,7 +143,9 @@ function sanitizeStored(arr: unknown): Phrase[] {
     const o = item as Record<string, unknown>;
     if (typeof o.id !== "string" || !o.id) continue;
     if (typeof o.english !== "string" || !o.english.trim()) continue;
-    if (typeof o.japanese !== "string" || !o.japanese.trim()) continue;
+    // japanese は空文字 ("") を許可する。DUO Import 等で訳を後追いするケースに対応。
+    // 型不一致 (string でない) のみドロップする。
+    if (typeof o.japanese !== "string") continue;
     const chunks = Array.isArray(o.chunks)
       ? o.chunks.filter((c): c is string => typeof c === "string" && c.trim().length > 0)
       : [];
