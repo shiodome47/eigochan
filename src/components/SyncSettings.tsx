@@ -34,6 +34,7 @@ import {
   clearAllSyncState,
   getLastSyncedAt,
   runFlush,
+  setLastKnownServerSnapshotAt,
   subscribeQueueChanged,
 } from "../utils/autoSync";
 import {
@@ -166,6 +167,7 @@ export function SyncSettings() {
     }
 
     saveSyncCode(newCode);
+    setLastKnownServerSnapshotAt(put.value.savedAt);
     setCode(newCode);
     setShowCode(true); // 初回はそのまま見せる(コピーしてもらう)
     setBusy(false);
@@ -231,6 +233,7 @@ export function SyncSettings() {
       saveProgress(snap.value.progress);
     }
     saveSyncCode(input);
+    setLastKnownServerSnapshotAt(snap.value.snapshotUpdatedAt);
     setCode(input);
     setBusy(false);
     setNotice({
@@ -516,6 +519,7 @@ export function SyncSettings() {
 
     setSnapshotBusy(false);
     if (result.ok) {
+      setLastKnownServerSnapshotAt(result.value.savedAt);
       setNotice({
         kind: "ok",
         message: `フレーズ ${phrases.length}件 と進捗をサーバに送りました。`,
@@ -565,6 +569,7 @@ export function SyncSettings() {
     if (result.value.progress) {
       saveProgress(result.value.progress);
     }
+    setLastKnownServerSnapshotAt(result.value.snapshotUpdatedAt);
     setSnapshotBusy(false);
     setNotice({
       kind: "ok",

@@ -30,6 +30,10 @@ import type { SyncFailReason } from "./syncClient";
 
 const LAST_AUTO_PULL_KEY = "eigochan.sync.lastAutoPullAt";
 const LAST_SYNCED_KEY = "eigochan.sync.lastSyncedAt";
+// サーバ側 snapshot の最後に「この端末が知っている」updatedAt(server-time ISO)。
+// 同期成功(push / pull / 参加)のたびに更新する。bootstrap で
+// server.snapshotUpdatedAt > stored の場合だけ自動 pull する判定基準として使う。
+const LAST_KNOWN_SERVER_SNAPSHOT_KEY = "eigochan.sync.lastKnownServerSnapshotAt";
 
 const FLUSH_DEBOUNCE_MS = 1000;
 
@@ -71,11 +75,24 @@ function setLastAutoPullAt(iso: string): void {
   }
 }
 
-function getLastAutoPullAt(): string | null {
+/**
+ * サーバ snapshot の baseline タイムスタンプ(server-time ISO)。
+ * 同期成功(push の savedAt / pull・参加時の snapshotUpdatedAt)で更新し、
+ * 次回の bootstrap で「server が本当に新しい場合だけ自動 pull する」判定に使う。
+ */
+export function getLastKnownServerSnapshotAt(): string | null {
   try {
-    return localStorage.getItem(LAST_AUTO_PULL_KEY);
+    return localStorage.getItem(LAST_KNOWN_SERVER_SNAPSHOT_KEY);
   } catch {
     return null;
+  }
+}
+
+export function setLastKnownServerSnapshotAt(iso: string): void {
+  try {
+    localStorage.setItem(LAST_KNOWN_SERVER_SNAPSHOT_KEY, iso);
+  } catch {
+    // 無視
   }
 }
 
@@ -225,7 +242,12 @@ async function processItem(
     const phrases = loadCustomPhrases();
     const progress = loadProgress();
     const result = await putSnapshot(code, { phrases, progress });
-    if (result.ok) return { ok: true };
+    if (result.ok) {
+      // 自端末が「サーバの最新が ここ までなのは知っている」状態に更新する。
+      // 次回の bootstrap で自分自身の push が auto-pull の引き金にならないように。
+      setLastKnownServerSnapshotAt(result.value.savedAt);
+      return { ok: true };
+    }
     return { ok: false, reason: result.reason, status: result.status };
   }
   if (item.type === "audioUpload") {
@@ -271,12 +293,15 @@ export interface BootstrapResult {
  * 起動時に呼ぶ。
  *   1. queue を flush(失敗してもアプリは止めない)
  *   2. snapshotPush が未送信ならローカル上書きを避けるため pull を見送る
- *   3. **auto-pull は「この端末で最初の 1 回だけ」**。
- *      過去に一度でも auto-pull していれば (LAST_AUTO_PULL_KEY が立っていれば)
- *      二度と自動上書きしない。
- *      → ローカルが正しい状態のときに、サーバの古い snapshot で上書き
- *        されてデータを失う事故を防ぐ。
- *      → 端末をまたいだ反映は「サーバから取り込む(全件)」の手動操作で行う。
+ *      → 端末をまたいだ局所変更がまだサーバに届いていない状態。
+ *        ここで pull すると未送信ぶんが消えるので絶対に pull しない。
+ *   3. サーバ側 snapshot の updatedAt が、自端末が最後に把握している
+ *      baseline (LAST_KNOWN_SERVER_SNAPSHOT_KEY) より新しい時だけ自動 pull する。
+ *      → 他端末で増えたフレーズ(例: PC で DUO 3.0 取り込み)を
+ *        スマホ起動時にそのまま反映できる。
+ *      → 何も新しくなっていなければ pull しない(無駄な転送・上書きを避ける)。
+ *      → 既存ユーザー(baseline 未設定)は queue が空なら pull する。
+ *        queue 空 = 未送信の局所変更は無い、と分かっているので安全。
  *
  * 戻り値の result.pulled === true なら、呼び出し側は React state を再ロードする
  * (localStorage は既に書き換え済み)。
@@ -301,19 +326,23 @@ export async function bootstrapAutoSync(): Promise<BootstrapResult> {
     };
   }
 
-  const last = getLastAutoPullAt();
-  if (last) {
-    // 既に一度 auto-pull 済 → 以降は手動でのみ取り込む。
+  const result = await getSnapshot(code);
+  if (!result.ok) {
+    return { flushed: true, pulled: false, pullSkippedReason: "failed" };
+  }
+
+  // baseline と比較して、サーバが本当に新しい時だけ pull する。
+  // baseline 未設定なら(初回 / 新仕様にアップグレードした既存ユーザー)、
+  // queue が空であることは上で確認済み = 未送信の変更は無い、の前提で
+  // サーバ側を取り込んで baseline を初期化する。
+  const stored = getLastKnownServerSnapshotAt();
+  const serverAt = result.value.snapshotUpdatedAt;
+  if (stored && serverAt <= stored) {
     return {
       flushed: true,
       pulled: false,
       pullSkippedReason: "already_pulled",
     };
-  }
-
-  const result = await getSnapshot(code);
-  if (!result.ok) {
-    return { flushed: true, pulled: false, pullSkippedReason: "failed" };
   }
 
   saveCustomPhrases(result.value.phrases);
@@ -323,6 +352,7 @@ export async function bootstrapAutoSync(): Promise<BootstrapResult> {
   const t = nowIso();
   setLastAutoPullAt(t);
   setLastSyncedAt(t);
+  setLastKnownServerSnapshotAt(serverAt);
   notifyListeners();
   return { flushed: true, pulled: true };
 }
@@ -339,6 +369,7 @@ export function clearAllSyncState(): void {
   try {
     localStorage.removeItem(LAST_AUTO_PULL_KEY);
     localStorage.removeItem(LAST_SYNCED_KEY);
+    localStorage.removeItem(LAST_KNOWN_SERVER_SNAPSHOT_KEY);
   } catch {
     // 無視
   }
