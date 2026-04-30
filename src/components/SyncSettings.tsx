@@ -290,8 +290,9 @@ export function SyncSettings() {
     }
   };
 
-  // ---- 音声メモを R2 へアップロード(手動) ---------------------------
-  // ローカル IndexedDB の全件をサーバへ送る。失敗してもローカルは消さない。
+  // ---- 音声メモを R2 へアップロード(手動・差分のみ) -----------------
+  // 1) サーバ側のメタ一覧 (phraseId, slot, size) を取って 2) ローカルと突き合わせ、
+  // サイズが一致する分はスキップ。新規 / 録り直しのみ送る。失敗してもローカルは消さない。
   const handleUploadAudio = async () => {
     if (!code || audioBusy) return;
     setAudioBusy(true);
@@ -311,15 +312,48 @@ export function SyncSettings() {
 
     // /phrases/new で使う一時 ID(draft_*)に紐づく音声は、保存前の下書きなので
     // R2 へ送らない。通常はキャンセル/離脱で消えるが、orphan が残った場合の防御。
-    const uploadable = local.filter(
+    const candidates = local.filter(
       (item) => !item.phraseId.startsWith("draft_"),
     );
 
-    if (uploadable.length === 0) {
+    if (candidates.length === 0) {
       setAudioBusy(false);
       setNotice({
         kind: "info",
         message: "アップロードする音声メモはありません。",
+      });
+      return;
+    }
+
+    setNotice({
+      kind: "info",
+      message: "サーバ側の音声メモを確認しています…",
+    });
+    const remote = await listRemoteAudio(code);
+    if (!remote.ok) {
+      setAudioBusy(false);
+      setNotice({ kind: "err", message: describeFailReason(remote.reason) });
+      return;
+    }
+
+    // (phraseId, slot) → size の Map にしてからサイズ一致で skip。
+    // 録音や DUO 3.0 のファイルはバイト単位でサイズがブレやすく、
+    // 同一ファイルかの判定としてサイズ一致は実用上十分な強度がある。
+    const remoteSizeByKey = new Map<string, number>();
+    for (const m of remote.value) {
+      remoteSizeByKey.set(`${m.phraseId}:${m.slot}`, m.size);
+    }
+    const uploadable = candidates.filter((item) => {
+      const remoteSize = remoteSizeByKey.get(`${item.phraseId}:${item.slot}`);
+      return remoteSize === undefined || remoteSize !== item.size;
+    });
+    const skipped = candidates.length - uploadable.length;
+
+    if (uploadable.length === 0) {
+      setAudioBusy(false);
+      setNotice({
+        kind: "ok",
+        message: `音声メモはすべて最新です(${skipped}件)。`,
       });
       return;
     }
@@ -349,21 +383,24 @@ export function SyncSettings() {
 
     setAudioBusy(false);
     setAudioProgress(null);
+    const skippedSuffix = skipped > 0 ? ` / ${skipped}件は変更なしのためスキップ` : "";
     if (failed === 0) {
       setNotice({
         kind: "ok",
-        message: `${done}件の音声メモをアップロードしました。`,
+        message: `${done}件の音声メモをアップロードしました${skippedSuffix}。`,
       });
     } else {
       setNotice({
         kind: "err",
-        message: `${done}件アップロード成功 / ${failed}件失敗。\nもう一度試すと続きから送れます。`,
+        message: `${done}件アップロード成功 / ${failed}件失敗${skippedSuffix}。\nもう一度試すと続きから送れます。`,
       });
     }
   };
 
-  // ---- 音声メモを R2 から取り込み(手動) -----------------------------
-  // サーバ側のリストを取り、IndexedDB に書き戻す。既存ローカル音声は削除しない。
+  // ---- 音声メモを R2 から取り込み(手動・差分のみ) ---------------------
+  // 1) サーバ側のメタ一覧と 2) ローカル IndexedDB を突き合わせ、
+  // サイズが一致する分はスキップ。新規 / サーバで更新された分のみ取得して書き戻す。
+  // 既存ローカル音声は削除しない(取り込み中はサーバ正本扱い)。
   const handleDownloadAudio = async () => {
     if (!code || audioBusy) return;
     setAudioBusy(true);
@@ -384,10 +421,35 @@ export function SyncSettings() {
       return;
     }
 
+    let local: Awaited<ReturnType<typeof listAllPhraseAudio>>;
+    try {
+      local = await listAllPhraseAudio();
+    } catch {
+      local = [];
+    }
+    const localSizeByKey = new Map<string, number>();
+    for (const a of local) {
+      localSizeByKey.set(`${a.phraseId}:${a.slot}`, a.size);
+    }
+    const downloadable = list.value.filter((meta) => {
+      const localSize = localSizeByKey.get(`${meta.phraseId}:${meta.slot}`);
+      return localSize === undefined || localSize !== meta.size;
+    });
+    const skipped = list.value.length - downloadable.length;
+
+    if (downloadable.length === 0) {
+      setAudioBusy(false);
+      setNotice({
+        kind: "ok",
+        message: `音声メモはすべて取り込み済みです(${skipped}件)。`,
+      });
+      return;
+    }
+
     let done = 0;
     let failed = 0;
-    setAudioProgress({ label: "取り込み", done: 0, total: list.value.length });
-    for (const meta of list.value) {
+    setAudioProgress({ label: "取り込み", done: 0, total: downloadable.length });
+    for (const meta of downloadable) {
       const res = await getAudio(code, meta.phraseId, meta.slot);
       if (!res.ok) {
         failed += 1;
@@ -407,21 +469,22 @@ export function SyncSettings() {
       setAudioProgress({
         label: "取り込み",
         done: done + failed,
-        total: list.value.length,
+        total: downloadable.length,
       });
     }
 
     setAudioBusy(false);
     setAudioProgress(null);
+    const skippedSuffix = skipped > 0 ? ` / ${skipped}件は取り込み済みのためスキップ` : "";
     if (failed === 0) {
       setNotice({
         kind: "ok",
-        message: `${done}件の音声メモを取り込みました。`,
+        message: `${done}件の音声メモを取り込みました${skippedSuffix}。`,
       });
     } else {
       setNotice({
         kind: "err",
-        message: `${done}件取り込み成功 / ${failed}件失敗。\nもう一度試すと続きから取り込めます。`,
+        message: `${done}件取り込み成功 / ${failed}件失敗${skippedSuffix}。\nもう一度試すと続きから取り込めます。`,
       });
     }
   };
@@ -855,6 +918,7 @@ export function SyncSettings() {
             </h3>
             <p className="form-hint-small">
               録音した音声メモは、ボタンを押したタイミングでだけサーバとやり取りします。
+              すでにサーバ側にある分はスキップされ、新しく増えた分や録り直した分だけが送受信されます。
               うまくいかなかった分は、もう一度押すと続きから送られます。
             </p>
             <div className="btn-row">
