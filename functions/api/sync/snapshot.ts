@@ -41,6 +41,9 @@ interface PhrasePayload {
   source?: PhraseSource;
   sourceSection?: number;
   sourceIndex?: number;
+  // ひとりごと英語の作成日時 (ISO 8601 UTC)。monologue 以外では通常入らないが、
+  // 入っていても無害なので optional として通す。
+  thoughtCreatedAt?: string;
 }
 
 interface PracticeLogPayload {
@@ -74,6 +77,12 @@ interface PutBody {
 
 function isIsoString(v: unknown): v is string {
   return typeof v === "string" && !Number.isNaN(Date.parse(v));
+}
+
+// thoughtCreatedAt は ISO 文字列を期待する。
+// 不正な値 (型違い・日付として解釈不能) は単に省略する (旧クライアント互換と同じ方針)。
+function isOptionalIsoString(v: unknown): v is string {
+  return typeof v === "string" && v.length > 0 && !Number.isNaN(Date.parse(v));
 }
 
 function isPhraseLevel(v: unknown): v is PhraseLevel {
@@ -129,8 +138,10 @@ function validatePhrase(o: unknown): PhrasePayload | null {
   if (isPhraseSource(r.source)) out.source = r.source;
   if (isPositiveInt(r.sourceSection)) out.sourceSection = r.sourceSection;
   if (isPositiveInt(r.sourceIndex)) out.sourceIndex = r.sourceIndex;
-  // thoughtCreatedAt は MVP では D1 に列を持たないため、サーバ側では握りつぶす
-  // (ローカル側でのみ保持される)。
+  // ひとりごと英語の作成日時。ISO として読めない値は単に省略する。
+  if (isOptionalIsoString(r.thoughtCreatedAt)) {
+    out.thoughtCreatedAt = r.thoughtCreatedAt;
+  }
   return out;
 }
 
@@ -232,6 +243,7 @@ interface PhraseRow {
   source: string | null;
   source_section: number | null;
   source_index: number | null;
+  thought_created_at: string | null;
   updated_at: string;
 }
 
@@ -256,7 +268,7 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
 
   const phrasesResult = await env.DB.prepare(
     `SELECT phrase_id, english, japanese, chunks, level, category, mood,
-            source, source_section, source_index, updated_at
+            source, source_section, source_index, thought_created_at, updated_at
      FROM phrases
      WHERE user_id = ? AND deleted_at IS NULL
      ORDER BY phrase_id`,
@@ -294,6 +306,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
     if (isPhraseSource(row.source)) item.source = row.source;
     if (isPositiveInt(row.source_section)) item.sourceSection = row.source_section;
     if (isPositiveInt(row.source_index)) item.sourceIndex = row.source_index;
+    if (isOptionalIsoString(row.thought_created_at)) {
+      item.thoughtCreatedAt = row.thought_created_at;
+    }
     phrases.push(item);
     if (row.updated_at > maxUpdated) maxUpdated = row.updated_at;
   }
@@ -383,20 +398,22 @@ export const onRequestPut: PagesFunction<Env> = async ({ env, request }) => {
          user_id, phrase_id, english, japanese, chunks,
          level, category, mood,
          source, source_section, source_index,
+         thought_created_at,
          updated_at, deleted_at
-       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
        ON CONFLICT(user_id, phrase_id) DO UPDATE SET
-         english        = excluded.english,
-         japanese       = excluded.japanese,
-         chunks         = excluded.chunks,
-         level          = excluded.level,
-         category       = excluded.category,
-         mood           = excluded.mood,
-         source         = excluded.source,
-         source_section = excluded.source_section,
-         source_index   = excluded.source_index,
-         updated_at     = excluded.updated_at,
-         deleted_at     = NULL
+         english            = excluded.english,
+         japanese           = excluded.japanese,
+         chunks             = excluded.chunks,
+         level              = excluded.level,
+         category           = excluded.category,
+         mood               = excluded.mood,
+         source             = excluded.source,
+         source_section     = excluded.source_section,
+         source_index       = excluded.source_index,
+         thought_created_at = excluded.thought_created_at,
+         updated_at         = excluded.updated_at,
+         deleted_at         = NULL
        WHERE excluded.updated_at >= phrases.updated_at`;
     const BATCH_SIZE = 100;
     for (let i = 0; i < phrases.length; i += BATCH_SIZE) {
@@ -414,6 +431,7 @@ export const onRequestPut: PagesFunction<Env> = async ({ env, request }) => {
           p.source ?? null,
           p.sourceSection ?? null,
           p.sourceIndex ?? null,
+          p.thoughtCreatedAt ?? null,
           updatedAt,
         ),
       );

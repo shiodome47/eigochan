@@ -174,6 +174,7 @@ Phase 1 では「同期コードの発行と認可疎通」だけが動く。フ
 | `wrangler.toml` | Pages 用 binding 定義(`DB`=D1, `R2`=R2)、`migrations_dir = "migrations"` |
 | `migrations/0001_init.sql` | `users` / `phrases` / `progress` / `phrase_audio` の初期スキーマ |
 | `migrations/0002_phrase_source.sql` | `phrases` に `source` / `source_section` / `source_index` を追加(NULL=従来=自作扱い)。市販教材本文・音声はリポジトリに同梱せず、ユーザー端末から取り込む。 |
+| `migrations/0003_phrase_thought_created_at.sql` | `phrases` に `thought_created_at TEXT` を追加。ひとりごと英語 (`source='monologue'`) の作成日時 (ISO 8601 UTC)。既存行は NULL。`monologue` 以外では通常使わない。PC/スマホ同期で値を維持するため。 |
 | `functions/_lib/env.ts` | `Env` 型(`DB: D1Database`, `R2: R2Bucket`) |
 | `functions/_lib/json.ts` | `json()` / `jsonError()` レスポンスヘルパ(`cache-control: no-store` 付き) |
 | `functions/_lib/auth.ts` | `generateSyncCode()` / `sha256Hex()` / `extractBearerToken()` / `authenticate()` |
