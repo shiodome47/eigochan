@@ -37,7 +37,15 @@ export const VALID_SOURCES: readonly PhraseSource[] = [
   "initial",
   "original",
   "duo3",
+  "monologue",
 ] as const;
+
+// monologue (ひとりごと英語) かどうか。
+// MVP では英語/チャンクが空でも保存できる必要があるため、
+// 検証緩和を限定する条件としてこの判定を使う。
+export function isMonologuePhrase(p: Pick<Phrase, "source">): boolean {
+  return p.source === "monologue";
+}
 
 // localStorage に保存される非同梱フレーズ全般を指す。
 // 旧 ID ("custom_...") に加えて DUO 取り込み ID ("duo3_...") も含む。
@@ -142,14 +150,20 @@ function sanitizeStored(arr: unknown): Phrase[] {
     if (!item || typeof item !== "object") continue;
     const o = item as Record<string, unknown>;
     if (typeof o.id !== "string" || !o.id) continue;
-    if (typeof o.english !== "string" || !o.english.trim()) continue;
+    if (typeof o.english !== "string") continue;
     // japanese は空文字 ("") を許可する。DUO Import 等で訳を後追いするケースに対応。
     // 型不一致 (string でない) のみドロップする。
     if (typeof o.japanese !== "string") continue;
+    const isMonologue = o.source === "monologue";
+    // monologue (ひとりごと英語) は英語が後追いなので空 english を許可する。
+    // それ以外の出典では従来どおり english 必須 (空はドロップ)。
+    if (!isMonologue && !o.english.trim()) continue;
     const chunks = Array.isArray(o.chunks)
       ? o.chunks.filter((c): c is string => typeof c === "string" && c.trim().length > 0)
       : [];
-    if (chunks.length === 0) continue;
+    // monologue は英語未入力時に chunks も空のまま保存される。
+    // それ以外はチャンクが必須 (空ならドロップ)。
+    if (!isMonologue && chunks.length === 0) continue;
     const phrase: Phrase = {
       id: o.id,
       english: o.english,
@@ -163,6 +177,9 @@ function sanitizeStored(arr: unknown): Phrase[] {
     if (isValidSource(o.source)) phrase.source = o.source;
     if (isPositiveInt(o.sourceSection)) phrase.sourceSection = o.sourceSection;
     if (isPositiveInt(o.sourceIndex)) phrase.sourceIndex = o.sourceIndex;
+    if (typeof o.thoughtCreatedAt === "string" && o.thoughtCreatedAt) {
+      phrase.thoughtCreatedAt = o.thoughtCreatedAt;
+    }
     out.push(phrase);
   }
   return out;
@@ -193,6 +210,7 @@ export interface CustomPhraseInput {
   source?: PhraseSource;
   sourceSection?: number;
   sourceIndex?: number;
+  thoughtCreatedAt?: string;
 }
 
 export interface ValidationResult {
@@ -202,15 +220,23 @@ export interface ValidationResult {
 
 export function validateInput(input: Partial<CustomPhraseInput>): ValidationResult {
   const errors: ValidationResult["errors"] = {};
-  if (!input.english || !input.english.trim()) {
-    errors.english = "英文を入れてね";
-  }
-  if (!input.japanese || !input.japanese.trim()) {
-    errors.japanese = "日本語訳を入れてね";
-  }
-  const chunks = (input.chunks ?? []).filter((c) => c.trim().length > 0);
-  if (chunks.length === 0) {
-    errors.chunks = "チャンクを1つ以上入れてね";
+  const isMonologue = input.source === "monologue";
+  if (isMonologue) {
+    // ひとりごと英語: 日本語が主役で必須。英語/チャンクは後追いなので空 OK。
+    if (!input.japanese || !input.japanese.trim()) {
+      errors.japanese = "日本語を入れてね";
+    }
+  } else {
+    if (!input.english || !input.english.trim()) {
+      errors.english = "英文を入れてね";
+    }
+    if (!input.japanese || !input.japanese.trim()) {
+      errors.japanese = "日本語訳を入れてね";
+    }
+    const chunks = (input.chunks ?? []).filter((c) => c.trim().length > 0);
+    if (chunks.length === 0) {
+      errors.chunks = "チャンクを1つ以上入れてね";
+    }
   }
   // DUO 出典は section/index がそろっていないと整理できないので両方必須。
   if (input.source === "duo3") {
@@ -236,6 +262,9 @@ function normalize(input: CustomPhraseInput): Omit<Phrase, "id"> {
   if (input.source) out.source = input.source;
   if (isPositiveInt(input.sourceSection)) out.sourceSection = input.sourceSection;
   if (isPositiveInt(input.sourceIndex)) out.sourceIndex = input.sourceIndex;
+  if (typeof input.thoughtCreatedAt === "string" && input.thoughtCreatedAt) {
+    out.thoughtCreatedAt = input.thoughtCreatedAt;
+  }
   return out;
 }
 
@@ -259,7 +288,12 @@ export function addCustomPhrase(input: CustomPhraseInput): Phrase | null {
         input.sourceIndex as number,
       )
     : generateCustomPhraseId();
-  const phrase: Phrase = { id, ...normalize(input) };
+  // monologue は作成時刻を自動付与 (呼び出し側で明示してきた場合はそちらを尊重)。
+  const stamped: CustomPhraseInput =
+    input.source === "monologue" && !input.thoughtCreatedAt
+      ? { ...input, thoughtCreatedAt: new Date().toISOString() }
+      : input;
+  const phrase: Phrase = { id, ...normalize(stamped) };
   const idx = phrases.findIndex((p) => p.id === id);
   if (idx >= 0) phrases[idx] = phrase;
   else phrases.push(phrase);
@@ -276,7 +310,14 @@ export function updateCustomPhrase(id: string, input: CustomPhraseInput): Phrase
   const phrases = loadCustomPhrases();
   const idx = phrases.findIndex((p) => p.id === id);
   if (idx === -1) return null;
-  const updated: Phrase = { id, ...normalize(input) };
+  // 既存 monologue の thoughtCreatedAt は失わないように引き継ぐ
+  // (UI が明示的に上書きしてきたら尊重する)。
+  const prev = phrases[idx];
+  const carry: CustomPhraseInput =
+    !input.thoughtCreatedAt && prev.thoughtCreatedAt
+      ? { ...input, thoughtCreatedAt: prev.thoughtCreatedAt }
+      : input;
+  const updated: Phrase = { id, ...normalize(carry) };
   phrases[idx] = updated;
   if (!saveCustomPhrases(phrases)) return null;
   return updated;

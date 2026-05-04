@@ -38,9 +38,11 @@ interface PhraseEditPageProps {
   mode: "new" | "edit";
 }
 
-// 編集フォームに出す出典は original / duo3 の 2 種類のみ。
+// 編集フォームに乗せる出典は original / duo3 / monologue の 3 種類。
 // "initial" は同梱データ専用で、ユーザーが新規作成・編集する場面では選べない。
-type EditableSource = Extract<PhraseSource, "original" | "duo3">;
+// monologue は通常フォームの出典セレクタには出さない (専用導線
+// /phrases/new?source=monologue 経由でだけ入る)。
+type EditableSource = Extract<PhraseSource, "original" | "duo3" | "monologue">;
 
 interface FormState {
   english: string;
@@ -81,9 +83,14 @@ const MOOD_LABEL: Record<PhraseMood, string> = {
 const SOURCE_LABEL: Record<EditableSource, string> = {
   original: "自作",
   duo3: "DUO 3.0",
+  monologue: "ひとりごと",
 };
 
-const EDITABLE_SOURCES: readonly EditableSource[] = ["original", "duo3"] as const;
+// 通常フォームの出典セレクタに出す候補。monologue は専用導線からだけ入るため除外。
+const SELECTABLE_SOURCES: readonly Extract<EditableSource, "original" | "duo3">[] = [
+  "original",
+  "duo3",
+] as const;
 
 const DUO_SECTION_MAX = 45;
 
@@ -102,7 +109,8 @@ const DEFAULT_FORM: FormState = {
 function fromPhrase(p: Phrase): FormState {
   // initial 由来のものは編集対象外なので original として表示するだけ (実体は変えない)。
   const src = effectiveSource(p);
-  const editable: EditableSource = src === "duo3" ? "duo3" : "original";
+  const editable: EditableSource =
+    src === "duo3" ? "duo3" : src === "monologue" ? "monologue" : "original";
   return {
     english: p.english,
     japanese: p.japanese,
@@ -117,6 +125,20 @@ function fromPhrase(p: Phrase): FormState {
       typeof p.sourceIndex === "number" ? String(p.sourceIndex) : "",
   };
 }
+
+// /phrases/new?source=monologue で開かれたときの初期フォーム。
+// 日本語が主役、英語は後追い。カテゴリは「ノート(その他)」相当の custom 固定。
+const MONOLOGUE_DEFAULT_FORM: FormState = {
+  english: "",
+  japanese: "",
+  chunksText: "",
+  level: "beginner",
+  category: "custom",
+  mood: "natural",
+  source: "monologue",
+  sourceSection: "",
+  sourceIndex: "",
+};
 
 export function PhraseEditPage({ mode }: PhraseEditPageProps) {
   const navigate = useNavigate();
@@ -139,9 +161,21 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
     return `draft_custom_${ts}_${rand}`;
   });
 
-  const [form, setForm] = useState<FormState>(() =>
-    target ? fromPhrase(target) : DEFAULT_FORM,
-  );
+  // /phrases/new?source=monologue で開かれた場合、初期フォームを「ひとりごと」用に切替。
+  // 編集モードでは target.source が事実なので query は無視する。
+  const initialIsMonologueRoute =
+    mode === "new" &&
+    new URLSearchParams(location.search).get("source") === "monologue";
+
+  const [form, setForm] = useState<FormState>(() => {
+    if (target) return fromPhrase(target);
+    return initialIsMonologueRoute ? MONOLOGUE_DEFAULT_FORM : DEFAULT_FORM;
+  });
+  // 画面全体を「ひとりごと英語」モードで描画するかどうか。
+  // - new + ?source=monologue → true
+  // - edit + 既存の monologue フレーズ → true
+  // 切替後はフォーム上で source を変えられないので、form.source を素直に見れば良い。
+  const isMonologue = form.source === "monologue";
   const [errors, setErrors] = useState<Partial<Record<keyof CustomPhraseInput, string>>>(
     {},
   );
@@ -196,6 +230,11 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
       const idx = Number(form.sourceIndex);
       if (Number.isFinite(sec) && sec > 0) base.sourceSection = sec;
       if (Number.isFinite(idx) && idx > 0) base.sourceIndex = idx;
+    }
+    // 既存 monologue を編集する場合、作成日時を失わないように引き継ぐ。
+    // (新規 monologue は addCustomPhrase 内で自動付与される。)
+    if (form.source === "monologue" && target?.thoughtCreatedAt) {
+      base.thoughtCreatedAt = target.thoughtCreatedAt;
     }
     return base;
   };
@@ -332,8 +371,9 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
       </button>
 
       {/* /phrases/new では「お手本音声を先に録る」ことを推奨し、
-          フォームよりも上にこのカードを置く。draftId に紐づけて IndexedDB に保存される。 */}
-      {mode === "new" && (
+          フォームよりも上にこのカードを置く。draftId に紐づけて IndexedDB に保存される。
+          ただし「ひとりごと英語」モードでは英語が後追いなので、お手本音声録音は出さない。 */}
+      {mode === "new" && !isMonologue && (
         <section className="card audio-section">
           <h3 className="audio-section__title">お手本音声を先に録ろう(任意)</h3>
           <p className="audio-section__lead">
@@ -356,70 +396,160 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
       )}
 
       <section className="card">
-        <h2 className="card__title">{mode === "new" ? "フレーズを追加" : "フレーズを編集"}</h2>
+        <h2 className="card__title">
+          {isMonologue
+            ? mode === "new"
+              ? "ひとりごと英語"
+              : "ひとりごとを編集"
+            : mode === "new"
+              ? "フレーズを追加"
+              : "フレーズを編集"}
+        </h2>
         <p className="card__heading">
-          {mode === "new" ? "覚えたいフレーズを追加しよう" : "言いまわしを微調整しよう"}
+          {isMonologue
+            ? "頭に浮かんだ日本語を、まずそのまま保存しましょう。英語はあとで入力できます。"
+            : mode === "new"
+              ? "覚えたいフレーズを追加しよう"
+              : "言いまわしを微調整しよう"}
         </p>
         <p className="form-hint">
-          自分だけの英語ノートを育てよう。追加したフレーズも、音読・録音・暗唱できます。
-          データはこのブラウザに保存されます。大切なフレーズはExportしてバックアップできます。
+          {isMonologue
+            ? "AIによる自動翻訳・自動添削はしません。ChatGPT や Claude、辞書などを参考にしながら、自分が言いたい英語に整えてください。データはこのブラウザに保存されます。"
+            : "自分だけの英語ノートを育てよう。追加したフレーズも、音読・録音・暗唱できます。データはこのブラウザに保存されます。大切なフレーズはExportしてバックアップできます。"}
         </p>
 
         <div className="form-grid">
-          <label className="form-field">
-            <span className="form-field__label">英文 *</span>
-            <textarea
-              className="form-input"
-              rows={2}
-              value={form.english}
-              onChange={(e) => handleChange("english", e.target.value)}
-              placeholder="例: I'm getting better at this."
-              autoCapitalize="sentences"
-              autoComplete="off"
-              spellCheck="true"
-            />
-            {errors.english && <span className="form-error">{errors.english}</span>}
-          </label>
+          {isMonologue ? (
+            <>
+              {/* 1) 日本語: ひとりごとモードでは主役。英語より先に大きく出す。 */}
+              <label className="form-field">
+                <span className="form-field__label">日本語メモ *</span>
+                <textarea
+                  className="form-input"
+                  rows={4}
+                  value={form.japanese}
+                  onChange={(e) => handleChange("japanese", e.target.value)}
+                  placeholder="例: これ、あとでちゃんと整理した方がよさそう。"
+                  autoComplete="off"
+                  autoFocus={mode === "new"}
+                />
+                {errors.japanese && (
+                  <span className="form-error">{errors.japanese}</span>
+                )}
+              </label>
 
-          <label className="form-field">
-            <span className="form-field__label">日本語訳 *</span>
-            <textarea
-              className="form-input"
-              rows={2}
-              value={form.japanese}
-              onChange={(e) => handleChange("japanese", e.target.value)}
-              placeholder="例: だんだん上手くなってきた。"
-              autoComplete="off"
-            />
-            {errors.japanese && <span className="form-error">{errors.japanese}</span>}
-          </label>
+              {/* 2) 英語: あとで入力できる。空のまま保存OK。 */}
+              <label className="form-field">
+                <span className="form-field__label">
+                  英語にしてみる(あとでもOK)
+                </span>
+                <textarea
+                  className="form-input"
+                  rows={2}
+                  value={form.english}
+                  onChange={(e) => handleChange("english", e.target.value)}
+                  placeholder="例: I should probably organize this properly later."
+                  autoCapitalize="sentences"
+                  autoComplete="off"
+                  spellCheck="true"
+                />
+                <span className="form-hint-small">
+                  ChatGPT や Claude などを参考にして、自分が実際に言いたい英語に整えてください。
+                  英語が入ると、音読・暗唱・録音・Voice Energy の練習に進めます。
+                </span>
+                {errors.english && (
+                  <span className="form-error">{errors.english}</span>
+                )}
+              </label>
 
-          <div className="form-field">
-            <div className="form-field__row">
-              <span className="form-field__label">チャンク *</span>
-              <button
-                type="button"
-                className="chip-btn"
-                onClick={handleAutoSplit}
-                disabled={!form.english.trim()}
-              >
-                🪄 英文から自動分割
-              </button>
-            </div>
-            <textarea
-              className="form-input"
-              rows={4}
-              value={form.chunksText}
-              onChange={(e) => handleChange("chunksText", e.target.value)}
-              placeholder={"1行に1チャンク。例:\nI'm getting\nbetter at this."}
-              autoComplete="off"
-            />
-            <span className="form-hint-small">
-              1行に1チャンク。あとから自由に編集できます。
-            </span>
-            {errors.chunks && <span className="form-error">{errors.chunks}</span>}
-          </div>
+              {/* 3) チャンク: 英語が入ってから初めて意味がある。空でも保存OK。 */}
+              {form.english.trim().length > 0 && (
+                <div className="form-field">
+                  <div className="form-field__row">
+                    <span className="form-field__label">チャンク</span>
+                    <button
+                      type="button"
+                      className="chip-btn"
+                      onClick={handleAutoSplit}
+                      disabled={!form.english.trim()}
+                    >
+                      🪄 英文から自動分割
+                    </button>
+                  </div>
+                  <textarea
+                    className="form-input"
+                    rows={3}
+                    value={form.chunksText}
+                    onChange={(e) => handleChange("chunksText", e.target.value)}
+                    placeholder={"1行に1チャンク。空のままでもOK。"}
+                    autoComplete="off"
+                  />
+                  <span className="form-hint-small">
+                    自動分割を使うと、英文を音のかたまりに区切れます。
+                  </span>
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              <label className="form-field">
+                <span className="form-field__label">英文 *</span>
+                <textarea
+                  className="form-input"
+                  rows={2}
+                  value={form.english}
+                  onChange={(e) => handleChange("english", e.target.value)}
+                  placeholder="例: I'm getting better at this."
+                  autoCapitalize="sentences"
+                  autoComplete="off"
+                  spellCheck="true"
+                />
+                {errors.english && <span className="form-error">{errors.english}</span>}
+              </label>
 
+              <label className="form-field">
+                <span className="form-field__label">日本語訳 *</span>
+                <textarea
+                  className="form-input"
+                  rows={2}
+                  value={form.japanese}
+                  onChange={(e) => handleChange("japanese", e.target.value)}
+                  placeholder="例: だんだん上手くなってきた。"
+                  autoComplete="off"
+                />
+                {errors.japanese && <span className="form-error">{errors.japanese}</span>}
+              </label>
+
+              <div className="form-field">
+                <div className="form-field__row">
+                  <span className="form-field__label">チャンク *</span>
+                  <button
+                    type="button"
+                    className="chip-btn"
+                    onClick={handleAutoSplit}
+                    disabled={!form.english.trim()}
+                  >
+                    🪄 英文から自動分割
+                  </button>
+                </div>
+                <textarea
+                  className="form-input"
+                  rows={4}
+                  value={form.chunksText}
+                  onChange={(e) => handleChange("chunksText", e.target.value)}
+                  placeholder={"1行に1チャンク。例:\nI'm getting\nbetter at this."}
+                  autoComplete="off"
+                />
+                <span className="form-hint-small">
+                  1行に1チャンク。あとから自由に編集できます。
+                </span>
+                {errors.chunks && <span className="form-error">{errors.chunks}</span>}
+              </div>
+            </>
+          )}
+
+          {/* 出典セレクタは monologue モードでは出さない (専用導線で固定済み)。 */}
+          {!isMonologue && (
           <div className="form-field-row">
             <label className="form-field">
               <span className="form-field__label">出典</span>
@@ -430,7 +560,7 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
                   handleChange("source", e.target.value as EditableSource)
                 }
               >
-                {EDITABLE_SOURCES.map((s) => (
+                {SELECTABLE_SOURCES.map((s) => (
                   <option key={s} value={s}>
                     {SOURCE_LABEL[s]}
                   </option>
@@ -481,6 +611,7 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
               </>
             )}
           </div>
+          )}
 
           <div className="form-field-row">
             <label className="form-field">
@@ -537,11 +668,18 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
           >
             {saving
               ? "保存中…"
-              : mode === "new"
-                ? "フレーズを保存する"
-                : "保存する"}
+              : isMonologue
+                ? mode === "new"
+                  ? form.english.trim().length > 0
+                    ? "保存する"
+                    : "日本語だけ保存する"
+                  : "保存する"
+                : mode === "new"
+                  ? "フレーズを保存する"
+                  : "保存する"}
           </button>
-          {mode === "edit" && target && (
+          {/* monologue で英語未入力の場合は練習に進めないので、ボタンを出さない。 */}
+          {mode === "edit" && target && target.english.trim().length > 0 && (
             <button
               type="button"
               className="btn btn--accent"
@@ -573,15 +711,22 @@ export function PhraseEditPage({ mode }: PhraseEditPageProps) {
           </p>
         )}
 
-        {mode === "new" && (
+        {mode === "new" && !isMonologue && (
           <p className="form-hint-small" style={{ marginTop: 12 }}>
             🎵 まずお手本音声を録音できます。英文と日本語訳を入れて保存すると、
             この音声がそのままフレーズに紐づきます。
           </p>
         )}
+        {mode === "new" && isMonologue && (
+          <p className="form-hint-small" style={{ marginTop: 12 }}>
+            💭 日本語だけでも保存できます。英語が入ったら、音読・暗唱・録音・Voice Energy の練習に進めます。
+          </p>
+        )}
       </section>
 
-      {mode === "edit" && target && (
+      {/* 音声メモは「英語が入っているフレーズ」用。
+          monologue で英語未入力の段階ではお手本音声は不要なので出さない。 */}
+      {mode === "edit" && target && target.english.trim().length > 0 && (
         <section className="card audio-section">
           <h3 className="audio-section__title">音声メモ</h3>
           <p className="audio-section__lead">

@@ -21,7 +21,9 @@ const VALID_CATEGORIES = [
   "custom",
 ] as const;
 const VALID_MOODS = ["casual", "polite", "warm", "neutral", "natural"] as const;
-const VALID_SOURCES = ["initial", "original", "duo3"] as const;
+// "monologue" = ひとりごと英語 (日本語先入力 → 後で英語化)。
+// english / chunks が空のまま保存される可能性がある (validatePhrase で限定的に許可)。
+const VALID_SOURCES = ["initial", "original", "duo3", "monologue"] as const;
 
 type PhraseLevel = (typeof VALID_LEVELS)[number];
 type PhraseCategory = (typeof VALID_CATEGORIES)[number];
@@ -96,15 +98,21 @@ function validatePhrase(o: unknown): PhrasePayload | null {
   if (!o || typeof o !== "object") return null;
   const r = o as Record<string, unknown>;
   if (typeof r.id !== "string" || !r.id) return null;
-  if (typeof r.english !== "string" || !r.english.trim()) return null;
+  if (typeof r.english !== "string") return null;
   // japanese は空文字 ("") を許可する。DUO Import 等で訳を後追いするケースに対応。
   if (typeof r.japanese !== "string") return null;
+  const isMonologue = r.source === "monologue";
+  // ひとりごと英語は英語が後追いなので空 english を許可する。
+  // それ以外の出典では従来どおり english 必須 (空は弾く)。
+  if (!isMonologue && !r.english.trim()) return null;
   if (!Array.isArray(r.chunks)) return null;
   const chunks = r.chunks
     .filter((c): c is string => typeof c === "string")
     .map((c) => c.trim())
     .filter((c) => c.length > 0);
-  if (chunks.length === 0) return null;
+  // monologue は英語未入力の段階で chunks も空のまま保存される。
+  // それ以外は最低 1 件のチャンクを要求する。
+  if (!isMonologue && chunks.length === 0) return null;
   if (!isPhraseLevel(r.level)) return null;
   if (!isPhraseCategory(r.category)) return null;
   if (!isPhraseMood(r.mood)) return null;
@@ -121,6 +129,8 @@ function validatePhrase(o: unknown): PhrasePayload | null {
   if (isPhraseSource(r.source)) out.source = r.source;
   if (isPositiveInt(r.sourceSection)) out.sourceSection = r.sourceSection;
   if (isPositiveInt(r.sourceIndex)) out.sourceIndex = r.sourceIndex;
+  // thoughtCreatedAt は MVP では D1 に列を持たないため、サーバ側では握りつぶす
+  // (ローカル側でのみ保持される)。
   return out;
 }
 
@@ -266,7 +276,9 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
     } catch {
       chunks = [];
     }
-    if (chunks.length === 0) continue;
+    const isMonologueRow = row.source === "monologue";
+    // monologue は英語未入力の段階で chunks も空。それ以外は最低 1 件必須。
+    if (chunks.length === 0 && !isMonologueRow) continue;
     if (!isPhraseLevel(row.level)) continue;
     if (!isPhraseCategory(row.category)) continue;
     if (!isPhraseMood(row.mood)) continue;

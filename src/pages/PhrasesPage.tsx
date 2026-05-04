@@ -21,8 +21,8 @@ interface PhrasesPageProps {
   progress: UserProgress;
 }
 
-// 出典軸: ぜんぶ / 初期 / 自作 / DUO 3.0
-type SourceFilter = "all" | "initial" | "original" | "duo3";
+// 出典軸: ぜんぶ / 初期 / 自作 / DUO 3.0 / ひとりごと
+type SourceFilter = "all" | "initial" | "original" | "duo3" | "monologue";
 // コンテキスト軸: カテゴリ (初期/自作/ぜんぶ 用)
 type CategoryFilter = PhraseCategory | "all";
 // コンテキスト軸: DUO Section (DUO 3.0 用)
@@ -33,6 +33,7 @@ const SOURCE_FILTERS: { id: SourceFilter; label: string }[] = [
   { id: "initial", label: "初期" },
   { id: "original", label: "自作" },
   { id: "duo3", label: "DUO 3.0" },
+  { id: "monologue", label: "ひとりごと" },
 ];
 
 const CATEGORY_FILTERS: { id: CategoryFilter; label: string }[] = [
@@ -63,7 +64,7 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
 
   const allPhrases = useMemo(() => getAllPhrases(), [version]);
   const sourceCounts = useMemo(() => {
-    const c = { initial: 0, original: 0, duo3: 0 };
+    const c = { initial: 0, original: 0, duo3: 0, monologue: 0 };
     for (const p of allPhrases) {
       const s = effectiveSource(p);
       c[s] += 1;
@@ -126,6 +127,12 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
   );
 
   const handleClick = (phrase: Phrase) => {
+    // ひとりごとで英語が未入力なら、練習ではなく編集画面へ誘導する。
+    // (PracticePage 側でもガードはあるが、最初から正しい導線に乗せる。)
+    if (phrase.english.trim().length === 0) {
+      navigate(`/phrases/edit/${phrase.id}`);
+      return;
+    }
     navigate(`/practice/${phrase.id}`);
   };
 
@@ -151,14 +158,25 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
             <h2 className="card__title">フレーズ一覧</h2>
             <p className="card__heading">気になるフレーズで、声に出してみよう</p>
           </div>
-          <button
-            type="button"
-            className="btn btn--accent btn--small"
-            onClick={() => navigate("/phrases/new")}
-            aria-label="自作フレーズを追加"
-          >
-            + 追加
-          </button>
+          <div className="btn-row">
+            <button
+              type="button"
+              className="btn btn--accent btn--small"
+              onClick={() => navigate("/phrases/new")}
+              aria-label="自作フレーズを追加"
+            >
+              + フレーズを追加
+            </button>
+            <button
+              type="button"
+              className="btn btn--small"
+              onClick={() => navigate("/phrases/new?source=monologue")}
+              aria-label="ひとりごと英語を追加(日本語だけでもOK)"
+              title="頭に浮かんだ日本語をまず保存。英語はあとで入れられます。"
+            >
+              💭 ひとりごとを追加
+            </button>
+          </div>
         </div>
 
         <p className="phrase-list-progress">
@@ -166,7 +184,11 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
           <span className="phrase-list-progress__sub">
             {" "}
             (初期 {sourceCounts.initial} / 自作 {sourceCounts.original}
-            {sourceCounts.duo3 > 0 ? ` / DUO ${sourceCounts.duo3}` : ""})
+            {sourceCounts.duo3 > 0 ? ` / DUO ${sourceCounts.duo3}` : ""}
+            {sourceCounts.monologue > 0
+              ? ` / ひとりごと ${sourceCounts.monologue}`
+              : ""}
+            )
           </span>
         </p>
 
@@ -247,10 +269,12 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
         {list.length === 0 && (
           <p className="empty">
             {sourceFilter === "original"
-              ? "まだ自作フレーズはありません。「+ 追加」から作ってみよう。"
+              ? "まだ自作フレーズはありません。「+ フレーズを追加」から作ってみよう。"
               : sourceFilter === "duo3"
                 ? "DUO 3.0 のフレーズはまだ取り込まれていません。"
-                : "該当するフレーズがありません。"}
+                : sourceFilter === "monologue"
+                  ? "まだひとりごとはありません。「💭 ひとりごとを追加」から、頭に浮かんだ日本語を保存してみよう。"
+                  : "該当するフレーズがありません。"}
           </p>
         )}
       </section>

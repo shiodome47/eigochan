@@ -273,6 +273,43 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
     setStep(5);
   };
 
+  // ひとりごと英語など、英語が未入力のフレーズはここで早期 return。
+  // (フックはすべて呼び終わった後なので Rules of Hooks 違反にならない。)
+  // 編集画面へ誘導してから再訪してもらう。
+  if (phrase.english.trim().length === 0) {
+    return (
+      <>
+        <Link to="/" className="btn btn--ghost btn--small back-link">
+          ← Home
+        </Link>
+        <section className="card practice-card">
+          <h2 className="card__title">英語を入力すると練習できます</h2>
+          <p className="practice-japanese">{phrase.japanese}</p>
+          <p className="form-hint" style={{ marginTop: 12 }}>
+            このひとりごとは、まだ英語が入っていません。
+            まず英語表現を追加すると、音読・暗唱・録音・Voice Energy の練習ができるようになります。
+          </p>
+          <div className="btn-row" style={{ marginTop: 16 }}>
+            <button
+              type="button"
+              className="btn"
+              onClick={() => navigate(`/phrases/edit/${phrase.id}`)}
+            >
+              ✏️ 英語を入れる
+            </button>
+            <button
+              type="button"
+              className="btn btn--ghost"
+              onClick={() => navigate("/phrases")}
+            >
+              フレーズ一覧へ
+            </button>
+          </div>
+        </section>
+      </>
+    );
+  }
+
   return (
     <>
       <Link to="/" className="btn btn--ghost btn--small back-link">

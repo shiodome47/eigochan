@@ -11,10 +11,11 @@ export type PhraseCategory =
 
 export type PhraseMood = "casual" | "polite" | "warm" | "neutral" | "natural";
 
-// 出典: "initial"=同梱, "original"=ユーザー自作, "duo3"=DUO 3.0 取り込み。
+// 出典: "initial"=同梱, "original"=ユーザー自作, "duo3"=DUO 3.0 取り込み、
+// "monologue"=ひとりごと英語(日本語先入力 → 後で英語化)。
 // 既存データで未設定 (undefined) の場合は "original" として解釈する。
 // DUO 3.0 等の市販教材本文・音声はリポジトリに含めない方針。
-export type PhraseSource = "initial" | "original" | "duo3";
+export type PhraseSource = "initial" | "original" | "duo3" | "monologue";
 
 export interface Phrase {
   id: string;
@@ -27,6 +28,9 @@ export interface Phrase {
   source?: PhraseSource;
   sourceSection?: number;
   sourceIndex?: number;
+  // ひとりごと英語の作成日時 (ISO)。並び替え用の保留メタ。
+  // monologue 以外では使わない。MVP では D1 同期に乗せていない。
+  thoughtCreatedAt?: string;
 }
 
 export interface PracticeLog {

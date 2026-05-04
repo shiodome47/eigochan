@@ -15,7 +15,9 @@ import { bootstrapAutoSync, enqueueSnapshotPush } from "./utils/autoSync";
 import type { DailyMissionState, UserProgress } from "./types";
 
 function pickDailyPhraseId(date: string): string {
-  const all = getAllPhrases();
+  // ひとりごと英語など、まだ english が入っていないフレーズは
+  // 今日のミッションに当たっても練習できないので除外する。
+  const all = getAllPhrases().filter((p) => p.english.trim().length > 0);
   const pool = all.length > 0 ? all : PHRASES;
   let hash = 0;
   for (let i = 0; i < date.length; i++) {
