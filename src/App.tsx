@@ -12,7 +12,12 @@ import { findPhraseById, getAllPhrases, PHRASES } from "./data/phrases";
 import { loadMission, loadProgress, saveMission, saveProgress } from "./utils/storage";
 import { todayString } from "./utils/date";
 import { bootstrapAutoSync, enqueueSnapshotPush } from "./utils/autoSync";
+import { reChunkDuo3Phrases } from "./utils/customPhrases";
 import type { DailyMissionState, UserProgress } from "./types";
+
+// 旧バージョンの DUO 3.0 取り込みでは chunks が 1 つにまとまっていたので、
+// 起動時に 1 度だけ autoChunkText で割り直す。フラグで再実行を抑止する。
+const DUO3_CHUNKS_MIGRATION_KEY = "eigochan.duo3ChunksAutoSplit.v1";
 
 function pickDailyPhraseId(date: string): string {
   // ひとりごと英語など、まだ english が入っていないフレーズは
@@ -63,6 +68,19 @@ export function App() {
     });
   }, []);
 
+  // 起動時に 1 度だけ DUO 3.0 フレーズの chunks を再計算する移行処理。
+  // 既に複数チャンクに分かれているレコードはユーザー編集とみなして触らない。
+  useEffect(() => {
+    try {
+      if (localStorage.getItem(DUO3_CHUNKS_MIGRATION_KEY)) return;
+      const changed = reChunkDuo3Phrases();
+      localStorage.setItem(DUO3_CHUNKS_MIGRATION_KEY, "1");
+      if (changed > 0) enqueueSnapshotPush();
+    } catch {
+      // localStorage が使えない環境ではスキップ (次回起動でリトライされる)。
+    }
+  }, []);
+
   const todaysPhrase = useMemo(() => {
     return findPhraseById(mission.phraseId) ?? PHRASES[0];
   }, [mission.phraseId]);
@@ -108,6 +126,7 @@ export function App() {
                 progress={progress}
                 onCommit={commitProgress}
                 onMissionComplete={handleMissionComplete}
+                defaultPhraseId={mission.phraseId}
               />
             }
           />
@@ -118,6 +137,7 @@ export function App() {
                 progress={progress}
                 onCommit={commitProgress}
                 onMissionComplete={handleMissionComplete}
+                defaultPhraseId={mission.phraseId}
               />
             }
           />

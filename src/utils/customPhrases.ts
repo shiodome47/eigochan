@@ -94,21 +94,89 @@ function isPositiveInt(v: unknown): v is number {
   );
 }
 
+// チャンクの語数下限/上限。
+//  - MIN: チャンク先頭が 1 語だけになるのを避け、語境界での過剰分割を抑える。
+//  - MAX: 1 チャンクが長くなりすぎないよう、語境界で割れない場合でもこの語数で強制的に区切る。
+const CHUNK_MIN_WORDS = 2;
+const CHUNK_MAX_WORDS = 5;
+
+// チャンク開始位置として優先される単語 (前置詞 / 接続詞 / 限定詞)。
+// 直前トークンが . ! ? ; , で終わる場合は別途必ず区切るので、ここには含めない。
+const CHUNK_BOUNDARY_WORDS = new Set<string>([
+  // 前置詞
+  "to","for","in","on","at","with","by","of","from","into","onto",
+  "about","over","under","after","before","against","around","between",
+  "through","during","without","within","across","behind","beyond","upon",
+  // 接続詞 / 関係詞
+  "and","but","or","so","yet","because","when","while","if","that","which",
+  "who","whom","whose","where","although","though","since","unless","until",
+  "whether","as","than",
+  // 冠詞 / 限定詞
+  "a","an","the","my","your","his","her","their","our","its",
+  "this","these","those","some","any","every","each","all","both",
+]);
+
+function chunkBoundaryKey(token: string): string {
+  // 前後の非英字記号 (引用符・句読点) を落とした素の語 (lowercase) で判定。
+  return token.toLowerCase().replace(/^[^a-z']+|[^a-z']+$/gu, "");
+}
+
+function endsWithBreaker(token: string): boolean {
+  return /[.!?,;]$/.test(token);
+}
+
 /**
- * 英文から . ! ? , を区切りに簡易チャンク分割する。
- * 空白を保ったまま末尾の記号は残す(自然な見た目を優先)。
- * 結果が空なら原文をそのまま1チャンクとして返す。
+ * 英文を意味のかたまりに分割する。
+ *  - 句読点 ( . ! ? ; , ) の直後では必ず区切る。
+ *  - 区切り後のチャンクが {@link CHUNK_MIN_WORDS} 語以上たまったら、続く前置詞/接続詞/限定詞の前で区切る。
+ *  - 区切れない場合でも {@link CHUNK_MAX_WORDS} 語で強制的に区切る。
+ *  - 末尾に 1 語だけ残るような切り方は避ける (孤立語で練習させても効果が薄いため)。
+ *
+ * 空文字列は [] を返す。語が 1 つしかなく分割不能なら 1 チャンクで返す。
  */
 export function autoChunkText(text: string): string[] {
   const trimmed = text.trim();
   if (!trimmed) return [];
-  // 「.」「!」「?」「,」のあとに空白がある箇所で区切る
-  // 末尾に句読点がない最終断片も残す
-  const parts = trimmed
-    .split(/(?<=[.!?,])\s+/u)
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0);
-  return parts.length > 0 ? parts : [trimmed];
+  const tokens = trimmed.split(/\s+/u).filter((t) => t.length > 0);
+  if (tokens.length <= 1) return tokens.length === 1 ? [tokens[0]] : [];
+
+  const chunks: string[] = [];
+  let cur: string[] = [];
+  let prevEndedBreaker = false;
+
+  const flush = () => {
+    if (cur.length > 0) {
+      chunks.push(cur.join(" "));
+      cur = [];
+    }
+  };
+
+  for (let i = 0; i < tokens.length; i++) {
+    const t = tokens[i];
+    const remains = i < tokens.length - 1;
+
+    let breakBefore = false;
+    if (cur.length === 0) {
+      breakBefore = false;
+    } else if (prevEndedBreaker) {
+      // 句点/コンマの直後は必ず区切る (短くても改めて新チャンク)。
+      breakBefore = true;
+    } else if (cur.length >= CHUNK_MAX_WORDS) {
+      breakBefore = true;
+    } else if (
+      cur.length >= CHUNK_MIN_WORDS &&
+      remains && // 末尾語を孤立させる切り方は避ける
+      CHUNK_BOUNDARY_WORDS.has(chunkBoundaryKey(t))
+    ) {
+      breakBefore = true;
+    }
+
+    if (breakBefore) flush();
+    cur.push(t);
+    prevEndedBreaker = endsWithBreaker(t);
+  }
+  flush();
+  return chunks.length > 0 ? chunks : [trimmed];
 }
 
 /** 改行区切りのテキストをチャンク配列に。空行は除外。 */
@@ -346,6 +414,31 @@ export function findCustomPhraseById(id: string): Phrase | undefined {
   return loadCustomPhrases().find((p) => p.id === id);
 }
 
+/**
+ * 旧バージョンで取り込まれた DUO 3.0 フレーズは chunks が常に [english] (1 チャンク) で
+ * 保存されていたので、改めて autoChunkText で割り直す。
+ *  - source === "duo3" のフレーズだけが対象。
+ *  - chunks.length === 1 のレコードだけ対象 (ユーザーが既に編集済みのものは触らない)。
+ *  - autoChunkText の結果が 2 チャンク以上になった場合だけ書き換える。
+ *
+ * 戻り値: 実際に書き換えた件数。書き換え対象が無かった場合や保存失敗時は 0。
+ */
+export function reChunkDuo3Phrases(): number {
+  const phrases = loadCustomPhrases();
+  let changed = 0;
+  for (const p of phrases) {
+    if (p.source !== "duo3") continue;
+    if (p.chunks.length !== 1) continue;
+    const next = autoChunkText(p.english);
+    if (next.length <= 1) continue;
+    p.chunks = next;
+    changed += 1;
+  }
+  if (changed === 0) return 0;
+  if (!saveCustomPhrases(phrases)) return 0;
+  return changed;
+}
+
 // ---- DUO 3.0 テキスト貼り付け Import ---------------------------------
 
 // 行頭の番号表記 (例: "1. ", "001) ", "  12: ") を取り除く。
@@ -422,11 +515,13 @@ export function importDuo3Phrases(input: Duo3ImportInput): Duo3ImportResult {
       continue;
     }
     const id = generateDuo3PhraseId(input.section, cursor);
+    const autoChunks = autoChunkText(english);
     const phrase: Phrase = {
       id,
       english,
       japanese: "", // 貼り付け時点では訳は空。後から編集画面で追記できる。
-      chunks: [english], // チャンク分割は後で編集画面で調整できるよう、暫定で 1 チャンク。
+      // 英文から意味のかたまりに自動分割。短文・分割不能なら 1 チャンクで保存される。
+      chunks: autoChunks.length > 0 ? autoChunks : [english],
       level: "beginner",
       category: "learning",
       mood: "neutral",

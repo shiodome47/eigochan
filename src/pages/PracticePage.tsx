@@ -26,6 +26,7 @@ interface PracticePageProps {
   progress: UserProgress;
   onCommit: (next: UserProgress) => void;
   onMissionComplete: (phraseId: string) => boolean;
+  defaultPhraseId?: string;
 }
 
 interface CompletionState {
@@ -45,7 +46,12 @@ function rateLabel(rate: number): string {
   return "はやめ";
 }
 
-export function PracticePage({ progress, onCommit, onMissionComplete }: PracticePageProps) {
+export function PracticePage({
+  progress,
+  onCommit,
+  onMissionComplete,
+  defaultPhraseId,
+}: PracticePageProps) {
   const navigate = useNavigate();
   const params = useParams<{ phraseId?: string }>();
   const recorderRegistry = useRecorderRegistry();
@@ -58,8 +64,12 @@ export function PracticePage({ progress, onCommit, onMissionComplete }: Practice
       const p = findPhraseById(params.phraseId);
       if (p) return p;
     }
+    if (defaultPhraseId) {
+      const p = findPhraseById(defaultPhraseId);
+      if (p) return p;
+    }
     return PHRASES[0];
-  }, [params.phraseId]);
+  }, [params.phraseId, defaultPhraseId]);
 
   const [step, setStep] = useState<Step>(1);
   const [chunkDone, setChunkDone] = useState<boolean[]>(() =>
