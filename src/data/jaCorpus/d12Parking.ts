@@ -1,0 +1,48 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 12: 駐車場・ガソリンスタンド
+export const D12_SELF: JaSentenceInput[] = [
+  { ja: "駐車場はどこにあるんでしょうか。", en: "I wonder where the parking lot is.", ch: ["I wonder where", "the parking lot is"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "この先を右に曲がればいいんですか。", en: "Do we turn right up ahead?", ch: ["Do we turn right", "up ahead?"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "思っていたより駐車場が広いですね。", en: "The parking lot is bigger than I expected.", ch: ["bigger than", "I expected"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "今日はずいぶん車が多いですね。", en: "There are a lot of cars today.", ch: ["There are a lot of", "cars today"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "空いているところがなかなか見つかりません。", en: "I'm having trouble finding an open spot.", ch: ["I'm having trouble finding", "an open spot"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "あそこが空いているんじゃないですか。", en: "Isn't that one open over there?", ch: ["Isn't that one open", "over there?"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "もう少し入口に近いところを探しますか。", en: "Should we look for something closer to the entrance?", ch: ["Should we look for something", "closer to the entrance?"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "ここでも十分だと思いますよ。", en: "I think this is good enough.", ch: ["I think this is", "good enough"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "少し狭いですが、入れられそうです。", en: "It's a little tight, but I think I can fit.", ch: ["It's a little tight,", "but I think I can fit"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "後ろを見てもらえますか。", en: "Could you watch the back for me?", ch: ["Could you watch", "the back for me?"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "もう少し下がっても大丈夫ですか。", en: "Can I back up a little more?", ch: ["Can I back up", "a little more?"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "これでまっすぐ入っていますか。", en: "Am I straight in the space?", ch: ["Am I straight", "in the space?"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "車をどこに停めたか覚えておかないといけませんね。", en: "We need to remember where we parked.", ch: ["We need to remember", "where we parked"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "何階に停めたか忘れそうです。", en: "I'm going to forget which floor we parked on.", ch: ["I'm going to forget", "which floor we parked on"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "写真を撮っておいた方がよさそうです。", en: "We should take a picture of it.", ch: ["We should take", "a picture of it"], scene: "駐車場", to: "家族", imp: "must" },
+  { ja: "ガソリンがあまり残っていませんね。", en: "We're low on gas.", ch: ["We're low on", "gas"], scene: "スタンド", to: "家族", imp: "must" },
+  { ja: "帰る前に入れておいた方がいいと思います。", en: "I think we should fill up before we head back.", ch: ["we should fill up", "before we head back"], scene: "スタンド", to: "家族", imp: "must" },
+  { ja: "レギュラーで満タンにしてください。", en: "Fill it up with regular, please.", ch: ["Fill it up with", "regular, please"], scene: "スタンド", to: "店員", imp: "must" },
+  { ja: "思っていたよりガソリンが高いですね。", en: "Gas is more expensive than I expected.", ch: ["more expensive than", "I expected"], scene: "スタンド", to: "家族", imp: "must" },
+  { ja: "これでしばらくは大丈夫ですね。", en: "That should hold us for a while.", ch: ["That should hold us", "for a while"], scene: "スタンド", to: "家族", imp: "must" },
+];
+
+export const D12_ADD: JaSentenceInput[] = [
+  { ja: "駐車料金はいくらですか。", en: "How much is parking?", ch: ["How much is", "parking?"], scene: "駐車場", to: "店員", imp: "must" },
+  { ja: "最初の一時間は無料みたいです。", en: "It looks like the first hour is free.", ch: ["It looks like", "the first hour is free"], scene: "駐車場", to: "家族", imp: "often" },
+  { ja: "駐車券はどこで受け取りますか。", en: "Where do we get the parking ticket?", ch: ["Where do we get", "the parking ticket?"], scene: "駐車場", to: "店員", imp: "often" },
+  { ja: "精算はここでできますか。", en: "Can we pay here?", ch: ["Can we pay", "here?"], scene: "駐車場", to: "店員", imp: "often" },
+  { ja: "お店で判子を押してもらいましょう。", en: "Let's get it stamped at the store.", ch: ["Let's get it stamped", "at the store"], scene: "駐車場", to: "家族", imp: "sub" },
+  { ja: "出口はどちらですか。", en: "Which way is the exit?", ch: ["Which way is", "the exit?"], scene: "駐車場", to: "店員", imp: "often" },
+  { ja: "屋根のあるところに停めましょうか。", en: "Should we park somewhere covered?", ch: ["Should we park", "somewhere covered?"], scene: "駐車場", to: "家族", imp: "sub" },
+  { ja: "日陰の方が涼しくていいですね。", en: "The shade will be cooler.", ch: ["The shade", "will be cooler"], scene: "駐車場", to: "家族", imp: "often" },
+  { ja: "隣の車が近いので気をつけてください。", en: "The car next to us is close, so be careful.", ch: ["is close,", "so be careful"], scene: "駐車場", to: "家族", imp: "often" },
+  { ja: "ドアをぶつけないようにしましょう。", en: "Let's be careful not to hit the door.", ch: ["Let's be careful not to", "hit the door"], scene: "駐車場", to: "家族", imp: "often" },
+  { ja: "番号を覚えておきますね。", en: "I'll remember the space number.", ch: ["I'll remember", "the space number"], scene: "駐車場", to: "家族", imp: "often" },
+  { ja: "満車みたいですね。", en: "It looks like it's full.", ch: ["It looks like", "it's full"], scene: "駐車場", to: "家族", imp: "often" },
+  { ja: "別の駐車場を探しましょうか。", en: "Should we look for another lot?", ch: ["Should we look for", "another lot?"], scene: "駐車場", to: "家族", imp: "often" },
+  { ja: "少し歩きますが、あちらなら空いています。", en: "It's a bit of a walk, but there's space over there.", ch: ["It's a bit of a walk,", "but there's space over there"], scene: "駐車場", to: "家族", imp: "sub" },
+  { ja: "セルフのスタンドで大丈夫ですか。", en: "Is a self-service station okay?", ch: ["Is a self-service station", "okay?"], scene: "スタンド", to: "家族", imp: "sub" },
+  { ja: "洗車もお願いできますか。", en: "Could we get a car wash too?", ch: ["Could we get", "a car wash too?"], scene: "スタンド", to: "店員", imp: "sub" },
+  { ja: "タイヤの空気も見てもらえますか。", en: "Could you check the tire pressure too?", ch: ["Could you check", "the tire pressure?"], scene: "スタンド", to: "店員", imp: "sub" },
+  { ja: "現金でお願いします。", en: "Cash, please.", ch: ["Cash, please."], scene: "スタンド", to: "店員", imp: "often" },
+  { ja: "領収書をお願いします。", en: "Could I have a receipt?", ch: ["Could I have", "a receipt?"], scene: "スタンド", to: "店員", imp: "must" },
+  { ja: "では、行きましょうか。", en: "All right, shall we go?", ch: ["All right,", "shall we go?"], scene: "駐車場", to: "家族", imp: "must" },
+];

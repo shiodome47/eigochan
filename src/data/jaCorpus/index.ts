@@ -9,6 +9,20 @@ import { D07_ADD, D07_SELF } from "./d07BathBed";
 import { D08_ADD, D08_SELF } from "./d08Finding";
 import { D09_ADD, D09_SELF } from "./d09Weather";
 import { D10_ADD, D10_SELF } from "./d10Planning";
+import { D11_ADD, D11_SELF } from "./d11Car";
+import { D12_ADD, D12_SELF } from "./d12Parking";
+import { D13_SELF } from "./d13Directions";
+import { D14_SELF } from "./d14Platform";
+import { D15_SELF } from "./d15Train";
+import { D16_SELF } from "./d16BusTaxi";
+import { D17_SELF } from "./d17Cafe";
+import { D18_SELF } from "./d18Restaurant";
+import { D19_SELF } from "./d19Konbini";
+import { D20_SELF } from "./d20Supermarket";
+import { D21_SELF } from "./d21Shopping";
+import { D22_SELF } from "./d22Clinic";
+import { D23_SELF } from "./d23Hotel";
+import { D24_SELF } from "./d24Sightseeing";
 import type { JaAuthor, JaDomain, JaSentence, JaSentenceInput } from "./types";
 
 export type {
@@ -23,8 +37,8 @@ export { JA_DOMAINS, JA_DOMAIN_GROUPS } from "./domains";
 interface DomainRaw {
   /** 本人が書いた日本語 (原文のまま) */
   self: JaSentenceInput[];
-  /** 本人の文に口調を寄せて足した提案文 */
-  add: JaSentenceInput[];
+  /** 本人の文に口調を寄せて足した提案文。まだ用意していない分野では省略。 */
+  add?: JaSentenceInput[];
 }
 
 // 分野番号 → その分野の文。
@@ -40,6 +54,20 @@ const RAW_BY_DOMAIN: Record<number, DomainRaw> = {
   8: { self: D08_SELF, add: D08_ADD },
   9: { self: D09_SELF, add: D09_ADD },
   10: { self: D10_SELF, add: D10_ADD },
+  11: { self: D11_SELF, add: D11_ADD },
+  12: { self: D12_SELF, add: D12_ADD },
+  13: { self: D13_SELF },
+  14: { self: D14_SELF },
+  15: { self: D15_SELF },
+  16: { self: D16_SELF },
+  17: { self: D17_SELF },
+  18: { self: D18_SELF },
+  19: { self: D19_SELF },
+  20: { self: D20_SELF },
+  21: { self: D21_SELF },
+  22: { self: D22_SELF },
+  23: { self: D23_SELF },
+  24: { self: D24_SELF },
 };
 
 /** "d01_003" 形式の ID。分野内の並び順で決まる (= 並べ替えると評価がずれる)。 */
@@ -76,7 +104,7 @@ function toSentence(
 function expand(domainId: number, raw: DomainRaw): JaSentence[] {
   const out: JaSentence[] = [];
   raw.self.forEach((row) => out.push(toSentence(domainId, row, out.length + 1, "self")));
-  raw.add.forEach((row) => out.push(toSentence(domainId, row, out.length + 1, "add")));
+  (raw.add ?? []).forEach((row) => out.push(toSentence(domainId, row, out.length + 1, "add")));
   return out;
 }
 

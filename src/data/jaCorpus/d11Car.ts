@@ -1,0 +1,48 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 11: 車の中
+export const D11_SELF: JaSentenceInput[] = [
+  { ja: "今日は私が運転しましょうか。", en: "Should I drive today?", ch: ["Should I drive", "today?"], scene: "車", to: "家族", imp: "must" },
+  { ja: "そちらが運転しても大丈夫ですか。", en: "Are you okay to drive?", ch: ["Are you okay to", "drive?"], scene: "車", to: "家族", imp: "must" },
+  { ja: "シートベルトはしましたか。", en: "Did you put your seat belt on?", ch: ["Did you put", "your seat belt on?"], scene: "車", to: "家族", imp: "must" },
+  { ja: "忘れ物はないですよね。", en: "You haven't forgotten anything, right?", ch: ["You haven't forgotten anything,", "right?"], scene: "車", to: "家族", imp: "must" },
+  { ja: "では、そろそろ出発しましょう。", en: "All right, let's get going.", ch: ["All right,", "let's get going"], scene: "車", to: "家族", imp: "must" },
+  { ja: "思っていたより道が空いていますね。", en: "The roads are emptier than I expected.", ch: ["emptier than", "I expected"], scene: "車", to: "家族", imp: "must" },
+  { ja: "この時間は、いつも混んでいるんですけどね。", en: "It's usually busy at this hour, though.", ch: ["It's usually busy", "at this hour, though"], scene: "車", to: "家族", imp: "must" },
+  { ja: "たぶん、こちらの道の方が早いと思います。", en: "I think this road is probably faster.", ch: ["I think this road", "is probably faster"], scene: "車", to: "家族", imp: "must" },
+  { ja: "でも、少し遠回りになるかもしれません。", en: "But it might be a bit of a detour.", ch: ["But it might be", "a bit of a detour"], scene: "車", to: "家族", imp: "must" },
+  { ja: "ナビでは、あと何分になっていますか。", en: "How many more minutes does the GPS say?", ch: ["How many more minutes", "does the GPS say?"], scene: "車", to: "家族", imp: "must" },
+  { ja: "この道で合っていますよね。", en: "This is the right road, isn't it?", ch: ["This is the right road,", "isn't it?"], scene: "車", to: "家族", imp: "must" },
+  { ja: "さっきの交差点を曲がるべきだったかもしれません。", en: "Maybe we should have turned at that last intersection.", ch: ["Maybe we should have turned", "at that intersection"], scene: "車", to: "家族", imp: "must" },
+  { ja: "まあ、このまま進んでも行けると思います。", en: "Well, I think we can still get there this way.", ch: ["I think we can still", "get there this way"], scene: "車", to: "家族", imp: "must" },
+  { ja: "ちょっと車間距離が近くないですか。", en: "Aren't we a little close to the car ahead?", ch: ["Aren't we a little close to", "the car ahead?"], scene: "車", to: "家族", imp: "must" },
+  { ja: "前の車、かなりゆっくりですね。", en: "The car in front is going pretty slow.", ch: ["The car in front", "is going pretty slow"], scene: "車", to: "家族", imp: "must" },
+  { ja: "急いでも、それほど時間は変わらないと思います。", en: "Even if we hurry, I don't think it'll make much difference.", ch: ["Even if we hurry,", "it won't make much difference"], scene: "車", to: "家族", imp: "must" },
+  { ja: "少し休憩した方がいいんじゃないですか。", en: "Shouldn't we take a short break?", ch: ["Shouldn't we take", "a short break?"], scene: "車", to: "家族", imp: "must" },
+  { ja: "眠くなったら、すぐに言ってください。", en: "If you get sleepy, tell me right away.", ch: ["If you get sleepy,", "tell me right away"], scene: "車", to: "家族", imp: "must" },
+  { ja: "帰りは私が運転してもいいですよ。", en: "I can drive on the way back.", ch: ["I can drive", "on the way back"], scene: "車", to: "家族", imp: "must" },
+  { ja: "思っていたより早く着きましたね。", en: "We got here earlier than I expected.", ch: ["We got here earlier", "than I expected"], scene: "車", to: "家族", imp: "must" },
+];
+
+export const D11_ADD: JaSentenceInput[] = [
+  { ja: "窓を少し開けてもいいですか。", en: "Can I open the window a little?", ch: ["Can I open the window", "a little?"], scene: "車", to: "家族", imp: "often" },
+  { ja: "冷房を強くしましょうか。", en: "Should I turn the air conditioning up?", ch: ["Should I turn", "the air conditioning up?"], scene: "車", to: "家族", imp: "often" },
+  { ja: "音楽をかけてもいいですか。", en: "Can I put some music on?", ch: ["Can I put", "some music on?"], scene: "車", to: "家族", imp: "often" },
+  { ja: "ナビに住所を入れてもらえますか。", en: "Could you put the address into the GPS?", ch: ["Could you put the address", "into the GPS?"], scene: "車", to: "家族", imp: "often" },
+  { ja: "次の信号を左です。", en: "It's a left at the next light.", ch: ["It's a left", "at the next light"], scene: "車", to: "家族", imp: "must" },
+  { ja: "この先で高速に乗ります。", en: "We'll get on the expressway up ahead.", ch: ["We'll get on the expressway", "up ahead"], scene: "車", to: "家族", imp: "often" },
+  { ja: "高速を使いますか、下の道でいいですか。", en: "Should we take the expressway, or stay on the surface roads?", ch: ["Should we take the expressway,", "or stay on the surface roads?"], scene: "車", to: "家族", imp: "often" },
+  { ja: "サービスエリアで休みましょうか。", en: "Should we stop at a rest area?", ch: ["Should we stop at", "a rest area?"], scene: "車", to: "家族", imp: "often" },
+  { ja: "飲み物を買ってきましょうか。", en: "Should I go get us something to drink?", ch: ["Should I go get us", "something to drink?"], scene: "車", to: "家族", imp: "often" },
+  { ja: "少しスピードを落とした方がいいですね。", en: "We should slow down a little.", ch: ["We should slow down", "a little"], scene: "車", to: "家族", imp: "often" },
+  { ja: "雨が降ってきましたね。", en: "It's started to rain.", ch: ["It's started", "to rain"], scene: "車", to: "家族", imp: "often" },
+  { ja: "ワイパーを速くしますね。", en: "I'll speed up the wipers.", ch: ["I'll speed up", "the wipers"], scene: "車", to: "家族", imp: "sub" },
+  { ja: "対向車が多いですね。", en: "There's a lot of oncoming traffic.", ch: ["There's a lot of", "oncoming traffic"], scene: "車", to: "家族", imp: "sub" },
+  { ja: "道が細くなってきました。", en: "The road is getting narrow.", ch: ["The road", "is getting narrow"], scene: "車", to: "家族", imp: "sub" },
+  { ja: "ここで曲がれますか。", en: "Can we turn here?", ch: ["Can we turn", "here?"], scene: "車", to: "家族", imp: "often" },
+  { ja: "一度、路肩に停めましょうか。", en: "Should we pull over for a second?", ch: ["Should we pull over", "for a second?"], scene: "車", to: "家族", imp: "often" },
+  { ja: "後ろから車が来ています。", en: "There's a car coming up behind us.", ch: ["There's a car", "coming up behind us"], scene: "車", to: "家族", imp: "often" },
+  { ja: "ここは一方通行みたいです。", en: "This looks like a one-way street.", ch: ["This looks like", "a one-way street"], scene: "車", to: "家族", imp: "sub" },
+  { ja: "到着まであと少しですね。", en: "We're almost there.", ch: ["We're almost there."], scene: "車", to: "家族", imp: "must" },
+  { ja: "運転、お疲れさまでした。", en: "Thanks for driving.", ch: ["Thanks for", "driving"], scene: "車", to: "家族", imp: "must" },
+];
