@@ -10,7 +10,12 @@ import { JA_SENTENCES, type JaSentence } from "../data/jaCorpus";
 import { daysBetween, todayString } from "./date";
 import { isDue, type SrsMap } from "./srs";
 
-export const DAILY_PLAN_SIZE = 10;
+// 既定は 3 文。毎日必ず終わる量にしておき、気が乗ったら画面から足す。
+export const DAILY_PLAN_SIZE = 3;
+/** 「もう少しやる」で 1 回に足す文数。 */
+export const EXTRA_PLAN_SIZE = 3;
+/** 「まとめてやる」で 1 回に足す文数。 */
+export const BIG_PLAN_SIZE = 7;
 
 export interface DailyPlan {
   date: string;
@@ -30,8 +35,10 @@ export function buildDailyPlan(
   srs: SrsMap,
   today: string = todayString(),
   size: number = DAILY_PLAN_SIZE,
+  /** すでに今日やった文 (続けて足すときに重複させない)。 */
+  exclude: ReadonlySet<string> = new Set(),
 ): DailyPlan {
-  const usable = JA_SENTENCES.filter((s) => s.en.length > 0);
+  const usable = JA_SENTENCES.filter((s) => s.en.length > 0 && !exclude.has(s.id));
 
   // 1. 復習: 期日が来ているものを、期日が古い順 → 落とした回数が多い順。
   const dueItems = usable

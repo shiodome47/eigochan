@@ -242,8 +242,9 @@ export function JaEnPage() {
       <section className="card jaen-today-card">
         <h2 className="card__title">今日の練習</h2>
         <p className="jaen__lead">
-          期日が来た文と新しい文をまぜて {DAILY_PLAN_SIZE} 文。
+          期日が来た文と新しい文をまぜて {DAILY_PLAN_SIZE} 文だけ。
           日本語を見て英語を言い、言えたかどうかを自分で判定します。
+          物足りなければ、終わったあとに足せます。
         </p>
         <div className="jaen-stats">
           <div className="jaen-stat">
