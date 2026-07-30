@@ -2875,3 +2875,157 @@ textarea.form-input {
   color: var(--text-soft);
   line-height: 1.7;
 }
+
+/* === 日→英モード: 今日の練習 === */
+.jaen-today-card {
+  border-color: var(--primary-soft);
+}
+
+.jaen-today__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.jaen-today__xp {
+  color: var(--primary-strong);
+  font-weight: 600;
+}
+
+.jaen-today__bar {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+  margin: 6px 0 10px;
+}
+
+.jaen-today__bar > i {
+  display: block;
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.25s ease;
+}
+
+.jaen-today__meta {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--text-faint);
+}
+
+.jaen-today__ja {
+  margin: 10px 0 14px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.jaen-today__prompt {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+.jaen-today__en {
+  margin: 0 0 4px;
+  font-size: 18px;
+  color: var(--primary-strong);
+}
+
+.jaen-grade {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.jaen-grade__btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+}
+
+.jaen-grade__btn:hover {
+  border-color: var(--primary);
+}
+
+.jaen-grade__mark {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.jaen-grade__label {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.jaen-grade__hint {
+  font-size: 10px;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+.jaen-grade__btn.is-again .jaen-grade__mark {
+  color: var(--warm);
+}
+.jaen-grade__btn.is-ok .jaen-grade__mark {
+  color: var(--gold);
+}
+.jaen-grade__btn.is-easy .jaen-grade__mark {
+  color: var(--green);
+}
+
+.jaen-review-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.jaen-review-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+  font-size: 13px;
+}
+
+.jaen-review-row.is-again {
+  background: var(--accent-soft);
+}
+
+.jaen-review-mark {
+  width: 18px;
+  text-align: center;
+}
+
+.jaen-review-ja {
+  flex: 1;
+  min-width: 0;
+}
+
+.jaen-review-xp {
+  font-size: 11.5px;
+  color: var(--primary-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 380px) {
+  .jaen-today__ja {
+    font-size: 19px;
+  }
+  .jaen-grade__label {
+    font-size: 11.5px;
+  }
+}

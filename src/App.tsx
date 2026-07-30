@@ -8,6 +8,7 @@ import { CityPage } from "./pages/CityPage";
 import { PhrasesPage } from "./pages/PhrasesPage";
 import { PhraseEditPage } from "./pages/PhraseEditPage";
 import { JaEnPage } from "./pages/JaEnPage";
+import { JaEnTodayPage } from "./pages/JaEnTodayPage";
 import { LogPage } from "./pages/LogPage";
 import { findPhraseById, getAllPhrases, PHRASES } from "./data/phrases";
 import { loadMission, loadProgress, saveMission, saveProgress } from "./utils/storage";
@@ -147,6 +148,10 @@ export function App() {
           <Route path="/phrases/new" element={<PhraseEditPage mode="new" />} />
           <Route path="/phrases/edit/:phraseId" element={<PhraseEditPage mode="edit" />} />
           <Route path="/ja-en" element={<JaEnPage />} />
+          <Route
+            path="/ja-en/today"
+            element={<JaEnTodayPage progress={progress} onCommit={commitProgress} />}
+          />
           <Route path="/log" element={<LogPage progress={progress} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
