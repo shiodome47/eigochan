@@ -23,6 +23,28 @@ import { D21_SELF } from "./d21Shopping";
 import { D22_SELF } from "./d22Clinic";
 import { D23_SELF } from "./d23Hotel";
 import { D24_SELF } from "./d24Sightseeing";
+import { D25_SELF } from "./d25FirstMeeting";
+import { D26_SELF } from "./d26SmallTalk";
+import { D27_SELF } from "./d27Asking";
+import { D28_SELF } from "./d28Experience";
+import { D29_SELF } from "./d29Empathy";
+import { D30_SELF } from "./d30Reactions";
+import { D31_SELF } from "./d31Inviting";
+import { D32_SELF } from "./d32Declining";
+import { D33_SELF } from "./d33Requests";
+import { D34_SELF } from "./d34Apology";
+import { D35_SELF } from "./d35Disagreeing";
+import { D36_SELF } from "./d36Messaging";
+import { D37_SELF } from "./d37EnglishStudy";
+import { D38_SELF } from "./d38NotUnderstanding";
+import { D39_SELF } from "./d39Computer";
+import { D40_SELF } from "./d40AiRequests";
+import { D41_SELF } from "./d41OnlineMeeting";
+import { D42_SELF } from "./d42Progress";
+import { D43_SELF } from "./d43ReportIssue";
+import { D44_SELF } from "./d44Confirming";
+import { D45_SELF } from "./d45Proposing";
+import { D46_SELF } from "./d46Explaining";
 import type { JaAuthor, JaDomain, JaSentence, JaSentenceInput } from "./types";
 
 export type {
@@ -68,6 +90,28 @@ const RAW_BY_DOMAIN: Record<number, DomainRaw> = {
   22: { self: D22_SELF },
   23: { self: D23_SELF },
   24: { self: D24_SELF },
+  25: { self: D25_SELF },
+  26: { self: D26_SELF },
+  27: { self: D27_SELF },
+  28: { self: D28_SELF },
+  29: { self: D29_SELF },
+  30: { self: D30_SELF },
+  31: { self: D31_SELF },
+  32: { self: D32_SELF },
+  33: { self: D33_SELF },
+  34: { self: D34_SELF },
+  35: { self: D35_SELF },
+  36: { self: D36_SELF },
+  37: { self: D37_SELF },
+  38: { self: D38_SELF },
+  39: { self: D39_SELF },
+  40: { self: D40_SELF },
+  41: { self: D41_SELF },
+  42: { self: D42_SELF },
+  43: { self: D43_SELF },
+  44: { self: D44_SELF },
+  45: { self: D45_SELF },
+  46: { self: D46_SELF },
 };
 
 /** "d01_003" 形式の ID。分野内の並び順で決まる (= 並べ替えると評価がずれる)。 */

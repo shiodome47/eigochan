@@ -1,0 +1,25 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 26: 友人との雑談
+export const D26_SELF: JaSentenceInput[] = [
+  { ja: "最近、どうしていますか。", en: "How have you been lately?", ch: ["How have you been", "lately?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "何か面白いことはありましたか。", en: "Has anything interesting happened?", ch: ["Has anything interesting", "happened?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "それは初めて聞きました。", en: "That's the first I've heard of it.", ch: ["That's the first", "I've heard of it"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "そんなことがあったんですか。", en: "So that's what happened?", ch: ["So that's", "what happened?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "思っていたより大変だったんですね。", en: "So it was harder than I thought.", ch: ["harder than", "I thought"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "それで、結局どうなったんですか。", en: "So how did it end up?", ch: ["So how did it", "end up?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "その後は大丈夫だったんですか。", en: "Were things okay after that?", ch: ["Were things okay", "after that?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "まあ、無事に終わってよかったですね。", en: "Well, I'm glad it ended without trouble.", ch: ["I'm glad it ended", "without trouble"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "私も最近、似たようなことがありました。", en: "Something similar happened to me recently.", ch: ["Something similar", "happened to me"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "うまく説明できないんですが、少し不思議な感じでした。", en: "I can't explain it well, but it felt a little strange.", ch: ["I can't explain it well,", "but it felt a little strange"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "最近は、時間が過ぎるのが本当に早いですね。", en: "Time really goes by fast these days.", ch: ["Time really goes by fast", "these days"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "気がついたら、もうこんな時期ですね。", en: "Before I knew it, it's already this time of year.", ch: ["Before I knew it,", "it's already ..."], scene: "会話", to: "友人", imp: "must" },
+  { ja: "前に話していた件はどうなりましたか。", en: "What happened with the thing you mentioned before?", ch: ["What happened with", "the thing you mentioned?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "まだ決まっていないんですね。", en: "So it's still not decided.", ch: ["So it's still", "not decided"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "それなら、もう少し様子を見てもよさそうですね。", en: "In that case, it seems fine to wait and see a bit longer.", ch: ["it seems fine to", "wait and see"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "あまり考えすぎない方がいいかもしれませんよ。", en: "It might be better not to overthink it.", ch: ["It might be better not to", "overthink it"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "まあ、なるようになるんじゃないですか。", en: "Well, things will work out somehow.", ch: ["things will work out", "somehow"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "また時間があるときに、ゆっくり話しましょう。", en: "Let's talk properly when we have time.", ch: ["Let's talk properly", "when we have time"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "久しぶりに話せてよかったです。", en: "It was good to talk after so long.", ch: ["It was good to talk", "after so long"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "では、また連絡します。", en: "All right, I'll be in touch.", ch: ["All right,", "I'll be in touch"], scene: "会話", to: "友人", imp: "must" },
+];
