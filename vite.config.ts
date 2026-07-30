@@ -2,7 +2,19 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
+// 「配信が新しいものに入れ替わったか」を端末側で目視できるようにするための刻印。
+// Service Worker のキャッシュが残っていると、直したはずの画面が古いままになるので、
+// 画面の一番下にこの値を小さく出しておく。
+const BUILD_STAMP = new Intl.DateTimeFormat("ja-JP", {
+  timeZone: "Asia/Tokyo",
+  dateStyle: "short",
+  timeStyle: "short",
+}).format(new Date());
+
 export default defineConfig({
+  define: {
+    __BUILD_STAMP__: JSON.stringify(BUILD_STAMP),
+  },
   plugins: [
     react(),
     VitePWA({

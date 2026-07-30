@@ -86,6 +86,9 @@ export function HomePage({
       </section>
 
       <InstallHint />
+
+      {/* 配信が新しくなったか目で確かめるための刻印 (キャッシュが残っていると古いまま)。 */}
+      <p className="build-stamp">更新 {__BUILD_STAMP__}</p>
     </>
   );
 }

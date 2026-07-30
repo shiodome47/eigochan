@@ -1,56 +1,83 @@
 import { useEffect, useState } from "react";
+import {
+  clearInstallPrompt,
+  getInstallPrompt,
+  subscribeInstallPrompt,
+  type BeforeInstallPromptEvent,
+} from "../utils/installPrompt";
 
 // 「ホーム画面に追加」の案内。
 //
-// PWA の要件 (manifest / アイコン / Service Worker / HTTPS) は満たしているが、
-// 実際に追加できるかは **ブラウザ次第** なので、環境を見て案内を出し分ける。
+// PWA の要件 (manifest / アイコン / Service Worker / HTTPS) は満たしているので、
+// あとは **どのブラウザで開いているか** で追加できるかどうかが決まる。
+// そこで環境を見て、押せるならボタン、押せないなら手順を出す。
 //
-// - Android Chrome など: beforeinstallprompt を捕まえてボタン 1 つで追加できる。
-// - iPhone / iPad: OS 側が API を出していないので、Safari の共有メニューを案内する。
-// - すでにホーム画面から開いている場合: 何も出さない。
+// Chrome の beforeinstallprompt は「まだ入れていない」「条件を満たした」ときにしか
+// 飛んでこないので、**イベントが無くても手順は必ず出す**。
+// (イベント待ちにすると、来なかった端末では画面に何も出ずに詰む。)
 
 const DISMISS_KEY = "eigochan.installHintDismissed.v1";
 
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
-}
+type Platform = "ios" | "android" | "desktop";
 
 /** ホーム画面のアイコンから開いている (= すでに追加ずみ) か。 */
 function isStandalone(): boolean {
   if (typeof window === "undefined") return false;
   if (window.matchMedia?.("(display-mode: standalone)").matches) return true;
+  if (window.matchMedia?.("(display-mode: fullscreen)").matches) return true;
   // iOS Safari だけの独自プロパティ。
   return (window.navigator as { standalone?: boolean }).standalone === true;
 }
 
-function isIos(): boolean {
+function detectPlatform(): Platform {
   const ua = navigator.userAgent;
-  if (/iPhone|iPad|iPod/.test(ua)) return true;
+  if (/iPhone|iPad|iPod/.test(ua)) return "ios";
   // iPadOS 13 以降は Macintosh を名乗るので、タッチの有無で見分ける。
-  return /Macintosh/.test(ua) && navigator.maxTouchPoints > 1;
+  if (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) return "ios";
+  if (/Android/.test(ua)) return "android";
+  return "desktop";
 }
 
-/**
- * iOS で「ホーム画面に追加」が出るブラウザか。
- * Safari と、iOS 版 Chrome / Edge (中身は WebKit) は共有メニューから追加できる。
- * LINE や X のアプリ内ブラウザには共有メニューが無く、追加できない。
- */
-function iosBrowserLabel(): { canAdd: boolean; name: string } {
+/** 追加できないブラウザなら、その名前を返す。追加できるなら null。 */
+function blockedBrowser(platform: Platform): string | null {
   const ua = navigator.userAgent;
-  if (/CriOS/.test(ua)) return { canAdd: true, name: "Chrome" };
-  if (/EdgiOS/.test(ua)) return { canAdd: true, name: "Edge" };
-  if (/FxiOS/.test(ua)) return { canAdd: false, name: "Firefox" };
-  // アプリ内ブラウザ (LINE / Facebook / X など) は Safari を名乗るが Version/ を持たない。
-  if (/Line|FBAN|FBAV|Instagram|Twitter/.test(ua)) {
-    return { canAdd: false, name: "アプリ内ブラウザ" };
+  // アプリ内ブラウザ (LINE / Facebook / Instagram / X) は共有メニューも
+  // インストールメニューも無いので、どの OS でも追加できない。
+  if (/Line\//.test(ua)) return "LINE のアプリ内ブラウザ";
+  if (/FBAN|FBAV/.test(ua)) return "Facebook のアプリ内ブラウザ";
+  if (/Instagram/.test(ua)) return "Instagram のアプリ内ブラウザ";
+  if (/\bTwitter/.test(ua)) return "X のアプリ内ブラウザ";
+  if (platform === "ios") {
+    if (/FxiOS/.test(ua)) return "Firefox";
+    // iOS の Safari / Chrome / Edge は共有メニューから追加できる。
+    if (/CriOS|EdgiOS/.test(ua)) return null;
+    if (/Safari/.test(ua) && /Version\//.test(ua)) return null;
+    return null;
   }
-  if (/Safari/.test(ua) && /Version\//.test(ua)) return { canAdd: true, name: "Safari" };
-  return { canAdd: false, name: "このブラウザ" };
+  return null;
 }
+
+const STEPS: Record<Platform, string[]> = {
+  ios: [
+    "画面の下 (または上) にある共有ボタン □↑ を押す",
+    "メニューを下にスクロールして「ホーム画面に追加」を押す",
+    "右上の「追加」で完了です",
+  ],
+  android: [
+    "画面の右上のメニュー ⋮ を押す",
+    "「アプリをインストール」または「ホーム画面に追加」を押す",
+    "「インストール」/「追加」で完了です",
+  ],
+  desktop: [
+    "アドレスバーの右にあるインストールアイコン ⊕ を押す",
+    "「インストール」を押すと、アプリとして開けるようになります",
+  ],
+};
 
 export function InstallHint() {
-  const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null);
+  const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(() =>
+    getInstallPrompt(),
+  );
   const [dismissed, setDismissed] = useState(() => {
     try {
       return localStorage.getItem(DISMISS_KEY) === "1";
@@ -61,28 +88,19 @@ export function InstallHint() {
   const [installed, setInstalled] = useState(() => isStandalone());
   const [message, setMessage] = useState<string | null>(null);
 
+  // 起動直後に捕まえたイベントを受け取る (後から飛んできた場合もここで拾う)。
+  useEffect(() => subscribeInstallPrompt(setInstallEvent), []);
+
   useEffect(() => {
-    const onPrompt = (e: Event) => {
-      // 既定のミニバーを止めて、こちらのボタンから出す。
-      e.preventDefault();
-      setInstallEvent(e as BeforeInstallPromptEvent);
-    };
     const onInstalled = () => setInstalled(true);
-    window.addEventListener("beforeinstallprompt", onPrompt);
     window.addEventListener("appinstalled", onInstalled);
-    return () => {
-      window.removeEventListener("beforeinstallprompt", onPrompt);
-      window.removeEventListener("appinstalled", onInstalled);
-    };
+    return () => window.removeEventListener("appinstalled", onInstalled);
   }, []);
 
   if (installed || dismissed) return null;
 
-  const ios = isIos();
-  const iosBrowser = ios ? iosBrowserLabel() : null;
-  // Android などで API も無く iOS でもない = 追加できるか判断できないので出さない
-  // (PC のブラウザで毎回この案内が出ると邪魔なため)。
-  if (!ios && !installEvent) return null;
+  const platform = detectPlatform();
+  const blocked = blockedBrowser(platform);
 
   const hide = () => {
     setDismissed(true);
@@ -97,9 +115,10 @@ export function InstallHint() {
     if (!installEvent) return;
     await installEvent.prompt();
     const choice = await installEvent.userChoice;
-    setInstallEvent(null);
+    // prompt() は 1 度しか使えないので、結果にかかわらず捨てる。
+    clearInstallPrompt();
     if (choice.outcome === "accepted") setInstalled(true);
-    else setMessage("あとからブラウザのメニューでも追加できます。");
+    else setMessage("下の手順で、あとからでも追加できます。");
   };
 
   return (
@@ -109,30 +128,38 @@ export function InstallHint() {
         アイコンから開けるようにすると、毎日の 1 回目が速くなります。
       </p>
 
-      {installEvent ? (
+      {installEvent && !blocked && (
         <div className="btn-row">
           <button type="button" className="btn" onClick={() => void install()}>
             📲 ホーム画面に追加する
           </button>
         </div>
-      ) : (
-        <ol className="install-hint__steps">
-          <li>
-            画面下 (または上) の <b>共有ボタン</b> <span aria-hidden="true">□↑</span> を押す
-          </li>
-          <li>
-            メニューを下にスクロールして <b>「ホーム画面に追加」</b> を押す
-          </li>
-          <li>右上の「追加」で完了です</li>
-        </ol>
       )}
 
-      {iosBrowser && !iosBrowser.canAdd && (
+      {blocked ? (
         <p className="install-hint__warn">
-          いま {iosBrowser.name} で開いています。iPhone / iPad では
-          <b> Safari で開いたときだけ</b> ホーム画面に追加できます。
-          このページの URL を Safari で開き直してから、もう一度お試しください。
+          いま <b>{blocked}</b> で開いています。このブラウザからはホーム画面に追加できません。
+          {platform === "ios"
+            ? "URL を Safari で開き直してから、もう一度お試しください。"
+            : "URL を Chrome で開き直してから、もう一度お試しください。"}
         </p>
+      ) : (
+        <>
+          <p className="install-hint__lead">
+            {installEvent ? "うまくいかないときは、手動でも追加できます:" : "追加のしかた:"}
+          </p>
+          <ol className="install-hint__steps">
+            {STEPS[platform].map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+          {platform === "android" && (
+            <p className="install-hint__note">
+              メニューに出てこないときは、Chrome で開いているか確認してください
+              (LINE などのアプリ内ブラウザからは追加できません)。
+            </p>
+          )}
+        </>
       )}
 
       {message && <p className="install-hint__note">{message}</p>}
