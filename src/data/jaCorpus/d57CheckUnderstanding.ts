@@ -23,3 +23,26 @@ export const D57_SELF: JaSentenceInput[] = [
   { ja: "現時点では、これ以上のことは分からないということですか。", en: "So at this point, nothing more is known?", ch: ["at this point,", "nothing more is known?"], scene: "会話", to: "相手", imp: "must" },
   { ja: "ひとまず、ここまで理解しておけば大丈夫そうですね。", en: "For now, understanding this much should be enough.", ch: ["For now, understanding this much", "should be enough"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D57_ADD: JaSentenceInput[] = [
+  { ja: "確認させてください。", en: "Let me make sure.", ch: ["Let me", "make sure"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "順番に整理してもいいですか。", en: "May I go through it in order?", ch: ["May I go through it", "in order?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "まず、ここまでは合っていますか。", en: "First, is this much correct?", ch: ["is this much", "correct?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "その次の部分が少し曖昧です。", en: "The next part is a little vague to me.", ch: ["The next part", "is a little vague"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "つまり、原因はこちらということですね。", en: "So the cause is this one, then.", ch: ["So the cause", "is this one"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "結果として、こうなるという理解でいいですか。", en: "Am I right that this is the result?", ch: ["Am I right that", "this is the result?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "私が言い換えてもいいですか。", en: "May I put it in my own words?", ch: ["May I put it in", "my own words?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "この点だけ、もう一度確認させてください。", en: "Let me confirm just this one point again.", ch: ["just this one point", "again"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "私の言っていることは伝わっていますか。", en: "Is what I'm saying coming across?", ch: ["Is what I'm saying", "coming across?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "分かりにくければ、書いて説明します。", en: "If it's unclear, I'll write it out.", ch: ["If it's unclear,", "I'll write it out"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "同じことを違う言い方で言ってみます。", en: "Let me say the same thing a different way.", ch: ["the same thing", "a different way"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "ここが分かれ目という理解でいいですか。", en: "Am I right that this is the deciding point?", ch: ["this is", "the deciding point"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "そこは決まっていないということですね。", en: "So that part isn't settled.", ch: ["that part", "isn't settled"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "私の勘違いだったら申し訳ありません。", en: "I'm sorry if I've got it wrong.", ch: ["I'm sorry if", "I've got it wrong"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "念のため、記録に残しておきます。", en: "Just to be safe, I'll write it down.", ch: ["Just to be safe,", "I'll write it down"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "あとで読み返して確認します。", en: "I'll read it over later and check.", ch: ["I'll read it over later", "and check"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "理解できたら、また連絡します。", en: "I'll get back to you once I've understood it.", ch: ["once I've", "understood it"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "そこまで理解できていませんでした。", en: "I hadn't understood it that far.", ch: ["I hadn't understood it", "that far"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "だんだん見えてきました。", en: "It's gradually coming into view.", ch: ["It's gradually", "coming into view"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "確認できて安心しました。", en: "I'm relieved to have it confirmed.", ch: ["I'm relieved to have it", "confirmed"], scene: "会話", to: "相手", imp: "must" },
+];

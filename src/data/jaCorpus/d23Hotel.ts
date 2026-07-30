@@ -23,3 +23,26 @@ export const D23_SELF: JaSentenceInput[] = [
   { ja: "部屋はとても快適でした。", en: "The room was very comfortable.", ch: ["The room was", "very comfortable"], scene: "ホテル", to: "フロント", imp: "must" },
   { ja: "ありがとうございました。お世話になりました。", en: "Thank you. I appreciate everything.", ch: ["Thank you.", "I appreciate everything"], scene: "ホテル", to: "フロント", imp: "must" },
 ];
+
+export const D23_ADD: JaSentenceInput[] = [
+  { ja: "禁煙の部屋をお願いします。", en: "A non-smoking room, please.", ch: ["A non-smoking room,", "please"], scene: "ホテル", to: "フロント", imp: "must" },
+  { ja: "高い階の部屋はありますか。", en: "Do you have a room on a higher floor?", ch: ["Do you have a room", "on a higher floor?"], scene: "ホテル", to: "フロント", imp: "often" },
+  { ja: "静かな側の部屋がいいです。", en: "I'd prefer a room on the quiet side.", ch: ["I'd prefer a room", "on the quiet side"], scene: "ホテル", to: "フロント", imp: "often" },
+  { ja: "部屋の鍵はこれですか。", en: "Is this the room key?", ch: ["Is this", "the room key?"], scene: "ホテル", to: "フロント", imp: "often" },
+  { ja: "カードキーが反応しません。", en: "The key card isn't working.", ch: ["The key card", "isn't working"], scene: "ホテル", to: "フロント", imp: "must" },
+  { ja: "お湯が出ないようです。", en: "There doesn't seem to be any hot water.", ch: ["There doesn't seem to be", "any hot water"], scene: "ホテル", to: "フロント", imp: "must" },
+  { ja: "部屋を替えてもらえますか。", en: "Could I change rooms?", ch: ["Could I", "change rooms?"], scene: "ホテル", to: "フロント", imp: "must" },
+  { ja: "隣の部屋の音が気になります。", en: "The noise from next door is bothering me.", ch: ["The noise from next door", "is bothering me"], scene: "ホテル", to: "フロント", imp: "often" },
+  { ja: "掃除は不要です。", en: "We don't need housekeeping.", ch: ["We don't need", "housekeeping"], scene: "ホテル", to: "フロント", imp: "often" },
+  { ja: "洗濯機は使えますか。", en: "Is there a washing machine I can use?", ch: ["Is there a washing machine", "I can use?"], scene: "ホテル", to: "フロント", imp: "sub" },
+  { ja: "自動販売機はどこですか。", en: "Where are the vending machines?", ch: ["Where are", "the vending machines?"], scene: "ホテル", to: "フロント", imp: "often" },
+  { ja: "大浴場は何時までですか。", en: "How late is the public bath open?", ch: ["How late is", "the public bath open?"], scene: "ホテル", to: "フロント", imp: "sub" },
+  { ja: "駐車場は無料ですか。", en: "Is parking free?", ch: ["Is parking", "free?"], scene: "ホテル", to: "フロント", imp: "often" },
+  { ja: "近くにコンビニはありますか。", en: "Is there a convenience store nearby?", ch: ["Is there a convenience store", "nearby?"], scene: "ホテル", to: "フロント", imp: "must" },
+  { ja: "傘を貸してもらえますか。", en: "Could I borrow an umbrella?", ch: ["Could I borrow", "an umbrella?"], scene: "ホテル", to: "フロント", imp: "often" },
+  { ja: "モーニングコールをお願いできますか。", en: "Could I get a wake-up call?", ch: ["Could I get", "a wake-up call?"], scene: "ホテル", to: "フロント", imp: "often" },
+  { ja: "明日は早く出ます。", en: "We'll be leaving early tomorrow.", ch: ["We'll be leaving", "early tomorrow"], scene: "ホテル", to: "フロント", imp: "often" },
+  { ja: "支払いは今でいいですか。", en: "Can I pay now?", ch: ["Can I pay", "now?"], scene: "ホテル", to: "フロント", imp: "often" },
+  { ja: "領収書をいただけますか。", en: "Could I have a receipt, please?", ch: ["Could I have a receipt,", "please?"], scene: "ホテル", to: "フロント", imp: "must" },
+  { ja: "また利用したいと思います。", en: "I'd like to stay here again.", ch: ["I'd like to stay here", "again"], scene: "ホテル", to: "フロント", imp: "often" },
+];

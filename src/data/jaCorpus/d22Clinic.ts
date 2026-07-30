@@ -23,3 +23,26 @@ export const D22_SELF: JaSentenceInput[] = [
   { ja: "眠くなることはありますか。", en: "Does it make you drowsy?", ch: ["Does it make you", "drowsy?"], scene: "薬局", to: "薬剤師", imp: "must" },
   { ja: "分かりました。しばらく様子を見ます。", en: "I understand. I'll see how it goes for a while.", ch: ["I understand.", "I'll see how it goes"], scene: "病院", to: "医師", imp: "must" },
 ];
+
+export const D22_ADD: JaSentenceInput[] = [
+  { ja: "受付はどちらですか。", en: "Where is the reception desk?", ch: ["Where is", "the reception desk?"], scene: "病院", to: "受付", imp: "must" },
+  { ja: "初めて来ました。", en: "This is my first visit.", ch: ["This is", "my first visit"], scene: "病院", to: "受付", imp: "must" },
+  { ja: "問診票を書けばいいですか。", en: "Should I fill out this form?", ch: ["Should I fill out", "this form?"], scene: "病院", to: "受付", imp: "must" },
+  { ja: "名前を呼ばれるまで待ちます。", en: "I'll wait until my name is called.", ch: ["I'll wait until", "my name is called"], scene: "病院", to: "受付", imp: "often" },
+  { ja: "熱を測ってもらえますか。", en: "Could you take my temperature?", ch: ["Could you take", "my temperature?"], scene: "病院", to: "看護師", imp: "often" },
+  { ja: "喉が痛みます。", en: "My throat hurts.", ch: ["My throat", "hurts"], scene: "病院", to: "医師", imp: "must" },
+  { ja: "咳が止まりません。", en: "I can't stop coughing.", ch: ["I can't stop", "coughing"], scene: "病院", to: "医師", imp: "must" },
+  { ja: "三日ほど続いています。", en: "It's been going on for about three days.", ch: ["It's been going on for", "about three days"], scene: "病院", to: "医師", imp: "must" },
+  { ja: "特にアレルギーはありません。", en: "I don't have any particular allergies.", ch: ["I don't have", "any particular allergies"], scene: "病院", to: "医師", imp: "must" },
+  { ja: "今飲んでいる薬はこれです。", en: "This is the medicine I'm taking now.", ch: ["This is the medicine", "I'm taking now"], scene: "病院", to: "医師", imp: "must" },
+  { ja: "注射は必要ですか。", en: "Do I need a shot?", ch: ["Do I need", "a shot?"], scene: "病院", to: "医師", imp: "often" },
+  { ja: "検査をした方がいいですか。", en: "Should I get tested?", ch: ["Should I", "get tested?"], scene: "病院", to: "医師", imp: "often" },
+  { ja: "結果はいつ分かりますか。", en: "When will the results be ready?", ch: ["When will the results", "be ready?"], scene: "病院", to: "医師", imp: "must" },
+  { ja: "診断書をお願いできますか。", en: "Could I get a medical certificate?", ch: ["Could I get", "a medical certificate?"], scene: "病院", to: "受付", imp: "sub" },
+  { ja: "薬局はこの近くにありますか。", en: "Is there a pharmacy near here?", ch: ["Is there a pharmacy", "near here?"], scene: "病院", to: "受付", imp: "often" },
+  { ja: "ジェネリックでお願いします。", en: "Generic is fine, please.", ch: ["Generic is fine,", "please"], scene: "薬局", to: "薬剤師", imp: "often" },
+  { ja: "一日に何回飲みますか。", en: "How many times a day do I take it?", ch: ["How many times a day", "do I take it?"], scene: "薬局", to: "薬剤師", imp: "must" },
+  { ja: "何日分ありますか。", en: "How many days' worth is this?", ch: ["How many days' worth", "is this?"], scene: "薬局", to: "薬剤師", imp: "often" },
+  { ja: "支払いはこちらですか。", en: "Do I pay here?", ch: ["Do I pay", "here?"], scene: "病院", to: "受付", imp: "must" },
+  { ja: "お大事にしてください。", en: "Please take care of yourself.", ch: ["Please take care", "of yourself"], scene: "病院", to: "相手", imp: "must" },
+];

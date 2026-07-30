@@ -23,3 +23,26 @@ export const D60_SELF: JaSentenceInput[] = [
   { ja: "そのインセンティブは、長期的に続くものですか。", en: "Is that incentive something that lasts in the long run?", ch: ["Is that incentive", "something that lasts?"], scene: "議論", to: "相手", imp: "must" },
   { ja: "問題が起きるとすれば、たぶんこの部分だと思います。", en: "If something goes wrong, I think it'll probably be this part.", ch: ["If something goes wrong,", "it'll probably be this part"], scene: "議論", to: "相手", imp: "must" },
 ];
+
+export const D60_ADD: JaSentenceInput[] = [
+  { ja: "先に問題点を洗い出しましょう。", en: "Let's lay out the problems first.", ch: ["lay out the problems", "first"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "気になる点を挙げていきます。", en: "I'll list the points that concern me.", ch: ["the points", "that concern me"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "まず、技術面から見てみます。", en: "First, let's look at it from the technical side.", ch: ["from", "the technical side"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "次に、運用面はどうでしょうか。", en: "Next, what about the operational side?", ch: ["what about", "the operational side?"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "人手が必要な部分はどこですか。", en: "Where does it require manual work?", ch: ["Where does it require", "manual work?"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "その作業は誰が担当しますか。", en: "Who will handle that work?", ch: ["Who will handle", "that work?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "担当者が抜けたらどうなりますか。", en: "What happens if that person leaves?", ch: ["What happens if", "that person leaves?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "手順が属人的になっていませんか。", en: "Isn't the process too dependent on one person?", ch: ["too dependent on", "one person?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "記録が残らない点が心配です。", en: "I'm concerned that no record is kept.", ch: ["no record", "is kept"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "後から検証できる形になっていますか。", en: "Is it in a form that can be verified later?", ch: ["can be verified", "later?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "想定外の入力があった場合はどうなりますか。", en: "What happens with unexpected input?", ch: ["What happens with", "unexpected input?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "上限は設けていますか。", en: "Is there an upper limit in place?", ch: ["Is there", "an upper limit?"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "同時に多くの人が使ったらどうでしょうか。", en: "What if many people use it at once?", ch: ["What if many people", "use it at once?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "通信が切れた場合の動きはどうなりますか。", en: "What does it do if the connection drops?", ch: ["if the connection", "drops"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "途中で止まったときの復旧手順はありますか。", en: "Is there a recovery procedure if it stops midway?", ch: ["a recovery procedure", "if it stops midway"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "利用者に説明できる内容でしょうか。", en: "Is this something we can explain to users?", ch: ["something we can", "explain to users?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "誤解される表現はありませんか。", en: "Is there any wording that could be misread?", ch: ["any wording that", "could be misread?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "最悪の場合の損失はどのくらいですか。", en: "How large is the loss in the worst case?", ch: ["How large is the loss", "in the worst case?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "それを許容できるかどうかですね。", en: "The question is whether we can accept that.", ch: ["whether we can", "accept that"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "洗い出せた分は、書き出しておきます。", en: "I'll write down everything we've identified.", ch: ["I'll write down", "everything we've identified"], scene: "議論", to: "相手", imp: "often" },
+];

@@ -23,3 +23,26 @@ export const D52_SELF: JaSentenceInput[] = [
   { ja: "何を許可しているのかを、分かりやすく表示する必要があります。", en: "We need to show clearly what is being authorized.", ch: ["show clearly", "what is being authorized"], scene: "説明", to: "相手", imp: "must" },
   { ja: "方向性としては面白いですが、慎重に見ていきたいと思っています。", en: "The direction is interesting, but I want to watch it carefully.", ch: ["The direction is interesting,", "but I want to watch it carefully"], scene: "説明", to: "相手", imp: "must" },
 ];
+
+export const D52_ADD: JaSentenceInput[] = [
+  { ja: "この仕組みは、まだ実験的な段階です。", en: "This mechanism is still at an experimental stage.", ch: ["still at", "an experimental stage"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "実際の資産に裏付けられているかが重要です。", en: "What matters is whether it's backed by real assets.", ch: ["whether it's backed by", "real assets"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "裏付けの証明はどこで確認できますか。", en: "Where can I verify the proof of backing?", ch: ["Where can I verify", "the proof of backing?"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "監査の頻度も気になります。", en: "I'm also curious about how often it's audited.", ch: ["how often", "it's audited"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "誰が発行しているのかを確認しましょう。", en: "Let's check who issues it.", ch: ["Let's check", "who issues it"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "規制の対象になる可能性もあります。", en: "It could also become subject to regulation.", ch: ["become subject to", "regulation"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "日本から使えるかどうかも確認が必要です。", en: "We also need to check whether it can be used from Japan.", ch: ["whether it can be used", "from Japan"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "利回りは変動する可能性があります。", en: "The yield can fluctuate.", ch: ["The yield", "can fluctuate"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "元本が保証されているわけではありません。", en: "The principal isn't guaranteed.", ch: ["The principal", "isn't guaranteed"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "解約に時間がかかることもあります。", en: "Withdrawing can take time.", ch: ["Withdrawing", "can take time"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "その待ち時間も先に確認しておきましょう。", en: "Let's check that waiting period in advance too.", ch: ["check that waiting period", "in advance"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "少額で試してから増やすのが安全です。", en: "It's safer to try a small amount before increasing it.", ch: ["try a small amount", "before increasing it"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "画面の表示が分かりにくいところがあります。", en: "There are places where the display is hard to follow.", ch: ["the display", "is hard to follow"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "初めての人が迷わない設計が必要です。", en: "It needs a design that doesn't confuse first-timers.", ch: ["a design that doesn't", "confuse first-timers"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "手数料の内訳も明示してほしいです。", en: "I'd like the fee breakdown shown clearly too.", ch: ["the fee breakdown", "shown clearly"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "この機能は実際に使われるでしょうか。", en: "Will this feature actually get used?", ch: ["Will this feature", "actually get used?"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "需要があるかどうかは、まだ分かりません。", en: "Whether there's demand is still unclear.", ch: ["Whether there's demand", "is still unclear"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "既存の金融と比べて何が良いのでしょうか。", en: "What's better about it compared with existing finance?", ch: ["compared with", "existing finance"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "そこを説明できないと広がらないと思います。", en: "If we can't explain that, I don't think it will spread.", ch: ["If we can't explain that,", "it won't spread"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "しばらくは様子を見ようと思います。", en: "I'm going to watch it for a while.", ch: ["watch it", "for a while"], scene: "議論", to: "相手", imp: "must" },
+];

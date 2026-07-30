@@ -23,3 +23,26 @@ export const D63_SELF: JaSentenceInput[] = [
   { ja: "思っていた以上に大きな話につながる可能性があります。", en: "It could lead to something bigger than I thought.", ch: ["could lead to something", "bigger than I thought"], scene: "議論", to: "相手", imp: "must" },
   { ja: "まだ気づいていない使い方が、たくさんありそうですね。", en: "There are probably many uses we haven't noticed yet.", ch: ["many uses we", "haven't noticed yet"], scene: "議論", to: "相手", imp: "must" },
 ];
+
+export const D63_ADD: JaSentenceInput[] = [
+  { ja: "少し想像の話をしてもいいですか。", en: "May I speculate a little?", ch: ["May I speculate", "a little?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "実現するかは分かりませんが、面白い話です。", en: "I don't know if it'll happen, but it's an interesting idea.", ch: ["I don't know if it'll happen,", "but it's interesting"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "もし実現したら、何が変わりますか。", en: "If it happened, what would change?", ch: ["If it happened,", "what would change?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "困っている人が減るかもしれません。", en: "It might reduce the number of people struggling.", ch: ["reduce the number of people", "struggling"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "手続きが簡単になりそうです。", en: "The procedures would probably get simpler.", ch: ["The procedures would", "get simpler"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "時間の節約になりますね。", en: "It would save time.", ch: ["It would", "save time"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "紙の書類が減るかもしれません。", en: "It might cut down on paper documents.", ch: ["cut down on", "paper documents"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "地方に住んでいても使えます。", en: "It could be used even from rural areas.", ch: ["even from", "rural areas"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "海外からでも手続きできそうです。", en: "You could probably do it from overseas too.", ch: ["from", "overseas too"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "そこまで来ると、社会の仕組みの話ですね。", en: "At that point, it becomes a question of how society is set up.", ch: ["a question of how", "society is set up"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "技術だけでは進みませんね。", en: "Technology alone won't move it forward.", ch: ["Technology alone", "won't move it forward"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "誰が最初に使うかが鍵になります。", en: "Who uses it first will be the key.", ch: ["Who uses it first", "will be the key"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "小さな成功例があると広がります。", en: "One small success story helps it spread.", ch: ["One small success story", "helps it spread"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "その事例を作れないでしょうか。", en: "Could we create that example ourselves?", ch: ["create that example", "ourselves?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "身近なところから試せそうです。", en: "We could try it somewhere close to home.", ch: ["try it somewhere", "close to home"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "私たちの規模でもできることはあります。", en: "There are things we can do even at our size.", ch: ["even at", "our size"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "失敗しても学びになります。", en: "Even if it fails, we learn from it.", ch: ["Even if it fails,", "we learn from it"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "とりあえず考えを書き出してみます。", en: "For now I'll write the ideas down.", ch: ["write the ideas", "down"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "また意見を聞かせてください。", en: "Please share your thoughts again.", ch: ["share your thoughts", "again"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "考えているだけでも楽しいですね。", en: "Just thinking about it is enjoyable.", ch: ["Just thinking about it", "is enjoyable"], scene: "議論", to: "相手", imp: "often" },
+];

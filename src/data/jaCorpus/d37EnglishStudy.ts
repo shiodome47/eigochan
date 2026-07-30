@@ -23,3 +23,26 @@ export const D37_SELF: JaSentenceInput[] = [
   { ja: "毎日少しずつでも、続けることが大事ですね。", en: "Even just a little each day, keeping it up is what matters.", ch: ["Even just a little each day,", "keeping it up matters"], scene: "学習", to: "相手", imp: "must" },
   { ja: "時間はかかっても、確実に身につけたいと思っています。", en: "Even if it takes time, I want to make it stick for good.", ch: ["Even if it takes time,", "make it stick for good"], scene: "学習", to: "相手", imp: "must" },
 ];
+
+export const D37_ADD: JaSentenceInput[] = [
+  { ja: "英語を始めたのは最近です。", en: "I only started English recently.", ch: ["I only started", "English recently"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "学生のとき以来、ほとんど使っていませんでした。", en: "I'd barely used it since I was a student.", ch: ["I'd barely used it", "since I was a student"], scene: "学習", to: "相手", imp: "often" },
+  { ja: "毎日三十分は続けています。", en: "I keep it up for at least thirty minutes a day.", ch: ["at least thirty minutes", "a day"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "朝に練習する方が続きます。", en: "Practicing in the morning is easier to keep up.", ch: ["Practicing in the morning", "is easier to keep up"], scene: "学習", to: "相手", imp: "often" },
+  { ja: "声に出す練習を中心にしています。", en: "I focus on practicing out loud.", ch: ["I focus on", "practicing out loud"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "自分の声を録音して聞き返しています。", en: "I record my own voice and listen back.", ch: ["I record my own voice", "and listen back"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "録音を聞くと、直すところが分かります。", en: "Listening to the recording shows me what to fix.", ch: ["Listening to the recording", "shows me what to fix"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "発音はまだ自信がありません。", en: "I'm still not confident about my pronunciation.", ch: ["I'm still not confident", "about my pronunciation"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "通じればいいと思うようにしています。", en: "I try to tell myself that being understood is enough.", ch: ["being understood", "is enough"], scene: "学習", to: "相手", imp: "often" },
+  { ja: "間違えることは気にしないようにしています。", en: "I try not to worry about making mistakes.", ch: ["try not to worry about", "making mistakes"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "自分用の例文集を作っています。", en: "I'm building a collection of sentences for myself.", ch: ["a collection of sentences", "for myself"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "日本語を先に書いてから英語にしています。", en: "I write the Japanese first and then put it into English.", ch: ["I write the Japanese first", "and then put it into English"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "実際に使いそうな場面を思い浮かべます。", en: "I picture situations where I'd actually use it.", ch: ["I picture situations", "where I'd actually use it"], scene: "学習", to: "相手", imp: "often" },
+  { ja: "覚えた表現は、その日のうちに使ってみます。", en: "I try to use what I learn the same day.", ch: ["use what I learn", "the same day"], scene: "学習", to: "相手", imp: "often" },
+  { ja: "英語で独り言を言うようにしています。", en: "I try to talk to myself in English.", ch: ["talk to myself", "in English"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "聞き取れないところは何度も再生します。", en: "I replay the parts I can't catch over and over.", ch: ["I replay the parts", "I can't catch"], scene: "学習", to: "相手", imp: "often" },
+  { ja: "字幕なしでも少し分かるようになりました。", en: "I can follow a little even without subtitles now.", ch: ["even without subtitles", "now"], scene: "学習", to: "相手", imp: "often" },
+  { ja: "伸びを感じるまでに時間がかかりますね。", en: "It takes time before you feel progress.", ch: ["It takes time before", "you feel progress"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "それでも、去年よりは話せています。", en: "Even so, I can speak more than last year.", ch: ["Even so, I can speak more", "than last year"], scene: "学習", to: "相手", imp: "often" },
+  { ja: "焦らずに続けていきたいです。", en: "I want to keep going without rushing.", ch: ["keep going", "without rushing"], scene: "学習", to: "相手", imp: "must" },
+];

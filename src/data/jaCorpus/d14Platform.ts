@@ -23,3 +23,26 @@ export const D14_SELF: JaSentenceInput[] = [
   { ja: "座れそうにはありませんね。", en: "It doesn't look like we'll get a seat.", ch: ["It doesn't look like", "we'll get a seat"], scene: "駅", to: "家族", imp: "must" },
   { ja: "そろそろ電車が来ると思います。", en: "I think the train will be here soon.", ch: ["I think the train", "will be here soon"], scene: "駅", to: "家族", imp: "must" },
 ];
+
+export const D14_ADD: JaSentenceInput[] = [
+  { ja: "切符はどこで買えますか。", en: "Where can I buy a ticket?", ch: ["Where can I buy", "a ticket?"], scene: "駅", to: "駅員", imp: "must" },
+  { ja: "ICカードにチャージしておきます。", en: "I'll top up my IC card.", ch: ["I'll top up", "my IC card"], scene: "駅", to: "家族", imp: "often" },
+  { ja: "改札はどちらですか。", en: "Which way are the ticket gates?", ch: ["Which way are", "the ticket gates?"], scene: "駅", to: "駅員", imp: "must" },
+  { ja: "特急券は必要ですか。", en: "Do I need an express ticket?", ch: ["Do I need", "an express ticket?"], scene: "駅", to: "駅員", imp: "often" },
+  { ja: "指定席は空いていますか。", en: "Are there reserved seats available?", ch: ["Are there reserved seats", "available?"], scene: "駅", to: "駅員", imp: "often" },
+  { ja: "何号車に乗ればいいですか。", en: "Which car should I get on?", ch: ["Which car", "should I get on?"], scene: "駅", to: "駅員", imp: "often" },
+  { ja: "白線の内側で待ちましょう。", en: "Let's wait behind the white line.", ch: ["Let's wait behind", "the white line"], scene: "駅", to: "家族", imp: "often" },
+  { ja: "列に並んでおきますね。", en: "I'll get in line.", ch: ["I'll get", "in line"], scene: "駅", to: "家族", imp: "often" },
+  { ja: "電光掲示板を見てみましょう。", en: "Let's check the departure board.", ch: ["Let's check", "the departure board"], scene: "駅", to: "家族", imp: "often" },
+  { ja: "次は何時のがありますか。", en: "What time is the next one?", ch: ["What time is", "the next one?"], scene: "駅", to: "駅員", imp: "must" },
+  { ja: "一本見送りましょうか。", en: "Should we let this one go?", ch: ["Should we let", "this one go?"], scene: "駅", to: "家族", imp: "often" },
+  { ja: "エスカレーターはありますか。", en: "Is there an escalator?", ch: ["Is there", "an escalator?"], scene: "駅", to: "駅員", imp: "often" },
+  { ja: "階段を上がった方が早そうです。", en: "Taking the stairs looks faster.", ch: ["Taking the stairs", "looks faster"], scene: "駅", to: "家族", imp: "often" },
+  { ja: "乗り換えの時間は足りそうですか。", en: "Will we have enough time to transfer?", ch: ["Will we have enough time", "to transfer?"], scene: "駅", to: "家族", imp: "must" },
+  { ja: "遅れの案内が出ていますね。", en: "There's a delay announcement up.", ch: ["There's a delay", "announcement up"], scene: "駅", to: "家族", imp: "often" },
+  { ja: "ホームは寒いですね。", en: "It's cold on the platform.", ch: ["It's cold", "on the platform"], scene: "駅", to: "家族", imp: "sub" },
+  { ja: "売店で何か買ってきましょうか。", en: "Should I get something at the kiosk?", ch: ["Should I get something", "at the kiosk?"], scene: "駅", to: "家族", imp: "sub" },
+  { ja: "トイレに行っておきます。", en: "I'll go to the restroom first.", ch: ["I'll go to the restroom", "first"], scene: "駅", to: "家族", imp: "often" },
+  { ja: "急いで乗りましょう。", en: "Let's hurry and get on.", ch: ["Let's hurry", "and get on"], scene: "駅", to: "家族", imp: "often" },
+  { ja: "これで間に合いましたね。", en: "We made it in time.", ch: ["We made it", "in time"], scene: "駅", to: "家族", imp: "often" },
+];

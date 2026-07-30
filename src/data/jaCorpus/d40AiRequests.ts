@@ -23,3 +23,26 @@ export const D40_SELF: JaSentenceInput[] = [
   { ja: "私の理解が間違っていないか確認してください。", en: "Please check whether my understanding is wrong anywhere.", ch: ["check whether", "my understanding is wrong"], scene: "仕事", to: "AI", imp: "must" },
   { ja: "できれば、問題になりそうな点も補足してください。", en: "If you can, please add any points that could become problems.", ch: ["please add any points", "that could become problems"], scene: "仕事", to: "AI", imp: "must" },
 ];
+
+export const D40_ADD: JaSentenceInput[] = [
+  { ja: "この作業を手伝ってください。", en: "Please help me with this task.", ch: ["Please help me", "with this task"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "手順を順番に並べてください。", en: "Please lay out the steps in order.", ch: ["lay out the steps", "in order"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "表の形にまとめてください。", en: "Please put it together as a table.", ch: ["put it together", "as a table"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "箇条書きにしてください。", en: "Please make it a bulleted list.", ch: ["make it", "a bulleted list"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "三つの案を出してください。", en: "Please give me three options.", ch: ["give me", "three options"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "それぞれの長所と短所を教えてください。", en: "Please tell me the pros and cons of each.", ch: ["the pros and cons", "of each"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "一番おすすめはどれですか。", en: "Which one do you recommend most?", ch: ["Which one do you", "recommend most?"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "理由も一緒に説明してください。", en: "Please explain the reasoning as well.", ch: ["explain the reasoning", "as well"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "根拠が不確かな部分は、そう言ってください。", en: "Where the basis is uncertain, please say so.", ch: ["Where the basis is uncertain,", "please say so"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "分からないことは、分からないと答えてください。", en: "If you don't know, please say you don't know.", ch: ["If you don't know,", "please say so"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "この文章を短く要約してください。", en: "Please summarize this text briefly.", ch: ["summarize this text", "briefly"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "重要な部分だけを残してください。", en: "Please keep only the important parts.", ch: ["keep only", "the important parts"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "日本語と英語の両方で書いてください。", en: "Please write it in both Japanese and English.", ch: ["in both Japanese", "and English"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "英語は自然な口語にしてください。", en: "Please make the English natural, spoken style.", ch: ["make the English", "natural, spoken style"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "私が言いそうな言い方にしてください。", en: "Please phrase it the way I would say it.", ch: ["phrase it the way", "I would say it"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "前回の内容を踏まえて続けてください。", en: "Please continue based on what we did last time.", ch: ["continue based on", "what we did last time"], scene: "仕事", to: "AI", imp: "often" },
+  { ja: "そこは変更しないでください。", en: "Please leave that part unchanged.", ch: ["leave that part", "unchanged"], scene: "仕事", to: "AI", imp: "must" },
+  { ja: "もう一度、最初からやり直してください。", en: "Please start over from the beginning.", ch: ["start over", "from the beginning"], scene: "仕事", to: "AI", imp: "often" },
+  { ja: "この形で保存しておいてください。", en: "Please save it in this form.", ch: ["save it", "in this form"], scene: "仕事", to: "AI", imp: "often" },
+  { ja: "ありがとうございます。これで進めます。", en: "Thank you. I'll go ahead with this.", ch: ["Thank you.", "I'll go ahead with this"], scene: "仕事", to: "AI", imp: "must" },
+];

@@ -23,3 +23,26 @@ export const D59_SELF: JaSentenceInput[] = [
   { ja: "私が考えすぎているだけかもしれませんが、少し引っかかります。", en: "Maybe I'm overthinking it, but something nags at me.", ch: ["Maybe I'm overthinking it,", "but something nags at me"], scene: "会話", to: "相手", imp: "must" },
   { ja: "この違和感がどこから来るのか、もう少し考えてみたいです。", en: "I'd like to think a bit more about where this uneasiness comes from.", ch: ["where this uneasiness", "comes from"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D59_ADD: JaSentenceInput[] = [
+  { ja: "感覚的な話で申し訳ないのですが。", en: "Sorry, this is more of a gut feeling.", ch: ["this is more of", "a gut feeling"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "何となく落ち着かない感じがします。", en: "Something about it doesn't sit right with me.", ch: ["doesn't sit right", "with me"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "この部分だけ浮いて見えます。", en: "Only this part looks out of place.", ch: ["looks out of", "place"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "前の話とつながっていない気がします。", en: "It doesn't seem connected to what came before.", ch: ["doesn't seem connected to", "what came before"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "順番が逆ではないでしょうか。", en: "Isn't the order backwards?", ch: ["Isn't the order", "backwards?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "その結論は少し早い気がします。", en: "That conclusion feels a bit early.", ch: ["That conclusion feels", "a bit early"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "根拠が一つだけでは弱くないですか。", en: "Isn't one piece of evidence a bit weak?", ch: ["Isn't one piece of evidence", "a bit weak?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "その数字は本当に正しいのでしょうか。", en: "Is that number really correct?", ch: ["Is that number", "really correct?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "都合のいい例だけ選んでいませんか。", en: "Aren't we picking only the convenient examples?", ch: ["picking only", "the convenient examples"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "反対の例も探した方がいいですね。", en: "We should look for counterexamples too.", ch: ["look for", "counterexamples"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "言葉の定義がずれている気がします。", en: "I feel like our definitions are slightly different.", ch: ["our definitions are", "slightly different"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "同じ言葉を違う意味で使っていませんか。", en: "Are we using the same word in different senses?", ch: ["the same word", "in different senses?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "そこを揃えてから話しませんか。", en: "Shall we align on that before continuing?", ch: ["align on that", "before continuing"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "私だけが引っかかっているのでしょうか。", en: "Am I the only one bothered by this?", ch: ["Am I the only one", "bothered by this?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "他の方はどう感じましたか。", en: "How did the rest of you feel about it?", ch: ["How did the rest of you", "feel about it?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "気のせいならそれで構いません。", en: "If it's just me, that's fine.", ch: ["If it's just me,", "that's fine"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "後から問題になると困るので、先に言っておきます。", en: "I'm raising it now so it doesn't become a problem later.", ch: ["I'm raising it now so", "it doesn't become a problem"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "一度立ち止まって考えませんか。", en: "Shall we pause and think for a moment?", ch: ["pause and think", "for a moment"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "私の心配が外れていればいいのですが。", en: "I hope my worry turns out to be unfounded.", ch: ["I hope my worry", "is unfounded"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "説明を聞いて、少し納得しました。", en: "After your explanation, I'm somewhat convinced.", ch: ["After your explanation,", "I'm somewhat convinced"], scene: "会話", to: "相手", imp: "must" },
+];

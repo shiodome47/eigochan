@@ -23,3 +23,26 @@ export const D26_SELF: JaSentenceInput[] = [
   { ja: "久しぶりに話せてよかったです。", en: "It was good to talk after so long.", ch: ["It was good to talk", "after so long"], scene: "会話", to: "友人", imp: "must" },
   { ja: "では、また連絡します。", en: "All right, I'll be in touch.", ch: ["All right,", "I'll be in touch"], scene: "会話", to: "友人", imp: "must" },
 ];
+
+export const D26_ADD: JaSentenceInput[] = [
+  { ja: "お久しぶりです。", en: "It's been a while.", ch: ["It's been", "a while"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "元気にしていましたか。", en: "Have you been well?", ch: ["Have you been", "well?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "仕事は忙しいですか。", en: "Have you been busy with work?", ch: ["Have you been busy", "with work?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "最近はどんなことをしているんですか。", en: "What have you been up to lately?", ch: ["What have you been up to", "lately?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "私はあまり変わっていません。", en: "Nothing much has changed for me.", ch: ["Nothing much", "has changed for me"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "その話は聞いたことがあります。", en: "I've heard about that.", ch: ["I've heard", "about that"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "それは面白そうですね。", en: "That sounds interesting.", ch: ["That sounds", "interesting"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "詳しく教えてもらえますか。", en: "Could you tell me more about it?", ch: ["Could you tell me more", "about it?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "私も一度やってみたいです。", en: "I'd like to try it sometime too.", ch: ["I'd like to try it", "sometime too"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "そのうち行ってみます。", en: "I'll get around to going.", ch: ["I'll get around to", "going"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "そういえば、あの人は元気ですか。", en: "By the way, how is that person doing?", ch: ["By the way,", "how is ... doing?"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "最近は会えていないんですよね。", en: "I haven't been able to see them lately.", ch: ["I haven't been able to", "see them lately"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "そろそろ集まりたいですね。", en: "It'd be nice to get together soon.", ch: ["It'd be nice to", "get together soon"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "季節の変わり目は体調を崩しやすいですね。", en: "It's easy to get sick when the seasons change.", ch: ["It's easy to get sick", "when the seasons change"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "そちらは変わりないですか。", en: "Is everything the same on your end?", ch: ["Is everything the same", "on your end?"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "話し込んでしまいましたね。", en: "We really got into talking, didn't we?", ch: ["We really got into talking,", "didn't we?"], scene: "会話", to: "友人", imp: "sub" },
+  { ja: "そろそろ時間ですね。", en: "It's about that time.", ch: ["It's about", "that time"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "無理しないでくださいね。", en: "Please don't overdo it.", ch: ["Please don't", "overdo it"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "何かあれば言ってください。", en: "Let me know if anything comes up.", ch: ["Let me know if", "anything comes up"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "気をつけて帰ってくださいね。", en: "Get home safely.", ch: ["Get home", "safely"], scene: "会話", to: "友人", imp: "must" },
+];

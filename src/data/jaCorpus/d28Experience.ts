@@ -23,3 +23,26 @@ export const D28_SELF: JaSentenceInput[] = [
   { ja: "これはあくまで私自身の経験です。", en: "This is just my own experience.", ch: ["This is just", "my own experience"], scene: "会話", to: "相手", imp: "must" },
   { ja: "何かの参考になればうれしいです。", en: "I hope it's helpful in some way.", ch: ["I hope it's helpful", "in some way"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D28_ADD: JaSentenceInput[] = [
+  { ja: "少し長くなりますが、話してもいいですか。", en: "It'll take a while, but may I tell you about it?", ch: ["It'll take a while, but", "may I tell you?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "始めたのは三年ほど前です。", en: "I started about three years ago.", ch: ["I started", "about three years ago"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "きっかけは、ちょっとしたことでした。", en: "What got me started was something small.", ch: ["What got me started", "was something small"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "最初は誰にも相談しませんでした。", en: "At first I didn't ask anyone for advice.", ch: ["At first I didn't", "ask anyone for advice"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "自分で調べながら進めました。", en: "I worked through it while looking things up myself.", ch: ["while looking things up", "myself"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "分からないことばかりでした。", en: "There was so much I didn't understand.", ch: ["There was so much", "I didn't understand"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "同じところで何度もつまずきました。", en: "I got stuck at the same place over and over.", ch: ["I got stuck at the same place", "over and over"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "そのときに助けてくれた人がいました。", en: "There was someone who helped me then.", ch: ["There was someone", "who helped me"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "教えてもらったやり方が合っていました。", en: "The way they showed me turned out to fit.", ch: ["The way they showed me", "turned out to fit"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "そこから少しずつ形になりました。", en: "From there it slowly took shape.", ch: ["From there", "it slowly took shape"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "続けているうちに慣れてきました。", en: "I got used to it as I kept at it.", ch: ["I got used to it", "as I kept at it"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "今でも失敗することはあります。", en: "I still make mistakes even now.", ch: ["I still make mistakes", "even now"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "ただ、慌てなくなりました。", en: "But I don't panic anymore.", ch: ["But I don't", "panic anymore"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "止めようと思ったこともあります。", en: "There were times I thought about quitting.", ch: ["There were times", "I thought about quitting"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "それでも続けてよかったと思っています。", en: "Even so, I'm glad I kept going.", ch: ["Even so,", "I'm glad I kept going"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "得たものは技術だけではありませんでした。", en: "What I gained wasn't just skills.", ch: ["What I gained", "wasn't just skills"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "人とのつながりが一番大きいかもしれません。", en: "The connections with people may be the biggest part.", ch: ["The connections with people", "may be the biggest part"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "同じ道を通る人の役に立てればうれしいです。", en: "I'd be glad if it helps someone on the same path.", ch: ["I'd be glad if it helps", "someone on the same path"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "長くなってしまい、すみません。", en: "Sorry, that got long.", ch: ["Sorry,", "that got long"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "こんな話でよければ、いつでもします。", en: "If this kind of story is useful, I'm happy to share anytime.", ch: ["If this is useful,", "I'm happy to share anytime"], scene: "会話", to: "相手", imp: "sub" },
+];

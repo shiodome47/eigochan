@@ -23,3 +23,26 @@ export const D13_SELF: JaSentenceInput[] = [
   { ja: "分かりやすく教えていただいて、ありがとうございます。", en: "Thank you for explaining it so clearly.", ch: ["Thank you for explaining it", "so clearly"], scene: "道", to: "通行人", imp: "must" },
   { ja: "ようやく場所が分かりました。", en: "We finally found it.", ch: ["We finally", "found it"], scene: "道", to: "家族", imp: "must" },
 ];
+
+export const D13_ADD: JaSentenceInput[] = [
+  { ja: "地図を見せてもらえますか。", en: "Could you show me the map?", ch: ["Could you show me", "the map?"], scene: "道", to: "家族", imp: "often" },
+  { ja: "携帯で調べてみますね。", en: "I'll look it up on my phone.", ch: ["I'll look it up", "on my phone"], scene: "道", to: "家族", imp: "often" },
+  { ja: "電波が弱いですね。", en: "The signal is weak here.", ch: ["The signal is weak", "here"], scene: "道", to: "家族", imp: "sub" },
+  { ja: "ここは何という通りですか。", en: "What street is this?", ch: ["What street", "is this?"], scene: "道", to: "通行人", imp: "often" },
+  { ja: "信号を渡ってからですか。", en: "Is it after we cross at the light?", ch: ["Is it after", "we cross at the light?"], scene: "道", to: "通行人", imp: "often" },
+  { ja: "大きな建物が目印になりそうです。", en: "That big building should work as a landmark.", ch: ["should work as", "a landmark"], scene: "道", to: "家族", imp: "often" },
+  { ja: "一本手前の道だったようです。", en: "It looks like it was one street back.", ch: ["It looks like it was", "one street back"], scene: "道", to: "家族", imp: "often" },
+  { ja: "案内板がありますね。", en: "There's a sign over there.", ch: ["There's a sign", "over there"], scene: "道", to: "家族", imp: "often" },
+  { ja: "駅の何番出口から出ればいいですか。", en: "Which station exit should I take?", ch: ["Which station exit", "should I take?"], scene: "道", to: "駅員", imp: "must" },
+  { ja: "反対側の出口かもしれません。", en: "It might be the exit on the other side.", ch: ["It might be the exit", "on the other side"], scene: "道", to: "家族", imp: "often" },
+  { ja: "誰かに聞いてみましょうか。", en: "Should we ask someone?", ch: ["Should we ask", "someone?"], scene: "道", to: "家族", imp: "must" },
+  { ja: "すみません、少しお尋ねしてもいいですか。", en: "Excuse me, may I ask you something?", ch: ["Excuse me,", "may I ask you something?"], scene: "道", to: "通行人", imp: "must" },
+  { ja: "この住所はどの辺りになりますか。", en: "Whereabouts is this address?", ch: ["Whereabouts is", "this address?"], scene: "道", to: "通行人", imp: "must" },
+  { ja: "歩いて十分くらいだそうです。", en: "They say it's about a ten-minute walk.", ch: ["They say it's about", "a ten-minute walk"], scene: "道", to: "家族", imp: "often" },
+  { ja: "タクシーの方が確実かもしれません。", en: "A taxi might be more reliable.", ch: ["A taxi might be", "more reliable"], scene: "道", to: "家族", imp: "often" },
+  { ja: "予定より少し遅れそうです。", en: "We're going to be a little later than planned.", ch: ["a little later", "than planned"], scene: "道", to: "家族", imp: "must" },
+  { ja: "先に連絡しておきましょうか。", en: "Should I let them know ahead of time?", ch: ["Should I let them know", "ahead of time?"], scene: "道", to: "家族", imp: "often" },
+  { ja: "ここで間違いないと思います。", en: "I'm pretty sure this is it.", ch: ["I'm pretty sure", "this is it"], scene: "道", to: "家族", imp: "often" },
+  { ja: "一度戻ってみましょうか。", en: "Should we go back the way we came?", ch: ["Should we go back", "the way we came?"], scene: "道", to: "家族", imp: "often" },
+  { ja: "無事に着いてよかったですね。", en: "I'm glad we got here all right.", ch: ["I'm glad we got here", "all right"], scene: "道", to: "家族", imp: "often" },
+];

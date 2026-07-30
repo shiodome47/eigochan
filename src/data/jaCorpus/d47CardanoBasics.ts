@@ -23,3 +23,26 @@ export const D47_SELF: JaSentenceInput[] = [
   { ja: "ただし、便利だからといって安全とは限りません。", en: "That said, convenient doesn't necessarily mean safe.", ch: ["convenient doesn't", "necessarily mean safe"], scene: "説明", to: "相手", imp: "must" },
   { ja: "利用する前に、仕組みとリスクを理解することが大切です。", en: "Before using it, it's important to understand how it works and the risks.", ch: ["understand how it works", "and the risks"], scene: "説明", to: "相手", imp: "must" },
 ];
+
+export const D47_ADD: JaSentenceInput[] = [
+  { ja: "ブロックチェーンという言葉は聞いたことがありますか。", en: "Have you heard the word blockchain before?", ch: ["Have you heard", "the word ... before?"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "簡単に言うと、共有された記録の仕組みです。", en: "Put simply, it's a shared record-keeping system.", ch: ["Put simply,", "a shared record-keeping system"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "一度書き込まれた記録は、簡単には変えられません。", en: "Once a record is written, it can't easily be changed.", ch: ["Once a record is written,", "it can't easily be changed"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "その記録は、世界中の参加者が持っています。", en: "Those records are held by participants around the world.", ch: ["held by participants", "around the world"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "特定の会社が管理しているわけではありません。", en: "It isn't managed by any single company.", ch: ["isn't managed by", "any single company"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "だからこそ、止まりにくい仕組みになっています。", en: "That's exactly why it's hard to shut down.", ch: ["That's why", "it's hard to shut down"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "Cardanoは、その中の一つです。", en: "Cardano is one of those.", ch: ["Cardano is", "one of those"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "論文をもとに設計されている点が特徴です。", en: "One feature is that it's designed based on academic papers.", ch: ["designed based on", "academic papers"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "その分、時間がかかることもあります。", en: "As a result, things can take time.", ch: ["As a result,", "things can take time"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "急がずに作ることを選んでいるのだと思います。", en: "I think they've chosen to build without rushing.", ch: ["chosen to build", "without rushing"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "取引には手数料がかかります。", en: "Transactions have a fee.", ch: ["Transactions", "have a fee"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "手数料は、それほど高くありません。", en: "The fees aren't that high.", ch: ["The fees aren't", "that high"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "送金は数分で完了します。", en: "A transfer completes in a few minutes.", ch: ["completes in", "a few minutes"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "ウォレットは自分で用意します。", en: "You set up the wallet yourself.", ch: ["You set up the wallet", "yourself"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "復元用の言葉は、必ず紙に書いて保管してください。", en: "Please write the recovery phrase on paper and keep it safe.", ch: ["write the recovery phrase", "on paper"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "その言葉を他人に見せてはいけません。", en: "Never show that phrase to anyone.", ch: ["Never show that phrase", "to anyone"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "スクリーンショットで保存するのは危険です。", en: "Saving it as a screenshot is risky.", ch: ["Saving it as a screenshot", "is risky"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "少額から試してみるのがいいと思います。", en: "I think it's best to start with a small amount.", ch: ["start with", "a small amount"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "分からない部分は、遠慮なく聞いてください。", en: "Please don't hesitate to ask about anything unclear.", ch: ["don't hesitate to ask", "about anything unclear"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "まずは触ってみるのが一番早いです。", en: "The quickest way is to just try it.", ch: ["The quickest way is", "to just try it"], scene: "説明", to: "相手", imp: "must" },
+];

@@ -23,3 +23,26 @@ export const D54_SELF: JaSentenceInput[] = [
   { ja: "同じ内容で、もう少し親しみやすくしてください。", en: "Keep the same content, but make it a bit friendlier.", ch: ["Keep the same content,", "but make it friendlier"], scene: "相談", to: "AI", imp: "must" },
   { ja: "この形なら、そのまま投稿できそうです。", en: "In this form, I think I can post it as it is.", ch: ["I can post it", "as it is"], scene: "相談", to: "AI", imp: "must" },
 ];
+
+export const D54_ADD: JaSentenceInput[] = [
+  { ja: "この投稿の目的を先に決めましょう。", en: "Let's decide the purpose of this post first.", ch: ["decide the purpose", "of this post first"], scene: "相談", to: "AI", imp: "must" },
+  { ja: "誰に向けた文章にしますか。", en: "Who should this be written for?", ch: ["Who should this", "be written for?"], scene: "相談", to: "AI", imp: "must" },
+  { ja: "初心者向けにしてください。", en: "Please make it for beginners.", ch: ["Please make it", "for beginners"], scene: "相談", to: "AI", imp: "must" },
+  { ja: "詳しい人にも読める内容にしたいです。", en: "I want it readable for knowledgeable people too.", ch: ["readable for", "knowledgeable people too"], scene: "相談", to: "AI", imp: "often" },
+  { ja: "三つの投稿に分けられますか。", en: "Could it be split into three posts?", ch: ["split into", "three posts?"], scene: "相談", to: "AI", imp: "often" },
+  { ja: "一つ目は問題提起にしたいです。", en: "I want the first one to raise the issue.", ch: ["the first one", "to raise the issue"], scene: "相談", to: "AI", imp: "often" },
+  { ja: "二つ目で仕組みを説明します。", en: "The second will explain how it works.", ch: ["The second will explain", "how it works"], scene: "相談", to: "AI", imp: "often" },
+  { ja: "最後に注意点を書きます。", en: "At the end I'll write the caveats.", ch: ["At the end", "I'll write the caveats"], scene: "相談", to: "AI", imp: "often" },
+  { ja: "見出しを付けてもらえますか。", en: "Could you add headings?", ch: ["Could you add", "headings?"], scene: "相談", to: "AI", imp: "often" },
+  { ja: "絵文字は少なめにしてください。", en: "Please go light on the emoji.", ch: ["go light on", "the emoji"], scene: "相談", to: "AI", imp: "often" },
+  { ja: "断定を避けた言い方にしてください。", en: "Please avoid definitive statements.", ch: ["avoid", "definitive statements"], scene: "相談", to: "AI", imp: "must" },
+  { ja: "価格の話は入れないでください。", en: "Please leave out anything about price.", ch: ["leave out", "anything about price"], scene: "相談", to: "AI", imp: "must" },
+  { ja: "投資を勧める内容にはしません。", en: "I won't make it a recommendation to invest.", ch: ["a recommendation", "to invest"], scene: "相談", to: "AI", imp: "must" },
+  { ja: "事実と意見を分けて書きたいです。", en: "I want to separate facts from opinions.", ch: ["separate facts", "from opinions"], scene: "相談", to: "AI", imp: "must" },
+  { ja: "出典を書いた方がいいですね。", en: "I should include the source.", ch: ["include", "the source"], scene: "相談", to: "AI", imp: "must" },
+  { ja: "英語版も作ってもらえますか。", en: "Could you make an English version too?", ch: ["make an English version", "too?"], scene: "相談", to: "AI", imp: "must" },
+  { ja: "英語は簡単な表現でお願いします。", en: "Please keep the English simple.", ch: ["keep the English", "simple"], scene: "相談", to: "AI", imp: "must" },
+  { ja: "文字数の目安を教えてください。", en: "Please tell me the rough character count.", ch: ["the rough", "character count"], scene: "相談", to: "AI", imp: "often" },
+  { ja: "投稿する時間帯も考えましょう。", en: "Let's also think about what time to post.", ch: ["what time", "to post"], scene: "相談", to: "AI", imp: "sub" },
+  { ja: "では、この内容で投稿します。", en: "All right, I'll post this version.", ch: ["All right,", "I'll post this version"], scene: "相談", to: "AI", imp: "must" },
+];

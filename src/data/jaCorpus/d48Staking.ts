@@ -23,3 +23,26 @@ export const D48_SELF: JaSentenceInput[] = [
   { ja: "これは手数料ではなく、登録を解除すれば返ってくるものです。", en: "That isn't a fee; you get it back if you deregister.", ch: ["That isn't a fee;", "you get it back"], scene: "説明", to: "相手", imp: "must" },
   { ja: "まずは、自分が納得できるプールを選ぶことが大切です。", en: "To start with, it's important to pick a pool you're comfortable with.", ch: ["pick a pool", "you're comfortable with"], scene: "説明", to: "相手", imp: "must" },
 ];
+
+export const D48_ADD: JaSentenceInput[] = [
+  { ja: "ステーキングは難しくありません。", en: "Staking isn't difficult.", ch: ["Staking isn't", "difficult"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "ウォレットの画面から数回の操作で終わります。", en: "It takes just a few taps in the wallet.", ch: ["just a few taps", "in the wallet"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "まず、プールを検索します。", en: "First, you search for a pool.", ch: ["First, you search for", "a pool"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "プールのIDや名前で探せます。", en: "You can look it up by the pool's ID or name.", ch: ["by the pool's", "ID or name"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "選んだら、委任のボタンを押します。", en: "Once you've chosen, you press the delegate button.", ch: ["you press", "the delegate button"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "署名をすれば、それで完了です。", en: "You sign it, and that's it.", ch: ["You sign it,", "and that's it"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "報酬が入り始めるまで、少し時間がかかります。", en: "It takes a little while before rewards start coming in.", ch: ["before rewards", "start coming in"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "最初の報酬までは、二十日ほどかかります。", en: "The first reward takes about twenty days.", ch: ["The first reward takes", "about twenty days"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "そのあとは、五日ごとに受け取れます。", en: "After that, you receive them every five days.", ch: ["you receive them", "every five days"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "報酬は自動的にウォレットに入ります。", en: "The rewards go into your wallet automatically.", ch: ["go into your wallet", "automatically"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "受け取りの操作は必要ありません。", en: "You don't need to do anything to claim them.", ch: ["You don't need to do anything", "to claim them"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "年利はおおよそ三パーセント前後です。", en: "The annual return is roughly three percent.", ch: ["The annual return", "is roughly ..."], scene: "説明", to: "相手", imp: "must" },
+  { ja: "その数字は保証されたものではありません。", en: "That number isn't guaranteed.", ch: ["That number", "isn't guaranteed"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "価格が下がれば、資産の価値も下がります。", en: "If the price falls, the value of your holdings falls too.", ch: ["If the price falls,", "the value falls too"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "報酬だけを見て判断しないでください。", en: "Please don't decide by looking only at rewards.", ch: ["don't decide by looking", "only at rewards"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "手数料はプールごとに違います。", en: "The fees differ from pool to pool.", ch: ["The fees differ", "from pool to pool"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "固定手数料と変動手数料があります。", en: "There's a fixed fee and a variable fee.", ch: ["a fixed fee and", "a variable fee"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "飽和しているプールは避けた方がいいです。", en: "It's better to avoid pools that are saturated.", ch: ["avoid pools", "that are saturated"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "分からなければ、一緒に見ましょうか。", en: "If you're unsure, shall we look at it together?", ch: ["If you're unsure,", "shall we look together?"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "焦って決めなくても大丈夫ですよ。", en: "There's no need to decide in a hurry.", ch: ["no need to decide", "in a hurry"], scene: "説明", to: "相手", imp: "must" },
+];

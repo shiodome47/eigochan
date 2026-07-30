@@ -23,3 +23,26 @@ export const D32_SELF: JaSentenceInput[] = [
   { ja: "予定がはっきりしたら、改めて連絡します。", en: "Once my schedule is clear, I'll get back to you.", ch: ["Once my schedule is clear,", "I'll get back to you"], scene: "会話", to: "相手", imp: "must" },
   { ja: "ご理解いただけるとありがたいです。", en: "I'd appreciate your understanding.", ch: ["I'd appreciate", "your understanding"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D32_ADD: JaSentenceInput[] = [
+  { ja: "ご連絡ありがとうございます。", en: "Thank you for reaching out.", ch: ["Thank you for", "reaching out"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "誘っていただいてうれしいです。", en: "I'm glad you invited me.", ch: ["I'm glad", "you invited me"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "参加したい気持ちはあります。", en: "I do want to take part.", ch: ["I do want to", "take part"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "ただ、今回は都合がつきません。", en: "But it doesn't work out this time.", ch: ["it doesn't work out", "this time"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "先約が入っています。", en: "I have a prior commitment.", ch: ["I have", "a prior commitment"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "その週は予定が詰まっています。", en: "That week is packed for me.", ch: ["That week", "is packed for me"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "来月なら空いています。", en: "Next month I'm free.", ch: ["Next month", "I'm free"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "少し先の日程にしていただけますか。", en: "Could we make it a bit further out?", ch: ["Could we make it", "a bit further out?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "午後からなら参加できます。", en: "I can join from the afternoon.", ch: ["I can join", "from the afternoon"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "途中からでもよければ伺います。", en: "If joining partway is okay, I'll come.", ch: ["If joining partway is okay,", "I'll come"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "オンラインでの参加でもいいですか。", en: "Would joining online be okay?", ch: ["Would joining online", "be okay?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "資料だけ送っていただけますか。", en: "Could you just send me the materials?", ch: ["Could you just send me", "the materials?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "今回は見送らせてください。", en: "Please let me pass this time.", ch: ["Please let me pass", "this time"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "落ち着いたら、こちらから連絡します。", en: "Once things settle down, I'll get in touch.", ch: ["Once things settle down,", "I'll get in touch"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "急な変更で申し訳ありません。", en: "I'm sorry for the sudden change.", ch: ["I'm sorry for", "the sudden change"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "代わりの日を提案してもいいですか。", en: "May I suggest an alternative day?", ch: ["May I suggest", "an alternative day?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "皆さんによろしくお伝えください。", en: "Please give everyone my regards.", ch: ["Please give everyone", "my regards"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "次回はぜひ参加したいです。", en: "I'd definitely like to join next time.", ch: ["I'd definitely like to join", "next time"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "また声をかけてください。", en: "Please invite me again.", ch: ["Please invite me", "again"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "楽しんできてください。", en: "Have a good time.", ch: ["Have a", "good time"], scene: "会話", to: "相手", imp: "often" },
+];

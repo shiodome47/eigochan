@@ -23,3 +23,26 @@ export const D29_SELF: JaSentenceInput[] = [
   { ja: "少しでも楽になるといいですね。", en: "I hope it gets a little easier.", ch: ["I hope it gets", "a little easier"], scene: "会話", to: "相手", imp: "must" },
   { ja: "今日はゆっくりしてください。", en: "Please take it easy today.", ch: ["Please take it easy", "today"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D29_ADD: JaSentenceInput[] = [
+  { ja: "話してくれてありがとうございます。", en: "Thank you for telling me.", ch: ["Thank you for", "telling me"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "それは気になりますよね。", en: "Of course that would weigh on you.", ch: ["Of course that", "would weigh on you"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "私も同じ立場なら悩むと思います。", en: "In your position, I'd struggle with it too.", ch: ["In your position,", "I'd struggle too"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "誰にでも起きることだと思います。", en: "I think it could happen to anyone.", ch: ["It could happen", "to anyone"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "自分を責めないでください。", en: "Please don't blame yourself.", ch: ["Please don't", "blame yourself"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "十分にやってこられたと思います。", en: "I think you've done plenty.", ch: ["I think you've", "done plenty"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "疲れが出ているだけかもしれません。", en: "It may just be exhaustion catching up with you.", ch: ["It may just be", "exhaustion catching up"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "少し離れてみるのもいいと思います。", en: "Stepping away for a while might be good.", ch: ["Stepping away for a while", "might be good"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "無理に前を向かなくてもいいですよ。", en: "You don't have to force yourself to look ahead.", ch: ["You don't have to force yourself", "to look ahead"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "誰かに話すだけでも違うと思います。", en: "I think just talking to someone makes a difference.", ch: ["just talking to someone", "makes a difference"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "聞くことしかできませんが、聞きますよ。", en: "All I can do is listen, but I will.", ch: ["All I can do is listen,", "but I will"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "どう感じるかは、その人次第ですよね。", en: "How you feel about it is up to each person.", ch: ["How you feel about it", "is up to each person"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "それだけ真剣だったということですよね。", en: "That just shows how seriously you took it.", ch: ["That just shows", "how seriously you took it"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "結果はどうあれ、やったことは残ります。", en: "Whatever the outcome, what you did remains.", ch: ["Whatever the outcome,", "what you did remains"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "今日はよく眠れるといいですね。", en: "I hope you can sleep well tonight.", ch: ["I hope you can", "sleep well tonight"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "何かあれば、すぐに言ってください。", en: "If anything comes up, tell me right away.", ch: ["If anything comes up,", "tell me right away"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "私にできることがあれば手伝います。", en: "If there's anything I can do, I'll help.", ch: ["If there's anything I can do,", "I'll help"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "焦らなくても大丈夫ですよ。", en: "There's no need to rush.", ch: ["There's no need", "to rush"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "少しずつでいいと思います。", en: "A little at a time is fine.", ch: ["A little at a time", "is fine"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "また話を聞かせてください。", en: "Tell me how it goes again sometime.", ch: ["Tell me how it goes", "again sometime"], scene: "会話", to: "相手", imp: "often" },
+];

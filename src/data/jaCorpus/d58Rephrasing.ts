@@ -23,3 +23,26 @@ export const D58_SELF: JaSentenceInput[] = [
   { ja: "初めての人に説明するなら、この言い方が分かりやすそうです。", en: "If I were explaining it to a newcomer, this phrasing seems clearest.", ch: ["If I were explaining to a newcomer,", "this phrasing seems clearest"], scene: "会話", to: "相手", imp: "must" },
   { ja: "このように言い換えれば、かなり伝わりやすくなると思います。", en: "Rephrased this way, I think it gets across much better.", ch: ["Rephrased this way,", "it gets across much better"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D58_ADD: JaSentenceInput[] = [
+  { ja: "もう少し身近な言葉にしてみます。", en: "Let me put it in more everyday words.", ch: ["put it in", "more everyday words"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "専門用語を外して言うとこうなります。", en: "Without the jargon, it comes out like this.", ch: ["Without the jargon,", "it comes out like this"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "たとえるなら、こういう感じですか。", en: "If I were to compare it, is it something like this?", ch: ["If I were to compare it,", "is it like this?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "その例えは分かりやすいですね。", en: "That comparison makes it clear.", ch: ["That comparison", "makes it clear"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "ただ、その例えだと少しずれますね。", en: "That comparison is a little off, though.", ch: ["That comparison is", "a little off"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "一言でまとめると何になりますか。", en: "What would it be in a single phrase?", ch: ["in a", "single phrase"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "見出しを付けるなら、何になりますか。", en: "If we gave it a headline, what would it be?", ch: ["If we gave it a headline,", "what would it be?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "つまり、選択肢は二つということですね。", en: "So there are two options, then.", ch: ["So there are", "two options"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "簡単に言えば、順番の問題ですね。", en: "Put simply, it's a question of order.", ch: ["Put simply,", "a question of order"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "要点は三つに絞れそうです。", en: "It seems we can narrow it to three key points.", ch: ["narrow it to", "three key points"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "細かい部分は一旦置いておきます。", en: "Let's set the details aside for now.", ch: ["set the details aside", "for now"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "大事なのは、この一点だと思います。", en: "I think this one point is what matters.", ch: ["this one point", "is what matters"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "私の言葉だと固すぎるかもしれません。", en: "My wording may be too stiff.", ch: ["My wording", "may be too stiff"], scene: "会話", to: "相手", imp: "sub" },
+  { ja: "もっとやわらかい言い方はありますか。", en: "Is there a softer way to say it?", ch: ["Is there a softer way", "to say it?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "初めての人にはこう言います。", en: "For a first-timer, I'd say it this way.", ch: ["For a first-timer,", "I'd say it this way"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "詳しい人にはこう説明します。", en: "For someone knowledgeable, I'd explain it this way.", ch: ["For someone knowledgeable,", "I'd explain it this way"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "相手によって説明を変えています。", en: "I change the explanation depending on who I'm talking to.", ch: ["change the explanation", "depending on who"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "その言い換えの方が正確ですね。", en: "That rephrasing is more accurate.", ch: ["That rephrasing", "is more accurate"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "では、その表現を使わせてもらいます。", en: "Then I'll borrow that phrasing.", ch: ["I'll borrow", "that phrasing"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "これで説明しやすくなりました。", en: "That makes it easier for me to explain.", ch: ["That makes it easier", "to explain"], scene: "会話", to: "相手", imp: "must" },
+];

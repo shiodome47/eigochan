@@ -23,3 +23,26 @@ export const D51_SELF: JaSentenceInput[] = [
   { ja: "ただし、署名する内容は必ず確認するべきです。", en: "However, you should always check what you're signing.", ch: ["always check", "what you're signing"], scene: "説明", to: "相手", imp: "must" },
   { ja: "自分で管理できる自由には、自分で守る責任も伴います。", en: "The freedom to manage it yourself comes with the responsibility to protect it yourself.", ch: ["The freedom to manage it yourself", "comes with responsibility"], scene: "説明", to: "相手", imp: "must" },
 ];
+
+export const D51_ADD: JaSentenceInput[] = [
+  { ja: "私は投資の助言はできません。", en: "I can't give investment advice.", ch: ["I can't give", "investment advice"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "あくまで仕組みの説明です。", en: "This is only an explanation of how it works.", ch: ["only an explanation", "of how it works"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "判断はご自身でお願いします。", en: "Please make the decision yourself.", ch: ["Please make the decision", "yourself"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "余裕資金の範囲で考えてください。", en: "Please think in terms of money you can spare.", ch: ["money you", "can spare"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "生活に必要なお金は使わないでください。", en: "Please don't use money you need to live on.", ch: ["money you need", "to live on"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "借りたお金で買うのは避けてください。", en: "Please avoid buying with borrowed money.", ch: ["avoid buying with", "borrowed money"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "税金の扱いも確認しておきましょう。", en: "Let's also check how taxes are handled.", ch: ["how taxes", "are handled"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "記録を残しておくと後で楽です。", en: "Keeping records makes it easier later.", ch: ["Keeping records", "makes it easier later"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "取引所に置いたままにも危険があります。", en: "Leaving it on an exchange carries risk too.", ch: ["Leaving it on an exchange", "carries risk"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "自分で管理する場合には、別の危険があります。", en: "Managing it yourself has its own risks.", ch: ["Managing it yourself", "has its own risks"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "どちらが安全とは一概に言えません。", en: "You can't simply say which is safer.", ch: ["You can't simply say", "which is safer"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "知らないリンクは開かないでください。", en: "Please don't open links you don't recognize.", ch: ["don't open links", "you don't recognize"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "公式サイトかどうかを必ず確認してください。", en: "Always check whether it's the official site.", ch: ["Always check whether", "it's the official site"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "秘密の言葉を聞かれたら、それは詐欺です。", en: "If someone asks for your secret phrase, it's a scam.", ch: ["If someone asks for your", "secret phrase, it's a scam"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "運営者が個別に連絡することはありません。", en: "Operators don't contact you individually.", ch: ["Operators don't contact you", "individually"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "うますぎる話には注意してください。", en: "Be careful with anything that sounds too good.", ch: ["anything that sounds", "too good"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "急がせてくる相手は疑った方がいいです。", en: "Be suspicious of anyone rushing you.", ch: ["Be suspicious of", "anyone rushing you"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "一晩考えてから決めても遅くありません。", en: "It's not too late to decide after sleeping on it.", ch: ["after sleeping", "on it"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "分からないときは、私に聞いてください。", en: "When you're unsure, please ask me.", ch: ["When you're unsure,", "please ask me"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "慎重すぎるくらいでちょうどいいと思います。", en: "I think being almost too careful is about right.", ch: ["being almost too careful", "is about right"], scene: "説明", to: "相手", imp: "must" },
+];

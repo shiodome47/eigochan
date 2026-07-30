@@ -23,3 +23,26 @@ export const D50_SELF: JaSentenceInput[] = [
   { ja: "ガバナンスは、眺めるだけでも参加の第一歩になります。", en: "With governance, even just watching is a first step toward taking part.", ch: ["even just watching", "is a first step"], scene: "説明", to: "相手", imp: "must" },
   { ja: "多くの人が関心を持つこと自体に意味があると思います。", en: "I think there's value in many people simply being interested.", ch: ["there's value in", "many people being interested"], scene: "説明", to: "相手", imp: "must" },
 ];
+
+export const D50_ADD: JaSentenceInput[] = [
+  { ja: "投票には期限があります。", en: "There's a deadline for voting.", ch: ["There's a deadline", "for voting"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "提案の内容は公開されています。", en: "The contents of the proposals are public.", ch: ["The proposals", "are public"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "英語の資料が中心ですね。", en: "The materials are mostly in English.", ch: ["The materials are", "mostly in English"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "日本語の要約があると助かります。", en: "A summary in Japanese would help.", ch: ["A summary in Japanese", "would help"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "私も要約を作ることがあります。", en: "I sometimes write summaries myself.", ch: ["I sometimes write", "summaries myself"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "自分で読むと理解が深まります。", en: "Reading it yourself deepens your understanding.", ch: ["Reading it yourself", "deepens your understanding"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "委任先はあとから変更できます。", en: "You can change who you delegate to later.", ch: ["You can change", "who you delegate to"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "自分で投票することもできます。", en: "You can also vote yourself.", ch: ["You can also", "vote yourself"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "棄権という選択肢もあります。", en: "Abstaining is also an option.", ch: ["Abstaining is also", "an option"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "投票しないことと棄権は違います。", en: "Not voting and abstaining are different.", ch: ["Not voting and abstaining", "are different"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "予算の使い道も議論されています。", en: "How the budget is used is also debated.", ch: ["How the budget is used", "is also debated"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "誰がその資金を受け取るのかも重要です。", en: "Who receives those funds matters too.", ch: ["Who receives those funds", "matters too"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "成果が報告される仕組みも必要です。", en: "We also need a way for results to be reported.", ch: ["a way for results", "to be reported"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "議論の場はいくつかあります。", en: "There are several places where discussion happens.", ch: ["several places where", "discussion happens"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "SNSだけを見ると偏ります。", en: "Looking only at social media gives a skewed view.", ch: ["Looking only at social media", "gives a skewed view"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "原文を読むようにしています。", en: "I make a point of reading the original text.", ch: ["I make a point of reading", "the original text"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "分からない提案には投票しません。", en: "I don't vote on proposals I don't understand.", ch: ["I don't vote on proposals", "I don't understand"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "一票の重みは持っている量で決まります。", en: "The weight of a vote depends on how much you hold.", ch: ["The weight of a vote", "depends on how much you hold"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "少額でも参加する意味はあります。", en: "Even a small amount is worth participating with.", ch: ["Even a small amount", "is worth participating with"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "まずは一度、見てみてください。", en: "Just take a look at it once.", ch: ["Just take a look at it", "once"], scene: "説明", to: "相手", imp: "must" },
+];

@@ -23,3 +23,26 @@ export const D61_SELF: JaSentenceInput[] = [
   { ja: "最初に、その前提をはっきりさせた方がよさそうです。", en: "It'd be better to make that assumption explicit up front.", ch: ["make that assumption explicit", "up front"], scene: "議論", to: "相手", imp: "must" },
   { ja: "前提を分けて考えれば、かなり整理できると思います。", en: "If we separate the assumptions, I think it becomes much clearer.", ch: ["If we separate the assumptions,", "it becomes much clearer"], scene: "議論", to: "相手", imp: "must" },
 ];
+
+export const D61_ADD: JaSentenceInput[] = [
+  { ja: "前提を一度書き出してみませんか。", en: "Shall we write out the assumptions once?", ch: ["write out", "the assumptions"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "どれが事実で、どれが推測ですか。", en: "Which parts are fact and which are guesses?", ch: ["Which parts are fact", "and which are guesses?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "そこは確認が取れていますか。", en: "Has that been verified?", ch: ["Has that been", "verified?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "誰かがそう言っていただけではありませんか。", en: "Isn't it just that someone said so?", ch: ["Isn't it just that", "someone said so?"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "元の情報にあたってみましょう。", en: "Let's go back to the original source.", ch: ["go back to", "the original source"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "古い情報のままかもしれません。", en: "It may still be based on old information.", ch: ["still based on", "old information"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "状況が変わっている可能性があります。", en: "The situation may have changed.", ch: ["The situation", "may have changed"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "その条件は今も有効ですか。", en: "Is that condition still valid?", ch: ["Is that condition", "still valid?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "例外はどのくらいありますか。", en: "How many exceptions are there?", ch: ["How many exceptions", "are there?"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "例外が多ければ、前提とは言えませんね。", en: "If there are many exceptions, it isn't much of an assumption.", ch: ["If there are many exceptions,", "it isn't an assumption"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "そもそも、何を解決したいのでしょうか。", en: "To begin with, what are we trying to solve?", ch: ["what are we", "trying to solve?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "目的が変われば、答えも変わります。", en: "If the goal changes, the answer changes.", ch: ["If the goal changes,", "the answer changes"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "その目的は共有されていますか。", en: "Is that goal shared by everyone?", ch: ["Is that goal", "shared by everyone?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "本当にそれが一番の課題でしょうか。", en: "Is that really the biggest issue?", ch: ["Is that really", "the biggest issue?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "別の課題の方が大きいかもしれません。", en: "Another issue may be bigger.", ch: ["Another issue", "may be bigger"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "そこを間違えると、全部ずれますね。", en: "If we get that wrong, everything else is off.", ch: ["If we get that wrong,", "everything else is off"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "一度、前提から見直しませんか。", en: "Shall we revisit it from the assumptions?", ch: ["revisit it", "from the assumptions"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "私の前提も間違っているかもしれません。", en: "My own assumptions may be wrong too.", ch: ["My own assumptions", "may be wrong too"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "お互いに確認しながら進めましょう。", en: "Let's move ahead checking with each other.", ch: ["move ahead", "checking with each other"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "整理できたので、話が進めやすくなりました。", en: "Now that it's sorted out, it's easier to move on.", ch: ["Now that it's sorted out,", "it's easier to move on"], scene: "議論", to: "相手", imp: "often" },
+];

@@ -23,3 +23,26 @@ export const D15_SELF: JaSentenceInput[] = [
   { ja: "忘れ物がないか確認してください。", en: "Please check that you haven't left anything.", ch: ["Please check that", "you haven't left anything"], scene: "電車", to: "家族", imp: "must" },
   { ja: "次で降りましょう。", en: "Let's get off at the next one.", ch: ["Let's get off", "at the next one"], scene: "電車", to: "家族", imp: "must" },
 ];
+
+export const D15_ADD: JaSentenceInput[] = [
+  { ja: "席を詰めてもらえますか。", en: "Could you move over a little?", ch: ["Could you move over", "a little?"], scene: "電車", to: "他人", imp: "often" },
+  { ja: "どうぞ、座ってください。", en: "Please, take my seat.", ch: ["Please,", "take my seat"], scene: "電車", to: "他人", imp: "must" },
+  { ja: "ここ、空いていますか。", en: "Is this seat taken?", ch: ["Is this seat", "taken?"], scene: "電車", to: "他人", imp: "must" },
+  { ja: "ドアの前を空けましょう。", en: "Let's clear the space in front of the door.", ch: ["Let's clear the space", "in front of the door"], scene: "電車", to: "家族", imp: "often" },
+  { ja: "もう少し奥に入りましょうか。", en: "Should we move further in?", ch: ["Should we move", "further in?"], scene: "電車", to: "家族", imp: "often" },
+  { ja: "荷物は前に持ちましょう。", en: "Let's hold our bags in front of us.", ch: ["Let's hold our bags", "in front of us"], scene: "電車", to: "家族", imp: "sub" },
+  { ja: "揺れが大きいですね。", en: "It's shaking quite a bit.", ch: ["It's shaking", "quite a bit"], scene: "電車", to: "家族", imp: "sub" },
+  { ja: "今、どの辺りを走っていますか。", en: "Whereabouts are we right now?", ch: ["Whereabouts are we", "right now?"], scene: "電車", to: "家族", imp: "often" },
+  { ja: "アナウンスが聞き取れませんでした。", en: "I couldn't catch the announcement.", ch: ["I couldn't catch", "the announcement"], scene: "電車", to: "家族", imp: "must" },
+  { ja: "何と言っていましたか。", en: "What did they say?", ch: ["What did", "they say?"], scene: "電車", to: "家族", imp: "must" },
+  { ja: "事故で止まっているようです。", en: "It seems we've stopped because of an accident.", ch: ["It seems we've stopped", "because of an accident"], scene: "電車", to: "家族", imp: "often" },
+  { ja: "動き出すまで待つしかないですね。", en: "We'll just have to wait until it starts moving.", ch: ["We'll just have to wait", "until it starts moving"], scene: "電車", to: "家族", imp: "often" },
+  { ja: "音楽を聞いていてもいいですか。", en: "Do you mind if I listen to music?", ch: ["Do you mind if I", "listen to music?"], scene: "電車", to: "家族", imp: "sub" },
+  { ja: "少し眠ってもいいですか。", en: "Would you mind if I napped a little?", ch: ["Would you mind if I", "napped a little?"], scene: "電車", to: "家族", imp: "often" },
+  { ja: "着いたら起こしてください。", en: "Please wake me when we get there.", ch: ["Please wake me", "when we get there"], scene: "電車", to: "家族", imp: "often" },
+  { ja: "電話は降りてからにします。", en: "I'll make the call after we get off.", ch: ["I'll make the call", "after we get off"], scene: "電車", to: "家族", imp: "sub" },
+  { ja: "あと二駅ですね。", en: "Two more stops.", ch: ["Two more", "stops"], scene: "電車", to: "家族", imp: "often" },
+  { ja: "そろそろドアの方へ移動しましょう。", en: "Let's start moving toward the door.", ch: ["Let's start moving", "toward the door"], scene: "電車", to: "家族", imp: "often" },
+  { ja: "降りる人が先ですね。", en: "People getting off go first.", ch: ["People getting off", "go first"], scene: "電車", to: "家族", imp: "sub" },
+  { ja: "無事に着きましたね。", en: "We got here without any trouble.", ch: ["We got here", "without any trouble"], scene: "電車", to: "家族", imp: "often" },
+];

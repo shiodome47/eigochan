@@ -23,3 +23,26 @@ export const D21_SELF: JaSentenceInput[] = [
   { ja: "袋はなくても大丈夫です。", en: "I don't need a bag.", ch: ["I don't need", "a bag"], scene: "店", to: "店員", imp: "must" },
   { ja: "良いものが見つかってよかったですね。", en: "I'm glad we found something good.", ch: ["I'm glad we found", "something good"], scene: "店", to: "家族", imp: "must" },
 ];
+
+export const D21_ADD: JaSentenceInput[] = [
+  { ja: "試着室はどちらですか。", en: "Where is the fitting room?", ch: ["Where is", "the fitting room?"], scene: "店", to: "店員", imp: "must" },
+  { ja: "鏡はどこにありますか。", en: "Where's the mirror?", ch: ["Where's", "the mirror?"], scene: "店", to: "店員", imp: "often" },
+  { ja: "これは洗濯機で洗えますか。", en: "Can this go in the washing machine?", ch: ["Can this go in", "the washing machine?"], scene: "店", to: "店員", imp: "often" },
+  { ja: "素材は何ですか。", en: "What is it made of?", ch: ["What is it", "made of?"], scene: "店", to: "店員", imp: "often" },
+  { ja: "夏でも着られそうですね。", en: "It looks wearable in summer too.", ch: ["It looks wearable", "in summer too"], scene: "店", to: "家族", imp: "sub" },
+  { ja: "もう少し薄い生地がいいです。", en: "I'd prefer a lighter fabric.", ch: ["I'd prefer", "a lighter fabric"], scene: "店", to: "店員", imp: "sub" },
+  { ja: "値札はどこですか。", en: "Where's the price tag?", ch: ["Where's", "the price tag?"], scene: "店", to: "家族", imp: "often" },
+  { ja: "セールになっていますか。", en: "Is this on sale?", ch: ["Is this", "on sale?"], scene: "店", to: "店員", imp: "often" },
+  { ja: "在庫はまだありますか。", en: "Do you still have this in stock?", ch: ["Do you still have this", "in stock?"], scene: "店", to: "店員", imp: "must" },
+  { ja: "取り寄せてもらえますか。", en: "Could you order it in for me?", ch: ["Could you order it in", "for me?"], scene: "店", to: "店員", imp: "often" },
+  { ja: "返品はできますか。", en: "Can I return it?", ch: ["Can I", "return it?"], scene: "店", to: "店員", imp: "must" },
+  { ja: "レシートは取っておきましょう。", en: "Let's keep the receipt.", ch: ["Let's keep", "the receipt"], scene: "店", to: "家族", imp: "often" },
+  { ja: "日用品も見ていきましょう。", en: "Let's look at the household goods too.", ch: ["Let's look at", "the household goods"], scene: "店", to: "家族", imp: "often" },
+  { ja: "洗剤が安くなっています。", en: "The detergent is cheaper than usual.", ch: ["The detergent is cheaper", "than usual"], scene: "店", to: "家族", imp: "sub" },
+  { ja: "買い置きしておきましょうか。", en: "Should we stock up?", ch: ["Should we", "stock up?"], scene: "店", to: "家族", imp: "often" },
+  { ja: "あまり買いすぎない方がいいですね。", en: "We shouldn't buy too much.", ch: ["We shouldn't", "buy too much"], scene: "店", to: "家族", imp: "often" },
+  { ja: "これは家にあるもので足ります。", en: "What we have at home is enough for this.", ch: ["What we have at home", "is enough"], scene: "店", to: "家族", imp: "often" },
+  { ja: "次に来たときにしましょう。", en: "Let's do it next time we come.", ch: ["Let's do it", "next time we come"], scene: "店", to: "家族", imp: "often" },
+  { ja: "会計はあちらですね。", en: "The register is over there.", ch: ["The register is", "over there"], scene: "店", to: "家族", imp: "sub" },
+  { ja: "そろそろ帰りましょうか。", en: "Should we head home now?", ch: ["Should we head home", "now?"], scene: "店", to: "家族", imp: "must" },
+];

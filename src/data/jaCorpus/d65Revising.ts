@@ -23,3 +23,26 @@ export const D65_SELF: JaSentenceInput[] = [
   { ja: "でも、全体としてはかなり分かってきました。", en: "But overall, I've come to understand it pretty well.", ch: ["overall, I've come to", "understand it pretty well"], scene: "会話", to: "相手", imp: "must" },
   { ja: "今の説明で、ようやく腑に落ちました。", en: "With that explanation, it finally clicked.", ch: ["With that explanation,", "it finally clicked"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D65_ADD: JaSentenceInput[] = [
+  { ja: "訂正させてください。", en: "Let me correct that.", ch: ["Let me", "correct that"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "先ほどの説明は正確ではありませんでした。", en: "What I said earlier wasn't accurate.", ch: ["What I said earlier", "wasn't accurate"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "正しくは、こうなります。", en: "The correct version is this.", ch: ["The correct version", "is this"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "調べたら、私の間違いでした。", en: "I looked it up, and I was wrong.", ch: ["I looked it up,", "and I was wrong"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "思い込みで話していました。", en: "I was speaking from an assumption.", ch: ["speaking from", "an assumption"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "古い情報のままでした。", en: "I was working from old information.", ch: ["working from", "old information"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "指摘してもらえて助かりました。", en: "It helped that you pointed it out.", ch: ["It helped that", "you pointed it out"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "その視点はありませんでした。", en: "That perspective hadn't occurred to me.", ch: ["That perspective", "hadn't occurred to me"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "言われてみれば、その通りですね。", en: "Now that you say it, you're right.", ch: ["Now that you say it,", "you're right"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "考え直してみます。", en: "I'll rethink it.", ch: ["I'll", "rethink it"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "前の意見は取り下げます。", en: "I'll withdraw what I said before.", ch: ["withdraw", "what I said before"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "半分は合っていたようです。", en: "It seems I was half right.", ch: ["I was", "half right"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "そこだけ修正すれば大丈夫そうです。", en: "It should be fine if we just fix that part.", ch: ["if we just fix", "that part"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "理解が浅かったと思います。", en: "I think my understanding was shallow.", ch: ["my understanding", "was shallow"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "もう一度、最初から考えてみます。", en: "I'll think it through again from the start.", ch: ["think it through again", "from the start"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "結論は変わりませんが、理由が変わりました。", en: "My conclusion is the same, but my reasoning changed.", ch: ["My conclusion is the same,", "but my reasoning changed"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "その方が筋が通っていますね。", en: "That makes more sense.", ch: ["That makes", "more sense"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "説明を修正して伝え直します。", en: "I'll revise the explanation and tell them again.", ch: ["revise the explanation", "and tell them again"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "間違ったまま広めなくてよかったです。", en: "I'm glad I didn't spread it wrong.", ch: ["I'm glad I didn't", "spread it wrong"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "教えていただき、ありがとうございました。", en: "Thank you for setting me straight.", ch: ["Thank you for", "setting me straight"], scene: "会話", to: "相手", imp: "must" },
+];

@@ -23,3 +23,26 @@ export const D56_SELF: JaSentenceInput[] = [
   { ja: "これは単なるウォレットの話ではなく、デジタル上の本人確認全体につながる話だと思います。", en: "I think this isn't just about wallets; it connects to digital identity as a whole.", ch: ["this isn't just about wallets;", "it connects to digital identity"], scene: "議論", to: "相手", imp: "must" },
   { ja: "まだ分からないことは多いですが、かなり可能性のある分野だと思います。", en: "There's still a lot we don't know, but I think it's a field with real potential.", ch: ["There's a lot we don't know,", "but it has real potential"], scene: "議論", to: "相手", imp: "must" },
 ];
+
+export const D56_ADD: JaSentenceInput[] = [
+  { ja: "五年後にはどうなっているでしょうか。", en: "What do you think it'll look like in five years?", ch: ["What will it look like", "in five years?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "予想が外れることも多いですけどね。", en: "Predictions are often wrong, though.", ch: ["Predictions are", "often wrong"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "技術より、使われ方の方が変わりそうです。", en: "How it's used will probably change more than the technology.", ch: ["How it's used", "will change more"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "一般の人が意識せずに使う形が理想です。", en: "Ideally people would use it without thinking about it.", ch: ["use it without", "thinking about it"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "裏側で動いていれば十分だと思います。", en: "I think it's enough if it runs behind the scenes.", ch: ["it runs", "behind the scenes"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "そのときには、名前も意識されないでしょう。", en: "By then, no one will even think about the name.", ch: ["no one will even", "think about the name"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "普及には時間がかかると思います。", en: "I think adoption will take time.", ch: ["adoption will", "take time"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "急に広がるものではありません。", en: "It isn't something that spreads suddenly.", ch: ["isn't something that", "spreads suddenly"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "身近な課題を解決できるかどうかが鍵です。", en: "The key is whether it solves everyday problems.", ch: ["whether it solves", "everyday problems"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "本人確認の仕組みは特に可能性があります。", en: "Identity verification in particular has potential.", ch: ["Identity verification", "has potential"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "医療や行政とも関係してきそうです。", en: "It looks like it will touch healthcare and government too.", ch: ["touch healthcare", "and government"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "ただ、慎重に進める必要があります。", en: "That said, it needs to move carefully.", ch: ["it needs to", "move carefully"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "一度失敗すると信頼が戻りません。", en: "Once trust is lost, it doesn't come back.", ch: ["Once trust is lost,", "it doesn't come back"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "だからこそ、透明性が重要だと思います。", en: "That's exactly why transparency matters.", ch: ["That's why", "transparency matters"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "日本ではどのように受け入れられるでしょうか。", en: "How would it be received in Japan?", ch: ["How would it be received", "in Japan?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "規制の整備も必要になりますね。", en: "Regulatory frameworks will need to be built too.", ch: ["Regulatory frameworks", "will need to be built"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "私たちにできることは何でしょうか。", en: "What can we do?", ch: ["What can", "we do?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "小さな実験を積み重ねるしかないと思います。", en: "I think all we can do is stack up small experiments.", ch: ["stack up", "small experiments"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "面白い話が聞けてよかったです。", en: "I'm glad I got to hear something interesting.", ch: ["I'm glad I got to hear", "something interesting"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "また続きを話しましょう。", en: "Let's continue this another time.", ch: ["Let's continue this", "another time"], scene: "議論", to: "相手", imp: "must" },
+];

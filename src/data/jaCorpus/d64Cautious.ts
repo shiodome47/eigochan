@@ -23,3 +23,26 @@ export const D64_SELF: JaSentenceInput[] = [
   { ja: "利用する場合でも、失って困る金額は入れない方がいいです。", en: "Even if you use it, don't put in money you can't afford to lose.", ch: ["don't put in money", "you can't afford to lose"], scene: "議論", to: "相手", imp: "must" },
   { ja: "最終的には、自分で理解して判断する必要があります。", en: "In the end, you have to understand it and decide for yourself.", ch: ["In the end,", "decide for yourself"], scene: "議論", to: "相手", imp: "must" },
 ];
+
+export const D64_ADD: JaSentenceInput[] = [
+  { ja: "断定はしませんが、私はこう見ています。", en: "I won't state it as fact, but this is how I see it.", ch: ["I won't state it as fact,", "but this is how I see it"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "他の見方もあると思います。", en: "I think there are other ways of seeing it.", ch: ["other ways", "of seeing it"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "私が知らない事情があるかもしれません。", en: "There may be circumstances I'm not aware of.", ch: ["circumstances", "I'm not aware of"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "情報が限られている中での判断です。", en: "This is a judgment made with limited information.", ch: ["a judgment made with", "limited information"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "その点は割り引いて聞いてください。", en: "Please take that into account when you hear it.", ch: ["take that into account", "when you hear it"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "自信があるとまでは言えません。", en: "I wouldn't go so far as to say I'm confident.", ch: ["I wouldn't go so far as", "to say I'm confident"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "半分くらいの確からしさです。", en: "I'd put it at about fifty percent.", ch: ["about", "fifty percent"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "確認が取れたら、また共有します。", en: "I'll share again once I've confirmed it.", ch: ["once I've", "confirmed it"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "現時点では、これ以上は言えません。", en: "At this point, that's as much as I can say.", ch: ["that's as much as", "I can say"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "様子を見ながら判断したいです。", en: "I'd like to judge as things develop.", ch: ["judge as", "things develop"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "急いで決めると後悔しそうです。", en: "Deciding in a hurry feels like something I'd regret.", ch: ["Deciding in a hurry", "I'd regret"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "少し寝かせてから考えます。", en: "I'll let it sit and think about it.", ch: ["let it sit", "and think about it"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "反対意見も聞いてみたいです。", en: "I'd like to hear the opposing view as well.", ch: ["hear the opposing view", "as well"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "自分の考えに偏りがないか気をつけています。", en: "I try to watch for bias in my own thinking.", ch: ["watch for bias", "in my own thinking"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "期待と予想は分けて考えたいです。", en: "I want to separate what I hope for from what I expect.", ch: ["separate what I hope for", "from what I expect"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "私が間違っていれば、教えてください。", en: "If I'm wrong, please tell me.", ch: ["If I'm wrong,", "please tell me"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "考えが変われば、そう伝えます。", en: "If my view changes, I'll say so.", ch: ["If my view changes,", "I'll say so"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "無責任なことは言いたくありません。", en: "I don't want to say anything irresponsible.", ch: ["say anything", "irresponsible"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "自分の判断には責任を持ちます。", en: "I take responsibility for my own decisions.", ch: ["take responsibility for", "my own decisions"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "参考程度に聞いていただければ十分です。", en: "It's enough if you take it as a rough reference.", ch: ["take it as", "a rough reference"], scene: "議論", to: "相手", imp: "must" },
+];
