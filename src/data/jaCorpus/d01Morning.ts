@@ -15,7 +15,6 @@ export const D01_SELF: JaSentenceInput[] = [
   { ja: "朝ご飯は何か食べますか。", en: "Are you going to have some breakfast?", ch: ["Are you going to have", "some breakfast?"], scene: "台所", to: "家族", imp: "must" },
   { ja: "私は白ご飯だけでいいです。", en: "Just plain rice is fine for me.", ch: ["Just ...", "is fine for me"], scene: "台所", to: "家族", imp: "must" },
   { ja: "ヨーグルトも食べておいた方がいいですよ。", en: "You should have some yogurt too.", ch: ["You should have", "... too"], scene: "台所", to: "家族", imp: "must" },
-  { ja: "薬はもう飲みましたか。", en: "Have you taken your medicine yet?", ch: ["Have you taken", "your medicine yet?"], scene: "家", to: "家族", imp: "must" },
   { ja: "忘れ物がないか、もう一度確認した方がいいですね。", en: "You should check one more time that you haven't forgotten anything.", ch: ["check one more time", "you haven't forgotten anything"], scene: "玄関", to: "家族", imp: "must" },
   { ja: "財布は持ちましたか。", en: "Do you have your wallet?", ch: ["Do you have", "your wallet?"], scene: "玄関", to: "家族", imp: "must" },
   { ja: "携帯電話は充電できていますか。", en: "Is your phone charged?", ch: ["Is your phone", "charged?"], scene: "家", to: "家族", imp: "must" },
@@ -26,6 +25,9 @@ export const D01_SELF: JaSentenceInput[] = [
 ];
 
 export const D01_ADD: JaSentenceInput[] = [
+  // 本人の 13 番目「薬はもう飲みましたか。」は分野 05 と重複していたため、
+  // 朝の側はこの文に差し替え (原文は分野 05 に残っている)。
+  { ja: "朝のニュースで何か言っていましたか。", en: "Did they say anything on the morning news?", ch: ["Did they say anything", "on the morning news?"], scene: "家", to: "家族", imp: "often" },
   { ja: "目覚ましが鳴らなかったみたいです。", en: "I don't think my alarm went off.", ch: ["I don't think", "my alarm went off"], scene: "寝室", to: "家族", imp: "often" },
   { ja: "カーテンを開けますね。", en: "I'll open the curtains.", ch: ["I'll open", "the curtains"], scene: "寝室", to: "家族", imp: "often" },
   { ja: "外はもう明るいですね。", en: "It's already light outside.", ch: ["It's already", "light outside"], scene: "家", to: "家族", imp: "often" },
