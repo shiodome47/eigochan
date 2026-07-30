@@ -23,3 +23,26 @@ export const D35_SELF: JaSentenceInput[] = [
   { ja: "意見が違うこと自体は問題ではないと思います。", en: "I don't think disagreeing is a problem in itself.", ch: ["disagreeing is not a problem", "in itself"], scene: "会話", to: "相手", imp: "must" },
   { ja: "最終的には、事実を確認して判断するしかないですね。", en: "In the end, we can only check the facts and decide.", ch: ["In the end,", "check the facts and decide"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D35_ADD: JaSentenceInput[] = [
+  { ja: "少し違う視点から見てもいいですか。", en: "May I look at it from a slightly different angle?", ch: ["from a slightly", "different angle"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "反対しているわけではありません。", en: "I'm not opposing it.", ch: ["I'm not", "opposing it"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "確認したいだけです。", en: "I just want to check.", ch: ["I just want", "to check"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "私の理解が浅いだけかもしれません。", en: "It may just be that my understanding is shallow.", ch: ["my understanding", "is shallow"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "その根拠を教えてもらえますか。", en: "Could you tell me what that's based on?", ch: ["Could you tell me", "what that's based on?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "データはありますか。", en: "Is there data on that?", ch: ["Is there data", "on that?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "別の可能性も考えられませんか。", en: "Couldn't there be another possibility?", ch: ["Couldn't there be", "another possibility?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "それは一部の場合に限られませんか。", en: "Isn't that limited to certain cases?", ch: ["Isn't that limited to", "certain cases?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "条件が変われば、結果も変わりますよね。", en: "If the conditions change, the result changes too, right?", ch: ["If the conditions change,", "the result changes too"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "私はその点を心配しています。", en: "That's the point I'm worried about.", ch: ["That's the point", "I'm worried about"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "気にしすぎかもしれませんが、確認しておきたいです。", en: "I may be overly cautious, but I want to confirm it.", ch: ["I may be overly cautious,", "but I want to confirm"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "納得できれば、その方向で構いません。", en: "If I'm convinced, I'm fine going that way.", ch: ["If I'm convinced,", "I'm fine with it"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "もう少し説明していただけますか。", en: "Could you explain a bit further?", ch: ["Could you explain", "a bit further?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "私の懸念は、ここだけです。", en: "My concern is only this one point.", ch: ["My concern is", "only this point"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "ほかの部分には賛成です。", en: "I agree with the rest of it.", ch: ["I agree with", "the rest of it"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "結論を急がなくてもいいと思います。", en: "I don't think we need to rush to a conclusion.", ch: ["we don't need to rush", "to a conclusion"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "一度、両方の案を並べてみませんか。", en: "Why don't we lay both options side by side?", ch: ["lay both options", "side by side"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "どちらを選んでも、説明できる形にしたいです。", en: "Whichever we choose, I want to be able to explain it.", ch: ["Whichever we choose,", "I want to explain it"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "私の考えが変わることもあります。", en: "My view can change too.", ch: ["My view", "can change too"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "話し合えてよかったです。", en: "I'm glad we could talk it through.", ch: ["I'm glad we could", "talk it through"], scene: "会話", to: "相手", imp: "must" },
+];

@@ -23,3 +23,26 @@ export const D43_SELF: JaSentenceInput[] = [
   { ja: "ただし、根本的な解決にはなっていません。", en: "However, it isn't a fundamental fix.", ch: ["However, it isn't", "a fundamental fix"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "分かったことがあれば、また共有します。", en: "If I learn anything more, I'll share it.", ch: ["If I learn anything more,", "I'll share it"], scene: "仕事", to: "同僚", imp: "must" },
 ];
+
+export const D43_ADD: JaSentenceInput[] = [
+  { ja: "急ぎで一点、共有させてください。", en: "Let me share one urgent thing.", ch: ["Let me share", "one urgent thing"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "いつから起きているかは分かりません。", en: "I don't know when it started.", ch: ["I don't know", "when it started"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "最初に気づいたのは今朝です。", en: "I first noticed it this morning.", ch: ["I first noticed it", "this morning"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "特定の条件でだけ起きるようです。", en: "It seems to happen only under certain conditions.", ch: ["only under", "certain conditions"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "毎回ではなく、たまに起きます。", en: "It happens occasionally, not every time.", ch: ["occasionally,", "not every time"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "再現できる場合とできない場合があります。", en: "Sometimes I can reproduce it, sometimes I can't.", ch: ["Sometimes I can reproduce it,", "sometimes I can't"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "スクリーンショットを添付します。", en: "I'll attach a screenshot.", ch: ["I'll attach", "a screenshot"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "エラーの内容をそのまま貼ります。", en: "I'll paste the error exactly as it appears.", ch: ["I'll paste the error", "exactly as it appears"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "環境はこちらのとおりです。", en: "Here is the environment I'm using.", ch: ["Here is the environment", "I'm using"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "他の端末では起きませんでした。", en: "It didn't happen on other devices.", ch: ["It didn't happen", "on other devices"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "私の操作手順を書いておきます。", en: "I'll write down the steps I took.", ch: ["the steps", "I took"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "利用者からの報告もありました。", en: "There was also a report from a user.", ch: ["a report", "from a user"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "同じ現象かどうかは分かりません。", en: "I'm not sure whether it's the same phenomenon.", ch: ["whether it's", "the same phenomenon"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "先に止めておいた方がいいでしょうか。", en: "Should we stop it for now?", ch: ["Should we stop it", "for now?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "影響が広がる前に対応したいです。", en: "I'd like to handle it before the impact spreads.", ch: ["before the impact", "spreads"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "こちらでできることはありますか。", en: "Is there anything I can do on my end?", ch: ["Is there anything I can do", "on my end?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "確認できたら、また連絡します。", en: "I'll get back to you once I've confirmed it.", ch: ["once I've", "confirmed it"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "対応していただき、ありがとうございます。", en: "Thank you for taking care of it.", ch: ["Thank you for", "taking care of it"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "こちらでも動作を確認しました。", en: "I've confirmed the behavior on my side as well.", ch: ["I've confirmed the behavior", "on my side"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "問題は解決したようです。", en: "It looks like the problem is resolved.", ch: ["It looks like", "the problem is resolved"], scene: "仕事", to: "同僚", imp: "must" },
+];

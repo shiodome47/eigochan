@@ -23,3 +23,26 @@ export const D41_SELF: JaSentenceInput[] = [
   { ja: "今日はとても参考になりました。", en: "Today was very helpful.", ch: ["Today was", "very helpful"], scene: "会議", to: "同僚", imp: "must" },
   { ja: "共有していただき、ありがとうございました。", en: "Thank you for sharing this with us.", ch: ["Thank you for", "sharing this"], scene: "会議", to: "同僚", imp: "must" },
 ];
+
+export const D41_ADD: JaSentenceInput[] = [
+  { ja: "少し遅れて申し訳ありません。", en: "Sorry for joining a bit late.", ch: ["Sorry for joining", "a bit late"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "カメラをオンにします。", en: "I'll turn my camera on.", ch: ["I'll turn", "my camera on"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "マイクをミュートにしておきます。", en: "I'll keep my microphone muted.", ch: ["I'll keep my microphone", "muted"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "ミュートになっていませんか。", en: "Are you on mute?", ch: ["Are you", "on mute?"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "接続が不安定なようです。", en: "My connection seems unstable.", ch: ["My connection", "seems unstable"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "一度、退出して入り直します。", en: "I'll leave and rejoin once.", ch: ["I'll leave", "and rejoin"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "録画してもよろしいですか。", en: "Would it be okay to record this?", ch: ["Would it be okay", "to record this?"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "あとで議事録を共有します。", en: "I'll share the notes afterward.", ch: ["I'll share the notes", "afterward"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "資料は事前に送っておきます。", en: "I'll send the materials in advance.", ch: ["send the materials", "in advance"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "チャットに書いておきます。", en: "I'll put it in the chat.", ch: ["I'll put it", "in the chat"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "ここまでで質問はありますか。", en: "Any questions so far?", ch: ["Any questions", "so far?"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "順番に話しましょうか。", en: "Should we speak one at a time?", ch: ["Should we speak", "one at a time?"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "先にどうぞ。", en: "Please, go ahead.", ch: ["Please,", "go ahead"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "話が重なってしまいました。", en: "We were talking over each other.", ch: ["We were talking", "over each other"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "時間が押しているようです。", en: "It looks like we're running over.", ch: ["It looks like", "we're running over"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "残りは次回にしませんか。", en: "Shall we leave the rest for next time?", ch: ["leave the rest", "for next time"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "私の理解を最後にまとめます。", en: "Let me summarize my understanding at the end.", ch: ["Let me summarize", "my understanding"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "次に何をするか決めておきましょう。", en: "Let's decide what happens next.", ch: ["Let's decide", "what happens next"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "では、これで終わりにしましょう。", en: "All right, let's wrap up here.", ch: ["let's wrap up", "here"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "お時間いただき、ありがとうございました。", en: "Thank you for your time today.", ch: ["Thank you for", "your time today"], scene: "会議", to: "同僚", imp: "must" },
+];

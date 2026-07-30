@@ -23,3 +23,26 @@ export const D34_SELF: JaSentenceInput[] = [
   { ja: "本当に助かりました。", en: "That was a real help.", ch: ["That was", "a real help"], scene: "会話", to: "相手", imp: "must" },
   { ja: "またよろしくお願いします。", en: "I hope we can work together again.", ch: ["I hope we can", "work together again"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D34_ADD: JaSentenceInput[] = [
+  { ja: "私の説明が足りませんでした。", en: "My explanation wasn't enough.", ch: ["My explanation", "wasn't enough"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "誤解を招く言い方でした。", en: "The way I put it was misleading.", ch: ["The way I put it", "was misleading"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "確認せずに進めてしまいました。", en: "I went ahead without checking.", ch: ["I went ahead", "without checking"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "次から気をつけます。", en: "I'll be careful from now on.", ch: ["I'll be careful", "from now on"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "同じことを繰り返さないようにします。", en: "I'll make sure it doesn't happen again.", ch: ["I'll make sure", "it doesn't happen again"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "すぐに修正します。", en: "I'll fix it right away.", ch: ["I'll fix it", "right away"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "ご迷惑をおかけしました。", en: "I'm sorry for the inconvenience I caused.", ch: ["I'm sorry for", "the inconvenience"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "私の責任です。", en: "That's on me.", ch: ["That's", "on me"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "教えていただき、助かりました。", en: "Thank you for pointing it out; it helped.", ch: ["Thank you for", "pointing it out"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "指摘してもらえてよかったです。", en: "I'm glad you brought it up.", ch: ["I'm glad you", "brought it up"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "お時間をいただき、ありがとうございました。", en: "Thank you for your time.", ch: ["Thank you for", "your time"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "細かいところまで見ていただきました。", en: "You looked at it in real detail.", ch: ["You looked at it", "in real detail"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "配慮していただき、感謝しています。", en: "I appreciate your consideration.", ch: ["I appreciate", "your consideration"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "覚えていてくださって、うれしいです。", en: "I'm glad you remembered.", ch: ["I'm glad you", "remembered"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "そう言っていただけると助かります。", en: "It helps to hear you say that.", ch: ["It helps to hear", "you say that"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "おかげで前に進めそうです。", en: "Thanks to you, I think I can move forward.", ch: ["Thanks to you,", "I can move forward"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "困ったときはお互いさまです。", en: "We all need help sometimes.", ch: ["We all need help", "sometimes"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "今度は私が力になります。", en: "Next time I'll be the one to help.", ch: ["Next time I'll be", "the one to help"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "本当に感謝しています。", en: "I'm truly grateful.", ch: ["I'm truly", "grateful"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "改めてお礼を申し上げます。", en: "Let me thank you once more.", ch: ["Let me thank you", "once more"], scene: "会話", to: "相手", imp: "often" },
+];

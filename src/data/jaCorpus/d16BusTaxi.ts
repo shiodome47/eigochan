@@ -23,3 +23,26 @@ export const D16_SELF: JaSentenceInput[] = [
   { ja: "支払いはカードでも大丈夫ですか。", en: "Can I pay by card?", ch: ["Can I pay", "by card?"], scene: "タクシー", to: "運転手", imp: "must" },
   { ja: "ありがとうございました。助かりました。", en: "Thank you. That was a big help.", ch: ["Thank you.", "That was a big help"], scene: "タクシー", to: "運転手", imp: "must" },
 ];
+
+export const D16_ADD: JaSentenceInput[] = [
+  { ja: "何番のバスに乗ればいいですか。", en: "Which bus number should I take?", ch: ["Which bus number", "should I take?"], scene: "バス", to: "運転手", imp: "must" },
+  { ja: "このバス停で合っていますか。", en: "Is this the right bus stop?", ch: ["Is this the right", "bus stop?"], scene: "バス", to: "通行人", imp: "must" },
+  { ja: "時刻表を見てみましょう。", en: "Let's look at the timetable.", ch: ["Let's look at", "the timetable"], scene: "バス", to: "家族", imp: "often" },
+  { ja: "平日と休日で時間が違うようです。", en: "The times seem to differ on weekdays and weekends.", ch: ["The times seem to differ", "on weekends"], scene: "バス", to: "家族", imp: "sub" },
+  { ja: "整理券を取りましょう。", en: "Let's take a numbered ticket.", ch: ["Let's take", "a numbered ticket"], scene: "バス", to: "家族", imp: "sub" },
+  { ja: "両替はできますか。", en: "Can you break a bill?", ch: ["Can you break", "a bill?"], scene: "バス", to: "運転手", imp: "often" },
+  { ja: "小銭がありません。", en: "I don't have any coins.", ch: ["I don't have", "any coins"], scene: "バス", to: "運転手", imp: "often" },
+  { ja: "空いている席に座りましょう。", en: "Let's take an open seat.", ch: ["Let's take", "an open seat"], scene: "バス", to: "家族", imp: "often" },
+  { ja: "次で降ります。ボタンを押しますね。", en: "We get off next. I'll press the button.", ch: ["We get off next.", "I'll press the button"], scene: "バス", to: "家族", imp: "often" },
+  { ja: "タクシー乗り場はどちらですか。", en: "Where is the taxi stand?", ch: ["Where is", "the taxi stand?"], scene: "タクシー", to: "駅員", imp: "must" },
+  { ja: "タクシーを呼んでもらえますか。", en: "Could you call a taxi for me?", ch: ["Could you call", "a taxi for me?"], scene: "タクシー", to: "フロント", imp: "must" },
+  { ja: "この住所までお願いします。", en: "To this address, please.", ch: ["To this address,", "please"], scene: "タクシー", to: "運転手", imp: "must" },
+  { ja: "急いでいるので、早めにお願いします。", en: "I'm in a hurry, so as quickly as you can, please.", ch: ["I'm in a hurry,", "as quickly as you can"], scene: "タクシー", to: "運転手", imp: "often" },
+  { ja: "高速を使ってもらえますか。", en: "Could you take the expressway?", ch: ["Could you take", "the expressway?"], scene: "タクシー", to: "運転手", imp: "often" },
+  { ja: "途中でコンビニに寄れますか。", en: "Could we stop at a convenience store on the way?", ch: ["Could we stop", "on the way?"], scene: "タクシー", to: "運転手", imp: "sub" },
+  { ja: "ここでいいです。", en: "This is fine right here.", ch: ["This is fine", "right here"], scene: "タクシー", to: "運転手", imp: "must" },
+  { ja: "支払いは現金だけですか。", en: "Is it cash only?", ch: ["Is it", "cash only?"], scene: "タクシー", to: "運転手", imp: "must" },
+  { ja: "おつりは大丈夫です。", en: "Keep the change.", ch: ["Keep", "the change"], scene: "タクシー", to: "運転手", imp: "often" },
+  { ja: "荷物を出してもらえますか。", en: "Could you get my bag out?", ch: ["Could you get", "my bag out?"], scene: "タクシー", to: "運転手", imp: "often" },
+  { ja: "気をつけて運転してください。", en: "Drive safely.", ch: ["Drive", "safely"], scene: "タクシー", to: "運転手", imp: "sub" },
+];

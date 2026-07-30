@@ -23,3 +23,26 @@ export const D62_SELF: JaSentenceInput[] = [
   { ja: "初心者にはこちらの方が合っているかもしれません。", en: "This one might suit beginners better.", ch: ["might suit beginners", "better"], scene: "議論", to: "相手", imp: "must" },
   { ja: "私自身は、少し手間がかかってもこちらを選ぶと思います。", en: "Personally, I'd choose this one even if it takes more effort.", ch: ["Personally, I'd choose this", "even if it takes more effort"], scene: "議論", to: "相手", imp: "must" },
 ];
+
+export const D62_ADD: JaSentenceInput[] = [
+  { ja: "並べて比べてみましょう。", en: "Let's put them side by side and compare.", ch: ["put them side by side", "and compare"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "比べる基準を決めましょう。", en: "Let's decide the criteria for comparison.", ch: ["decide the criteria", "for comparison"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "費用で比べると、どうなりますか。", en: "How do they compare on cost?", ch: ["How do they compare", "on cost?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "手間で比べると、こちらが楽です。", en: "In terms of effort, this one is easier.", ch: ["In terms of effort,", "this one is easier"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "速さではあまり差がありませんね。", en: "There isn't much difference in speed.", ch: ["There isn't much difference", "in speed"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "安全性ではこちらが上だと思います。", en: "On safety, I think this one is better.", ch: ["On safety,", "this one is better"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "学習コストも考える必要があります。", en: "We also need to consider the learning curve.", ch: ["consider", "the learning curve"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "慣れてしまえば、どちらでも同じかもしれません。", en: "Once you're used to it, they may be the same.", ch: ["Once you're used to it,", "they may be the same"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "使う頻度によって変わりますね。", en: "It depends on how often you use it.", ch: ["It depends on", "how often you use it"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "たまにしか使わないなら、簡単な方がいいです。", en: "If you only use it occasionally, simpler is better.", ch: ["If you only use it occasionally,", "simpler is better"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "毎日使うなら、多少複雑でも構いません。", en: "If you use it daily, some complexity is fine.", ch: ["If you use it daily,", "some complexity is fine"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "見た目より、中身で選びたいです。", en: "I'd rather choose by substance than looks.", ch: ["by substance", "than looks"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "評判はあくまで参考程度です。", en: "Reputation is only a rough guide.", ch: ["Reputation is only", "a rough guide"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "自分で試すのが一番確実です。", en: "Trying it yourself is the surest way.", ch: ["Trying it yourself", "is the surest way"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "両方を少し使ってみましょうか。", en: "Shall we try both a little?", ch: ["try both", "a little?"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "途中で乗り換えることもできます。", en: "We can also switch partway.", ch: ["switch", "partway"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "その場合の手間も見ておきましょう。", en: "Let's also look at the effort that would take.", ch: ["the effort", "that would take"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "決められないなら、条件を減らしましょう。", en: "If we can't decide, let's reduce the criteria.", ch: ["If we can't decide,", "reduce the criteria"], scene: "議論", to: "相手", imp: "often" },
+  { ja: "一番重視することは何ですか。", en: "What matters most to you?", ch: ["What matters most", "to you?"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "それなら、答えは決まりますね。", en: "In that case, the answer is clear.", ch: ["In that case,", "the answer is clear"], scene: "議論", to: "相手", imp: "must" },
+];

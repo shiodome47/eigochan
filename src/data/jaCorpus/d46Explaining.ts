@@ -23,3 +23,26 @@ export const D46_SELF: JaSentenceInput[] = [
   { ja: "分からない部分があれば、その都度確認してください。", en: "If anything is unclear, please ask as we go.", ch: ["If anything is unclear,", "please ask as we go"], scene: "説明", to: "相手", imp: "must" },
   { ja: "全体としては、このような仕組みになっています。", en: "So overall, that's how it works.", ch: ["So overall,", "that's how it works"], scene: "説明", to: "相手", imp: "must" },
 ];
+
+export const D46_ADD: JaSentenceInput[] = [
+  { ja: "難しい言葉は使わずに説明します。", en: "I'll explain it without difficult words.", ch: ["without", "difficult words"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "身近な例で考えてみましょう。", en: "Let's think about it with a familiar example.", ch: ["with a familiar", "example"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "銀行に例えると分かりやすいかもしれません。", en: "It may be easier if we compare it to a bank.", ch: ["if we compare it to", "a bank"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "ただし、完全に同じではありません。", en: "That said, it isn't exactly the same.", ch: ["it isn't", "exactly the same"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "細かい違いは、あとで説明します。", en: "I'll explain the finer differences later.", ch: ["I'll explain the finer differences", "later"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "まず、言葉の意味から確認します。", en: "First, let's go over what the words mean.", ch: ["let's go over", "what the words mean"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "ここが一番大事な部分です。", en: "This is the most important part.", ch: ["This is the most", "important part"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "ここだけ覚えておけば大丈夫です。", en: "If you remember just this, you'll be fine.", ch: ["If you remember just this,", "you'll be fine"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "順番に一つずつ見ていきましょう。", en: "Let's go through them one at a time.", ch: ["Let's go through them", "one at a time"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "図で見ると分かりやすいと思います。", en: "I think it's clearer as a diagram.", ch: ["it's clearer", "as a diagram"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "実際の画面を見ながら説明します。", en: "I'll explain while we look at the actual screen.", ch: ["while we look at", "the actual screen"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "ここでボタンを押すと、こうなります。", en: "When you press this button, this happens.", ch: ["When you press this button,", "this happens"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "この画面は初めてだと戸惑いますよね。", en: "This screen is confusing the first time, isn't it?", ch: ["confusing", "the first time"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "焦らずに、ゆっくり進めましょう。", en: "Let's take it slowly, without rushing.", ch: ["Let's take it slowly,", "without rushing"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "ここまでは大丈夫でしょうか。", en: "Are we okay up to this point?", ch: ["Are we okay", "up to this point?"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "同じ質問を何度してもらっても構いません。", en: "You can ask the same question as many times as you like.", ch: ["ask the same question", "as many times as you like"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "全部を一度に理解する必要はありません。", en: "You don't need to understand it all at once.", ch: ["understand it all", "at once"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "使いながら覚えていけば大丈夫です。", en: "It's fine to learn it as you use it.", ch: ["learn it", "as you use it"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "分からないまま進めないでくださいね。", en: "Please don't go ahead while you're still unsure.", ch: ["don't go ahead", "while you're still unsure"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "また説明が必要になれば、いつでも言ってください。", en: "If you need it explained again, just say so anytime.", ch: ["If you need it explained again,", "just say so"], scene: "説明", to: "相手", imp: "must" },
+];

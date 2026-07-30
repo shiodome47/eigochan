@@ -23,3 +23,26 @@ export const D17_SELF: JaSentenceInput[] = [
   { ja: "ここは意外と静かですね。", en: "It's surprisingly quiet here.", ch: ["It's surprisingly", "quiet here"], scene: "カフェ", to: "家族", imp: "must" },
   { ja: "そろそろ出た方がいいですか。", en: "Should we get going soon?", ch: ["Should we get going", "soon?"], scene: "カフェ", to: "家族", imp: "must" },
 ];
+
+export const D17_ADD: JaSentenceInput[] = [
+  { ja: "二人ですが、席はありますか。", en: "Do you have a table for two?", ch: ["Do you have", "a table for two?"], scene: "カフェ", to: "店員", imp: "must" },
+  { ja: "席で待っていてください。", en: "Please wait at the table.", ch: ["Please wait", "at the table"], scene: "カフェ", to: "家族", imp: "often" },
+  { ja: "先に注文しておきましょうか。", en: "Should I order ahead?", ch: ["Should I", "order ahead?"], scene: "カフェ", to: "家族", imp: "often" },
+  { ja: "ホットとアイス、どちらにしますか。", en: "Hot or iced?", ch: ["Hot", "or iced?"], scene: "カフェ", to: "家族", imp: "must" },
+  { ja: "サイズはどうしますか。", en: "What size would you like?", ch: ["What size", "would you like?"], scene: "カフェ", to: "家族", imp: "often" },
+  { ja: "一番小さいサイズでお願いします。", en: "The smallest size, please.", ch: ["The smallest size,", "please"], scene: "カフェ", to: "店員", imp: "must" },
+  { ja: "砂糖とミルクはいりません。", en: "No sugar or milk, thank you.", ch: ["No sugar or milk,", "thank you"], scene: "カフェ", to: "店員", imp: "often" },
+  { ja: "ミルクを少しもらえますか。", en: "Could I get a little milk?", ch: ["Could I get", "a little milk?"], scene: "カフェ", to: "店員", imp: "often" },
+  { ja: "お水はどこにありますか。", en: "Where is the water?", ch: ["Where is", "the water?"], scene: "カフェ", to: "店員", imp: "often" },
+  { ja: "Wi-Fiは使えますか。", en: "Do you have Wi-Fi?", ch: ["Do you have", "Wi-Fi?"], scene: "カフェ", to: "店員", imp: "must" },
+  { ja: "パスワードを教えてもらえますか。", en: "Could you tell me the password?", ch: ["Could you tell me", "the password?"], scene: "カフェ", to: "店員", imp: "often" },
+  { ja: "少し席を外しますね。", en: "I'll step away for a moment.", ch: ["I'll step away", "for a moment"], scene: "カフェ", to: "家族", imp: "often" },
+  { ja: "荷物を見ていてもらえますか。", en: "Could you keep an eye on my things?", ch: ["Could you keep an eye on", "my things?"], scene: "カフェ", to: "家族", imp: "often" },
+  { ja: "だいぶ混んできましたね。", en: "It's gotten quite crowded.", ch: ["It's gotten", "quite crowded"], scene: "カフェ", to: "家族", imp: "often" },
+  { ja: "そろそろ席を譲りましょうか。", en: "Maybe we should give up our table.", ch: ["Maybe we should", "give up our table"], scene: "カフェ", to: "家族", imp: "sub" },
+  { ja: "お代わりはできますか。", en: "Can I get a refill?", ch: ["Can I get", "a refill?"], scene: "カフェ", to: "店員", imp: "often" },
+  { ja: "トレイはどこに返せばいいですか。", en: "Where do I return the tray?", ch: ["Where do I return", "the tray?"], scene: "カフェ", to: "店員", imp: "sub" },
+  { ja: "少し長居しすぎましたね。", en: "We stayed a bit too long.", ch: ["We stayed", "a bit too long"], scene: "カフェ", to: "家族", imp: "sub" },
+  { ja: "会計は別々でお願いします。", en: "Separate checks, please.", ch: ["Separate checks,", "please"], scene: "カフェ", to: "店員", imp: "often" },
+  { ja: "次はどこに行きますか。", en: "Where should we go next?", ch: ["Where should we", "go next?"], scene: "カフェ", to: "家族", imp: "must" },
+];

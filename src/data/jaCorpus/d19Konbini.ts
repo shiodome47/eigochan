@@ -23,3 +23,26 @@ export const D19_SELF: JaSentenceInput[] = [
   { ja: "もう一度、必要なものを確認しましょう。", en: "Let's check what we need one more time.", ch: ["Let's check what we need", "one more time"], scene: "コンビニ", to: "家族", imp: "must" },
   { ja: "では、帰りましょう。", en: "All right, let's head home.", ch: ["All right,", "let's head home"], scene: "コンビニ", to: "家族", imp: "must" },
 ];
+
+export const D19_ADD: JaSentenceInput[] = [
+  { ja: "ATMはありますか。", en: "Is there an ATM?", ch: ["Is there", "an ATM?"], scene: "コンビニ", to: "店員", imp: "often" },
+  { ja: "お金をおろしてきます。", en: "I'm going to withdraw some cash.", ch: ["I'm going to", "withdraw some cash"], scene: "コンビニ", to: "家族", imp: "often" },
+  { ja: "コピーを取りたいんですが。", en: "I'd like to make a copy.", ch: ["I'd like to", "make a copy"], scene: "コンビニ", to: "店員", imp: "sub" },
+  { ja: "荷物を送ることはできますか。", en: "Can I send a package from here?", ch: ["Can I send a package", "from here?"], scene: "コンビニ", to: "店員", imp: "sub" },
+  { ja: "ここで支払いができますか。", en: "Can I pay this here?", ch: ["Can I pay this", "here?"], scene: "コンビニ", to: "店員", imp: "often" },
+  { ja: "温かい飲み物はどこですか。", en: "Where are the hot drinks?", ch: ["Where are", "the hot drinks?"], scene: "コンビニ", to: "店員", imp: "often" },
+  { ja: "新商品が出ていますね。", en: "There's a new item out.", ch: ["There's a new item", "out"], scene: "コンビニ", to: "家族", imp: "sub" },
+  { ja: "二つで安くなるみたいです。", en: "It looks like two of them are cheaper.", ch: ["It looks like", "two are cheaper"], scene: "コンビニ", to: "家族", imp: "sub" },
+  { ja: "一つで十分ですよ。", en: "One is plenty.", ch: ["One is", "plenty"], scene: "コンビニ", to: "家族", imp: "often" },
+  { ja: "賞味期限を見ておきましょう。", en: "Let's check the expiration date.", ch: ["Let's check", "the expiration date"], scene: "コンビニ", to: "家族", imp: "often" },
+  { ja: "スプーンももらえますか。", en: "Could I get a spoon as well?", ch: ["Could I get", "a spoon as well?"], scene: "コンビニ", to: "店員", imp: "often" },
+  { ja: "小さい袋で大丈夫です。", en: "A small bag is fine.", ch: ["A small bag", "is fine"], scene: "コンビニ", to: "店員", imp: "often" },
+  { ja: "袋は結構です。", en: "I don't need a bag, thank you.", ch: ["I don't need a bag,", "thank you"], scene: "コンビニ", to: "店員", imp: "must" },
+  { ja: "現金で払います。", en: "I'll pay in cash.", ch: ["I'll pay", "in cash"], scene: "コンビニ", to: "店員", imp: "must" },
+  { ja: "ポイントカードは持っていません。", en: "I don't have a point card.", ch: ["I don't have", "a point card"], scene: "コンビニ", to: "店員", imp: "often" },
+  { ja: "トイレを借りてもいいですか。", en: "May I use the restroom?", ch: ["May I use", "the restroom?"], scene: "コンビニ", to: "店員", imp: "must" },
+  { ja: "外で待っていますね。", en: "I'll wait outside.", ch: ["I'll wait", "outside"], scene: "コンビニ", to: "家族", imp: "often" },
+  { ja: "ゴミは持ち帰りましょう。", en: "Let's take the trash with us.", ch: ["Let's take the trash", "with us"], scene: "コンビニ", to: "家族", imp: "sub" },
+  { ja: "車に戻りましょう。", en: "Let's head back to the car.", ch: ["Let's head back", "to the car"], scene: "コンビニ", to: "家族", imp: "often" },
+  { ja: "すぐ済みますので、待っていてください。", en: "I'll be quick, so please wait.", ch: ["I'll be quick,", "so please wait"], scene: "コンビニ", to: "家族", imp: "often" },
+];

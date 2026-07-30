@@ -23,3 +23,26 @@ export const D42_SELF: JaSentenceInput[] = [
   { ja: "次に何をするべきかは明確になっています。", en: "It's clear what needs to be done next.", ch: ["It's clear what", "needs to be done next"], scene: "会議", to: "同僚", imp: "must" },
   { ja: "このまま進めれば、問題なく完了できると思います。", en: "If we keep going like this, I think we can finish without trouble.", ch: ["If we keep going like this,", "we can finish without trouble"], scene: "会議", to: "同僚", imp: "must" },
 ];
+
+export const D42_ADD: JaSentenceInput[] = [
+  { ja: "先週からの変更点をお伝えします。", en: "Let me go over what's changed since last week.", ch: ["what's changed", "since last week"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "全体の八割ほど終わっています。", en: "About eighty percent is done.", ch: ["About eighty percent", "is done"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "残っているのは確認作業だけです。", en: "All that's left is verification.", ch: ["All that's left", "is verification"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "予定より少し早く進んでいます。", en: "We're a little ahead of schedule.", ch: ["a little ahead", "of schedule"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "手が止まっている部分があります。", en: "There's a part where I'm stuck.", ch: ["There's a part", "where I'm stuck"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "そこは他の人の作業待ちです。", en: "That part is waiting on someone else's work.", ch: ["waiting on", "someone else's work"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "確認が取れ次第、進めます。", en: "I'll move ahead as soon as I get confirmation.", ch: ["as soon as I get", "confirmation"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "この部分は先に見ていただけますか。", en: "Could you review this part first?", ch: ["Could you review", "this part first?"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "テストはこれから行います。", en: "Testing comes next.", ch: ["Testing", "comes next"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "問題が出れば、そこで修正します。", en: "If problems come up, I'll fix them then.", ch: ["If problems come up,", "I'll fix them then"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "今週中には形になると思います。", en: "I think it'll take shape within this week.", ch: ["take shape", "within this week"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "来週には共有できる見込みです。", en: "I expect to be able to share it next week.", ch: ["I expect to be able to", "share it next week"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "作業の順番を少し変えました。", en: "I changed the order of the work a little.", ch: ["changed the order", "of the work"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "その方が効率がよさそうだったからです。", en: "That seemed more efficient.", ch: ["That seemed", "more efficient"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "細かい点は資料にまとめてあります。", en: "The details are written up in the document.", ch: ["The details are", "written up in the document"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "懸念があれば早めに共有してください。", en: "If you have concerns, please share them early.", ch: ["If you have concerns,", "please share them early"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "優先度を変えた方がよければ言ってください。", en: "Tell me if the priorities should change.", ch: ["Tell me if", "the priorities should change"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "現状は以上です。", en: "That's where things stand.", ch: ["That's where", "things stand"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "何か質問はありますか。", en: "Do you have any questions?", ch: ["Do you have", "any questions?"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "引き続き進めていきます。", en: "I'll keep moving forward with it.", ch: ["I'll keep moving forward", "with it"], scene: "会議", to: "同僚", imp: "must" },
+];

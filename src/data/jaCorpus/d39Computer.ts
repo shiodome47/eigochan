@@ -23,3 +23,26 @@ export const D39_SELF: JaSentenceInput[] = [
   { ja: "これで正常に動いているように見えます。", en: "It looks like it's working properly now.", ch: ["It looks like", "it's working properly"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "念のため、もう一度最初から確認してみます。", en: "Just to be safe, I'll check it again from the beginning.", ch: ["I'll check it again", "from the beginning"], scene: "仕事", to: "同僚", imp: "must" },
 ];
+
+export const D39_ADD: JaSentenceInput[] = [
+  { ja: "画面が固まってしまいました。", en: "The screen has frozen.", ch: ["The screen", "has frozen"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "少し動作が遅いですね。", en: "It's running a bit slow.", ch: ["It's running", "a bit slow"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "アプリを一度閉じてみます。", en: "I'll try closing the app once.", ch: ["I'll try closing", "the app"], scene: "仕事", to: "ひとりごと", imp: "often" },
+  { ja: "更新が必要なようです。", en: "It looks like it needs an update.", ch: ["It looks like it needs", "an update"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "アップデートには時間がかかりそうです。", en: "The update looks like it'll take a while.", ch: ["The update will take", "a while"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "パスワードを忘れてしまいました。", en: "I've forgotten my password.", ch: ["I've forgotten", "my password"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "ログインできません。", en: "I can't log in.", ch: ["I can't", "log in"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "二段階認証が届きません。", en: "The two-factor code isn't arriving.", ch: ["The two-factor code", "isn't arriving"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "インターネットが切れているようです。", en: "It looks like the internet is down.", ch: ["It looks like", "the internet is down"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "ルーターを再起動してみます。", en: "I'll try restarting the router.", ch: ["I'll try restarting", "the router"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "データを別の場所にも保存しておきます。", en: "I'll also save the data somewhere else.", ch: ["I'll also save the data", "somewhere else"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "容量が足りないようです。", en: "It seems there isn't enough space.", ch: ["there isn't", "enough space"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "不要なファイルを消しておきます。", en: "I'll delete the files we don't need.", ch: ["I'll delete the files", "we don't need"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "ショートカットを覚えると早いですね。", en: "Learning the shortcuts makes it faster.", ch: ["Learning the shortcuts", "makes it faster"], scene: "仕事", to: "同僚", imp: "sub" },
+  { ja: "画面を共有して見てもらえますか。", en: "Could I share my screen so you can see?", ch: ["Could I share my screen", "so you can see?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "この設定はどこで変えられますか。", en: "Where can I change this setting?", ch: ["Where can I change", "this setting?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "元に戻す方法はありますか。", en: "Is there a way to undo it?", ch: ["Is there a way", "to undo it?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "作業の途中で保存しておきます。", en: "I'll save partway through.", ch: ["I'll save", "partway through"], scene: "仕事", to: "ひとりごと", imp: "often" },
+  { ja: "今日はここまでにしておきます。", en: "I'll stop here for today.", ch: ["I'll stop here", "for today"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "続きは明日やります。", en: "I'll do the rest tomorrow.", ch: ["I'll do the rest", "tomorrow"], scene: "仕事", to: "同僚", imp: "must" },
+];

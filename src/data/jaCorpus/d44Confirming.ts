@@ -23,3 +23,26 @@ export const D44_SELF: JaSentenceInput[] = [
   { ja: "認識に違いがあれば教えてください。", en: "Please let me know if our understanding differs.", ch: ["let me know if", "our understanding differs"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "問題なければ、この内容で進めます。", en: "If there are no issues, I'll proceed with this.", ch: ["If there are no issues,", "I'll proceed with this"], scene: "仕事", to: "同僚", imp: "must" },
 ];
+
+export const D44_ADD: JaSentenceInput[] = [
+  { ja: "認識合わせをさせてください。", en: "Let me make sure we're on the same page.", ch: ["make sure we're", "on the same page"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "私の手元では、こうなっています。", en: "On my end, it looks like this.", ch: ["On my end,", "it looks like this"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "そちらでも同じですか。", en: "Is it the same on your side?", ch: ["Is it the same", "on your side?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "この理解で進めてよいでしょうか。", en: "May I proceed on this understanding?", ch: ["May I proceed", "on this understanding?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "念のため、日付も確認させてください。", en: "Just to be safe, let me confirm the date as well.", ch: ["let me confirm", "the date as well"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "担当はどなたになりますか。", en: "Who will be in charge?", ch: ["Who will be", "in charge?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "連絡先はこちらで合っていますか。", en: "Is this the right contact?", ch: ["Is this the right", "contact?"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "最新版はどれになりますか。", en: "Which one is the latest version?", ch: ["Which one is", "the latest version?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "この資料を使って問題ありませんか。", en: "Is it okay to use this document?", ch: ["Is it okay to use", "this document?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "共有範囲はどこまででしょうか。", en: "How widely can this be shared?", ch: ["How widely can this", "be shared?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "社外に出しても大丈夫ですか。", en: "Is it okay to share outside the organization?", ch: ["Is it okay to share", "outside?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "翻訳して掲載してもいいですか。", en: "May I translate it and post it?", ch: ["May I translate it", "and post it?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "内容に変更があれば教えてください。", en: "Please let me know if anything changes.", ch: ["Please let me know if", "anything changes"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "私の対応はここまででよいですか。", en: "Is this as far as I need to go?", ch: ["Is this as far as", "I need to go?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "追加で必要な作業はありますか。", en: "Is there any additional work needed?", ch: ["Is there any", "additional work needed?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "急ぎでなければ、来週対応します。", en: "If it's not urgent, I'll handle it next week.", ch: ["If it's not urgent,", "I'll handle it next week"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "こちらの認識に誤りがあれば訂正してください。", en: "Please correct me if my understanding is off.", ch: ["Please correct me if", "my understanding is off"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "確認いただき、ありがとうございます。", en: "Thank you for checking.", ch: ["Thank you for", "checking"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "では、この方向で進めます。", en: "Then I'll proceed in this direction.", ch: ["Then I'll proceed", "in this direction"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "何かあれば、いつでも連絡してください。", en: "Please contact me anytime if anything comes up.", ch: ["Please contact me anytime", "if anything comes up"], scene: "仕事", to: "同僚", imp: "must" },
+];

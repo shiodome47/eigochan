@@ -23,3 +23,26 @@ export const D38_SELF: JaSentenceInput[] = [
   { ja: "覚えるなら、どの部分を一つの塊として覚えるべきですか。", en: "If I'm going to memorize it, which part should I take as one chunk?", ch: ["which part should I take", "as one chunk?"], scene: "学習", to: "相手", imp: "must" },
   { ja: "私の理解が合っているか、確認してもらえますか。", en: "Could you check whether my understanding is correct?", ch: ["Could you check whether", "my understanding is correct?"], scene: "学習", to: "相手", imp: "must" },
 ];
+
+export const D38_ADD: JaSentenceInput[] = [
+  { ja: "すみません、今の部分が分かりませんでした。", en: "Sorry, I didn't understand that last part.", ch: ["Sorry, I didn't understand", "that last part"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "少し待ってください。考えています。", en: "Please wait a moment. I'm thinking.", ch: ["Please wait a moment.", "I'm thinking"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "英語で何と言えばいいか分かりません。", en: "I don't know how to say it in English.", ch: ["I don't know how to say it", "in English"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "うまく言えないので、書いてもいいですか。", en: "I can't say it well, so may I write it down?", ch: ["I can't say it well,", "may I write it down?"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "この単語の意味を教えてください。", en: "Could you tell me what this word means?", ch: ["what this word", "means"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "つづりを教えてもらえますか。", en: "Could you spell that for me?", ch: ["Could you spell that", "for me?"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "チャットに書いてもらえますか。", en: "Could you type it in the chat?", ch: ["Could you type it", "in the chat?"], scene: "会議", to: "相手", imp: "must" },
+  { ja: "翻訳を使ってもいいですか。", en: "Do you mind if I use a translator?", ch: ["Do you mind if I", "use a translator?"], scene: "会議", to: "相手", imp: "often" },
+  { ja: "今の言い方をもう一度お願いします。", en: "Could you repeat that phrasing?", ch: ["Could you repeat", "that phrasing?"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "早口だと聞き取れません。", en: "I can't catch it when it's fast.", ch: ["I can't catch it", "when it's fast"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "単語は分かるのに、意味がつながりません。", en: "I know the words, but they don't add up to a meaning.", ch: ["I know the words, but", "they don't add up"], scene: "学習", to: "相手", imp: "often" },
+  { ja: "省略されている部分がありますか。", en: "Is something being left out there?", ch: ["Is something", "being left out?"], scene: "学習", to: "相手", imp: "often" },
+  { ja: "これは決まった言い方ですか。", en: "Is this a set phrase?", ch: ["Is this", "a set phrase?"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "文字で見れば分かると思います。", en: "I think I'd understand if I saw it written.", ch: ["if I saw it", "written"], scene: "学習", to: "相手", imp: "often" },
+  { ja: "私の発音は通じていますか。", en: "Is my pronunciation getting through?", ch: ["Is my pronunciation", "getting through?"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "どこを直せばいいですか。", en: "What should I fix?", ch: ["What should I", "fix?"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "自然な言い方を教えてください。", en: "Please tell me the natural way to say it.", ch: ["the natural way", "to say it"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "この言い方は失礼になりませんか。", en: "Would this phrasing come across as rude?", ch: ["Would this phrasing", "come across as rude?"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "同じ意味の簡単な言い方はありますか。", en: "Is there a simpler way to say the same thing?", ch: ["a simpler way to say", "the same thing"], scene: "学習", to: "相手", imp: "must" },
+  { ja: "ゆっくりでいいので、待ってもらえますか。", en: "Could you bear with me while I take my time?", ch: ["Could you bear with me", "while I take my time?"], scene: "学習", to: "相手", imp: "must" },
+];

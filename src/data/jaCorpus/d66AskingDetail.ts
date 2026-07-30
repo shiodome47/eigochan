@@ -23,3 +23,26 @@ export const D66_SELF: JaSentenceInput[] = [
   { ja: "私が覚えておくべき部分だけをまとめてもらえますか。", en: "Could you summarize just the parts I should remember?", ch: ["summarize just the parts", "I should remember"], scene: "会話", to: "相手", imp: "must" },
   { ja: "最後に、私の理解が合っているか確認してください。", en: "Finally, please check whether my understanding is correct.", ch: ["Finally, please check whether", "my understanding is correct"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D66_ADD: JaSentenceInput[] = [
+  { ja: "もう少しだけ聞いてもいいですか。", en: "May I ask just a bit more?", ch: ["May I ask", "just a bit more?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "時間があるときで構いません。", en: "Whenever you have time is fine.", ch: ["Whenever you have time", "is fine"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "そこをもう一歩掘り下げたいです。", en: "I'd like to dig one step deeper there.", ch: ["dig one step", "deeper"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "背景から教えていただけますか。", en: "Could you tell me the background?", ch: ["tell me", "the background"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "経緯を知っておきたいです。", en: "I'd like to know how it came about.", ch: ["how it", "came about"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "そのときの判断理由は何でしたか。", en: "What was the reasoning at the time?", ch: ["What was the reasoning", "at the time?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "他の案は検討されましたか。", en: "Were other options considered?", ch: ["Were other options", "considered?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "その案が採用されなかった理由は何ですか。", en: "Why wasn't that option adopted?", ch: ["Why wasn't that option", "adopted?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "今後変わる可能性はありますか。", en: "Could it change going forward?", ch: ["Could it change", "going forward?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "参考になる資料を教えてください。", en: "Please point me to something I can read.", ch: ["point me to", "something I can read"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "初心者向けの説明はありますか。", en: "Is there an explanation aimed at beginners?", ch: ["an explanation aimed at", "beginners?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "動画でもあれば見ておきます。", en: "If there's a video, I'll watch it.", ch: ["If there's a video,", "I'll watch it"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "自分でも調べてみます。", en: "I'll look into it myself as well.", ch: ["I'll look into it", "myself"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "調べても分からなければ、また聞きます。", en: "If I still can't work it out, I'll ask again.", ch: ["If I still can't work it out,", "I'll ask again"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "何度も聞いてしまい、すみません。", en: "Sorry for asking so many times.", ch: ["Sorry for asking", "so many times"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "理解できるまで付き合っていただけますか。", en: "Would you stay with me until I understand it?", ch: ["stay with me", "until I understand"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "分かったところまで、まとめてみます。", en: "Let me summarize what I've understood so far.", ch: ["summarize what I've understood", "so far"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "この理解で合っていれば、先に進めます。", en: "If this understanding is right, I can move on.", ch: ["If this is right,", "I can move on"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "おかげで、かなり整理できました。", en: "Thanks to you, it's much clearer in my head.", ch: ["Thanks to you,", "it's much clearer"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "ありがとうございます。とても助かりました。", en: "Thank you. That was a big help.", ch: ["Thank you.", "That was a big help"], scene: "会話", to: "相手", imp: "must" },
+];

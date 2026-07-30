@@ -23,3 +23,26 @@ export const D55_SELF: JaSentenceInput[] = [
   { ja: "ただ、なぜ処理が進まないのかが分かりません。", en: "I just don't understand why it isn't making progress.", ch: ["I don't understand why", "it isn't making progress"], scene: "相談", to: "SPO仲間", imp: "must" },
   { ja: "安全に確認できる手順を、一つずつ教えてください。", en: "Please walk me through safe steps to check, one at a time.", ch: ["walk me through safe steps", "one at a time"], scene: "相談", to: "SPO仲間", imp: "must" },
 ];
+
+export const D55_ADD: JaSentenceInput[] = [
+  { ja: "お忙しいところ、すみません。", en: "Sorry to bother you when you're busy.", ch: ["Sorry to bother you", "when you're busy"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "同じ経験をされた方はいますか。", en: "Has anyone experienced the same thing?", ch: ["Has anyone experienced", "the same thing?"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "バージョンはこちらを使っています。", en: "I'm using this version.", ch: ["I'm using", "this version"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "OSは最新にしてあります。", en: "The OS is up to date.", ch: ["The OS is", "up to date"], scene: "相談", to: "SPO仲間", imp: "often" },
+  { ja: "ディスクの空きは十分あります。", en: "There's plenty of disk space.", ch: ["plenty of", "disk space"], scene: "相談", to: "SPO仲間", imp: "often" },
+  { ja: "メモリの使用量が多いようです。", en: "Memory usage seems high.", ch: ["Memory usage", "seems high"], scene: "相談", to: "SPO仲間", imp: "often" },
+  { ja: "ログのこの行が気になっています。", en: "This line in the log concerns me.", ch: ["This line in the log", "concerns me"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "同じエラーが繰り返し出ています。", en: "The same error keeps repeating.", ch: ["The same error", "keeps repeating"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "設定ファイルを共有してもいいですか。", en: "May I share my configuration file?", ch: ["May I share", "my configuration file?"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "秘密情報は消してあります。", en: "I've removed the sensitive information.", ch: ["I've removed", "the sensitive information"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "この設定で合っていますか。", en: "Is this setting correct?", ch: ["Is this setting", "correct?"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "推奨される値はありますか。", en: "Is there a recommended value?", ch: ["Is there", "a recommended value?"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "先に確認しておくべきことはありますか。", en: "Is there anything I should check first?", ch: ["anything I should", "check first?"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "バックアップは取ってあります。", en: "I have a backup.", ch: ["I have", "a backup"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "作業は深夜に行う予定です。", en: "I plan to do the work late at night.", ch: ["I plan to do the work", "late at night"], scene: "相談", to: "SPO仲間", imp: "often" },
+  { ja: "影響が出ないように進めます。", en: "I'll proceed so there's no impact.", ch: ["I'll proceed so", "there's no impact"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "うまくいったら報告します。", en: "I'll report back if it works.", ch: ["I'll report back", "if it works"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "解決しました。ありがとうございます。", en: "It's resolved. Thank you.", ch: ["It's resolved.", "Thank you"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "原因はこちらの設定ミスでした。", en: "The cause was a mistake in my own settings.", ch: ["The cause was", "a mistake on my side"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "同じ問題の人のために記録を残します。", en: "I'll write it up for anyone with the same problem.", ch: ["for anyone with", "the same problem"], scene: "相談", to: "SPO仲間", imp: "often" },
+];

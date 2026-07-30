@@ -23,3 +23,26 @@ export const D27_SELF: JaSentenceInput[] = [
   { ja: "結論としては、どう考えればいいですか。", en: "So what should I take away from this?", ch: ["What should I", "take away from this?"], scene: "会話", to: "相手", imp: "must" },
   { ja: "私の理解で合っているか、確認してもいいですか。", en: "Can I check whether my understanding is right?", ch: ["Can I check whether", "my understanding is right?"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D27_ADD: JaSentenceInput[] = [
+  { ja: "少し質問してもいいですか。", en: "May I ask a few questions?", ch: ["May I ask", "a few questions?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "どこから話せばいいでしょうか。", en: "Where should we start?", ch: ["Where should we", "start?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "これは誰が決めたんですか。", en: "Who decided this?", ch: ["Who decided", "this?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "その情報はどこで知りましたか。", en: "Where did you hear that?", ch: ["Where did you", "hear that?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "それは確認された話ですか。", en: "Has that been confirmed?", ch: ["Has that been", "confirmed?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "どのくらい確実な話なんでしょうか。", en: "How certain is it?", ch: ["How certain", "is it?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "何か資料はありますか。", en: "Is there any documentation?", ch: ["Is there any", "documentation?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "例を一つ挙げてもらえますか。", en: "Could you give me an example?", ch: ["Could you give me", "an example?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "反対の意見もありますか。", en: "Are there opposing views as well?", ch: ["Are there opposing views", "as well?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "その場合は、どうなりますか。", en: "What happens in that case?", ch: ["What happens", "in that case?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "順番としては、どちらが先ですか。", en: "Which one comes first?", ch: ["Which one", "comes first?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "誰に確認すればいいですか。", en: "Who should I check with?", ch: ["Who should I", "check with?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "いつまでに決める必要がありますか。", en: "By when do we need to decide?", ch: ["By when do we", "need to decide?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "ほかに影響する部分はありますか。", en: "Is there anything else it affects?", ch: ["Is there anything else", "it affects?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "これは急ぎの話でしょうか。", en: "Is this urgent?", ch: ["Is this", "urgent?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "私が手伝えることはありますか。", en: "Is there something I can help with?", ch: ["Is there something", "I can help with?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "念のため、もう一つ聞いてもいいですか。", en: "Just to be safe, may I ask one more thing?", ch: ["Just to be safe,", "may I ask one more thing?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "細かい質問で申し訳ありません。", en: "Sorry for the detailed questions.", ch: ["Sorry for", "the detailed questions"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "あとで質問しても大丈夫ですか。", en: "Is it okay if I ask questions later?", ch: ["Is it okay if I", "ask questions later?"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "答えにくければ、答えなくても大丈夫です。", en: "If it's hard to answer, you don't have to.", ch: ["If it's hard to answer,", "you don't have to"], scene: "会話", to: "相手", imp: "often" },
+];

@@ -23,3 +23,26 @@ export const D31_SELF: JaSentenceInput[] = [
   { ja: "とりあえず、その方向で進めてみましょう。", en: "For now, let's move ahead in that direction.", ch: ["let's move ahead", "in that direction"], scene: "会話", to: "同僚", imp: "must" },
   { ja: "では、それでいきましょう。", en: "All right, let's go with that.", ch: ["All right,", "let's go with that"], scene: "会話", to: "同僚", imp: "must" },
 ];
+
+export const D31_ADD: JaSentenceInput[] = [
+  { ja: "今度の週末は空いていますか。", en: "Are you free this coming weekend?", ch: ["Are you free", "this coming weekend?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "予定が合えば、ご一緒しませんか。", en: "If our schedules line up, would you like to join?", ch: ["If our schedules line up,", "would you like to join?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "無理のない範囲で大丈夫です。", en: "Only if it's not too much trouble.", ch: ["Only if it's", "not too much trouble"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "気が向いたら来てください。", en: "Come if you feel like it.", ch: ["Come if you", "feel like it"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "場所はこちらで決めておきます。", en: "I'll take care of picking the place.", ch: ["I'll take care of", "picking the place"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "何時からがいいですか。", en: "What time works for you?", ch: ["What time", "works for you?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "人数はどのくらいになりそうですか。", en: "About how many people will there be?", ch: ["About how many people", "will there be?"], scene: "会話", to: "友人", imp: "often" },
+  { ja: "こういう進め方はどうでしょうか。", en: "How about doing it this way?", ch: ["How about doing it", "this way?"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "一つ案を出してもいいですか。", en: "May I put an idea forward?", ch: ["May I put an idea", "forward?"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "順番を入れ替えてみませんか。", en: "How about changing the order?", ch: ["How about changing", "the order?"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "先に試してから決めましょう。", en: "Let's try it first and then decide.", ch: ["Let's try it first", "and then decide"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "できるところから手をつけましょう。", en: "Let's start with what we can do.", ch: ["Let's start with", "what we can do"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "分担すれば早く終わりそうです。", en: "If we split it up, it should finish faster.", ch: ["If we split it up,", "it should finish faster"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "私が下書きを作りましょうか。", en: "Shall I put together a draft?", ch: ["Shall I put together", "a draft?"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "一度、確認の場を設けませんか。", en: "Why don't we set up a time to review it?", ch: ["set up a time", "to review it"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "短い時間で構いません。", en: "A short amount of time is fine.", ch: ["A short amount of time", "is fine"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "オンラインでも大丈夫です。", en: "Online works too.", ch: ["Online", "works too"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "難しければ、別の形を考えます。", en: "If that's hard, I'll think of another way.", ch: ["If that's hard,", "I'll think of another way"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "都合のいい日を教えてください。", en: "Let me know a day that suits you.", ch: ["Let me know a day", "that suits you"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "では、そのように準備します。", en: "All right, I'll prepare it that way.", ch: ["All right,", "I'll prepare it that way"], scene: "会議", to: "同僚", imp: "often" },
+];

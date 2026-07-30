@@ -23,3 +23,26 @@ export const D45_SELF: JaSentenceInput[] = [
   { ja: "長期的に続けられる形を考える必要があります。", en: "We need to think about a form we can sustain long term.", ch: ["a form we can sustain", "long term"], scene: "会議", to: "同僚", imp: "must" },
   { ja: "方向性としては、とても良いと思います。", en: "As a direction, I think it's very good.", ch: ["As a direction,", "I think it's very good"], scene: "会議", to: "同僚", imp: "must" },
 ];
+
+export const D45_ADD: JaSentenceInput[] = [
+  { ja: "一点、気になっていることがあります。", en: "There's one thing on my mind.", ch: ["There's one thing", "on my mind"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "利用者の視点で話してもいいですか。", en: "May I speak from the user's perspective?", ch: ["May I speak from", "the user's perspective?"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "日本の状況を少し補足します。", en: "Let me add a little about the situation in Japan.", ch: ["Let me add a little about", "the situation in Japan"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "同じ課題は他の国にもありそうです。", en: "Other countries probably have the same issue.", ch: ["Other countries probably have", "the same issue"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "説明の順番を変えると分かりやすくなります。", en: "Changing the order of the explanation makes it clearer.", ch: ["Changing the order", "makes it clearer"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "図があると理解しやすいと思います。", en: "I think a diagram would help understanding.", ch: ["a diagram", "would help"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "用語の統一もした方がいいですね。", en: "We should also make the terminology consistent.", ch: ["make the terminology", "consistent"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "初回だけ案内を出すのはどうでしょうか。", en: "How about showing the guidance only the first time?", ch: ["showing the guidance", "only the first time"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "設定は初期値のままでも使えるようにしましょう。", en: "Let's make it usable with the default settings.", ch: ["usable with", "the default settings"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "失敗しても元に戻せる形がいいと思います。", en: "I think it should be reversible even if something goes wrong.", ch: ["reversible even if", "something goes wrong"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "警告の文言を柔らかくできませんか。", en: "Could we soften the wording of the warning?", ch: ["soften the wording", "of the warning"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "専門用語には説明を添えましょう。", en: "Let's add explanations to the technical terms.", ch: ["add explanations to", "the technical terms"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "テスト期間を長めに取りませんか。", en: "How about taking a longer testing period?", ch: ["taking a longer", "testing period"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "先に一部の利用者に試してもらいましょう。", en: "Let's have a subset of users try it first.", ch: ["have a subset of users", "try it first"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "反応を見てから広げればいいと思います。", en: "We can expand after seeing the response.", ch: ["expand after seeing", "the response"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "私の方で日本語版を用意します。", en: "I'll prepare the Japanese version.", ch: ["I'll prepare", "the Japanese version"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "必要であれば手伝います。", en: "I'll help if it's needed.", ch: ["I'll help", "if it's needed"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "あくまで一つの案です。", en: "This is just one idea.", ch: ["This is just", "one idea"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "決定はお任せします。", en: "I'll leave the decision to you.", ch: ["I'll leave the decision", "to you"], scene: "会議", to: "同僚", imp: "often" },
+  { ja: "検討していただけると助かります。", en: "I'd appreciate it if you'd consider it.", ch: ["I'd appreciate it if", "you'd consider it"], scene: "会議", to: "同僚", imp: "must" },
+];

@@ -23,3 +23,26 @@ export const D53_SELF: JaSentenceInput[] = [
   { ja: "情報を共有するだけでも、誰かの役に立つことがあります。", en: "Even just sharing information can help someone.", ch: ["Even just sharing information", "can help someone"], scene: "コミュニティ", to: "仲間", imp: "must" },
   { ja: "できる範囲で、少しずつ続けていきたいと思っています。", en: "I want to keep at it little by little, within what I can manage.", ch: ["keep at it little by little,", "within what I can manage"], scene: "コミュニティ", to: "仲間", imp: "must" },
 ];
+
+export const D53_ADD: JaSentenceInput[] = [
+  { ja: "今日はお集まりいただき、ありがとうございます。", en: "Thank you all for coming today.", ch: ["Thank you all for", "coming today"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "簡単に自己紹介をお願いできますか。", en: "Could you introduce yourself briefly?", ch: ["Could you introduce yourself", "briefly?"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "初めての方はいらっしゃいますか。", en: "Is anyone here for the first time?", ch: ["Is anyone here", "for the first time?"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "気軽に質問してください。", en: "Please feel free to ask questions.", ch: ["Please feel free to", "ask questions"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "どんな質問でも構いません。", en: "Any question is fine.", ch: ["Any question", "is fine"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "答えられる範囲でお答えします。", en: "I'll answer as far as I can.", ch: ["I'll answer", "as far as I can"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "分からないことは、そう伝えます。", en: "If I don't know, I'll say so.", ch: ["If I don't know,", "I'll say so"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "詳しい方がいれば補足してください。", en: "If anyone knows more, please add to it.", ch: ["If anyone knows more,", "please add to it"], scene: "コミュニティ", to: "仲間", imp: "often" },
+  { ja: "時間の関係で、ここまでにします。", en: "For the sake of time, let's stop here.", ch: ["For the sake of time,", "let's stop here"], scene: "コミュニティ", to: "仲間", imp: "often" },
+  { ja: "続きは次回に回しましょう。", en: "Let's carry the rest over to next time.", ch: ["carry the rest over", "to next time"], scene: "コミュニティ", to: "仲間", imp: "often" },
+  { ja: "資料はあとで共有します。", en: "I'll share the materials afterward.", ch: ["I'll share the materials", "afterward"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "録画は残しておきます。", en: "I'll keep the recording available.", ch: ["I'll keep the recording", "available"], scene: "コミュニティ", to: "仲間", imp: "often" },
+  { ja: "参加できなかった方も見られます。", en: "Those who couldn't attend can watch it too.", ch: ["Those who couldn't attend", "can watch it"], scene: "コミュニティ", to: "仲間", imp: "often" },
+  { ja: "次回の日程はまた連絡します。", en: "I'll let you know the next date later.", ch: ["I'll let you know", "the next date"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "取り上げてほしい話題はありますか。", en: "Are there topics you'd like us to cover?", ch: ["topics you'd like", "us to cover?"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "希望があれば教えてください。", en: "Let me know if you have requests.", ch: ["Let me know if", "you have requests"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "無理のない範囲で参加してください。", en: "Please join only as much as is comfortable.", ch: ["only as much as", "is comfortable"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "見ているだけの方も歓迎です。", en: "Those who just watch are welcome too.", ch: ["Those who just watch", "are welcome"], scene: "コミュニティ", to: "仲間", imp: "must" },
+  { ja: "小さな疑問こそ大事だと思います。", en: "I think small questions are the important ones.", ch: ["small questions", "are the important ones"], scene: "コミュニティ", to: "仲間", imp: "often" },
+  { ja: "今日はありがとうございました。またお会いしましょう。", en: "Thank you for today. Let's meet again.", ch: ["Thank you for today.", "Let's meet again"], scene: "コミュニティ", to: "仲間", imp: "must" },
+];

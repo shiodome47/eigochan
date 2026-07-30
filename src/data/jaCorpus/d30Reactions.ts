@@ -23,3 +23,26 @@ export const D30_SELF: JaSentenceInput[] = [
   { ja: "まあ、一つずつ考えるしかないですね。", en: "Well, all we can do is take it one at a time.", ch: ["all we can do is", "take it one at a time"], scene: "会話", to: "相手", imp: "must" },
   { ja: "とりあえず、落ち着いて整理しましょう。", en: "For now, let's calm down and sort it out.", ch: ["let's calm down", "and sort it out"], scene: "会話", to: "相手", imp: "must" },
 ];
+
+export const D30_ADD: JaSentenceInput[] = [
+  { ja: "それは驚きました。", en: "That took me by surprise.", ch: ["That took me", "by surprise"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "今、少し驚いています。", en: "I'm a little stunned right now.", ch: ["I'm a little stunned", "right now"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "そんな話は初めてです。", en: "I've never heard anything like that.", ch: ["I've never heard", "anything like that"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "予想していませんでした。", en: "I wasn't expecting that.", ch: ["I wasn't", "expecting that"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "うれしい知らせですね。", en: "That's good news.", ch: ["That's", "good news"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "自分のことのようにうれしいです。", en: "I'm as happy as if it were my own news.", ch: ["I'm as happy as if", "it were my own"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "頑張った甲斐がありましたね。", en: "All that effort paid off.", ch: ["All that effort", "paid off"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "ここまで来られたのがすごいです。", en: "Getting this far is impressive.", ch: ["Getting this far", "is impressive"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "これは想定外でしたね。", en: "That was outside what we planned for.", ch: ["outside what", "we planned for"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "少し困りましたね。", en: "That does put us in a spot.", ch: ["That does put us", "in a spot"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "正直、判断に迷います。", en: "Honestly, I'm torn on what to do.", ch: ["Honestly, I'm torn", "on what to do"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "どちらとも言えませんね。", en: "I can't really say either way.", ch: ["I can't really say", "either way"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "少し時間をください。", en: "Give me a little time.", ch: ["Give me", "a little time"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "一度、状況を整理させてください。", en: "Let me sort out the situation first.", ch: ["Let me sort out", "the situation first"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "落ち着いて考えれば、何とかなりそうです。", en: "If we think it through calmly, it should work out.", ch: ["If we think it through calmly,", "it should work out"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "最悪の場合も考えておきましょう。", en: "Let's also think about the worst case.", ch: ["Let's also think about", "the worst case"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "思っていたより悪くはないですね。", en: "It's not as bad as I thought.", ch: ["It's not as bad", "as I thought"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "それを聞いて安心しました。", en: "I'm relieved to hear that.", ch: ["I'm relieved", "to hear that"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "とりあえず、一息つきましょう。", en: "For now, let's take a breath.", ch: ["For now,", "let's take a breath"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "先のことは、あとで考えましょう。", en: "Let's think about what's ahead later.", ch: ["Let's think about", "what's ahead later"], scene: "会話", to: "相手", imp: "often" },
+];

@@ -23,3 +23,26 @@ export const D49_SELF: JaSentenceInput[] = [
   { ja: "技術面だけでなく、情報発信もSPOの役割の一つだと思います。", en: "I think sharing information, not just the technical side, is part of an SPO's role.", ch: ["sharing information", "is part of an SPO's role"], scene: "説明", to: "相手", imp: "must" },
   { ja: "Cardanoを少しでも身近に感じてもらえるように活動しています。", en: "I work to make Cardano feel a little more familiar to people.", ch: ["make Cardano feel", "a little more familiar"], scene: "説明", to: "相手", imp: "must" },
 ];
+
+export const D49_ADD: JaSentenceInput[] = [
+  { ja: "運営を始めたきっかけをお話しします。", en: "Let me tell you what got me started.", ch: ["what got me", "started"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "自分で仕組みを理解したかったんです。", en: "I wanted to understand the mechanism myself.", ch: ["I wanted to understand", "the mechanism myself"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "最初は一人で構築しました。", en: "I built it on my own at first.", ch: ["I built it", "on my own at first"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "分からないことは、他のSPOに聞きました。", en: "When I didn't know something, I asked other SPOs.", ch: ["I asked", "other SPOs"], scene: "説明", to: "SPO仲間", imp: "must" },
+  { ja: "サーバーは日本国内に置いています。", en: "The servers are located in Japan.", ch: ["The servers are located", "in Japan"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "ブロックプロデューサーとリレーを分けています。", en: "I keep the block producer and the relays separate.", ch: ["I keep ... and ...", "separate"], scene: "説明", to: "SPO仲間", imp: "must" },
+  { ja: "監視は自動で行っています。", en: "Monitoring runs automatically.", ch: ["Monitoring runs", "automatically"], scene: "説明", to: "SPO仲間", imp: "often" },
+  { ja: "異常があれば通知が届きます。", en: "I get a notification if something goes wrong.", ch: ["I get a notification if", "something goes wrong"], scene: "説明", to: "SPO仲間", imp: "often" },
+  { ja: "夜中に対応することもあります。", en: "Sometimes I have to respond in the middle of the night.", ch: ["respond in", "the middle of the night"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "バージョンアップは慎重に行います。", en: "I do version upgrades carefully.", ch: ["I do version upgrades", "carefully"], scene: "説明", to: "SPO仲間", imp: "must" },
+  { ja: "先にテスト環境で確認します。", en: "I check it in a test environment first.", ch: ["I check it in", "a test environment first"], scene: "説明", to: "SPO仲間", imp: "must" },
+  { ja: "ブロックが出たときはうれしいです。", en: "It's a good feeling when a block comes through.", ch: ["It's a good feeling when", "a block comes through"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "出ない期間が続くと、少し不安になります。", en: "When a dry spell continues, I get a little uneasy.", ch: ["When a dry spell continues,", "I get a little uneasy"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "それでも、やることは変わりません。", en: "Even so, what I have to do doesn't change.", ch: ["Even so, what I have to do", "doesn't change"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "委任してくださる方には感謝しています。", en: "I'm grateful to the people who delegate to me.", ch: ["I'm grateful to", "the people who delegate"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "小さなプールでも役割はあります。", en: "Even a small pool has a role to play.", ch: ["Even a small pool", "has a role to play"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "分散という意味では、数が大切です。", en: "In terms of decentralization, numbers matter.", ch: ["In terms of decentralization,", "numbers matter"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "日本語で情報を出す人も必要だと思います。", en: "I think we also need people putting out information in Japanese.", ch: ["people putting out information", "in Japanese"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "興味があれば、運営の話もできますよ。", en: "If you're interested, I can talk about running one too.", ch: ["If you're interested,", "I can talk about it"], scene: "説明", to: "相手", imp: "often" },
+  { ja: "これからも続けていくつもりです。", en: "I intend to keep doing it.", ch: ["I intend to", "keep doing it"], scene: "説明", to: "相手", imp: "must" },
+];

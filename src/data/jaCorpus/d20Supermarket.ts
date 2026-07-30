@@ -23,3 +23,26 @@ export const D20_SELF: JaSentenceInput[] = [
   { ja: "今日はこのくらいにしておきましょう。", en: "Let's stop here for today.", ch: ["Let's stop here", "for today"], scene: "スーパー", to: "家族", imp: "must" },
   { ja: "思っていたよりたくさん買いましたね。", en: "We bought more than I expected.", ch: ["We bought more", "than I expected"], scene: "スーパー", to: "家族", imp: "must" },
 ];
+
+export const D20_ADD: JaSentenceInput[] = [
+  { ja: "カゴを取ってきますね。", en: "I'll go grab a basket.", ch: ["I'll go grab", "a basket"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "カートの方がよさそうです。", en: "A cart looks like the better idea.", ch: ["A cart looks like", "the better idea"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "特売をやっていますね。", en: "They're having a sale.", ch: ["They're having", "a sale"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "こちらは半額になっています。", en: "This one is half price.", ch: ["This one is", "half price"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "安いですが、量が多すぎますね。", en: "It's cheap, but it's too much.", ch: ["It's cheap,", "but it's too much"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "産地はどこですか。", en: "Where is this from?", ch: ["Where is this", "from?"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "国産の方が安心ですね。", en: "Domestic feels safer.", ch: ["Domestic", "feels safer"], scene: "スーパー", to: "家族", imp: "sub" },
+  { ja: "魚も見ていきましょうか。", en: "Should we look at the fish too?", ch: ["Should we look at", "the fish too?"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "お肉は何にしますか。", en: "What meat should we get?", ch: ["What meat", "should we get?"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "パンも買っておきましょう。", en: "Let's pick up some bread too.", ch: ["Let's pick up", "some bread too"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "冷たいものは最後にしましょう。", en: "Let's get the cold things last.", ch: ["Let's get the cold things", "last"], scene: "スーパー", to: "家族", imp: "sub" },
+  { ja: "レジが混んでいますね。", en: "The checkout is crowded.", ch: ["The checkout", "is crowded"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "こちらのレジの方が空いています。", en: "This register has a shorter line.", ch: ["This register has", "a shorter line"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "セルフレジを使ってみましょうか。", en: "Should we try the self-checkout?", ch: ["Should we try", "the self-checkout?"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "カードで払います。", en: "I'll pay by card.", ch: ["I'll pay", "by card"], scene: "スーパー", to: "店員", imp: "must" },
+  { ja: "袋は二枚もらいましょう。", en: "Let's get two bags.", ch: ["Let's get", "two bags"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "重い物は私が持ちます。", en: "I'll carry the heavy things.", ch: ["I'll carry", "the heavy things"], scene: "スーパー", to: "家族", imp: "must" },
+  { ja: "車まで運びましょう。", en: "Let's carry it to the car.", ch: ["Let's carry it", "to the car"], scene: "スーパー", to: "家族", imp: "often" },
+  { ja: "冷凍のものは早くしまいましょう。", en: "Let's put the frozen things away quickly.", ch: ["Let's put the frozen things", "away quickly"], scene: "家", to: "家族", imp: "often" },
+  { ja: "これで一週間は大丈夫ですね。", en: "That should last us a week.", ch: ["That should last us", "a week"], scene: "スーパー", to: "家族", imp: "often" },
+];
