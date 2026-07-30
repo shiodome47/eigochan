@@ -145,7 +145,7 @@ ul {
 
 .bottom-nav__inner {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   width: 100%;
   max-width: var(--maxw);
 }
@@ -2506,5 +2506,354 @@ textarea.form-input {
   }
   .step-card__title {
     font-size: 17px;
+  }
+}
+
+/* === 日→英モード (JA→EN) === */
+.jaen {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.jaen__lead {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--text-soft);
+  line-height: 1.7;
+}
+
+.jaen-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.jaen-stat {
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+}
+
+.jaen-stat b {
+  display: block;
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.jaen-stat b span {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-faint);
+}
+
+.jaen-stat > span {
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.jaen-bar {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--border);
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.jaen-bar > i {
+  display: block;
+  height: 100%;
+  background: var(--primary);
+}
+
+.jaen-select,
+.jaen-search {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 12px;
+  font-size: 15px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.jaen-search {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.jaen-select:focus,
+.jaen-search:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.jaen-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-soft);
+}
+
+.jaen-count {
+  margin: 0 4px;
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.jaen-message {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  font-size: 13px;
+}
+
+.jaen-note {
+  margin: 10px 0 0;
+  font-size: 11.5px;
+  color: var(--text-faint);
+  line-height: 1.7;
+}
+
+.jaen-empty {
+  margin: 0;
+  padding: 16px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-soft);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.jaen-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.jaen-more {
+  width: 100%;
+}
+
+.jaen-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 13px 15px;
+  box-shadow: var(--shadow);
+}
+
+.jaen-card.is-A {
+  border-left-color: var(--green);
+}
+.jaen-card.is-B {
+  border-left-color: var(--gold);
+}
+.jaen-card.is-C {
+  border-left-color: var(--accent);
+}
+.jaen-card.is-D {
+  border-left-color: var(--warm);
+  opacity: 0.68;
+}
+
+.jaen-card__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+  font-size: 10.5px;
+  color: var(--text-faint);
+}
+
+.jaen-card__id {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.jaen-card__tag {
+  border: 1px dashed var(--border);
+  border-radius: 999px;
+  padding: 0 8px;
+}
+
+.jaen-card__tag.is-must {
+  border-style: solid;
+  border-color: var(--primary);
+  color: var(--primary-strong);
+}
+
+.jaen-card__tag.is-linked {
+  border-style: solid;
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.jaen-card__ja {
+  margin: 8px 0 6px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.jaen-card__en {
+  margin: 0;
+  font-size: 15px;
+  color: var(--primary-strong);
+}
+
+.jaen-card__speak {
+  margin-left: 6px;
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+.jaen-card__speak:hover {
+  color: var(--primary);
+}
+
+.jaen-card__reveal {
+  width: 100%;
+  padding: 9px;
+  border: 1px dashed var(--primary);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+  color: var(--primary-strong);
+  font-size: 13px;
+}
+
+.jaen-card__chunks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 7px;
+}
+
+.jaen-card__chunk {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--text-soft);
+  font-size: 11.5px;
+  padding: 2px 10px;
+}
+
+.jaen-card__chunk:hover {
+  border-color: var(--primary);
+  color: var(--primary-strong);
+}
+
+.jaen-card__warn {
+  color: var(--warm);
+  font-size: 12px;
+}
+
+.jaen-card__rate {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.jaen-rate {
+  width: 42px;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+  color: var(--text-soft);
+  font-size: 15px;
+}
+
+.jaen-rate:hover {
+  border-color: var(--primary);
+}
+
+.jaen-rate.is-on.is-A {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+.jaen-rate.is-on.is-B {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #4a3a12;
+}
+.jaen-rate.is-on.is-C {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.jaen-rate.is-on.is-D {
+  background: var(--warm);
+  border-color: var(--warm);
+  color: #fff;
+}
+
+.jaen-mini {
+  margin-left: auto;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 11.5px;
+  color: var(--text-faint);
+  background: var(--surface);
+}
+
+.jaen-mini + .jaen-mini {
+  margin-left: 0;
+}
+
+.jaen-mini.has {
+  border-color: var(--primary);
+  color: var(--primary-strong);
+}
+
+.jaen-card__note {
+  width: 100%;
+  min-height: 58px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-soft);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+}
+
+.jaen-card__note:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.jaen-card__recorder {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+@media (max-width: 380px) {
+  .bottom-nav__item {
+    font-size: 10px;
+  }
+  .jaen-card__ja {
+    font-size: 17px;
+  }
+  .jaen-rate {
+    width: 38px;
   }
 }
