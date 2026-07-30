@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import type { UserProgress } from "../types";
 import { CityView } from "../components/CityView";
-import { CityDistricts } from "../components/CityDistricts";
+import { CityDistricts, cityPhaseAt, type CityPhase } from "../components/CityDistricts";
+import { JA_DOMAIN_GROUPS } from "../data/jaCorpus";
 import { lockedFacilities, unlockedFacilities } from "../utils/progress";
 import { buildDistricts, summarizeCity, STAGE_LABELS, type District } from "../utils/cityDistricts";
 import { loadSrs } from "../utils/srs";
@@ -13,6 +14,7 @@ interface CityPageProps {
 }
 
 export function CityPage({ progress }: CityPageProps) {
+  const [searchParams] = useSearchParams();
   const unlocked = unlockedFacilities(progress.level);
   const locked = lockedFacilities(progress.level);
 
@@ -20,10 +22,25 @@ export function CityPage({ progress }: CityPageProps) {
   const districts = useMemo(() => buildDistricts(loadSrs()), []);
   const city = useMemo(() => summarizeCity(districts), [districts]);
   const [selected, setSelected] = useState<District | null>(null);
+  // null = 全体表示、グループ名 = その街区だけ大きく見る。
+  const [zoomGroup, setZoomGroup] = useState<string | null>(null);
+  // 開発用: ?phase=morning|day|evening|night で時間帯を強制できる (UI には出さない)。
+  const phaseParam = searchParams.get("phase");
+  const forcedPhase = (["morning", "day", "evening", "night"] as const).includes(
+    phaseParam as CityPhase,
+  )
+    ? (phaseParam as CityPhase)
+    : undefined;
+  const phase = forcedPhase ?? cityPhaseAt();
+  const PHASE_LABEL: Record<string, string> = {
+    morning: "朝",
+    day: "昼",
+    evening: "夕方",
+    night: "夜",
+  };
 
   // 開発用:?stage=stage1 などで街ステージを強制表示できる。
   // 不正な値は無視して通常の level 判定に戻す。UI 上には出さない。
-  const [searchParams] = useSearchParams();
   const stageParam = searchParams.get("stage");
   const forcedStage = isCityStage(stageParam) ? stageParam : undefined;
 
@@ -34,11 +51,35 @@ export function CityPage({ progress }: CityPageProps) {
         <p className="card__heading">
           66 分野が 66 の街区です。思い出せる文が増えると建物が育ち、灯りがつきます。
         </p>
+        <div className="city-zoom-tabs">
+          <button
+            type="button"
+            className={`filter-chip${zoomGroup === null ? " is-active" : ""}`}
+            onClick={() => setZoomGroup(null)}
+          >
+            全体
+          </button>
+          {JA_DOMAIN_GROUPS.map((g) => (
+            <button
+              key={g}
+              type="button"
+              className={`filter-chip${zoomGroup === g ? " is-active" : ""}`}
+              onClick={() => setZoomGroup(g)}
+            >
+              {g}
+            </button>
+          ))}
+        </div>
         <CityDistricts
           districts={districts}
           selectedId={selected?.domain.id}
           onSelect={(d) => setSelected(d)}
+          zoomGroup={zoomGroup}
+          phase={phase}
         />
+        <p className="district-hint">
+          いまの空は「{PHASE_LABEL[phase]}」です。時間帯で街の色が変わります。
+        </p>
         <div className="progress-row">
           <div className="progress-cell">
             <div className="progress-cell__label">街の育ち</div>

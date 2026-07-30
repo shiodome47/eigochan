@@ -1,86 +1,187 @@
 import { useMemo } from "react";
 import { JA_DOMAIN_GROUPS } from "../data/jaCorpus";
+import { toJst } from "../utils/date";
 import type { District } from "../utils/cityDistricts";
+
+/** 時間帯。空の色・灯りの見え方が変わる。 */
+export type CityPhase = "morning" | "day" | "evening" | "night";
 
 interface Props {
   districts: District[];
   selectedId?: number;
   onSelect?: (district: District) => void;
+  /** 指定するとそのグループだけを大きく描く。 */
+  zoomGroup?: string | null;
+  /** 通常は現在時刻から決める。テスト・プレビュー用に上書きできる。 */
+  phase?: CityPhase;
 }
 
-// 1 街区ぶんの寸法 (SVG 座標)。
-const SLOT_W = 24;
-const BUILDING_W = 18;
-const ROW_H = 46;
-const GROUND_Y = 36; // 行の中での地面の位置
-const LABEL_Y = 8;
-const PAD_X = 6;
+export function cityPhaseAt(now: Date = new Date()): CityPhase {
+  const h = toJst(now).getHours();
+  if (h >= 5 && h < 10) return "morning";
+  if (h >= 10 && h < 17) return "day";
+  if (h >= 17 && h < 20) return "evening";
+  return "night";
+}
 
-const STAGE_HEIGHT: Record<number, number> = { 0: 4, 1: 9, 2: 15, 3: 20, 4: 25 };
+// 全体表示 / ズーム表示の寸法 (SVG 座標)。
+const OVERVIEW = {
+  slotW: 24,
+  buildingW: 18,
+  rowH: 52,
+  groundY: 40,
+  perRow: Infinity,
+  labels: false,
+};
+const ZOOM = {
+  slotW: 46,
+  buildingW: 34,
+  rowH: 96,
+  groundY: 68,
+  perRow: 7,
+  labels: true,
+};
+
+const PAD_X = 8;
+
+/** stage → 建物の高さ (全体表示の基準値。ズームでは倍率をかける)。 */
+const STAGE_HEIGHT: Record<number, number> = { 0: 14, 1: 9, 2: 15, 3: 21, 4: 27 };
+
+function chunk<T>(arr: T[], size: number): T[][] {
+  if (!Number.isFinite(size)) return [arr];
+  const out: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
+}
+
+/** 同じ分野なら毎回同じ見た目になる、簡単な擬似乱数。 */
+function hashOf(n: number): number {
+  return ((n * 2654435761) >>> 0) % 1000;
+}
 
 /**
  * 66 分野を「街区」として描く。
- * 画像ではなく SVG で描いているので、定着状況に応じて毎回姿が変わる。
+ * 画像ではなく SVG なので、定着状況と時間帯に応じて毎回姿が変わる。
  */
-export function CityDistricts({ districts, selectedId, onSelect }: Props) {
-  const rows = useMemo(
-    () =>
-      JA_DOMAIN_GROUPS.map((group) => ({
+export function CityDistricts({
+  districts,
+  selectedId,
+  onSelect,
+  zoomGroup = null,
+  phase,
+}: Props) {
+  const nowPhase = phase ?? cityPhaseAt();
+  const cfg = zoomGroup ? ZOOM : OVERVIEW;
+  const scale = zoomGroup ? 1.9 : 1;
+
+  const rows = useMemo(() => {
+    const groups = zoomGroup ? [zoomGroup] : JA_DOMAIN_GROUPS;
+    return groups
+      .map((group) => ({
         group,
         items: districts.filter((d) => d.domain.group === group),
-      })).filter((r) => r.items.length > 0),
-    [districts],
-  );
+      }))
+      .filter((r) => r.items.length > 0)
+      .flatMap((r) =>
+        chunk(r.items, cfg.perRow).map((items, i) => ({
+          group: r.group,
+          items,
+          showLabel: i === 0,
+          key: `${r.group}-${i}`,
+        })),
+      );
+  }, [cfg.perRow, districts, zoomGroup]);
 
   const maxCols = rows.reduce((m, r) => Math.max(m, r.items.length), 0);
-  const width = PAD_X * 2 + maxCols * SLOT_W;
-  const height = rows.length * ROW_H + 8;
+  const width = PAD_X * 2 + maxCols * cfg.slotW;
+  const height = rows.length * cfg.rowH + 10;
+  const groupIndexOf = (group: string) => JA_DOMAIN_GROUPS.indexOf(group);
 
   return (
     <svg
       className="city-districts"
+      data-phase={nowPhase}
+      data-zoom={zoomGroup ? "1" : undefined}
       viewBox={`0 0 ${width} ${height}`}
       role="img"
-      aria-label="分野ごとの街の育ち具合"
+      aria-label={zoomGroup ? `${zoomGroup}の街区` : "分野ごとの街の育ち具合"}
     >
       <defs>
         <linearGradient id="cd-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="var(--bg-blue)" />
-          <stop offset="100%" stopColor="var(--bg)" />
+          <stop className="cd-sky-top" offset="0%" />
+          <stop className="cd-sky-bottom" offset="100%" />
         </linearGradient>
+        <radialGradient id="cd-glow">
+          <stop className="cd-glow-in" offset="0%" />
+          <stop className="cd-glow-out" offset="100%" />
+        </radialGradient>
       </defs>
-      <rect x="0" y="0" width={width} height={height} fill="url(#cd-sky)" rx="6" />
+
+      <rect x="0" y="0" width={width} height={height} fill="url(#cd-sky)" rx="8" />
+
+      {/* 空: 昼は太陽、夜は月と星。 */}
+      {nowPhase === "night" ? (
+        <g className="city-sky">
+          <circle cx={width - 26} cy={20} r={6} className="city-moon" />
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <circle
+              key={i}
+              cx={14 + ((i * 53) % Math.max(1, width - 40))}
+              cy={8 + ((i * 29) % 22)}
+              r={0.8}
+              className="city-star"
+              style={{ animationDelay: `${i * 0.7}s` }}
+            />
+          ))}
+        </g>
+      ) : (
+        <circle cx={width - 26} cy={20} r={7} className="city-sun" />
+      )}
 
       {rows.map((row, rowIndex) => {
-        const top = rowIndex * ROW_H;
-        const ground = top + GROUND_Y;
+        const top = rowIndex * cfg.rowH;
+        const ground = top + cfg.groundY;
+        const gi = groupIndexOf(row.group);
         return (
-          <g key={row.group}>
-            {rowIndex % 2 === 1 && (
-              <rect
-                x="2"
-                y={top + 2}
-                width={width - 4}
-                height={ROW_H - 4}
-                className="city-districts__band"
-                rx="4"
-              />
-            )}
-            <text x={PAD_X} y={top + LABEL_Y} className="city-districts__group">
-              {row.group}
-            </text>
+          <g key={row.key} className={`city-row is-g${gi}`}>
+            {/* 地面と道路 */}
+            <rect
+              x="3"
+              y={ground - (zoomGroup ? 56 : 26)}
+              width={width - 6}
+              height={zoomGroup ? 56 : 26}
+              className="city-land"
+              rx="3"
+            />
+            <rect
+              x="3"
+              y={ground}
+              width={width - 6}
+              height={zoomGroup ? 12 : 7}
+              className="city-road"
+              rx="2"
+            />
             <line
               x1={PAD_X}
-              y1={ground + 0.5}
+              y1={ground + (zoomGroup ? 6 : 3.5)}
               x2={width - PAD_X}
-              y2={ground + 0.5}
-              className="city-districts__ground"
+              y2={ground + (zoomGroup ? 6 : 3.5)}
+              className="city-road__center"
             />
+
             {row.items.map((d, i) => {
-              const x = PAD_X + i * SLOT_W + (SLOT_W - BUILDING_W) / 2;
-              const h = STAGE_HEIGHT[d.stage];
+              const slotX = PAD_X + i * cfg.slotW;
+              const w = cfg.buildingW;
+              const x = slotX + (cfg.slotW - w) / 2;
+              const h = STAGE_HEIGHT[d.stage] * (d.stage === 0 ? 1 : scale);
               const y = ground - h;
               const selected = selectedId === d.domain.id;
+              const rnd = hashOf(d.domain.id);
+              const pitched = rnd % 3 === 0; // 三角屋根
+              const hasTree = d.stage === 0 && rnd % 4 === 0;
+              const winCols = zoomGroup ? 3 : 2;
+              const winRows = Math.max(1, Math.floor((h - 8 * scale) / (8 * scale)));
+
               return (
                 <g
                   key={d.domain.id}
@@ -96,67 +197,114 @@ export function CityDistricts({ districts, selectedId, onSelect }: Props) {
                   }}
                 >
                   <title>{`${d.domain.title} — ${d.seen}/${d.total} 文`}</title>
-                  {/* タップ範囲 */}
                   <rect
-                    x={PAD_X + i * SLOT_W}
-                    y={top + 10}
-                    width={SLOT_W}
-                    height={GROUND_Y - 8}
+                    x={slotX}
+                    y={top + 12}
+                    width={cfg.slotW}
+                    height={cfg.groundY - 10}
                     fill="transparent"
                   />
-                  {d.stage === 0 ? (
-                    <rect
-                      x={x}
-                      y={ground - 14}
-                      width={BUILDING_W}
-                      height={14}
-                      className="city-districts__empty"
-                      rx="1.5"
+
+                  {/* 灯りのにじみ */}
+                  {d.stage >= 3 && (
+                    <circle
+                      cx={x + w / 2}
+                      cy={y + h / 2}
+                      r={w * 1.1}
+                      fill="url(#cd-glow)"
+                      opacity={d.brightness * (nowPhase === "night" ? 0.9 : 0.35)}
+                      pointerEvents="none"
                     />
-                  ) : (
+                  )}
+
+                  {d.stage === 0 ? (
                     <>
                       <rect
                         x={x}
+                        y={ground - h}
+                        width={w}
+                        height={h}
+                        className="city-districts__empty"
+                        rx="1.5"
+                      />
+                      {hasTree && (
+                        <g className="city-tree">
+                          <rect x={x + w / 2 - 0.6} y={ground - 5} width={1.2} height={5} />
+                          <circle cx={x + w / 2} cy={ground - 7} r={3} />
+                        </g>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {pitched && (
+                        <polygon
+                          points={`${x - 1},${y} ${x + w / 2},${y - 4 * scale} ${x + w + 1},${y}`}
+                          className="city-districts__roof"
+                        />
+                      )}
+                      <rect
+                        x={x}
                         y={y}
-                        width={BUILDING_W}
+                        width={w}
                         height={h}
                         className="city-districts__building"
                         rx="1.5"
                       />
-                      {/* 窓。灯りの明るさは復習の溜まり具合で変わる。 */}
                       {d.stage >= 3 &&
-                        Array.from({ length: Math.max(1, Math.floor((h - 8) / 8)) }).map(
-                          (_, r) =>
-                            [0, 1].map((c) => (
-                              <rect
-                                key={`${r}-${c}`}
-                                x={x + 3.5 + c * 7.5}
-                                y={y + 5 + r * 8}
-                                width={4}
-                                height={4}
-                                className="city-districts__window"
-                                opacity={d.brightness}
-                                rx="0.6"
-                              />
-                            )),
+                        Array.from({ length: winRows }).map((_, r) =>
+                          Array.from({ length: winCols }).map((__, c) => (
+                            <rect
+                              key={`${r}-${c}`}
+                              x={x + (w / (winCols + 1)) * (c + 1) - 2 * scale}
+                              y={y + 4 * scale + r * 8 * scale}
+                              width={4 * scale}
+                              height={4 * scale}
+                              className="city-districts__window"
+                              opacity={d.brightness}
+                              rx="0.6"
+                            />
+                          )),
                         )}
                       {d.stage === 4 && (
-                        <circle
-                          cx={x + BUILDING_W / 2}
-                          cy={y - 3.5}
-                          r={2}
-                          className="city-districts__beacon"
-                          opacity={d.brightness}
-                        />
+                        <>
+                          <line
+                            x1={x + w / 2}
+                            y1={y - (pitched ? 4 * scale : 0)}
+                            x2={x + w / 2}
+                            y2={y - (pitched ? 4 * scale : 0) - 5 * scale}
+                            className="city-districts__mast"
+                          />
+                          <circle
+                            cx={x + w / 2}
+                            cy={y - (pitched ? 4 * scale : 0) - 5 * scale}
+                            r={1.8 * scale}
+                            className="city-districts__beacon"
+                            opacity={d.brightness}
+                          />
+                        </>
                       )}
                     </>
                   )}
+
+                  {cfg.labels && (
+                    <>
+                      <text x={slotX + cfg.slotW / 2} y={ground + 22} className="city-plot__num">
+                        {String(d.domain.id).padStart(2, "0")}
+                      </text>
+                      <text x={slotX + cfg.slotW / 2} y={ground + 29} className="city-plot__name">
+                        {d.domain.title.length > 6
+                          ? `${d.domain.title.slice(0, 6)}…`
+                          : d.domain.title}
+                      </text>
+                    </>
+                  )}
+
                   {selected && (
                     <rect
-                      x={PAD_X + i * SLOT_W + 1}
-                      y={top + 11}
-                      width={SLOT_W - 2}
-                      height={GROUND_Y - 9}
+                      x={slotX + 1}
+                      y={top + 13}
+                      width={cfg.slotW - 2}
+                      height={cfg.groundY - 11}
                       className="city-districts__focus"
                       rx="3"
                     />
@@ -167,6 +315,29 @@ export function CityDistricts({ districts, selectedId, onSelect }: Props) {
           </g>
         );
       })}
+
+      {/* グループ名は建物と重なっても読めるよう、最後にまとめて描く。 */}
+      {rows.map((row, rowIndex) =>
+        row.showLabel ? (
+          <g key={`label-${row.key}`} className="city-districts__label">
+            <rect
+              x={PAD_X - 3}
+              y={rowIndex * cfg.rowH + 3}
+              width={row.group.length * 7 + 8}
+              height={10}
+              rx="3"
+              className="city-districts__group-bg"
+            />
+            <text
+              x={PAD_X}
+              y={rowIndex * cfg.rowH + 10}
+              className="city-districts__group"
+            >
+              {row.group}
+            </text>
+          </g>
+        ) : null,
+      )}
     </svg>
   );
 }

@@ -3040,47 +3040,158 @@ textarea.form-input {
   border: 1px solid var(--border);
 }
 
+/* 時間帯で空の色が変わる */
+.city-districts .cd-sky-top { stop-color: #cfe6f2; }
+.city-districts .cd-sky-bottom { stop-color: #fdf4e3; }
+.city-districts[data-phase="morning"] .cd-sky-top { stop-color: #ffe3c2; }
+.city-districts[data-phase="morning"] .cd-sky-bottom { stop-color: #fff6e8; }
+.city-districts[data-phase="evening"] .cd-sky-top { stop-color: #f9c49a; }
+.city-districts[data-phase="evening"] .cd-sky-bottom { stop-color: #f5e2d2; }
+.city-districts[data-phase="night"] .cd-sky-top { stop-color: #2b3d55; }
+.city-districts[data-phase="night"] .cd-sky-bottom { stop-color: #47566d; }
+
+.city-districts .cd-glow-in { stop-color: var(--gold); stop-opacity: 0.55; }
+.city-districts .cd-glow-out { stop-color: var(--gold); stop-opacity: 0; }
+
+.city-sun {
+  fill: var(--gold);
+  opacity: 0.75;
+}
+.city-districts[data-phase="evening"] .city-sun {
+  fill: var(--warm);
+}
+.city-moon {
+  fill: #f3f0e2;
+  opacity: 0.9;
+}
+.city-star {
+  fill: #fff;
+  opacity: 0.85;
+  animation: city-twinkle 3.5s ease-in-out infinite;
+}
+
+@keyframes city-twinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.9; }
+}
+
+.city-land {
+  fill: #e7efe2;
+}
+.city-districts[data-phase="night"] .city-land {
+  fill: #3c4a5c;
+}
+.city-districts[data-phase="evening"] .city-land {
+  fill: #e4e2d5;
+}
+
+.city-road {
+  fill: #ded7c8;
+}
+.city-districts[data-phase="night"] .city-road {
+  fill: #33404f;
+}
+.city-road__center {
+  stroke: var(--surface);
+  stroke-width: 0.7;
+  stroke-dasharray: 3 3;
+  opacity: 0.8;
+}
+
+.city-districts__group-bg {
+  fill: var(--surface);
+  fill-opacity: 0.72;
+}
+.city-districts[data-phase="night"] .city-districts__group-bg {
+  fill: #1f2a3a;
+  fill-opacity: 0.6;
+}
+
 .city-districts__group {
   font-size: 6.5px;
   fill: var(--text-faint);
   letter-spacing: 0.08em;
 }
-
-.city-districts__ground {
-  stroke: var(--border);
-  stroke-width: 1;
+.city-districts[data-phase="night"] .city-districts__group {
+  fill: #cbd5e1;
 }
 
 .city-districts__empty {
   fill: var(--surface);
-  fill-opacity: 0.35;
+  fill-opacity: 0.25;
   stroke: var(--border);
   stroke-width: 0.8;
   stroke-dasharray: 2 2;
 }
-
-.city-districts__band {
-  fill: var(--surface);
-  fill-opacity: 0.35;
+.city-districts[data-phase="night"] .city-districts__empty {
+  stroke: #5c6b7e;
+  fill-opacity: 0.08;
 }
 
+.city-tree rect {
+  fill: #8a6b4a;
+}
+.city-tree circle {
+  fill: #7fb3a6;
+}
+
+/* グループごとに建物の色を変える */
 .city-districts__building {
   fill: var(--primary-soft);
   stroke: var(--primary);
   stroke-width: 0.8;
 }
+.city-districts__roof {
+  fill: var(--primary);
+  opacity: 0.85;
+}
+.is-g0 .city-districts__building { fill: #d9e9e6; stroke: #4a8d95; }
+.is-g0 .city-districts__roof { fill: #4a8d95; }
+.is-g1 .city-districts__building { fill: #fbe3c9; stroke: #e08a4a; }
+.is-g1 .city-districts__roof { fill: #e08a4a; }
+.is-g2 .city-districts__building { fill: #f6dfd8; stroke: #d97b62; }
+.is-g2 .city-districts__roof { fill: #d97b62; }
+.is-g3 .city-districts__building { fill: #dde5f2; stroke: #6b86b8; }
+.is-g3 .city-districts__roof { fill: #6b86b8; }
+.is-g4 .city-districts__building { fill: #e2e7d3; stroke: #7f9455; }
+.is-g4 .city-districts__roof { fill: #7f9455; }
+.is-g5 .city-districts__building { fill: #e8ddef; stroke: #8f7bad; }
+.is-g5 .city-districts__roof { fill: #8f7bad; }
 
 .city-districts__plot.is-stage4 .city-districts__building {
-  fill: var(--primary);
-  stroke: var(--primary-strong);
+  filter: brightness(0.97);
+  stroke-width: 1.2;
 }
 
 .city-districts__window {
   fill: var(--gold);
 }
+.city-districts[data-phase="night"] .city-districts__window {
+  fill: #ffe9a8;
+}
+
+.city-districts__mast {
+  stroke: var(--text-soft);
+  stroke-width: 0.7;
+}
 
 .city-districts__beacon {
   fill: var(--accent);
+}
+
+.city-plot__num {
+  font-size: 6px;
+  fill: var(--text-faint);
+  text-anchor: middle;
+}
+.city-plot__name {
+  font-size: 5.4px;
+  fill: var(--text-soft);
+  text-anchor: middle;
+}
+.city-districts[data-phase="night"] .city-plot__num,
+.city-districts[data-phase="night"] .city-plot__name {
+  fill: #c9d3e0;
 }
 
 .city-districts__plot {
@@ -3088,8 +3199,7 @@ textarea.form-input {
 }
 
 .city-districts__plot:hover .city-districts__building {
-  stroke: var(--primary-strong);
-  stroke-width: 1.4;
+  stroke-width: 1.6;
 }
 
 .city-districts__focus {
@@ -3097,6 +3207,17 @@ textarea.form-input {
   stroke: var(--primary-strong);
   stroke-width: 1.2;
   stroke-dasharray: 3 2;
+}
+.city-districts[data-phase="night"] .city-districts__focus {
+  stroke: #ffe9a8;
+}
+
+/* グループ切り替えタブ */
+.city-zoom-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
 }
 
 .district-detail {
@@ -3129,6 +3250,12 @@ textarea.form-input {
   font-size: 11.5px;
   color: var(--text-faint);
   line-height: 1.7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .city-star {
+    animation: none;
+  }
 }
 
 /* === 今週の練習日数 (連続日数の代わりに主に見せる) === */
