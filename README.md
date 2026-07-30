@@ -22,6 +22,19 @@ npm run typecheck
 
 ホスティング先は静的ファイルが置ければ何でも OK(Cloudflare Pages / Netlify / Vercel / GitHub Pages 等)。
 
+## ホーム画面に追加する (スマホ)
+
+アイコンから開けるようにすると、次からアプリのように起動できます。Home の下に案内カードを出しています(追加ずみなら出ません)。
+
+| 端末 | 手順 | 注意 |
+| --- | --- | --- |
+| iPhone / iPad | **Safari** で開く → 共有ボタン □↑ → 「ホーム画面に追加」 | iOS はブラウザ側から追加ダイアログを出す API が無いため、案内のみ。**LINE / X などのアプリ内ブラウザからは追加できません**(共有メニューが無いため)。まず Safari で開き直してください |
+| Android | Chrome のメニュー → 「アプリをインストール」。案内カードの **📲 ホーム画面に追加する** からも実行できます | `beforeinstallprompt` を捕まえてボタン化しています |
+
+追加できるための条件 (HTTPS / `manifest.webmanifest` / 192・512px アイコン / Service Worker) はリポジトリ側で満たしています
+(`vite.config.ts` の `VitePWA`、`public/pwa-*.png`、`index.html` の `apple-touch-icon`)。
+うまくいかないときはまず **開いているブラウザ** を確認してください。
+
 ## オプション:PC/スマホ同期を使う場合
 
 「自分用に PC とスマホで同じデータが見えてほしい」場合のみ、Cloudflare 側のセットアップを行います。**有効にしないユーザーには影響しません**。

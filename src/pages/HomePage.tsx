@@ -3,6 +3,7 @@ import type { DailyMissionState, Phrase, UserProgress } from "../types";
 import { ProgressCard } from "../components/ProgressCard";
 import { CityView } from "../components/CityView";
 import { MissionCard } from "../components/MissionCard";
+import { InstallHint } from "../components/InstallHint";
 import { getStreakEncouragement, pickHomeTagline } from "../utils/messages";
 import { JA_SENTENCES } from "../data/jaCorpus";
 import { buildDailyPlan } from "../utils/dailyPlan";
@@ -83,6 +84,8 @@ export function HomePage({
           </Link>
         </div>
       </section>
+
+      <InstallHint />
     </>
   );
 }
