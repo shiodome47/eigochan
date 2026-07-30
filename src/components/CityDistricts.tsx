@@ -47,6 +47,56 @@ const PAD_X = 8;
 /** stage → 建物の高さ (全体表示の基準値。ズームでは倍率をかける)。 */
 const STAGE_HEIGHT: Record<number, number> = { 0: 14, 1: 9, 2: 15, 3: 21, 4: 27 };
 
+interface Row {
+  group: string;
+  items: District[];
+  showLabel: boolean;
+  key: string;
+}
+
+/** 街区を行に並べる。全体表示はグループごとに 1 行、ズームでは perRow で折り返す。 */
+function buildRows(districts: District[], zoomGroup: string | null, perRow: number): Row[] {
+  const groups = zoomGroup ? [zoomGroup] : JA_DOMAIN_GROUPS;
+  return groups
+    .map((group) => ({
+      group,
+      items: districts.filter((d) => d.domain.group === group),
+    }))
+    .filter((r) => r.items.length > 0)
+    .flatMap((r) =>
+      chunk(r.items, perRow).map((items, i) => ({
+        group: r.group,
+        items,
+        showLabel: i === 0,
+        key: `${r.group}-${i}`,
+      })),
+    );
+}
+
+/**
+ * 選んだ街区が図の横幅の何 % の位置にあるかを返す。
+ * 吹き出しのしっぽをその建物の下に合わせるために使う。見つからなければ null。
+ */
+export function plotCenterPercent(
+  districts: District[],
+  domainId: number | undefined,
+  zoomGroup: string | null = null,
+): number | null {
+  if (domainId == null) return null;
+  const cfg = zoomGroup ? ZOOM : OVERVIEW;
+  const rows = buildRows(districts, zoomGroup, cfg.perRow);
+  const maxCols = rows.reduce((m, r) => Math.max(m, r.items.length), 0);
+  if (maxCols === 0) return null;
+  const width = PAD_X * 2 + maxCols * cfg.slotW;
+  for (const row of rows) {
+    const i = row.items.findIndex((d) => d.domain.id === domainId);
+    if (i < 0) continue;
+    const center = PAD_X + i * cfg.slotW + cfg.slotW / 2;
+    return Math.round((center / width) * 1000) / 10;
+  }
+  return null;
+}
+
 function chunk<T>(arr: T[], size: number): T[][] {
   if (!Number.isFinite(size)) return [arr];
   const out: T[][] = [];
@@ -74,23 +124,10 @@ export function CityDistricts({
   const cfg = zoomGroup ? ZOOM : OVERVIEW;
   const scale = zoomGroup ? 1.9 : 1;
 
-  const rows = useMemo(() => {
-    const groups = zoomGroup ? [zoomGroup] : JA_DOMAIN_GROUPS;
-    return groups
-      .map((group) => ({
-        group,
-        items: districts.filter((d) => d.domain.group === group),
-      }))
-      .filter((r) => r.items.length > 0)
-      .flatMap((r) =>
-        chunk(r.items, cfg.perRow).map((items, i) => ({
-          group: r.group,
-          items,
-          showLabel: i === 0,
-          key: `${r.group}-${i}`,
-        })),
-      );
-  }, [cfg.perRow, districts, zoomGroup]);
+  const rows = useMemo(
+    () => buildRows(districts, zoomGroup, cfg.perRow),
+    [cfg.perRow, districts, zoomGroup],
+  );
 
   const maxCols = rows.reduce((m, r) => Math.max(m, r.items.length), 0);
   const width = PAD_X * 2 + maxCols * cfg.slotW;

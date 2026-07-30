@@ -143,6 +143,25 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
     [answered, index, items, srs, today],
   );
 
+  // 「この文は今じゃない」ときに、今出ている 1 文だけ別の文に差し替える。
+  // 判定はしないので SRS には触れない (その文はまた別の日に出る)。
+  const swapCurrent = useCallback(() => {
+    if (!current) return;
+    const exclude = new Set<string>();
+    items.forEach((s) => exclude.add(s.id));
+    answered.forEach((a) => exclude.add(a.sentence.id));
+    const more = buildDailyPlan(srs, today, 1, exclude);
+    if (more.items.length === 0) {
+      setMessage("入れ替えられる文がもうありません");
+      return;
+    }
+    const next = more.items[0];
+    setItems((prev) => prev.map((s, i) => (i === index ? next : s)));
+    setRevealed(false);
+    setRecorderOpen(false);
+    setMessage(null);
+  }, [answered, current, index, items, srs, today]);
+
   // 録音に声が入っていたら 1 文につき 1 回だけボーナス。
   // 音量を競わせないよう、閾値を超えたかどうかだけを見る。
   const checkVoice = useCallback(async () => {
@@ -278,9 +297,19 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
         {!revealed ? (
           <>
             <p className="jaen-today__prompt">声に出して英語で言ってみてください。</p>
-            <button type="button" className="btn" onClick={() => setRevealed(true)}>
-              英語を見る
-            </button>
+            <div className="btn-row">
+              <button type="button" className="btn" onClick={() => setRevealed(true)}>
+                英語を見る
+              </button>
+              <button
+                type="button"
+                className="btn btn--ghost btn--small"
+                onClick={swapCurrent}
+                aria-label="この文を別の文に入れ替える"
+              >
+                🔀 別の文にする
+              </button>
+            </div>
           </>
         ) : (
           <>

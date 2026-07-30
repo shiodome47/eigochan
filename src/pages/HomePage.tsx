@@ -13,9 +13,16 @@ interface HomePageProps {
   progress: UserProgress;
   todaysPhrase: Phrase;
   mission: DailyMissionState;
+  /** 今日のフレーズを引き直す。 */
+  onShufflePhrase?: () => string | null;
 }
 
-export function HomePage({ progress, todaysPhrase, mission }: HomePageProps) {
+export function HomePage({
+  progress,
+  todaysPhrase,
+  mission,
+  onShufflePhrase,
+}: HomePageProps) {
   const completedToday = mission.completed;
   // 日→英モードの「今日の出題」。表示するだけなので描画のたびに計算してよい。
   const jaPlan = buildDailyPlan(loadSrs());
@@ -31,7 +38,12 @@ export function HomePage({ progress, todaysPhrase, mission }: HomePageProps) {
         <p className="hero__streak">{streakWord}</p>
       </section>
 
-      <MissionCard phrase={todaysPhrase} mission={mission} tagline={tagline} />
+      <MissionCard
+        phrase={todaysPhrase}
+        mission={mission}
+        tagline={tagline}
+        onShuffle={onShufflePhrase}
+      />
 
       <ProgressCard progress={progress} />
 

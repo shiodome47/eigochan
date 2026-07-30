@@ -5,16 +5,30 @@ interface MissionCardProps {
   phrase: Phrase;
   mission: DailyMissionState;
   tagline: string;
+  /** 今日のフレーズを引き直す。押すと別のフレーズに入れ替わる。 */
+  onShuffle?: () => string | null;
 }
 
-export function MissionCard({ phrase, mission, tagline }: MissionCardProps) {
+export function MissionCard({ phrase, mission, tagline, onShuffle }: MissionCardProps) {
   const navigate = useNavigate();
   const completedToday = mission.completed;
 
   return (
     <section className="card mission-card">
       <p className="mission-card__tagline">{tagline}</p>
-      <h2 className="mission-card__title">今日のフレーズ</h2>
+      <div className="mission-card__head">
+        <h2 className="mission-card__title">今日のフレーズ</h2>
+        {onShuffle && (
+          <button
+            type="button"
+            className="btn btn--ghost btn--small"
+            onClick={() => onShuffle()}
+            aria-label="別のフレーズに入れ替える"
+          >
+            🔀 別のフレーズ
+          </button>
+        )}
+      </div>
 
       <div className="mission-card__phrase">
         <p className="mission-card__english">{phrase.english}</p>
