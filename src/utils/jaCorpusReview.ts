@@ -244,6 +244,7 @@ export interface JaCorpusExportV1 {
     scene: string;
     to: string;
     imp: string;
+    by: string;
     rating: JaRating | "";
     ratingMark: string;
     note: string;
@@ -269,6 +270,7 @@ export function buildJaCorpusExport(map: JaReviewMap): JaCorpusExportV1 {
         scene: s.scene,
         to: s.to,
         imp: s.imp,
+        by: s.by,
         rating: e?.rating ?? "",
         ratingMark: e?.rating ? JA_RATING_MARKS[e.rating] : "",
         note: e?.note ?? "",
@@ -288,6 +290,7 @@ const TSV_HEADER = [
   "場面",
   "相手",
   "重要度",
+  "出所",
   "評価",
   "メモ",
 ];
@@ -313,6 +316,7 @@ export function buildJaCorpusTsv(map: JaReviewMap): string {
         s.scene,
         s.to,
         s.imp,
+        s.by === "self" ? "本人" : "追加案",
         e?.rating ? JA_RATING_MARKS[e.rating] : "",
         e?.note ?? "",
       ]

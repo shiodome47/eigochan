@@ -1,0 +1,48 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 05: 相手の体調を気遣う
+export const D05_SELF: JaSentenceInput[] = [
+  { ja: "今日は体調はどうですか。", en: "How are you feeling today?", ch: ["How are you feeling", "today?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "昨日よりは少し良くなりましたか。", en: "Are you feeling a little better than yesterday?", ch: ["a little better", "than yesterday?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "顔色があまり良くないように見えます。", en: "You don't look very well.", ch: ["You don't look", "very well"], scene: "家", to: "家族", imp: "must" },
+  { ja: "まだ少ししんどそうですね。", en: "You still look a little rough.", ch: ["You still look", "a little rough"], scene: "家", to: "家族", imp: "must" },
+  { ja: "無理して起きなくてもいいですよ。", en: "You don't have to force yourself to get up.", ch: ["You don't have to force yourself", "to get up"], scene: "寝室", to: "家族", imp: "must" },
+  { ja: "今日はもう横になっていた方がいいんじゃないですか。", en: "Maybe you should just lie down for the rest of today.", ch: ["Maybe you should just lie down", "for the rest of today"], scene: "寝室", to: "家族", imp: "must" },
+  { ja: "何か食べられそうですか。", en: "Do you think you could eat something?", ch: ["Do you think you could", "eat something?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "水分は取れていますか。", en: "Are you drinking enough water?", ch: ["Are you drinking", "enough water?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "薬はもう飲みましたか。", en: "Have you taken your medicine yet?", ch: ["Have you taken", "your medicine yet?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "熱は測りましたか。", en: "Did you take your temperature?", ch: ["Did you take", "your temperature?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "ちょっと寒くないですか。", en: "Aren't you a little cold?", ch: ["Aren't you", "a little cold?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "暑すぎるようなら、冷房を弱くしましょうか。", en: "If it's too hot, should I turn the air conditioning down?", ch: ["If it's too hot,", "turn the air conditioning down"], scene: "家", to: "家族", imp: "must" },
+  { ja: "少しでもおかしいと思ったら言ってください。", en: "If anything feels off at all, tell me.", ch: ["If anything feels off", "at all, tell me"], scene: "家", to: "家族", imp: "must" },
+  { ja: "我慢しなくてもいいですよ。", en: "You don't have to put up with it.", ch: ["You don't have to", "put up with it"], scene: "家", to: "家族", imp: "must" },
+  { ja: "今日は予定をやめてもいいんじゃないですか。", en: "Why don't we cancel today's plans?", ch: ["Why don't we cancel", "today's plans?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "元気になってからやればいいと思います。", en: "You can do it once you're feeling better.", ch: ["You can do it", "once you're feeling better"], scene: "家", to: "家族", imp: "must" },
+  { ja: "私にできることがあれば言ってください。", en: "If there's anything I can do, let me know.", ch: ["If there's anything I can do,", "let me know"], scene: "家", to: "家族", imp: "must" },
+  { ja: "何か買ってきた方がいいものはありますか。", en: "Is there anything I should go buy for you?", ch: ["Is there anything", "I should go buy?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "とりあえず、今日は様子を見ましょう。", en: "For now, let's see how it goes today.", ch: ["For now,", "let's see how it goes"], scene: "家", to: "家族", imp: "must" },
+  { ja: "明日も良くならないようなら、病院に相談した方がいいですね。", en: "If you're not better tomorrow, we should call the doctor.", ch: ["If you're not better tomorrow,", "we should call the doctor"], scene: "家", to: "家族", imp: "must" },
+];
+
+export const D05_ADD: JaSentenceInput[] = [
+  { ja: "どこが一番つらいですか。", en: "What's bothering you the most?", ch: ["What's bothering you", "the most?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "いつからそんな感じですか。", en: "How long have you been feeling like that?", ch: ["How long have you been", "feeling like that?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "夜はちゃんと眠れていますか。", en: "Are you sleeping okay at night?", ch: ["Are you sleeping okay", "at night?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "食欲はありますか。", en: "Do you have any appetite?", ch: ["Do you have", "any appetite?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "少しでも食べられるものを作りますよ。", en: "I'll make whatever you can manage to eat.", ch: ["whatever you can", "manage to eat"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "冷たいものの方が飲みやすいですか。", en: "Is something cold easier to drink?", ch: ["Is something cold", "easier to drink?"], scene: "家", to: "家族", imp: "sub" },
+  { ja: "枕をもう一つ持ってきましょうか。", en: "Should I bring you another pillow?", ch: ["Should I bring you", "another pillow?"], scene: "寝室", to: "家族", imp: "sub" },
+  { ja: "部屋の空気を入れ替えましょうか。", en: "Should I air out the room?", ch: ["Should I", "air out the room?"], scene: "寝室", to: "家族", imp: "sub" },
+  { ja: "明かりがまぶしくないですか。", en: "Is the light too bright for you?", ch: ["Is the light", "too bright for you?"], scene: "寝室", to: "家族", imp: "sub" },
+  { ja: "静かにしておきますね。", en: "I'll keep it quiet.", ch: ["I'll keep it", "quiet"], scene: "家", to: "家族", imp: "often" },
+  { ja: "何かあったらすぐに呼んでください。", en: "Call me right away if anything happens.", ch: ["Call me right away", "if anything happens"], scene: "家", to: "家族", imp: "must" },
+  { ja: "起きられるようなら、少しだけ歩いてみましょう。", en: "If you can get up, let's try walking a little.", ch: ["If you can get up,", "let's try walking a little"], scene: "家", to: "家族", imp: "sub" },
+  { ja: "病院は何時までやっていましたか。", en: "How late is the clinic open?", ch: ["How late is", "the clinic open?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "予約を取っておきましょうか。", en: "Should I make an appointment for you?", ch: ["Should I make", "an appointment?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "薬が切れていませんか。", en: "Are you running out of your medicine?", ch: ["Are you running out of", "your medicine?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "薬をもらってきますよ。", en: "I'll go pick up your medicine.", ch: ["I'll go pick up", "your medicine"], scene: "家", to: "家族", imp: "often" },
+  { ja: "無理をすると長引きますよ。", en: "If you push yourself, it'll just drag on.", ch: ["If you push yourself,", "it'll just drag on"], scene: "家", to: "家族", imp: "often" },
+  { ja: "今日はゆっくり休んでください。", en: "Please get some rest today.", ch: ["Please get", "some rest"], scene: "家", to: "家族", imp: "must" },
+  { ja: "少しは楽になりましたか。", en: "Are you feeling any easier now?", ch: ["Are you feeling", "any easier now?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "良くなってきているようで安心しました。", en: "I'm relieved you seem to be getting better.", ch: ["I'm relieved", "you seem to be getting better"], scene: "家", to: "家族", imp: "often" },
+];

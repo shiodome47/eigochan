@@ -1,18 +1,45 @@
 import { JA_DOMAINS } from "./domains";
-import { D01_MORNING } from "./d01Morning";
-import { D02_FAMILY } from "./d02Family";
-import { D03_MEAL_DECISION } from "./d03MealDecision";
-import type { JaDomain, JaSentence, JaSentenceInput } from "./types";
+import { D01_ADD, D01_SELF } from "./d01Morning";
+import { D02_ADD, D02_SELF } from "./d02Family";
+import { D03_ADD, D03_SELF } from "./d03MealDecision";
+import { D04_ADD, D04_SELF } from "./d04Cooking";
+import { D05_ADD, D05_SELF } from "./d05Health";
+import { D06_ADD, D06_SELF } from "./d06Housework";
+import { D07_ADD, D07_SELF } from "./d07BathBed";
+import { D08_ADD, D08_SELF } from "./d08Finding";
+import { D09_ADD, D09_SELF } from "./d09Weather";
+import { D10_ADD, D10_SELF } from "./d10Planning";
+import type { JaAuthor, JaDomain, JaSentence, JaSentenceInput } from "./types";
 
-export type { JaDomain, JaImportance, JaSentence, JaSentenceInput } from "./types";
+export type {
+  JaAuthor,
+  JaDomain,
+  JaImportance,
+  JaSentence,
+  JaSentenceInput,
+} from "./types";
 export { JA_DOMAINS, JA_DOMAIN_GROUPS } from "./domains";
+
+interface DomainRaw {
+  /** 本人が書いた日本語 (原文のまま) */
+  self: JaSentenceInput[];
+  /** 本人の文に口調を寄せて足した提案文 */
+  add: JaSentenceInput[];
+}
 
 // 分野番号 → その分野の文。
 // 書き上げた分野をここに 1 行足していく (未作成の分野は載せない)。
-const RAW_BY_DOMAIN: Record<number, JaSentenceInput[]> = {
-  1: D01_MORNING,
-  2: D02_FAMILY,
-  3: D03_MEAL_DECISION,
+const RAW_BY_DOMAIN: Record<number, DomainRaw> = {
+  1: { self: D01_SELF, add: D01_ADD },
+  2: { self: D02_SELF, add: D02_ADD },
+  3: { self: D03_SELF, add: D03_ADD },
+  4: { self: D04_SELF, add: D04_ADD },
+  5: { self: D05_SELF, add: D05_ADD },
+  6: { self: D06_SELF, add: D06_ADD },
+  7: { self: D07_SELF, add: D07_ADD },
+  8: { self: D08_SELF, add: D08_ADD },
+  9: { self: D09_SELF, add: D09_ADD },
+  10: { self: D10_SELF, add: D10_ADD },
 };
 
 /** "d01_003" 形式の ID。分野内の並び順で決まる (= 並べ替えると評価がずれる)。 */
@@ -20,22 +47,37 @@ export function buildJaSentenceId(domainId: number, indexInDomain: number): stri
   return `d${String(domainId).padStart(2, "0")}_${String(indexInDomain).padStart(3, "0")}`;
 }
 
-function expand(domainId: number, rows: JaSentenceInput[]): JaSentence[] {
-  return rows.map((row, i) => ({
-    id: buildJaSentenceId(domainId, i + 1),
+function toSentence(
+  domainId: number,
+  row: JaSentenceInput,
+  indexInDomain: number,
+  by: JaAuthor,
+): JaSentence {
+  const en = (row.en ?? "").trim();
+  return {
+    id: buildJaSentenceId(domainId, indexInDomain),
     domain: domainId,
     ja: row.ja.trim(),
-    en: (row.en ?? "").trim(),
+    en,
     chunks:
       row.ch && row.ch.length > 0
         ? row.ch.map((c) => c.trim()).filter((c) => c.length > 0)
-        : (row.en ?? "").trim()
-          ? [(row.en ?? "").trim()]
+        : en
+          ? [en]
           : [],
     scene: row.scene ?? "",
     to: row.to ?? "",
     imp: row.imp ?? "often",
-  }));
+    by,
+  };
+}
+
+// 本人の文 → 追加案 の順に並べる。ID は通し番号。
+function expand(domainId: number, raw: DomainRaw): JaSentence[] {
+  const out: JaSentence[] = [];
+  raw.self.forEach((row) => out.push(toSentence(domainId, row, out.length + 1, "self")));
+  raw.add.forEach((row) => out.push(toSentence(domainId, row, out.length + 1, "add")));
+  return out;
 }
 
 // 分野番号の昇順で並べた全文。
@@ -59,7 +101,7 @@ export function jaSentencesOfDomain(domainId: number): JaSentence[] {
   return JA_SENTENCES.filter((s) => s.domain === domainId);
 }
 
-/** 分野番号 → 作成ずみ文数。サイドの進捗表示用。 */
+/** 分野番号 → 作成ずみ文数。分野選択の進捗表示用。 */
 export function jaSentenceCounts(): Map<number, number> {
   const counts = new Map<number, number>();
   for (const s of JA_SENTENCES) {

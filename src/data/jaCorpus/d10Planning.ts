@@ -1,0 +1,48 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 10: 予定を決める
+export const D10_SELF: JaSentenceInput[] = [
+  { ja: "今日は何か予定がありましたか。", en: "Did you have anything planned today?", ch: ["Did you have", "anything planned?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "私は午後なら空いています。", en: "I'm free in the afternoon.", ch: ["I'm free", "in the afternoon"], scene: "家", to: "家族", imp: "must" },
+  { ja: "午前中に済ませてしまった方がいいんじゃないですか。", en: "Wouldn't it be better to get it done in the morning?", ch: ["Wouldn't it be better to", "get it done in the morning?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "それは今日中にやる必要がありますか。", en: "Does that have to be done today?", ch: ["Does that have to be", "done today?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "明日でも間に合うなら、今日は無理しなくてもいいと思います。", en: "If tomorrow is soon enough, I don't think you need to push it today.", ch: ["If tomorrow is soon enough,", "you don't need to push it"], scene: "家", to: "家族", imp: "must" },
+  { ja: "先にこちらを終わらせた方がよさそうです。", en: "It'd be better to finish this one first.", ch: ["It'd be better to", "finish this one first"], scene: "家", to: "家族", imp: "must" },
+  { ja: "何時ごろ出れば間に合いますか。", en: "What time do we need to leave to make it?", ch: ["What time do we need to leave", "to make it?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "少し余裕を持って出た方がいいですね。", en: "We should leave with a little time to spare.", ch: ["leave with", "a little time to spare"], scene: "家", to: "家族", imp: "must" },
+  { ja: "道が混んでいる可能性もあります。", en: "The roads could be busy.", ch: ["The roads", "could be busy"], scene: "家", to: "家族", imp: "must" },
+  { ja: "その時間なら、たぶん大丈夫だと思います。", en: "At that hour, I think we'll be fine.", ch: ["At that hour,", "I think we'll be fine"], scene: "家", to: "家族", imp: "must" },
+  { ja: "まだ時間がはっきり決まっていないんですね。", en: "So the time isn't set yet.", ch: ["So the time", "isn't set yet"], scene: "家", to: "家族", imp: "must" },
+  { ja: "決まったら教えてください。", en: "Let me know once it's decided.", ch: ["Let me know", "once it's decided"], scene: "家", to: "家族", imp: "must" },
+  { ja: "予定が変わる可能性はありますか。", en: "Is there a chance the plan will change?", ch: ["Is there a chance", "the plan will change?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "それなら、今のうちにやっておいた方がいいですね。", en: "In that case, we should do it while we can.", ch: ["we should do it", "while we can"], scene: "家", to: "家族", imp: "must" },
+  { ja: "今日はあまり予定を入れない方がよさそうです。", en: "We probably shouldn't schedule too much today.", ch: ["We probably shouldn't", "schedule too much"], scene: "家", to: "家族", imp: "must" },
+  { ja: "一日に全部やろうとすると大変ですよ。", en: "Trying to do it all in one day is too much.", ch: ["Trying to do it all", "in one day"], scene: "家", to: "家族", imp: "must" },
+  { ja: "優先順位を決めた方がいいと思います。", en: "I think we should decide what comes first.", ch: ["we should decide", "what comes first"], scene: "家", to: "家族", imp: "must" },
+  { ja: "とりあえず、一つずつ終わらせましょう。", en: "For now, let's finish one thing at a time.", ch: ["let's finish", "one thing at a time"], scene: "家", to: "家族", imp: "must" },
+  { ja: "それが終わってから、次のことを考えましょう。", en: "Once that's done, we'll think about the next thing.", ch: ["Once that's done,", "the next thing"], scene: "家", to: "家族", imp: "must" },
+  { ja: "では、その予定で進めましょう。", en: "All right, let's go with that plan.", ch: ["All right,", "let's go with that plan"], scene: "家", to: "家族", imp: "must" },
+];
+
+export const D10_ADD: JaSentenceInput[] = [
+  { ja: "週末の予定は決まりましたか。", en: "Have you decided on your weekend plans?", ch: ["Have you decided on", "your weekend plans?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "その日は空いていますか。", en: "Are you free that day?", ch: ["Are you free", "that day?"], scene: "家", to: "友人", imp: "must" },
+  { ja: "午前と午後、どちらがいいですか。", en: "Which is better, morning or afternoon?", ch: ["Which is better,", "morning or afternoon?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "何時からでしたか。", en: "What time did it start again?", ch: ["What time did it", "start again?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "場所はどこになりましたか。", en: "Where did you end up deciding on?", ch: ["Where did you", "end up deciding on?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "少し遅れるかもしれません。", en: "I might be a little late.", ch: ["I might be", "a little late"], scene: "外", to: "友人", imp: "must" },
+  { ja: "早めに着くようにします。", en: "I'll try to get there early.", ch: ["I'll try to", "get there early"], scene: "家", to: "友人", imp: "often" },
+  { ja: "予定を一つずらしてもいいですか。", en: "Would it be okay to move one thing back?", ch: ["Would it be okay to", "move one thing back?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "来週にした方がよさそうです。", en: "It'd probably be better to make it next week.", ch: ["It'd probably be better to", "make it next week"], scene: "家", to: "家族", imp: "often" },
+  { ja: "その日は別の用事が入っています。", en: "I have something else that day.", ch: ["I have something else", "that day"], scene: "家", to: "友人", imp: "must" },
+  { ja: "予定が重なってしまいました。", en: "The plans ended up overlapping.", ch: ["The plans ended up", "overlapping"], scene: "家", to: "家族", imp: "often" },
+  { ja: "一度、日を改めましょうか。", en: "Should we pick another day?", ch: ["Should we pick", "another day?"], scene: "家", to: "友人", imp: "often" },
+  { ja: "天気を見てから決めましょう。", en: "Let's decide after we see the weather.", ch: ["Let's decide", "after we see the weather"], scene: "家", to: "家族", imp: "often" },
+  { ja: "無理のない予定にしておきましょう。", en: "Let's keep the schedule manageable.", ch: ["Let's keep the schedule", "manageable"], scene: "家", to: "家族", imp: "often" },
+  { ja: "移動に時間がかかりそうですね。", en: "Getting there looks like it'll take a while.", ch: ["Getting there", "will take a while"], scene: "家", to: "家族", imp: "often" },
+  { ja: "帰りは何時ごろになりますか。", en: "About what time will we be back?", ch: ["About what time", "will we be back?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "その日は早く帰れそうです。", en: "I should be able to get back early that day.", ch: ["I should be able to", "get back early"], scene: "家", to: "家族", imp: "often" },
+  { ja: "予定表に書いておきます。", en: "I'll write it on the calendar.", ch: ["I'll write it", "on the calendar"], scene: "家", to: "家族", imp: "often" },
+  { ja: "忘れないように言っておいてください。", en: "Please remind me so I don't forget.", ch: ["Please remind me", "so I don't forget"], scene: "家", to: "家族", imp: "often" },
+  { ja: "予定はこれで大丈夫ですか。", en: "Does this plan work for you?", ch: ["Does this plan", "work for you?"], scene: "家", to: "家族", imp: "must" },
+];

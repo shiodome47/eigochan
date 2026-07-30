@@ -10,9 +10,7 @@
 src/data/jaCorpus/        日本語コーパス本体 (リポジトリ内の静的データ)
   types.ts                JaDomain / JaSentenceInput / JaSentence
   domains.ts              66 分野 × 6 グループの定義 (target = 目標文数)
-  d01Morning.ts           分野 01 の文
-  d02Family.ts            分野 02 の文
-  d03MealDecision.ts      分野 03 の文
+  d01Morning.ts 〜 d10Planning.ts   分野 01〜10 の文 (各 40)
   index.ts                ID 採番・検索・集計。分野を書いたらここに 1 行足す
 
 src/utils/jaCorpusReview.ts  評価(◎○△×)・メモ・書き出し・フレーズ化
@@ -29,6 +27,7 @@ src/pages/JaEnPage.tsx       /ja-en の画面
 | `scene` | 場面 (家、駅、カフェ、仕事 など) |
 | `to` | 相手 (家族、友人、店員、同僚 など) |
 | `imp` | 重要度 `must` (必須) / `often` (よく使う) / `sub` (補助) |
+| `by` | 出所 `self` (本人が書いた文) / `add` (口調を寄せて足した提案文)。データファイル側では `*_SELF` / `*_ADD` の 2 配列に分けて書き、`index.ts` で付与する |
 
 読み上げは `en` をそのまま Web Speech API に渡すので、音声用の別フィールドは持たない。
 
@@ -65,7 +64,8 @@ src/pages/JaEnPage.tsx       /ja-en の画面
 
 ## 分野の作りかた (運用)
 
-1. `src/data/jaCorpus/dNN<名前>.ts` を作り、`JaSentenceInput[]` を書く。
+1. `src/data/jaCorpus/dNN<名前>.ts` を作り、`DNN_SELF` (本人の文) と `DNN_ADD`
+   (追加案) の 2 配列を書く。ID は SELF → ADD の順に通し番号が振られる。
 2. `src/data/jaCorpus/index.ts` の `RAW_BY_DOMAIN` に 1 行足す。
 3. 画面で ◎ ○ △ × を付けながら読み、違和感はメモに書く。
 4. △ × とメモを次の分野の作成方針に反映する (進むほど自分の言い回しに寄る)。

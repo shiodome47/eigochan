@@ -1,0 +1,48 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 07: お風呂と寝る前
+export const D07_SELF: JaSentenceInput[] = [
+  { ja: "先にお風呂に入りますか。", en: "Do you want to take a bath first?", ch: ["Do you want to", "take a bath first?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "私はあとでいいですよ。", en: "I can go later.", ch: ["I can go", "later"], scene: "家", to: "家族", imp: "must" },
+  { ja: "お湯はもう入っていますか。", en: "Is the bath already filled?", ch: ["Is the bath", "already filled?"], scene: "風呂", to: "家族", imp: "must" },
+  { ja: "少し熱すぎるかもしれません。", en: "It might be a little too hot.", ch: ["It might be", "a little too hot"], scene: "風呂", to: "家族", imp: "must" },
+  { ja: "今日はシャワーだけでもいいんじゃないですか。", en: "Why not just take a shower today?", ch: ["Why not just", "take a shower?"], scene: "風呂", to: "家族", imp: "must" },
+  { ja: "湯冷めしないように気をつけてください。", en: "Be careful not to get chilled after your bath.", ch: ["Be careful not to", "get chilled"], scene: "風呂", to: "家族", imp: "must" },
+  { ja: "そろそろ寝る準備をした方がいいですね。", en: "We should start getting ready for bed.", ch: ["start getting ready", "for bed"], scene: "家", to: "家族", imp: "must" },
+  { ja: "明日は何時に起きるんでしたか。", en: "What time were you getting up tomorrow?", ch: ["What time were you", "getting up tomorrow?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "目覚ましはかけましたか。", en: "Did you set your alarm?", ch: ["Did you set", "your alarm?"], scene: "寝室", to: "家族", imp: "must" },
+  { ja: "携帯電話を充電しておいた方がいいですよ。", en: "You should put your phone on the charger.", ch: ["You should put your phone", "on the charger"], scene: "家", to: "家族", imp: "must" },
+  { ja: "戸締まりは確認しましたか。", en: "Did you check that everything's locked?", ch: ["Did you check that", "everything's locked?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "電気を消しても大丈夫ですか。", en: "Is it okay if I turn off the light?", ch: ["Is it okay if I", "turn off the light?"], scene: "寝室", to: "家族", imp: "must" },
+  { ja: "まだ何かやることが残っていましたか。", en: "Was there anything else you still had to do?", ch: ["Was there anything else", "you still had to do?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "それは明日でもいいんじゃないですか。", en: "Can't that wait until tomorrow?", ch: ["Can't that wait", "until tomorrow?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "今日はもう十分やったと思います。", en: "I think you've done plenty today.", ch: ["I think you've done", "plenty today"], scene: "家", to: "家族", imp: "must" },
+  { ja: "あまり遅くまで起きていない方がいいですよ。", en: "You shouldn't stay up too late.", ch: ["You shouldn't", "stay up too late"], scene: "家", to: "家族", imp: "must" },
+  { ja: "私もそろそろ寝ようと思います。", en: "I think I'll head to bed soon too.", ch: ["I think I'll", "head to bed soon"], scene: "家", to: "家族", imp: "must" },
+  { ja: "昨日はあまり眠れなかったんですよね。", en: "I didn't sleep very well last night.", ch: ["I didn't sleep very well", "last night"], scene: "家", to: "家族", imp: "must" },
+  { ja: "今日はゆっくり眠れるといいですね。", en: "I hope you sleep well tonight.", ch: ["I hope you", "sleep well tonight"], scene: "寝室", to: "家族", imp: "must" },
+  { ja: "では、おやすみなさい。", en: "Well then, good night.", ch: ["Well then,", "good night"], scene: "寝室", to: "家族", imp: "must" },
+];
+
+export const D07_ADD: JaSentenceInput[] = [
+  { ja: "お風呂を沸かしておきますね。", en: "I'll get the bath ready.", ch: ["I'll get", "the bath ready"], scene: "風呂", to: "家族", imp: "often" },
+  { ja: "タオルは新しいのを出しておきました。", en: "I put out a fresh towel for you.", ch: ["I put out", "a fresh towel"], scene: "風呂", to: "家族", imp: "sub" },
+  { ja: "着替えはここに置いておきます。", en: "I'll leave your change of clothes here.", ch: ["I'll leave", "your change of clothes"], scene: "風呂", to: "家族", imp: "sub" },
+  { ja: "お湯を少し足しましょうか。", en: "Should I add a little more hot water?", ch: ["Should I add", "a little more hot water?"], scene: "風呂", to: "家族", imp: "sub" },
+  { ja: "髪を乾かしてから寝てくださいね。", en: "Dry your hair before you go to bed.", ch: ["Dry your hair", "before you go to bed"], scene: "家", to: "家族", imp: "often" },
+  { ja: "湯船に長く入りすぎない方がいいですよ。", en: "You shouldn't stay in the tub too long.", ch: ["You shouldn't stay", "in the tub too long"], scene: "風呂", to: "家族", imp: "sub" },
+  { ja: "お風呂から上がったら教えてください。", en: "Let me know when you're out of the bath.", ch: ["Let me know when", "you're out of the bath"], scene: "風呂", to: "家族", imp: "often" },
+  { ja: "水分を取ってから寝た方がいいですよ。", en: "You should drink some water before bed.", ch: ["You should drink some water", "before bed"], scene: "家", to: "家族", imp: "often" },
+  { ja: "歯を磨きましたか。", en: "Did you brush your teeth?", ch: ["Did you brush", "your teeth?"], scene: "洗面所", to: "家族", imp: "often" },
+  { ja: "冷房は何度にしておきますか。", en: "What temperature should I leave the air conditioning at?", ch: ["What temperature", "should I leave it at?"], scene: "寝室", to: "家族", imp: "often" },
+  { ja: "窓は閉めておきますね。", en: "I'll close the windows.", ch: ["I'll close", "the windows"], scene: "家", to: "家族", imp: "often" },
+  { ja: "明日の準備はできていますか。", en: "Are you ready for tomorrow?", ch: ["Are you ready", "for tomorrow?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "早く起きないといけないんでしたよね。", en: "You have to get up early, right?", ch: ["You have to get up early,", "right?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "音を小さくしておきます。", en: "I'll keep the volume down.", ch: ["I'll keep", "the volume down"], scene: "居間", to: "家族", imp: "sub" },
+  { ja: "先に寝ていてください。", en: "Go ahead and go to sleep without me.", ch: ["Go ahead and", "without me"], scene: "寝室", to: "家族", imp: "often" },
+  { ja: "もう少しだけ起きています。", en: "I'm going to stay up just a little longer.", ch: ["I'm going to stay up", "a little longer"], scene: "家", to: "家族", imp: "often" },
+  { ja: "今日は疲れたので早めに寝ます。", en: "I'm worn out today, so I'm going to bed early.", ch: ["I'm worn out today,", "going to bed early"], scene: "家", to: "家族", imp: "often" },
+  { ja: "布団を一枚足しましょうか。", en: "Should I add another blanket?", ch: ["Should I add", "another blanket?"], scene: "寝室", to: "家族", imp: "sub" },
+  { ja: "夜中に寒くなるかもしれません。", en: "It might get cold in the middle of the night.", ch: ["It might get cold", "in the middle of the night"], scene: "寝室", to: "家族", imp: "sub" },
+  { ja: "ゆっくり休んでください。", en: "Get some good rest.", ch: ["Get some", "good rest"], scene: "寝室", to: "家族", imp: "must" },
+];

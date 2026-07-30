@@ -2857,3 +2857,14 @@ textarea.form-input {
     width: 38px;
   }
 }
+
+.jaen-card__tag.is-self {
+  border-style: solid;
+  border-color: var(--primary-soft);
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+.jaen-card__tag.is-add {
+  border-style: dotted;
+}

@@ -34,6 +34,7 @@ import { todayString } from "../utils/date";
 
 type RatingFilter = "all" | "none" | JaRating | "keep" | "drop" | "note";
 type ImpFilter = "all" | "must" | "often" | "sub";
+type AuthorFilter = "all" | "self" | "add";
 
 const IMP_LABELS: Record<string, string> = {
   must: "必須",
@@ -56,6 +57,12 @@ const IMP_FILTERS: { id: ImpFilter; label: string }[] = [
   { id: "sub", label: "補助" },
 ];
 
+const AUTHOR_FILTERS: { id: AuthorFilter; label: string }[] = [
+  { id: "all", label: "ぜんぶ" },
+  { id: "self", label: "本人の文" },
+  { id: "add", label: "追加案" },
+];
+
 const PAGE_SIZE = 60;
 
 const COUNTS = jaSentenceCounts();
@@ -70,6 +77,7 @@ export function JaEnPage() {
   const [query, setQuery] = useState("");
   const [ratingFilter, setRatingFilter] = useState<RatingFilter>("all");
   const [impFilter, setImpFilter] = useState<ImpFilter>("all");
+  const [authorFilter, setAuthorFilter] = useState<AuthorFilter>("all");
   const [hideEnglish, setHideEnglish] = useState(true);
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [materialized, setMaterialized] = useState<Set<string>>(() =>
@@ -99,6 +107,7 @@ export function JaEnPage() {
       // 検索中は分野をまたいで探す。空なら選択中の分野だけ。
       if (!searching && s.domain !== domainId) return false;
       if (impFilter !== "all" && s.imp !== impFilter) return false;
+      if (authorFilter !== "all" && s.by !== authorFilter) return false;
 
       const entry = review[s.id];
       const rating = entry?.rating ?? "";
@@ -127,7 +136,7 @@ export function JaEnPage() {
       }
       return true;
     });
-  }, [domainId, impFilter, ratingFilter, review, searching, trimmedQuery]);
+  }, [authorFilter, domainId, impFilter, ratingFilter, review, searching, trimmedQuery]);
 
   const shown = list.slice(0, limit);
   const overall = useMemo(() => summarizeJaReview(review), [review]);
@@ -354,6 +363,21 @@ export function JaEnPage() {
             </button>
           ))}
         </div>
+        <div className="filter-row">
+          {AUTHOR_FILTERS.map((f) => (
+            <button
+              key={f.id}
+              type="button"
+              className={`filter-chip${authorFilter === f.id ? " is-active" : ""}`}
+              onClick={() => {
+                setAuthorFilter(f.id);
+                resetPaging();
+              }}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
         <label className="jaen-toggle">
           <input
             type="checkbox"
@@ -497,6 +521,9 @@ function JaSentenceCard({
         {sentence.scene && <span className="jaen-card__tag">場面: {sentence.scene}</span>}
         {sentence.to && <span className="jaen-card__tag">相手: {sentence.to}</span>}
         <span className={`jaen-card__tag is-${sentence.imp}`}>{IMP_LABELS[sentence.imp]}</span>
+        <span className={`jaen-card__tag is-${sentence.by}`}>
+          {sentence.by === "self" ? "本人の文" : "追加案"}
+        </span>
         {hasPhrase && <span className="jaen-card__tag is-linked">フレーズ化ずみ</span>}
       </div>
 

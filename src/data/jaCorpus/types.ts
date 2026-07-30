@@ -28,6 +28,9 @@ export interface JaSentenceInput {
   imp?: JaImportance;
 }
 
+/** self = 本人が書いた日本語 / add = そこに寄せて足した提案文 */
+export type JaAuthor = "self" | "add";
+
 export interface JaSentence {
   /** "d01_003" 形式。分野番号 + 分野内の連番。 */
   id: string;
@@ -38,4 +41,5 @@ export interface JaSentence {
   scene: string;
   to: string;
   imp: JaImportance;
+  by: JaAuthor;
 }
