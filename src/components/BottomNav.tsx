@@ -5,6 +5,7 @@ const ITEMS = [
   { to: "/practice", label: "Practice", icon: "🗣️", end: false },
   { to: "/city", label: "City", icon: "🌆", end: false },
   { to: "/phrases", label: "Phrases", icon: "📖", end: false },
+  { to: "/ja-en", label: "JA→EN", icon: "🈁", end: false },
   { to: "/log", label: "Log", icon: "📊", end: false },
 ];
 

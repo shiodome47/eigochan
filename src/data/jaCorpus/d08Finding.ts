@@ -1,0 +1,48 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 08: 物を探す・場所を確認する
+export const D08_SELF: JaSentenceInput[] = [
+  { ja: "あれ、どこに置きましたか。", en: "Where did you put that thing?", ch: ["Where did you put", "that thing?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "さっきまでここにあったと思うんですが。", en: "I'm pretty sure it was right here a minute ago.", ch: ["I'm pretty sure", "it was right here"], scene: "家", to: "家族", imp: "must" },
+  { ja: "私が別の場所に動かしたかもしれません。", en: "I might have moved it somewhere else.", ch: ["I might have moved it", "somewhere else"], scene: "家", to: "家族", imp: "must" },
+  { ja: "机の周りは確認しましたか。", en: "Did you check around the desk?", ch: ["Did you check", "around the desk?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "引き出しの中にはありませんでしたか。", en: "Was it not in the drawer?", ch: ["Was it not", "in the drawer?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "いつも置いている場所にはないんですね。", en: "So it's not where you usually keep it.", ch: ["So it's not", "where you usually keep it"], scene: "家", to: "家族", imp: "must" },
+  { ja: "また、どこかに置き忘れたんじゃないですか。", en: "Did you leave it somewhere again?", ch: ["Did you leave it", "somewhere again?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "最後に使ったのはいつですか。", en: "When was the last time you used it?", ch: ["When was the last time", "you used it?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "そのとき、どこにいましたか。", en: "Where were you at the time?", ch: ["Where were you", "at the time?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "一度、順番に思い出した方がよさそうですね。", en: "Maybe try retracing your steps in order.", ch: ["try retracing your steps", "in order"], scene: "家", to: "家族", imp: "must" },
+  { ja: "たぶん、別の部屋にあると思います。", en: "I think it's probably in the other room.", ch: ["I think it's probably", "in the other room"], scene: "家", to: "家族", imp: "must" },
+  { ja: "私も一緒に探してみます。", en: "I'll help you look.", ch: ["I'll help you", "look"], scene: "家", to: "家族", imp: "must" },
+  { ja: "それ、本当にここに持ってきましたか。", en: "Did you really bring it here?", ch: ["Did you really", "bring it here?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "もしかすると、車の中かもしれません。", en: "It might be in the car.", ch: ["It might be", "in the car"], scene: "家", to: "家族", imp: "must" },
+  { ja: "鞄の小さいポケットも見ましたか。", en: "Did you check the small pocket in your bag?", ch: ["Did you check", "the small pocket"], scene: "家", to: "家族", imp: "must" },
+  { ja: "こんなところにありましたよ。", en: "It was right here of all places.", ch: ["It was right here", "of all places"], scene: "家", to: "家族", imp: "must" },
+  { ja: "やはり、いつもの場所に置いておくべきですね。", en: "We really should keep it in the usual spot.", ch: ["We really should keep it", "in the usual spot"], scene: "家", to: "家族", imp: "must" },
+  { ja: "ここに置いたことを覚えておいてください。", en: "Please remember that it's here.", ch: ["Please remember", "that it's here"], scene: "家", to: "家族", imp: "must" },
+  { ja: "私もすぐ忘れるので、人のことは言えませんけどね。", en: "I forget things right away too, so I can't really talk.", ch: ["I forget things right away too,", "so I can't really talk"], scene: "家", to: "家族", imp: "must" },
+  { ja: "見つかってよかったですね。", en: "I'm glad it turned up.", ch: ["I'm glad", "it turned up"], scene: "家", to: "家族", imp: "must" },
+];
+
+export const D08_ADD: JaSentenceInput[] = [
+  { ja: "何を探しているんですか。", en: "What are you looking for?", ch: ["What are you", "looking for?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "それはどんな形のものですか。", en: "What does it look like?", ch: ["What does it", "look like?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "一緒に探した方が早いですね。", en: "It'll be faster if we look together.", ch: ["It'll be faster if", "we look together"], scene: "家", to: "家族", imp: "often" },
+  { ja: "こちら側は見ておきます。", en: "I'll check over on this side.", ch: ["I'll check", "over on this side"], scene: "家", to: "家族", imp: "often" },
+  { ja: "棚の上は見ましたか。", en: "Did you look on top of the shelf?", ch: ["Did you look", "on top of the shelf?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "ソファの下に落ちていませんか。", en: "Could it have fallen under the sofa?", ch: ["Could it have fallen", "under the sofa?"], scene: "居間", to: "家族", imp: "often" },
+  { ja: "上着のポケットは確認しましたか。", en: "Did you check your jacket pockets?", ch: ["Did you check", "your jacket pockets?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "洗濯物と一緒に入っていませんか。", en: "Could it have gotten in with the laundry?", ch: ["Could it have gotten in", "with the laundry?"], scene: "家", to: "家族", imp: "sub" },
+  { ja: "車の中を見てきます。", en: "I'll go check the car.", ch: ["I'll go check", "the car"], scene: "家", to: "家族", imp: "often" },
+  { ja: "玄関に置いたままかもしれません。", en: "It might still be by the front door.", ch: ["It might still be", "by the front door"], scene: "玄関", to: "家族", imp: "often" },
+  { ja: "昨日はどこで使いましたか。", en: "Where did you use it yesterday?", ch: ["Where did you use it", "yesterday?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "誰かが片付けたのかもしれません。", en: "Someone may have put it away.", ch: ["Someone may have", "put it away"], scene: "家", to: "家族", imp: "often" },
+  { ja: "私は触っていないと思います。", en: "I don't think I touched it.", ch: ["I don't think", "I touched it"], scene: "家", to: "家族", imp: "often" },
+  { ja: "あとで出てくると思いますよ。", en: "I'm sure it'll turn up later.", ch: ["I'm sure", "it'll turn up later"], scene: "家", to: "家族", imp: "often" },
+  { ja: "一度落ち着いて探しましょう。", en: "Let's calm down and look properly.", ch: ["Let's calm down", "and look properly"], scene: "家", to: "家族", imp: "often" },
+  { ja: "見つからないなら、また買うしかないですね。", en: "If we can't find it, we'll just have to buy another one.", ch: ["If we can't find it,", "we'll just have to buy another"], scene: "家", to: "家族", imp: "sub" },
+  { ja: "同じものが二つあった気がします。", en: "I feel like we had two of the same thing.", ch: ["I feel like we had", "two of the same thing"], scene: "家", to: "家族", imp: "sub" },
+  { ja: "これはここにしまうことにしましょう。", en: "Let's decide this goes here.", ch: ["Let's decide", "this goes here"], scene: "家", to: "家族", imp: "often" },
+  { ja: "場所を決めておけば探さずに済みます。", en: "If we decide on a spot, we won't have to look for it.", ch: ["If we decide on a spot,", "we won't have to look"], scene: "家", to: "家族", imp: "often" },
+  { ja: "探していたのはこれですか。", en: "Is this what you were looking for?", ch: ["Is this what", "you were looking for?"], scene: "家", to: "家族", imp: "must" },
+];

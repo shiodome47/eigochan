@@ -1,0 +1,48 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 04: 料理と片付け
+export const D04_SELF: JaSentenceInput[] = [
+  { ja: "そろそろ料理を始めた方がよさそうですね。", en: "I should probably start cooking soon.", ch: ["I should probably", "start cooking soon"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "私はご飯を炊いておきます。", en: "I'll get the rice going.", ch: ["I'll get", "the rice going"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "これ、どのくらい入れればいいんですか。", en: "How much of this should I put in?", ch: ["How much of this", "should I put in?"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "少し多すぎる気がします。", en: "That feels like a little too much.", ch: ["That feels like", "a little too much"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "もう少し味を薄くした方がよさそうです。", en: "I think we should tone the flavor down a little.", ch: ["tone the flavor down", "a little"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "ちょっと味を見てもらえますか。", en: "Could you taste this for me?", ch: ["Could you taste this", "for me?"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "これで大丈夫だと思います。", en: "I think this is good.", ch: ["I think", "this is good"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "思っていたより時間がかかりました。", en: "That took longer than I expected.", ch: ["took longer", "than I expected"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "もうすぐできるので、少し待ってください。", en: "It's almost ready, so hang on a bit.", ch: ["It's almost ready,", "hang on a bit"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "先に食べ始めてもいいですよ。", en: "You can start eating without me.", ch: ["You can start eating", "without me"], scene: "食卓", to: "家族", imp: "must" },
+  { ja: "熱いので気をつけてください。", en: "Careful, it's hot.", ch: ["Careful,", "it's hot"], scene: "食卓", to: "家族", imp: "must" },
+  { ja: "これ、思っていたよりおいしいですね。", en: "This is better than I expected.", ch: ["This is better", "than I expected"], scene: "食卓", to: "家族", imp: "must" },
+  { ja: "少し作りすぎましたね。", en: "I made a little too much.", ch: ["I made", "a little too much"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "明日も食べればいいんじゃないですか。", en: "We can just have it again tomorrow.", ch: ["We can just have it", "again tomorrow"], scene: "食卓", to: "家族", imp: "must" },
+  { ja: "残ったものは冷蔵庫に入れておきます。", en: "I'll put the leftovers in the fridge.", ch: ["I'll put the leftovers", "in the fridge"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "食器はそのまま置いておいてください。", en: "Just leave the dishes there.", ch: ["Just leave", "the dishes there"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "私があとで洗っておきます。", en: "I'll wash them later.", ch: ["I'll wash them", "later"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "とりあえず、水につけておいた方がいいですね。", en: "We should at least soak them in water.", ch: ["We should at least", "soak them in water"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "先にテーブルだけ片付けましょう。", en: "Let's clear the table first.", ch: ["Let's clear", "the table first"], scene: "食卓", to: "家族", imp: "must" },
+  { ja: "これで大体片付きましたね。", en: "That's mostly cleaned up now.", ch: ["That's mostly", "cleaned up now"], scene: "台所", to: "家族", imp: "must" },
+];
+
+export const D04_ADD: JaSentenceInput[] = [
+  { ja: "火を強くしすぎない方がいいですね。", en: "We shouldn't turn the heat up too high.", ch: ["turn the heat up", "too high"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "弱火でしばらく煮ておきます。", en: "I'll let it simmer on low for a while.", ch: ["I'll let it simmer", "on low"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "お湯が沸くまで待ちましょう。", en: "Let's wait for the water to boil.", ch: ["Let's wait for", "the water to boil"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "焦げそうなので見ていてもらえますか。", en: "It might burn, so could you keep an eye on it?", ch: ["could you", "keep an eye on it?"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "包丁はどこにありますか。", en: "Where's the knife?", ch: ["Where's", "the knife?"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "まな板を洗っておきます。", en: "I'll wash the cutting board.", ch: ["I'll wash", "the cutting board"], scene: "台所", to: "家族", imp: "sub" },
+  { ja: "これは切っておいた方がいいですか。", en: "Should I cut this up?", ch: ["Should I", "cut this up?"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "皮はむかなくても大丈夫です。", en: "You don't have to peel it.", ch: ["You don't have to", "peel it"], scene: "台所", to: "家族", imp: "sub" },
+  { ja: "味付けはこれくらいでいいですか。", en: "Is this about the right amount of seasoning?", ch: ["Is this about", "the right amount?"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "少し味が薄いかもしれません。", en: "It might be a little bland.", ch: ["It might be", "a little bland"], scene: "食卓", to: "家族", imp: "often" },
+  { ja: "温め直しましょうか。", en: "Should I warm it back up?", ch: ["Should I", "warm it back up?"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "電子レンジで温めてください。", en: "Go ahead and heat it up in the microwave.", ch: ["Go ahead and heat it up", "in the microwave"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "お皿を出してもらえますか。", en: "Could you get the plates out?", ch: ["Could you get", "the plates out?"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "箸はそこにありますよ。", en: "The chopsticks are right there.", ch: ["... are right there"], scene: "食卓", to: "家族", imp: "sub" },
+  { ja: "手を拭くものはありますか。", en: "Is there something to wipe my hands with?", ch: ["Is there something", "to wipe my hands with?"], scene: "食卓", to: "家族", imp: "sub" },
+  { ja: "洗い物は私がやりますよ。", en: "I'll do the dishes.", ch: ["I'll do", "the dishes"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "拭くのを手伝ってもらえますか。", en: "Could you help me dry these?", ch: ["Could you help me", "dry these?"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "鍋はまだ熱いので気をつけてください。", en: "The pot is still hot, so be careful.", ch: ["is still hot,", "so be careful"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "ゴミはこちらにまとめておきます。", en: "I'll put the trash together over here.", ch: ["I'll put ... together", "over here"], scene: "台所", to: "家族", imp: "sub" },
+  { ja: "台所はこれで終わりです。", en: "That's it for the kitchen.", ch: ["That's it", "for the kitchen"], scene: "台所", to: "家族", imp: "often" },
+];

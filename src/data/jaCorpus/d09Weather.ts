@@ -1,0 +1,48 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 09: 天気と服装
+export const D09_SELF: JaSentenceInput[] = [
+  { ja: "今日はずいぶん暑くなりそうですね。", en: "It looks like it's going to get pretty hot today.", ch: ["It looks like", "it's going to get pretty hot"], scene: "家", to: "家族", imp: "must" },
+  { ja: "朝からもう暑いですね。", en: "It's already hot, and it's still morning.", ch: ["It's already hot,", "and it's still morning"], scene: "家", to: "家族", imp: "must" },
+  { ja: "外に出るのが嫌になる暑さですね。", en: "It's the kind of heat that makes you not want to go outside.", ch: ["the kind of heat that", "makes you not want to go outside"], scene: "家", to: "家族", imp: "must" },
+  { ja: "今日は雨が降るんでしょうか。", en: "Do you think it's going to rain today?", ch: ["Do you think", "it's going to rain?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "空を見る限りでは、降りそうに見えます。", en: "From the look of the sky, it seems like it will.", ch: ["From the look of the sky,", "it seems like it will"], scene: "家", to: "家族", imp: "must" },
+  { ja: "念のため、傘を持っていった方がいいですよ。", en: "You should take an umbrella just in case.", ch: ["You should take an umbrella", "just in case"], scene: "玄関", to: "家族", imp: "must" },
+  { ja: "この天気なら、洗濯物は外に干せそうですね。", en: "With this weather, we should be able to hang the laundry outside.", ch: ["With this weather,", "we should be able to ..."], scene: "家", to: "家族", imp: "must" },
+  { ja: "風が少し強いですね。", en: "The wind is a bit strong.", ch: ["The wind is", "a bit strong"], scene: "家", to: "家族", imp: "must" },
+  { ja: "昨日よりは過ごしやすそうです。", en: "It looks more comfortable than yesterday.", ch: ["more comfortable", "than yesterday"], scene: "家", to: "家族", imp: "must" },
+  { ja: "気温差がかなりありますね。", en: "There's quite a swing in temperature.", ch: ["There's quite a swing", "in temperature"], scene: "家", to: "家族", imp: "must" },
+  { ja: "何を着ればいいか迷いますね。", en: "It's hard to know what to wear.", ch: ["It's hard to know", "what to wear"], scene: "家", to: "家族", imp: "must" },
+  { ja: "その服だと少し寒くないですか。", en: "Won't you be a little cold in that?", ch: ["Won't you be", "a little cold in that?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "上に何か一枚持っていった方がいいと思います。", en: "I think you should take something to put on over that.", ch: ["take something", "to put on over that"], scene: "玄関", to: "家族", imp: "must" },
+  { ja: "今日は薄い服で大丈夫そうです。", en: "Something light should be fine today.", ch: ["Something light", "should be fine"], scene: "家", to: "家族", imp: "must" },
+  { ja: "外は暑いですが、室内は寒いかもしれません。", en: "It's hot outside, but it might be cold indoors.", ch: ["It's hot outside,", "but it might be cold indoors"], scene: "家", to: "家族", imp: "must" },
+  { ja: "この時期は体調を崩しやすいですね。", en: "This time of year, it's easy to get sick.", ch: ["This time of year,", "it's easy to get sick"], scene: "家", to: "家族", imp: "must" },
+  { ja: "天気のせいか、なんとなく体がだるいです。", en: "Maybe it's the weather, but I feel kind of run-down.", ch: ["Maybe it's the weather,", "I feel kind of run-down"], scene: "家", to: "家族", imp: "must" },
+  { ja: "こんなに暑いと、何をするにも疲れますね。", en: "When it's this hot, everything you do wears you out.", ch: ["When it's this hot,", "wears you out"], scene: "家", to: "家族", imp: "must" },
+  { ja: "夕方になってから出た方がよさそうです。", en: "It'd be better to go out once it's evening.", ch: ["It'd be better to go out", "once it's evening"], scene: "家", to: "家族", imp: "must" },
+  { ja: "明日は少し涼しくなるといいですね。", en: "I hope it cools down a little tomorrow.", ch: ["I hope it cools down", "a little tomorrow"], scene: "家", to: "家族", imp: "must" },
+];
+
+export const D09_ADD: JaSentenceInput[] = [
+  { ja: "今日の天気予報は見ましたか。", en: "Did you check the forecast today?", ch: ["Did you check", "the forecast?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "午後から崩れるみたいですね。", en: "It looks like it'll turn bad in the afternoon.", ch: ["It looks like it'll turn bad", "in the afternoon"], scene: "家", to: "家族", imp: "often" },
+  { ja: "雨はもうやんだようです。", en: "It looks like the rain has stopped.", ch: ["It looks like", "the rain has stopped"], scene: "家", to: "家族", imp: "often" },
+  { ja: "傘はいらなさそうですね。", en: "It doesn't look like we'll need an umbrella.", ch: ["It doesn't look like", "we'll need an umbrella"], scene: "玄関", to: "家族", imp: "often" },
+  { ja: "湿気がすごいですね。", en: "The humidity is unreal.", ch: ["The humidity", "is unreal"], scene: "家", to: "家族", imp: "often" },
+  { ja: "日差しが強いので帽子をかぶった方がいいですよ。", en: "The sun is strong, so you should wear a hat.", ch: ["The sun is strong,", "you should wear a hat"], scene: "玄関", to: "家族", imp: "often" },
+  { ja: "日陰を歩きましょう。", en: "Let's walk in the shade.", ch: ["Let's walk", "in the shade"], scene: "外", to: "家族", imp: "often" },
+  { ja: "水を持っていってくださいね。", en: "Make sure you take some water with you.", ch: ["Make sure you take", "some water with you"], scene: "玄関", to: "家族", imp: "often" },
+  { ja: "今日は冷房を早めに入れましょう。", en: "Let's turn the air conditioning on early today.", ch: ["Let's turn ... on", "early today"], scene: "家", to: "家族", imp: "often" },
+  { ja: "夜になれば少しは涼しくなるでしょう。", en: "It should cool down a bit once it's night.", ch: ["It should cool down a bit", "once it's night"], scene: "家", to: "家族", imp: "often" },
+  { ja: "だんだん秋らしくなってきましたね。", en: "It's starting to feel like autumn.", ch: ["It's starting to feel like", "autumn"], scene: "家", to: "家族", imp: "often" },
+  { ja: "朝晩は冷えるようになりましたね。", en: "Mornings and evenings have gotten chilly.", ch: ["Mornings and evenings", "have gotten chilly"], scene: "家", to: "家族", imp: "often" },
+  { ja: "上着はいりますか。", en: "Do you need a jacket?", ch: ["Do you need", "a jacket?"], scene: "玄関", to: "家族", imp: "often" },
+  { ja: "その靴だと濡れそうですね。", en: "Those shoes will probably get wet.", ch: ["will probably", "get wet"], scene: "玄関", to: "家族", imp: "sub" },
+  { ja: "服が乾きにくい季節ですね。", en: "It's the season where clothes don't dry well.", ch: ["It's the season where", "clothes don't dry well"], scene: "家", to: "家族", imp: "sub" },
+  { ja: "明日の朝は冷えるそうです。", en: "They say it'll be cold tomorrow morning.", ch: ["They say", "it'll be cold tomorrow"], scene: "家", to: "家族", imp: "often" },
+  { ja: "台風が近づいているみたいです。", en: "It looks like a typhoon is coming.", ch: ["It looks like", "a typhoon is coming"], scene: "家", to: "家族", imp: "sub" },
+  { ja: "外の様子はどうですか。", en: "What's it like outside?", ch: ["What's it like", "outside?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "出かけるなら早い方がいいですね。", en: "If we're going out, sooner is better.", ch: ["If we're going out,", "sooner is better"], scene: "家", to: "家族", imp: "often" },
+  { ja: "こんな日は家にいるのが一番ですね。", en: "On a day like this, staying home is the best option.", ch: ["On a day like this,", "staying home is best"], scene: "家", to: "家族", imp: "often" },
+];

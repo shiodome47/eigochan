@@ -1,0 +1,48 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 02: 家族との日常会話
+export const D02_SELF: JaSentenceInput[] = [
+  { ja: "今日は何をしていたんですか。", en: "What did you get up to today?", ch: ["What did you get up to", "today?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "何か変わったことはありましたか。", en: "Did anything out of the ordinary happen?", ch: ["Did anything", "out of the ordinary happen?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "それは大変でしたね。", en: "That must have been rough.", ch: ["That must have been", "rough"], scene: "家", to: "家族", imp: "must" },
+  { ja: "思っていたより早く終わったんですね。", en: "So it finished earlier than you expected.", ch: ["earlier than", "you expected"], scene: "家", to: "家族", imp: "must" },
+  { ja: "今日はずいぶん静かですね。", en: "You're pretty quiet today.", ch: ["You're pretty quiet", "today"], scene: "家", to: "家族", imp: "must" },
+  { ja: "何か考え事をしているんですか。", en: "Is something on your mind?", ch: ["Is something", "on your mind?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "ちょっと疲れているように見えます。", en: "You look a little tired.", ch: ["You look", "a little tired"], scene: "家", to: "家族", imp: "must" },
+  { ja: "無理をしていませんか。", en: "Are you pushing yourself too hard?", ch: ["Are you pushing yourself", "too hard?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "それなら、今日はゆっくりした方がいいですね。", en: "In that case, you should take it easy today.", ch: ["In that case,", "take it easy"], scene: "家", to: "家族", imp: "must" },
+  { ja: "私はそれでいいと思いますよ。", en: "I think that's fine.", ch: ["I think", "that's fine"], scene: "家", to: "家族", imp: "must" },
+  { ja: "それは別に今日でなくてもいいんじゃないですか。", en: "That doesn't have to be today, does it?", ch: ["That doesn't have to be", "..., does it?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "とりあえず、あとで考えましょう。", en: "Let's think about it later.", ch: ["Let's think about it", "later"], scene: "家", to: "家族", imp: "must" },
+  { ja: "それ、前にも同じことを言っていましたよ。", en: "You said the same thing before.", ch: ["You said", "the same thing before"], scene: "家", to: "家族", imp: "must" },
+  { ja: "また同じところに置いたんじゃないですか。", en: "Didn't you put it in the same place again?", ch: ["Didn't you put it", "in the same place again?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "たぶん、そこにはないと思います。", en: "I don't think it's there.", ch: ["I don't think", "it's there"], scene: "家", to: "家族", imp: "must" },
+  { ja: "ちょっと見てきてもらえますか。", en: "Could you go take a look?", ch: ["Could you go", "take a look?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "私もあとで確認してみます。", en: "I'll check later too.", ch: ["I'll check", "later too"], scene: "家", to: "家族", imp: "must" },
+  { ja: "そういうことなら、話は分かります。", en: "If that's the case, I understand.", ch: ["If that's the case,", "I understand"], scene: "家", to: "家族", imp: "must" },
+  { ja: "なるほど、そういう意味でしたか。", en: "Oh, that's what you meant.", ch: ["Oh,", "that's what you meant"], scene: "家", to: "家族", imp: "must" },
+  { ja: "まあ、そんな日もありますよ。", en: "Well, some days are just like that.", ch: ["Well,", "some days are just like that"], scene: "家", to: "家族", imp: "must" },
+];
+
+export const D02_ADD: JaSentenceInput[] = [
+  { ja: "ちょっといいですか。", en: "Do you have a minute?", ch: ["Do you have", "a minute?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "今、手が離せますか。", en: "Can you step away for a second?", ch: ["Can you step away", "for a second?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "すみません、聞いていませんでした。", en: "Sorry, I wasn't listening.", ch: ["Sorry,", "I wasn't listening"], scene: "家", to: "家族", imp: "often" },
+  { ja: "もう一度言ってもらえますか。", en: "Could you say that again?", ch: ["Could you", "say that again?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "今、何と言いましたか。", en: "What was that just now?", ch: ["What was that", "just now?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "手伝いましょうか。", en: "Do you want me to help?", ch: ["Do you want me to", "help?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "それは私がやっておきます。", en: "I'll take care of that.", ch: ["I'll take care of", "that"], scene: "家", to: "家族", imp: "must" },
+  { ja: "ありがとうございます、助かりました。", en: "Thank you, that was a big help.", ch: ["Thank you,", "that was a big help"], scene: "家", to: "家族", imp: "must" },
+  { ja: "あとでやるつもりです。", en: "I'm planning to do it later.", ch: ["I'm planning to", "do it later"], scene: "家", to: "家族", imp: "often" },
+  { ja: "私はどちらでもいいですよ。", en: "Either way is fine with me.", ch: ["Either way", "is fine with me"], scene: "家", to: "家族", imp: "must" },
+  { ja: "任せますよ。", en: "I'll leave it to you.", ch: ["I'll leave it", "to you"], scene: "家", to: "家族", imp: "often" },
+  { ja: "少し考えさせてください。", en: "Let me think about it for a bit.", ch: ["Let me think about it", "for a bit"], scene: "家", to: "家族", imp: "must" },
+  { ja: "私はそうは思わないんですよね。", en: "I don't really see it that way.", ch: ["I don't really", "see it that way"], scene: "家", to: "家族", imp: "often" },
+  { ja: "言いたいことは分かります。", en: "I see what you're saying.", ch: ["I see", "what you're saying"], scene: "家", to: "家族", imp: "must" },
+  { ja: "そういうつもりではなかったんです。", en: "That's not how I meant it.", ch: ["That's not", "how I meant it"], scene: "家", to: "家族", imp: "often" },
+  { ja: "怒っているわけではないですよ。", en: "I'm not upset or anything.", ch: ["I'm not upset", "or anything"], scene: "家", to: "家族", imp: "often" },
+  { ja: "さっきはすみませんでした。", en: "Sorry about earlier.", ch: ["Sorry about", "earlier"], scene: "家", to: "家族", imp: "often" },
+  { ja: "気にしなくていいですよ。", en: "Don't worry about it.", ch: ["Don't worry", "about it"], scene: "家", to: "家族", imp: "must" },
+  { ja: "またあとで話しましょう。", en: "Let's talk again later.", ch: ["Let's talk", "again later"], scene: "家", to: "家族", imp: "often" },
+  { ja: "音を少し小さくしてもらえますか。", en: "Could you turn it down a little?", ch: ["Could you turn it down", "a little?"], scene: "居間", to: "家族", imp: "often" },
+];

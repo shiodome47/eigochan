@@ -1,0 +1,48 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 06: 掃除・洗濯・家事
+export const D06_SELF: JaSentenceInput[] = [
+  { ja: "今日は何から片付けましょうか。", en: "What should we start cleaning up first today?", ch: ["What should we start", "cleaning up first?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "とりあえず、目につくところだけ片付けます。", en: "For now, I'll just clear up what's in plain sight.", ch: ["For now,", "what's in plain sight"], scene: "家", to: "家族", imp: "must" },
+  { ja: "これはまだ使いますか。", en: "Are you still using this?", ch: ["Are you still", "using this?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "使わないなら、もう捨ててもいいんじゃないですか。", en: "If you're not using it, can't we just throw it out?", ch: ["If you're not using it,", "just throw it out"], scene: "家", to: "家族", imp: "must" },
+  { ja: "どこに置けばいいか分からないんですよね。", en: "I never know where to put it.", ch: ["I never know", "where to put it"], scene: "家", to: "家族", imp: "must" },
+  { ja: "一度、物の置き場所を決めた方がよさそうです。", en: "We should decide where things go once and for all.", ch: ["decide where things go", "once and for all"], scene: "家", to: "家族", imp: "must" },
+  { ja: "また同じものを買ってしまいそうです。", en: "I'm going to end up buying the same thing again.", ch: ["I'm going to end up", "buying the same thing again"], scene: "家", to: "家族", imp: "must" },
+  { ja: "ここは少し散らかっていますね。", en: "It's a bit messy over here.", ch: ["It's a bit messy", "over here"], scene: "家", to: "家族", imp: "must" },
+  { ja: "今日は全部やらなくてもいいと思います。", en: "I don't think we have to do it all today.", ch: ["we have to do it all", "today"], scene: "家", to: "家族", imp: "must" },
+  { ja: "少しずつやればいいんじゃないですか。", en: "We can just do a little at a time.", ch: ["We can just do", "a little at a time"], scene: "家", to: "家族", imp: "must" },
+  { ja: "洗濯物がたまっていますね。", en: "The laundry is piling up.", ch: ["The laundry", "is piling up"], scene: "家", to: "家族", imp: "must" },
+  { ja: "今日のうちに洗っておいた方がよさそうです。", en: "We should get it washed sometime today.", ch: ["We should get it washed", "sometime today"], scene: "家", to: "家族", imp: "must" },
+  { ja: "これは一緒に洗っても大丈夫ですか。", en: "Is it okay to wash this together with the rest?", ch: ["Is it okay to wash this", "together with the rest?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "外に干しても大丈夫そうですか。", en: "Does it look okay to hang these outside?", ch: ["Does it look okay to", "hang these outside?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "雨が降りそうなので、部屋の中に干した方がいいですね。", en: "It looks like rain, so we should hang them inside.", ch: ["It looks like rain,", "hang them inside"], scene: "家", to: "家族", imp: "must" },
+  { ja: "もう乾いていると思います。", en: "I think they're dry already.", ch: ["I think they're", "dry already"], scene: "家", to: "家族", imp: "must" },
+  { ja: "取り込んだ洗濯物はここに置いておきます。", en: "I'll leave the laundry I brought in right here.", ch: ["I'll leave ...", "right here"], scene: "家", to: "家族", imp: "must" },
+  { ja: "あとでたたもうと思っています。", en: "I'm planning to fold it later.", ch: ["I'm planning to", "fold it later"], scene: "家", to: "家族", imp: "must" },
+  { ja: "ちょうど今やろうと思っていたところです。", en: "I was just about to do that.", ch: ["I was just about to", "do that"], scene: "家", to: "家族", imp: "must" },
+  { ja: "これで今日は十分じゃないですか。", en: "Isn't that enough for today?", ch: ["Isn't that enough", "for today?"], scene: "家", to: "家族", imp: "must" },
+];
+
+export const D06_ADD: JaSentenceInput[] = [
+  { ja: "掃除機をかけておきますね。", en: "I'll run the vacuum.", ch: ["I'll run", "the vacuum"], scene: "家", to: "家族", imp: "often" },
+  { ja: "先に床の物をどけてもらえますか。", en: "Could you move the stuff off the floor first?", ch: ["Could you move", "the stuff off the floor"], scene: "家", to: "家族", imp: "often" },
+  { ja: "ここは自分でやりますよ。", en: "I'll take care of this part myself.", ch: ["I'll take care of", "this part myself"], scene: "家", to: "家族", imp: "often" },
+  { ja: "窓を開けて空気を入れましょう。", en: "Let's open the windows and let some air in.", ch: ["Let's open the windows", "and let some air in"], scene: "家", to: "家族", imp: "often" },
+  { ja: "ほこりがたまっていますね。", en: "The dust has really built up.", ch: ["The dust", "has really built up"], scene: "家", to: "家族", imp: "sub" },
+  { ja: "雑巾はどこにありますか。", en: "Where's the cleaning cloth?", ch: ["Where's", "the cleaning cloth?"], scene: "家", to: "家族", imp: "sub" },
+  { ja: "トイレとお風呂は私がやります。", en: "I'll do the bathroom and the bath.", ch: ["I'll do", "the bathroom"], scene: "家", to: "家族", imp: "often" },
+  { ja: "玄関だけでも掃いておきます。", en: "I'll at least sweep the entryway.", ch: ["I'll at least sweep", "the entryway"], scene: "玄関", to: "家族", imp: "sub" },
+  { ja: "ゴミ袋が残り少ないですね。", en: "We're running low on trash bags.", ch: ["We're running low on", "trash bags"], scene: "家", to: "家族", imp: "often" },
+  { ja: "燃えないゴミは明日でしたか。", en: "Is non-burnable trash tomorrow?", ch: ["Is ... tomorrow?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "段ボールはまとめて出しましょう。", en: "Let's put the cardboard out all together.", ch: ["Let's put ... out", "all together"], scene: "家", to: "家族", imp: "sub" },
+  { ja: "洗剤はまだありますか。", en: "Do we still have detergent?", ch: ["Do we still have", "detergent?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "これは手で洗った方がよさそうです。", en: "This looks like it should be washed by hand.", ch: ["should be washed", "by hand"], scene: "家", to: "家族", imp: "sub" },
+  { ja: "洗濯機を回しておきました。", en: "I've already started the washing machine.", ch: ["I've already started", "the washing machine"], scene: "家", to: "家族", imp: "often" },
+  { ja: "そろそろ取り込んだ方がいいですね。", en: "We should bring the laundry in soon.", ch: ["We should bring", "the laundry in soon"], scene: "家", to: "家族", imp: "often" },
+  { ja: "たたむのを手伝いましょうか。", en: "Do you want help folding?", ch: ["Do you want help", "folding?"], scene: "家", to: "家族", imp: "often" },
+  { ja: "これはどこにしまいますか。", en: "Where does this go?", ch: ["Where does", "this go?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "使ったものは元の場所に戻しておきます。", en: "I'll put things back where they came from.", ch: ["I'll put things back", "where they came from"], scene: "家", to: "家族", imp: "often" },
+  { ja: "今日はここまでにしておきましょう。", en: "Let's call it here for today.", ch: ["Let's call it here", "for today"], scene: "家", to: "家族", imp: "often" },
+  { ja: "だいぶすっきりしましたね。", en: "That feels a lot tidier.", ch: ["That feels", "a lot tidier"], scene: "家", to: "家族", imp: "often" },
+];

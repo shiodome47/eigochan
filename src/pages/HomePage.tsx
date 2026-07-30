@@ -4,6 +4,7 @@ import { ProgressCard } from "../components/ProgressCard";
 import { CityView } from "../components/CityView";
 import { MissionCard } from "../components/MissionCard";
 import { getStreakEncouragement, pickHomeTagline } from "../utils/messages";
+import { JA_SENTENCES } from "../data/jaCorpus";
 import { todayString } from "../utils/date";
 
 interface HomePageProps {
@@ -29,6 +30,22 @@ export function HomePage({ progress, todaysPhrase, mission }: HomePageProps) {
       <MissionCard phrase={todaysPhrase} mission={mission} tagline={tagline} />
 
       <ProgressCard progress={progress} />
+
+      <section className="card">
+        <h2 className="card__title">日→英モード</h2>
+        <p className="card__heading">
+          自分が言いそうな日本語を見て、英語で言ってみる練習です。
+        </p>
+        <p className="home-jaen__note">
+          {JA_SENTENCES.length} 文の日本語コーパスから、分野ごとに練習できます。
+          録音して聞き返すこともできます。
+        </p>
+        <div className="btn-row" style={{ marginTop: 12 }}>
+          <Link to="/ja-en" className="btn">
+            日本語から英語にする →
+          </Link>
+        </div>
+      </section>
 
       <section className="card">
         <h2 className="card__title">あなたの街</h2>
