@@ -17,6 +17,7 @@ import {
 import { getCompletionHeadline, pickCityGrowthMessage } from "../utils/messages";
 import { todayString } from "../utils/date";
 import { isCustomPhrase } from "../utils/customPhrases";
+import { pickRandomPhraseId } from "../utils/phrasePicker";
 import { loadPhraseAudio, type SavedPhraseAudio } from "../utils/phraseAudioStorage";
 import type { UserProgress } from "../types";
 
@@ -27,6 +28,8 @@ interface PracticePageProps {
   onCommit: (next: UserProgress) => void;
   onMissionComplete: (phraseId: string) => boolean;
   defaultPhraseId?: string;
+  /** 今日のフレーズを引き直す。別のフレーズを練習中のときは使わない。 */
+  onShufflePhrase?: () => string | null;
 }
 
 interface CompletionState {
@@ -51,6 +54,7 @@ export function PracticePage({
   onCommit,
   onMissionComplete,
   defaultPhraseId,
+  onShufflePhrase,
 }: PracticePageProps) {
   const navigate = useNavigate();
   const params = useParams<{ phraseId?: string }>();
@@ -200,6 +204,19 @@ export function PracticePage({
     });
   };
 
+  // 「今日のフレーズ」を別のものに引き直す。
+  // 今日のミッションのフレーズを見ているときはミッションごと差し替え、
+  // 一覧から選んだフレーズを練習中のときはミッションに触れず別の文へ移るだけ。
+  const isMissionPhrase = phrase.id === defaultPhraseId;
+  const handleShuffle = () => {
+    const nextId =
+      isMissionPhrase && onShufflePhrase ? onShufflePhrase() : pickRandomPhraseId(phrase.id);
+    if (!nextId || nextId === phrase.id) return;
+    cancelSpeech();
+    stopReferencePlayback();
+    navigate(`/practice/${nextId}`, { replace: true });
+  };
+
   const handleSpeakAll = () => {
     stopReferencePlayback();
     void speakText(phrase.english, { rate });
@@ -336,7 +353,21 @@ export function PracticePage({
 
       {step !== 5 && (
         <section className="card practice-card">
-          <h2 className="card__title">今日のフレーズ</h2>
+          <div className="practice-card__head">
+            <h2 className="card__title">
+              {isMissionPhrase ? "今日のフレーズ" : "練習するフレーズ"}
+            </h2>
+            {step === 1 && (
+              <button
+                type="button"
+                className="btn btn--ghost btn--small"
+                onClick={handleShuffle}
+                aria-label="別のフレーズに入れ替える"
+              >
+                🔀 別のフレーズ
+              </button>
+            )}
+          </div>
           <p className="practice-english">{phrase.english}</p>
           <p className="practice-japanese">{phrase.japanese}</p>
 

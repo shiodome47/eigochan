@@ -15,6 +15,7 @@ import { loadMission, loadProgress, saveMission, saveProgress } from "./utils/st
 import { todayString } from "./utils/date";
 import { bootstrapAutoSync, enqueueSnapshotPush } from "./utils/autoSync";
 import { reChunkDuo3Phrases } from "./utils/customPhrases";
+import { pickRandomPhraseId } from "./utils/phrasePicker";
 import type { DailyMissionState, UserProgress } from "./types";
 
 // 旧バージョンの DUO 3.0 取り込みでは chunks が 1 つにまとまっていたので、
@@ -94,6 +95,21 @@ export function App() {
     enqueueSnapshotPush();
   }, []);
 
+  // 「今日のフレーズ」を引き直す。今日すでに達成していたら completed は保ったままにする
+  // (1 日 1 回のミッションボーナスがシャッフルで増えないように)。
+  const shuffleMission = useCallback((): string | null => {
+    const nextId = pickRandomPhraseId(mission.phraseId);
+    if (!nextId) return null;
+    const updated: DailyMissionState = {
+      date: todayString(),
+      phraseId: nextId,
+      completed: mission.completed,
+    };
+    setMission(updated);
+    saveMission(updated);
+    return nextId;
+  }, [mission]);
+
   const handleMissionComplete = useCallback(
     (phraseId: string): boolean => {
       const today = todayString();
@@ -118,7 +134,12 @@ export function App() {
           <Route
             path="/"
             element={
-              <HomePage progress={progress} todaysPhrase={todaysPhrase} mission={mission} />
+              <HomePage
+                progress={progress}
+                todaysPhrase={todaysPhrase}
+                mission={mission}
+                onShufflePhrase={shuffleMission}
+              />
             }
           />
           <Route
@@ -129,6 +150,7 @@ export function App() {
                 onCommit={commitProgress}
                 onMissionComplete={handleMissionComplete}
                 defaultPhraseId={mission.phraseId}
+                onShufflePhrase={shuffleMission}
               />
             }
           />
@@ -140,6 +162,7 @@ export function App() {
                 onCommit={commitProgress}
                 onMissionComplete={handleMissionComplete}
                 defaultPhraseId={mission.phraseId}
+                onShufflePhrase={shuffleMission}
               />
             }
           />

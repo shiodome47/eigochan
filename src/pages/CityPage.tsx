@@ -1,12 +1,19 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import type { UserProgress } from "../types";
 import { CityView } from "../components/CityView";
-import { CityDistricts, cityPhaseAt, type CityPhase } from "../components/CityDistricts";
+import {
+  CityDistricts,
+  cityPhaseAt,
+  plotCenterPercent,
+  type CityPhase,
+} from "../components/CityDistricts";
 import { JA_DOMAIN_GROUPS } from "../data/jaCorpus";
 import { lockedFacilities, unlockedFacilities } from "../utils/progress";
 import { buildDistricts, summarizeCity, STAGE_LABELS, type District } from "../utils/cityDistricts";
+import { districtVoices, nextVoiceIndex } from "../utils/districtVoices";
 import { loadSrs } from "../utils/srs";
+import { isSpeechSupported, speakText } from "../utils/speech";
 import { isCityStage } from "../data/cityAssets";
 
 interface CityPageProps {
@@ -19,9 +26,18 @@ export function CityPage({ progress }: CityPageProps) {
   const locked = lockedFacilities(progress.level);
 
   // 66 分野の街区。日→英モードの定着状況で姿が変わる。
-  const districts = useMemo(() => buildDistricts(loadSrs()), []);
+  const srs = useMemo(() => loadSrs(), []);
+  const districts = useMemo(() => buildDistricts(srs), [srs]);
   const city = useMemo(() => summarizeCity(districts), [districts]);
   const [selected, setSelected] = useState<District | null>(null);
+  // 選んだ街区で「覚えた文」を吹き出しに出す。🔀 で別の文に変えられる。
+  const [voiceIndex, setVoiceIndex] = useState(0);
+  const voices = useMemo(
+    () => (selected ? districtVoices(selected.domain.id, srs) : []),
+    [selected, srs],
+  );
+  const voice = voices.length > 0 ? voices[voiceIndex % voices.length] : null;
+  const speechOk = isSpeechSupported();
   // null = 全体表示、グループ名 = その街区だけ大きく見る。
   const [zoomGroup, setZoomGroup] = useState<string | null>(null);
   // 開発用: ?phase=morning|day|evening|night で時間帯を強制できる (UI には出さない)。
@@ -73,10 +89,67 @@ export function CityPage({ progress }: CityPageProps) {
         <CityDistricts
           districts={districts}
           selectedId={selected?.domain.id}
-          onSelect={(d) => setSelected(d)}
+          onSelect={(d) => {
+            setSelected(d);
+            setVoiceIndex(0);
+          }}
           zoomGroup={zoomGroup}
           phase={phase}
         />
+
+        {selected && (
+          <div
+            className="district-voice"
+            style={
+              {
+                // しっぽを選んだ街区の真下に合わせる (図の横幅に対する %)。
+                "--tail-x": `${plotCenterPercent(districts, selected.domain.id, zoomGroup) ?? 8}%`,
+              } as CSSProperties
+            }
+          >
+            {voice ? (
+              <>
+                <p className="district-voice__en">
+                  {voice.sentence.en}
+                  {speechOk && (
+                    <button
+                      type="button"
+                      className="district-voice__speak"
+                      onClick={() => void speakText(voice.sentence.en, { rate: 0.95 })}
+                      aria-label="この文を読み上げる"
+                    >
+                      🔊
+                    </button>
+                  )}
+                </p>
+                <p className="district-voice__ja">{voice.sentence.ja}</p>
+                <div className="district-voice__foot">
+                  <span className="district-voice__badge">
+                    {voice.mature
+                      ? `定着した文 ・ 間隔 ${voice.interval} 日`
+                      : voice.interval > 0
+                        ? `間隔 ${voice.interval} 日`
+                        : "まだ育っていない文"}
+                  </span>
+                  {voices.length > 1 && (
+                    <button
+                      type="button"
+                      className="btn btn--ghost btn--small"
+                      onClick={() => setVoiceIndex((i) => nextVoiceIndex(i, voices.length))}
+                    >
+                      🔀 別の文 ({voices.length} 文)
+                    </button>
+                  )}
+                </div>
+              </>
+            ) : (
+              <p className="district-voice__empty">
+                この街区からはまだ声が聞こえません。1 文でも練習すると、覚えた文がここに出ます。
+              </p>
+            )}
+          </div>
+        )}
+
         <p className="district-hint">
           いまの空は「{PHASE_LABEL[phase]}」です。時間帯で街の色が変わります。
         </p>
@@ -129,7 +202,9 @@ export function CityPage({ progress }: CityPageProps) {
             </div>
           </div>
         ) : (
-          <p className="district-hint">街区をタップすると、その分野の状態が見られます。</p>
+          <p className="district-hint">
+            街区をタップすると、その分野で覚えた文が吹き出しで出ます。
+          </p>
         )}
 
         {city.dim.length > 0 && (
