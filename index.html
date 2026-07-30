@@ -12,6 +12,17 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="application-name" content="eigochan" />
     <title>eigochan — 英語を声に出すほど、街が育つ。</title>
+    <script>
+      // Chrome の beforeinstallprompt は 1 度しか飛ばず、
+      // アプリのモジュールが読み込まれる前に来ることがある。
+      // 取り逃がすと「ホーム画面に追加」ボタンが二度と出せないので、ここで受け止めておく。
+      // (src/utils/installPrompt.ts がこの値を拾う)
+      window.addEventListener("beforeinstallprompt", function (e) {
+        e.preventDefault();
+        window.__eigochanInstallEvent = e;
+        window.dispatchEvent(new Event("eigochan:installready"));
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

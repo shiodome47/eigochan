@@ -29,11 +29,21 @@ npm run typecheck
 | 端末 | 手順 | 注意 |
 | --- | --- | --- |
 | iPhone / iPad | **Safari** で開く → 共有ボタン □↑ → 「ホーム画面に追加」 | iOS はブラウザ側から追加ダイアログを出す API が無いため、案内のみ。**LINE / X などのアプリ内ブラウザからは追加できません**(共有メニューが無いため)。まず Safari で開き直してください |
-| Android | Chrome のメニュー → 「アプリをインストール」。案内カードの **📲 ホーム画面に追加する** からも実行できます | `beforeinstallprompt` を捕まえてボタン化しています |
+| Android | Chrome のメニュー ⋮ → 「アプリをインストール」。`beforeinstallprompt` が取れた端末では案内カードの **📲 ホーム画面に追加する** から 1 タップでも実行できます | このイベントは「未インストール」かつ Chrome が条件を満たしたと判断したときにしか飛ばないので、**来なくても手順は必ず出す** 作りにしています |
+
+`beforeinstallprompt` はモジュールの読み込みより前に 1 度だけ飛んでくることがあるため、
+`index.html` のインラインスクリプトで受け止めて `window.__eigochanInstallEvent` に置き、
+`src/utils/installPrompt.ts` がそれを引き継ぎます。取り逃がすとボタンを二度と出せません。
 
 追加できるための条件 (HTTPS / `manifest.webmanifest` / 192・512px アイコン / Service Worker) はリポジトリ側で満たしています
 (`vite.config.ts` の `VitePWA`、`public/pwa-*.png`、`index.html` の `apple-touch-icon`)。
 うまくいかないときはまず **開いているブラウザ** を確認してください。
+
+### 画面が古いままのとき
+
+Home の一番下に **ビルド時刻** (`更新 YYYY/MM/DD HH:mm`、`vite.config.ts` の `__BUILD_STAMP__`) を出しています。
+デプロイしたのにこの値が変わらない場合は、配信ではなく **端末側の Service Worker キャッシュ** が残っています。
+Chrome なら「設定 → サイトの設定 → 全データ削除」、または一度タブを全部閉じてから開き直すと入れ替わります。
 
 ## オプション:PC/スマホ同期を使う場合
 
