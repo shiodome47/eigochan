@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
 import {
   JA_DOMAINS,
@@ -73,9 +73,14 @@ const DEFAULT_DOMAIN = FIRST_SENTENCE ? FIRST_SENTENCE.domain : JA_DOMAINS[0].id
 const DEFAULT_GROUP = findJaDomain(DEFAULT_DOMAIN)?.group ?? JA_DOMAIN_GROUPS[0];
 
 export function JaEnPage() {
+  // 街の街区から ?domain=NN で飛んで来られる。
+  const [searchParams] = useSearchParams();
+  const requested = Number(searchParams.get("domain"));
+  const requestedDomain = findJaDomain(requested);
+
   const [review, setReview] = useState<JaReviewMap>(() => loadJaReview());
-  const [group, setGroup] = useState<string>(DEFAULT_GROUP);
-  const [domainId, setDomainId] = useState<number>(DEFAULT_DOMAIN);
+  const [group, setGroup] = useState<string>(requestedDomain?.group ?? DEFAULT_GROUP);
+  const [domainId, setDomainId] = useState<number>(requestedDomain?.id ?? DEFAULT_DOMAIN);
   const [query, setQuery] = useState("");
   const [ratingFilter, setRatingFilter] = useState<RatingFilter>("all");
   const [impFilter, setImpFilter] = useState<ImpFilter>("all");

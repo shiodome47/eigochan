@@ -1,5 +1,5 @@
 import type { PracticeLog, UserProgress } from "../types";
-import { todayString, yesterdayString } from "./date";
+import { parseDate, todayString, yesterdayString } from "./date";
 
 export const XP_RULES = {
   chunkRead: 5,
@@ -65,6 +65,40 @@ export function applyPractice(prev: UserProgress, input: ApplyPracticeInput): Us
 
 export function isCompletedToday(progress: UserProgress): boolean {
   return progress.lastPracticeDate === todayString();
+}
+
+/** 週の目標練習日数。毎日でなくてよい、が方針。 */
+export const WEEKLY_GOAL_DAYS = 3;
+
+export interface WeeklyPractice {
+  /** 直近 7 日のうち、練習した日の数。 */
+  days: number;
+  goal: number;
+  reached: boolean;
+  /** 古い順に 7 日ぶんの有無 (点で表示する用)。 */
+  marks: { date: string; practiced: boolean }[];
+}
+
+/**
+ * 直近 7 日の練習状況。
+ * 連続日数は 1 日休むと 0 に戻るので、続けるかどうかの判断材料には
+ * 「今週なん日やったか」の方を主に見せる。
+ */
+export function weeklyPractice(
+  progress: UserProgress,
+  today: string = todayString(),
+): WeeklyPractice {
+  const practiced = new Set(progress.recentPractices.map((log) => log.date));
+  const base = parseDate(today);
+  const marks: { date: string; practiced: boolean }[] = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(base.getFullYear(), base.getMonth(), base.getDate() - i);
+    const pad = (n: number) => (n < 10 ? `0${n}` : String(n));
+    const key = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    marks.push({ date: key, practiced: practiced.has(key) });
+  }
+  const days = marks.filter((m) => m.practiced).length;
+  return { days, goal: WEEKLY_GOAL_DAYS, reached: days >= WEEKLY_GOAL_DAYS, marks };
 }
 
 export interface UnlockedFacility {

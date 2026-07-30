@@ -1,7 +1,11 @@
-import { useSearchParams } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import type { UserProgress } from "../types";
 import { CityView } from "../components/CityView";
+import { CityDistricts } from "../components/CityDistricts";
 import { lockedFacilities, unlockedFacilities } from "../utils/progress";
+import { buildDistricts, summarizeCity, STAGE_LABELS, type District } from "../utils/cityDistricts";
+import { loadSrs } from "../utils/srs";
 import { isCityStage } from "../data/cityAssets";
 
 interface CityPageProps {
@@ -12,6 +16,11 @@ export function CityPage({ progress }: CityPageProps) {
   const unlocked = unlockedFacilities(progress.level);
   const locked = lockedFacilities(progress.level);
 
+  // 66 分野の街区。日→英モードの定着状況で姿が変わる。
+  const districts = useMemo(() => buildDistricts(loadSrs()), []);
+  const city = useMemo(() => summarizeCity(districts), [districts]);
+  const [selected, setSelected] = useState<District | null>(null);
+
   // 開発用:?stage=stage1 などで街ステージを強制表示できる。
   // 不正な値は無視して通常の level 判定に戻す。UI 上には出さない。
   const [searchParams] = useSearchParams();
@@ -20,6 +29,76 @@ export function CityPage({ progress }: CityPageProps) {
 
   return (
     <>
+      <section className="card">
+        <h2 className="card__title">分野の街</h2>
+        <p className="card__heading">
+          66 分野が 66 の街区です。思い出せる文が増えると建物が育ち、灯りがつきます。
+        </p>
+        <CityDistricts
+          districts={districts}
+          selectedId={selected?.domain.id}
+          onSelect={(d) => setSelected(d)}
+        />
+        <div className="progress-row">
+          <div className="progress-cell">
+            <div className="progress-cell__label">街の育ち</div>
+            <div className="progress-cell__value">
+              {city.percent}
+              <span className="progress-cell__unit">%</span>
+            </div>
+          </div>
+          <div className="progress-cell">
+            <div className="progress-cell__label">建った街区</div>
+            <div className="progress-cell__value">
+              {city.built}
+              <span className="progress-cell__unit">/ {districts.length}</span>
+            </div>
+          </div>
+          <div className="progress-cell">
+            <div className="progress-cell__label">灯り</div>
+            <div className="progress-cell__value">
+              {city.lit}
+              <span className="progress-cell__unit">区</span>
+            </div>
+          </div>
+        </div>
+
+        {selected ? (
+          <div className="district-detail">
+            <h3 className="district-detail__title">
+              {String(selected.domain.id).padStart(2, "0")}. {selected.domain.title}
+            </h3>
+            <p className="district-detail__meta">
+              {STAGE_LABELS[selected.stage]} ・ 触れた文 {selected.seen}/{selected.total}
+              {selected.mature > 0 ? ` ・ 定着 ${selected.mature}` : ""}
+              {selected.due > 0 ? ` ・ 期日が来ている文 ${selected.due}` : ""}
+            </p>
+            {selected.due > 0 && (
+              <p className="district-detail__dim">
+                復習が溜まっているので、この街区の灯りが少し暗くなっています。
+              </p>
+            )}
+            <div className="btn-row">
+              <Link to={`/ja-en?domain=${selected.domain.id}`} className="btn btn--small">
+                この分野の文を見る →
+              </Link>
+              <Link to="/ja-en/today" className="btn btn--ghost btn--small">
+                今日の練習へ
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <p className="district-hint">街区をタップすると、その分野の状態が見られます。</p>
+        )}
+
+        {city.dim.length > 0 && (
+          <p className="district-hint">
+            灯りが暗くなっている街区: {city.dim.slice(0, 3).map((d) => d.domain.title).join(" / ")}
+            {city.dim.length > 3 ? ` ほか ${city.dim.length - 3}` : ""}
+          </p>
+        )}
+      </section>
+
       <section className="card">
         <h2 className="card__title">あなたの街</h2>
         <p className="card__heading">Your city is growing!</p>
