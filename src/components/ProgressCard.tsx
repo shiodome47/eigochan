@@ -1,5 +1,5 @@
 import type { UserProgress } from "../types";
-import { xpToNextLevel } from "../utils/progress";
+import { weeklyPractice, xpToNextLevel } from "../utils/progress";
 
 interface ProgressCardProps {
   progress: UserProgress;
@@ -9,6 +9,7 @@ interface ProgressCardProps {
 export function ProgressCard({ progress, title = "あなたのきろく" }: ProgressCardProps) {
   const xp = xpToNextLevel(progress.totalXp);
   const ratioPercent = Math.round(xp.ratio * 100);
+  const week = weeklyPractice(progress);
 
   return (
     <section className="card" aria-labelledby="progress-title">
@@ -31,12 +32,26 @@ export function ProgressCard({ progress, title = "あなたのきろく" }: Prog
           </div>
         </div>
         <div className="progress-cell">
-          <div className="progress-cell__label">れんぞく</div>
+          <div className="progress-cell__label">今週</div>
           <div className="progress-cell__value">
-            {progress.streakDays}
-            <span className="progress-cell__unit">日</span>
+            {week.days}
+            <span className="progress-cell__unit">/ {week.goal} 日</span>
           </div>
         </div>
+      </div>
+      <div className="week-dots" aria-label={`直近7日で${week.days}日練習しました`}>
+        {week.marks.map((m) => (
+          <span
+            key={m.date}
+            className={`week-dot${m.practiced ? " is-on" : ""}`}
+            title={m.date}
+          />
+        ))}
+        <span className="week-dots__note">
+          {week.reached
+            ? "今週の目標クリア。無理のない範囲で続けましょう。"
+            : `週 ${week.goal} 日できれば十分です。`}
+        </span>
       </div>
       <div className="xp-bar">
         <div className="xp-bar__meta">

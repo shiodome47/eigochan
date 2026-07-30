@@ -42,8 +42,8 @@ export function HomePage({ progress, todaysPhrase, mission }: HomePageProps) {
         </p>
         <p className="home-jaen__note">
           今日は <b>{jaPlan.items.length} 文</b> (復習 {jaPlan.reviewCount} ・ 新しい文{" "}
-          {jaPlan.newCount})。{JA_SENTENCES.length} 文のコーパスから、
-          間隔をあけて出題します。
+          {jaPlan.newCount})。まずはこれだけ。気が向いたら画面から足せます。
+          コーパス全体は {JA_SENTENCES.length} 文です。
         </p>
         <div className="btn-row" style={{ marginTop: 12 }}>
           <Link to="/ja-en/today" className="btn">

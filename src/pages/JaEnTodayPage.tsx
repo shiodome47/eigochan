@@ -1,8 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
 import { findJaDomain, type JaSentence } from "../data/jaCorpus";
-import { buildDailyPlan, DAILY_PLAN_SIZE } from "../utils/dailyPlan";
+import {
+  BIG_PLAN_SIZE,
+  DAILY_PLAN_SIZE,
+  EXTRA_PLAN_SIZE,
+  buildDailyPlan,
+} from "../utils/dailyPlan";
+import { analyzeAudioBlob, isAudioAnalysisSupported } from "../utils/audioAnalysis";
+import { loadPhraseAudio } from "../utils/phraseAudioStorage";
 import { jaPhraseId, materializeJaSentence } from "../utils/jaCorpusReview";
 import { applyPractice } from "../utils/progress";
 import {
@@ -30,6 +37,11 @@ const GRADES: { id: JaGrade; mark: string; label: string; hint: string }[] = [
   { id: "easy", mark: "◎", label: "すぐ言えた", hint: "ずっと先に出ます" },
 ];
 
+/** 録音に声が入っていると認められる最低ライン。音量を競わせないための足切り。 */
+const VOICE_BONUS_MIN_SCORE = 20;
+/** 「ちゃんと声に出した」ボーナス。1 文につき 1 回だけ。 */
+const VOICE_BONUS_XP = 3;
+
 interface Answered {
   sentence: JaSentence;
   grade: JaGrade;
@@ -37,11 +49,13 @@ interface Answered {
 }
 
 export function JaEnTodayPage({ progress, onCommit }: Props) {
-  const navigate = useNavigate();
   const today = todayString();
   const [srs, setSrs] = useState<SrsMap>(() => loadSrs());
-  // プランは開いた時点で固定する (答えるたびに並びが変わらないように)。
-  const [plan] = useState(() => buildDailyPlan(loadSrs(), today));
+  // 出題は開いた時点で固定する (答えるたびに並びが変わらないように)。
+  // 足りなければ画面のボタンで足す。
+  const [plan, setPlan] = useState(() => buildDailyPlan(loadSrs(), today));
+  const [items, setItems] = useState<JaSentence[]>(() => plan.items);
+  const [voiceBonusIds, setVoiceBonusIds] = useState<Set<string>>(() => new Set());
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [recorderOpen, setRecorderOpen] = useState(false);
@@ -72,11 +86,12 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
   // 途中で離れても、そこまでの XP は残す。
   useEffect(() => flush, [flush]);
 
-  const current: JaSentence | undefined = plan.items[index];
+  const current: JaSentence | undefined = items[index];
   const domain = current ? findJaDomain(current.domain) : undefined;
   const speechOk = isSpeechSupported();
-  const done = index >= plan.items.length;
-  const sessionXp = answered.reduce((sum, a) => sum + a.xp, 0);
+  const done = index >= items.length;
+  const sessionXp =
+    answered.reduce((sum, a) => sum + a.xp, 0) + voiceBonusIds.size * VOICE_BONUS_XP;
 
   const summary = useMemo(() => summarizeSrs(srs, today), [srs, today]);
 
@@ -109,13 +124,50 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
     if (done) flush();
   }, [done, flush]);
 
+  // 「もう少しやる」。すでに ○ ◎ を付けた文と、まだ出していない文は除いて足す。
+  const extend = useCallback(
+    (count: number) => {
+      const settled = new Set<string>();
+      answered.forEach((a) => {
+        if (a.grade !== "again") settled.add(a.sentence.id);
+      });
+      items.slice(index).forEach((s) => settled.add(s.id));
+      const more = buildDailyPlan(srs, today, count, settled);
+      if (more.items.length === 0) {
+        setMessage("これ以上出せる文がありません");
+        return;
+      }
+      setPlan(more);
+      setItems((prev) => [...prev, ...more.items]);
+    },
+    [answered, index, items, srs, today],
+  );
+
+  // 録音に声が入っていたら 1 文につき 1 回だけボーナス。
+  // 音量を競わせないよう、閾値を超えたかどうかだけを見る。
+  const checkVoice = useCallback(async () => {
+    if (!current || voiceBonusIds.has(current.id)) return;
+    if (!isAudioAnalysisSupported()) return;
+    try {
+      const saved = await loadPhraseAudio(jaPhraseId(current.id), "practice");
+      if (!saved) return;
+      const result = await analyzeAudioBlob(saved.blob);
+      if (result.voiceEnergyScore < VOICE_BONUS_MIN_SCORE) return;
+      pendingRef.current.xp += VOICE_BONUS_XP;
+      setVoiceBonusIds((prev) => new Set(prev).add(current.id));
+      setMessage(`🎙 声に出せました +${VOICE_BONUS_XP} XP`);
+    } catch {
+      // 解析できない環境では何もしない (ボーナスが無いだけ)。
+    }
+  }, [current, voiceBonusIds]);
+
   const openRecorder = () => {
     if (!current) return;
     if (materializeJaSentence(current)) setRecorderOpen(true);
     else setMessage("⚠ 録音用にフレーズを保存できませんでした");
   };
 
-  if (plan.items.length === 0) {
+  if (items.length === 0) {
     return (
       <div className="jaen">
         <section className="card">
@@ -162,18 +214,25 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
             「すぐ言えた」文は間隔が伸びて、しばらく先に出ます。
           </p>
           <div className="btn-row">
-            <button type="button" className="btn" onClick={() => navigate(0)}>
-              続けてもう一巡する
+            <button type="button" className="btn" onClick={() => extend(EXTRA_PLAN_SIZE)}>
+              もう {EXTRA_PLAN_SIZE} 文やる
             </button>
           </div>
           <div className="btn-row">
-            <Link to="/city" className="btn btn--secondary btn--small">
+            <button
+              type="button"
+              className="btn btn--secondary btn--small"
+              onClick={() => extend(BIG_PLAN_SIZE)}
+            >
+              まとめて {BIG_PLAN_SIZE} 文やる
+            </button>
+            <Link to="/city" className="btn btn--ghost btn--small">
               街を見る
             </Link>
-            <Link to="/ja-en" className="btn btn--ghost btn--small">
-              コーパス一覧へ
-            </Link>
           </div>
+          <p className="jaen-note">
+            今日のぶんは終わりです。ここでやめても大丈夫。気が向いたら足してください。
+          </p>
         </section>
 
         <section className="card">
@@ -202,12 +261,12 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
       <section className="card">
         <div className="jaen-today__head">
           <span className="jaen-today__count">
-            {index + 1} / {plan.items.length}
+            {index + 1} / {items.length}
           </span>
           <span className="jaen-today__xp">+{sessionXp} XP</span>
         </div>
         <div className="jaen-today__bar">
-          <i style={{ width: `${(index / plan.items.length) * 100}%` }} />
+          <i style={{ width: `${(index / items.length) * 100}%` }} />
         </div>
         <p className="jaen-today__meta">
           {isReview ? `復習 ・ 前回から ${prevCard?.interval ?? 0} 日` : "はじめての文"}
@@ -284,7 +343,8 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
                   phraseId={jaPhraseId(current.id)}
                   slot="practice"
                   title="自分の声"
-                  description="今の言い方を録って、あとで聞き返せます。"
+                  description="今の言い方を録って、あとで聞き返せます。声が入っていればボーナス XP。"
+                  onChange={() => void checkVoice()}
                 />
               </div>
             )}
