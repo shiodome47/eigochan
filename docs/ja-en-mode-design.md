@@ -10,7 +10,7 @@
 src/data/jaCorpus/        日本語コーパス本体 (リポジトリ内の静的データ)
   types.ts                JaDomain / JaSentenceInput / JaSentence
   domains.ts              66 分野 × 6 グループの定義 (target = 目標文数)
-  d01Morning.ts 〜 d10Planning.ts   分野 01〜10 の文 (各 40)
+  d01Morning.ts 〜 d66AskingDetail.ts  分野 01〜66 の文
   index.ts                ID 採番・検索・集計。分野を書いたらここに 1 行足す
 
 src/utils/jaCorpusReview.ts  評価(◎○△×)・メモ・書き出し・フレーズ化

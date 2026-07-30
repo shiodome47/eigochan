@@ -176,25 +176,23 @@ export function JaEnPage() {
     return phraseId;
   }, []);
 
-  const handleBulkMaterialize = useCallback(() => {
-    const keep = JA_SENTENCES.filter((s) => {
-      const r = review[s.id]?.rating;
-      return (r === "A" || r === "B") && s.en.length > 0;
-    });
-    if (keep.length === 0) {
-      setMessage("◎ か ○ を付けた文がまだありません");
+  // 対象の文をまとめて自作フレーズにする。英語が入っている文だけが対象。
+  const bulkMaterialize = useCallback((targets: JaSentence[], label: string) => {
+    const usable = targets.filter((s) => s.en.length > 0);
+    if (usable.length === 0) {
+      setMessage("取り込める文がありません");
       return;
     }
-    const result = materializeJaSentences(keep);
+    const result = materializeJaSentences(usable);
     if (!result.ok) {
       setMessage("⚠ 保存できませんでした (容量オーバーかもしれません)");
       return;
     }
     setMaterialized(materializedJaSentenceIds());
     setMessage(
-      `◎○ の ${keep.length} 文をフレーズに取り込みました (新規 ${result.added} / 更新 ${result.replaced})`,
+      `${label} ${usable.length} 文をフレーズに取り込みました (新規 ${result.added} / 更新 ${result.replaced})`,
     );
-  }, [review]);
+  }, []);
 
   const handleExportJson = useCallback(() => {
     downloadText(
@@ -434,12 +432,41 @@ export function JaEnPage() {
       <section className="card">
         <h3 className="card__heading">まとめて扱う</h3>
         <p className="jaen__lead">
-          ◎ ○ を付けた文は、いつものフレーズとして取り込めます。取り込むと Practice
-          タブの音読・暗唱・録音がそのまま使えます (同じ文を何度取り込んでも増えません)。
+          取り込むと、いつものフレーズとして Practice
+          タブの音読・暗唱・録音がそのまま使えます
+          (同じ文を何度取り込んでも増えません)。
         </p>
         <div className="btn-row">
-          <button type="button" className="btn" onClick={handleBulkMaterialize}>
-            ◎○ をフレーズに取り込む
+          <button
+            type="button"
+            className="btn"
+            onClick={() => bulkMaterialize(JA_SENTENCES, "コーパス全部の")}
+          >
+            全 {JA_SENTENCES.length} 文をフレーズに取り込む
+          </button>
+        </div>
+        <div className="btn-row">
+          <button
+            type="button"
+            className="btn btn--secondary btn--small"
+            onClick={() => bulkMaterialize(list, "いま表示中の")}
+          >
+            表示中の {list.length} 文だけ取り込む
+          </button>
+          <button
+            type="button"
+            className="btn btn--secondary btn--small"
+            onClick={() =>
+              bulkMaterialize(
+                JA_SENTENCES.filter((s) => {
+                  const r = review[s.id]?.rating;
+                  return r === "A" || r === "B";
+                }),
+                "◎○ の",
+              )
+            }
+          >
+            ◎○ だけ取り込む
           </button>
         </div>
         <div className="btn-row">

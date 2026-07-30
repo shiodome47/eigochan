@@ -1,0 +1,25 @@
+import type { JaSentenceInput } from "./types";
+
+// 分野 52: RealFi について話す
+export const D52_SELF: JaSentenceInput[] = [
+  { ja: "RealFiは、現実世界の金融とブロックチェーンをつなごうとする取り組みです。", en: "RealFi is an effort to connect real-world finance with blockchain.", ch: ["an effort to connect", "real-world finance with blockchain"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "まだ開発中の部分も多く、すべてが完成しているわけではありません。", en: "Much of it is still under development; it isn't all finished.", ch: ["still under development;", "it isn't all finished"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "USDRは、米ドルに連動することを目指した資産です。", en: "USDR is an asset designed to track the US dollar.", ch: ["designed to track", "the US dollar"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "sUSDRは、USDRをステークしたときに受け取る資産です。", en: "sUSDR is what you receive when you stake USDR.", ch: ["what you receive", "when you stake USDR"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "USDRとsUSDRは、役割が少し違います。", en: "USDR and sUSDR play slightly different roles.", ch: ["play slightly", "different roles"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "初めて使う人には、この二つが少し分かりにくいと思います。", en: "For first-time users, I think these two are a bit confusing.", ch: ["For first-time users,", "these two are a bit confusing"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "画面上では、もっと単純に見せた方が使いやすいかもしれません。", en: "On screen, showing it more simply might make it easier to use.", ch: ["showing it more simply", "might make it easier to use"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "利回りがどこから生まれるのかを理解することが重要です。", en: "It's important to understand where the yield comes from.", ch: ["understand where", "the yield comes from"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "高い利回りだけを見て判断するのは危険です。", en: "Judging by the high yield alone is dangerous.", ch: ["Judging by the high yield alone", "is dangerous"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "DEXで取引できることには、良い面と難しい面があります。", en: "Being tradable on a DEX has both good sides and difficult sides.", ch: ["has both good sides", "and difficult sides"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "市場価格と公式の交換レートが違うこともあります。", en: "The market price and the official exchange rate can differ.", ch: ["The market price and", "the official rate can differ"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "その差は、裁定取引によって調整される可能性があります。", en: "That gap may be corrected through arbitrage.", ch: ["That gap may be corrected", "through arbitrage"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "ただ、実際にどの程度うまく機能するかは、運用してみないと分かりません。", en: "How well it actually works, though, won't be clear until it's in operation.", ch: ["won't be clear until", "it's in operation"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "メインネット開始前に、十分なテストが必要だと思います。", en: "I think it needs thorough testing before the mainnet launch.", ch: ["needs thorough testing", "before the mainnet launch"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "セキュリティ監査だけで、すべての問題を防げるわけではありません。", en: "A security audit alone can't prevent every problem.", ch: ["A security audit alone", "can't prevent every problem"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "利用者がどこで迷うかも、事前に確認した方がいいです。", en: "We should also check in advance where users get confused.", ch: ["check in advance", "where users get confused"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "日本の利用者には、日本語の説明が必要だと思います。", en: "I think Japanese users need an explanation in Japanese.", ch: ["Japanese users need", "an explanation in Japanese"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "ウォレット接続に抵抗を感じる人も多いと思います。", en: "I think a lot of people feel resistant to connecting a wallet.", ch: ["feel resistant to", "connecting a wallet"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "何を許可しているのかを、分かりやすく表示する必要があります。", en: "We need to show clearly what is being authorized.", ch: ["show clearly", "what is being authorized"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "方向性としては面白いですが、慎重に見ていきたいと思っています。", en: "The direction is interesting, but I want to watch it carefully.", ch: ["The direction is interesting,", "but I want to watch it carefully"], scene: "説明", to: "相手", imp: "must" },
+];
