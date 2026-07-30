@@ -45,6 +45,26 @@ import { D43_SELF } from "./d43ReportIssue";
 import { D44_SELF } from "./d44Confirming";
 import { D45_SELF } from "./d45Proposing";
 import { D46_SELF } from "./d46Explaining";
+import { D47_SELF } from "./d47CardanoBasics";
+import { D48_SELF } from "./d48Staking";
+import { D49_SELF } from "./d49Spo";
+import { D50_SELF } from "./d50Governance";
+import { D51_SELF } from "./d51Risk";
+import { D52_SELF } from "./d52RealFi";
+import { D53_SELF } from "./d53Community";
+import { D54_SELF } from "./d54SnsPost";
+import { D55_SELF } from "./d55TechSupport";
+import { D56_SELF } from "./d56Future";
+import { D57_SELF } from "./d57CheckUnderstanding";
+import { D58_SELF } from "./d58Rephrasing";
+import { D59_SELF } from "./d59Discomfort";
+import { D60_SELF } from "./d60FindingIssues";
+import { D61_SELF } from "./d61Assumptions";
+import { D62_SELF } from "./d62Comparing";
+import { D63_SELF } from "./d63Possibilities";
+import { D64_SELF } from "./d64Cautious";
+import { D65_SELF } from "./d65Revising";
+import { D66_SELF } from "./d66AskingDetail";
 import type { JaAuthor, JaDomain, JaSentence, JaSentenceInput } from "./types";
 
 export type {
@@ -112,6 +132,26 @@ const RAW_BY_DOMAIN: Record<number, DomainRaw> = {
   44: { self: D44_SELF },
   45: { self: D45_SELF },
   46: { self: D46_SELF },
+  47: { self: D47_SELF },
+  48: { self: D48_SELF },
+  49: { self: D49_SELF },
+  50: { self: D50_SELF },
+  51: { self: D51_SELF },
+  52: { self: D52_SELF },
+  53: { self: D53_SELF },
+  54: { self: D54_SELF },
+  55: { self: D55_SELF },
+  56: { self: D56_SELF },
+  57: { self: D57_SELF },
+  58: { self: D58_SELF },
+  59: { self: D59_SELF },
+  60: { self: D60_SELF },
+  61: { self: D61_SELF },
+  62: { self: D62_SELF },
+  63: { self: D63_SELF },
+  64: { self: D64_SELF },
+  65: { self: D65_SELF },
+  66: { self: D66_SELF },
 };
 
 /** "d01_003" 形式の ID。分野内の並び順で決まる (= 並べ替えると評価がずれる)。 */
