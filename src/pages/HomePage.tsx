@@ -5,6 +5,8 @@ import { CityView } from "../components/CityView";
 import { MissionCard } from "../components/MissionCard";
 import { getStreakEncouragement, pickHomeTagline } from "../utils/messages";
 import { JA_SENTENCES } from "../data/jaCorpus";
+import { buildDailyPlan } from "../utils/dailyPlan";
+import { loadSrs } from "../utils/srs";
 import { todayString } from "../utils/date";
 
 interface HomePageProps {
@@ -15,6 +17,8 @@ interface HomePageProps {
 
 export function HomePage({ progress, todaysPhrase, mission }: HomePageProps) {
   const completedToday = mission.completed;
+  // 日→英モードの「今日の出題」。表示するだけなので描画のたびに計算してよい。
+  const jaPlan = buildDailyPlan(loadSrs());
   const today = todayString();
   const tagline = pickHomeTagline(today);
   const streakWord = getStreakEncouragement(progress.streakDays);
@@ -37,12 +41,18 @@ export function HomePage({ progress, todaysPhrase, mission }: HomePageProps) {
           自分が言いそうな日本語を見て、英語で言ってみる練習です。
         </p>
         <p className="home-jaen__note">
-          {JA_SENTENCES.length} 文の日本語コーパスから、分野ごとに練習できます。
-          録音して聞き返すこともできます。
+          今日は <b>{jaPlan.items.length} 文</b> (復習 {jaPlan.reviewCount} ・ 新しい文{" "}
+          {jaPlan.newCount})。{JA_SENTENCES.length} 文のコーパスから、
+          間隔をあけて出題します。
         </p>
         <div className="btn-row" style={{ marginTop: 12 }}>
-          <Link to="/ja-en" className="btn">
-            日本語から英語にする →
+          <Link to="/ja-en/today" className="btn">
+            今日の {jaPlan.items.length} 文をやる →
+          </Link>
+        </div>
+        <div className="btn-row">
+          <Link to="/ja-en" className="btn btn--ghost btn--small">
+            コーパス一覧を見る
           </Link>
         </div>
       </section>

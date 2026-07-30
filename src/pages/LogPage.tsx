@@ -276,6 +276,8 @@ export function LogPage({ progress }: LogPageProps) {
           <ul className="log-cards">
             {progress.recentPractices.slice(0, 12).map((log) => {
               const phrase = findPhraseById(log.phraseId);
+              // 日→英モードの 1 セッションは phraseId が "jaen_today_<日付>"。
+              const isJaEn = log.phraseId.startsWith("jaen_today_");
               return (
                 <li className="log-card" key={log.id}>
                   <div className="log-card__head">
@@ -283,12 +285,17 @@ export function LogPage({ progress }: LogPageProps) {
                     <span className="log-card__xp">+{log.xpEarned} XP</span>
                   </div>
                   <p className="log-card__english">
-                    {phrase?.english ?? "(削除済みフレーズ)"}
+                    {phrase?.english ??
+                      (isJaEn ? "日→英モード 今日の練習" : "(削除済みフレーズ)")}
                   </p>
                   {phrase && <p className="log-card__japanese">{phrase.japanese}</p>}
                   <div className="log-card__meta">
-                    <span className="log-card__chip">音読 {log.readCount}</span>
-                    <span className="log-card__chip">暗唱 {log.reciteCount}</span>
+                    <span className="log-card__chip">
+                      {isJaEn ? "言えた" : "音読"} {log.readCount}
+                    </span>
+                    <span className="log-card__chip">
+                      {isJaEn ? "すぐ言えた" : "暗唱"} {log.reciteCount}
+                    </span>
                   </div>
                 </li>
               );

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
 import {
   JA_DOMAINS,
@@ -29,6 +29,8 @@ import {
   type JaRating,
   type JaReviewMap,
 } from "../utils/jaCorpusReview";
+import { buildDailyPlan, DAILY_PLAN_SIZE } from "../utils/dailyPlan";
+import { loadSrs, summarizeSrs } from "../utils/srs";
 import { isSpeechSupported, speakText } from "../utils/speech";
 import { todayString } from "../utils/date";
 
@@ -85,6 +87,10 @@ export function JaEnPage() {
   );
   const [message, setMessage] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
+  // 今日の出題は開いた時点で計算する (ページ内の操作では変えない)。
+  const [srsSnapshot] = useState(() => loadSrs());
+  const todayPlan = useMemo(() => buildDailyPlan(srsSnapshot), [srsSnapshot]);
+  const srsSummary = useMemo(() => summarizeSrs(srsSnapshot), [srsSnapshot]);
 
   const trimmedQuery = query.trim();
   const searching = trimmedQuery.length > 0;
@@ -233,6 +239,43 @@ export function JaEnPage() {
 
   return (
     <div className="jaen">
+      <section className="card jaen-today-card">
+        <h2 className="card__title">今日の練習</h2>
+        <p className="jaen__lead">
+          期日が来た文と新しい文をまぜて {DAILY_PLAN_SIZE} 文。
+          日本語を見て英語を言い、言えたかどうかを自分で判定します。
+        </p>
+        <div className="jaen-stats">
+          <div className="jaen-stat">
+            <b>{todayPlan.items.length}</b>
+            <span>今日の出題</span>
+          </div>
+          <div className="jaen-stat">
+            <b>{todayPlan.reviewCount}</b>
+            <span>復習</span>
+          </div>
+          <div className="jaen-stat">
+            <b>{todayPlan.newCount}</b>
+            <span>新しい文</span>
+          </div>
+          <div className="jaen-stat">
+            <b>{srsSummary.seen}</b>
+            <span>触れた文</span>
+          </div>
+        </div>
+        <div className="btn-row">
+          <Link to="/ja-en/today" className="btn">
+            今日の {todayPlan.items.length} 文をやる →
+          </Link>
+        </div>
+        {srsSummary.due > todayPlan.reviewCount && (
+          <p className="jaen-note">
+            期日が来ている文は全部で {srsSummary.due} 文あります。
+            一度に全部やる必要はありません。
+          </p>
+        )}
+      </section>
+
       <section className="card">
         <h2 className="card__title">日→英モード</h2>
         <p className="jaen__lead">
