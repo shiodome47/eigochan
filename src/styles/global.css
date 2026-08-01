@@ -3387,6 +3387,34 @@ textarea.form-input {
   color: var(--text);
 }
 
+.jaen-focus__progress {
+  position: relative;
+  margin: 2px 0 6px;
+  padding-bottom: 8px;
+  font-size: 11.5px;
+  color: var(--text-faint);
+}
+
+.jaen-focus__bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--surface-soft);
+  overflow: hidden;
+}
+
+.jaen-focus__bar::after {
+  content: "";
+  display: block;
+  width: var(--w, 0%);
+  height: 100%;
+  border-radius: 2px;
+  background: var(--primary);
+}
+
 .home-jaen__focus {
   margin: 8px 0 0;
   padding: 8px 10px;

@@ -6,16 +6,13 @@
 //   まだ手をつけていない分野から順に散らす (1 分野に偏らせない)。
 // - 同じ日なら並びが変わらないように、日付から作った seed で決める。
 
-import { JA_DOMAINS, JA_SENTENCES, type JaSentence } from "../data/jaCorpus";
+import { JA_SENTENCES, type JaSentence } from "../data/jaCorpus";
 import { daysBetween, todayString } from "./date";
-import type { PracticeFocus } from "./practiceFocus";
+import { FOCUS_ALL, focusMatches, type PracticeFocus } from "./practiceFocus";
 import { isDue, type SrsMap } from "./srs";
 
-const GROUP_BY_DOMAIN = new Map(JA_DOMAINS.map((d) => [d.id, d.group]));
-
 function inFocus(s: JaSentence, focus: PracticeFocus): boolean {
-  if (!focus) return true;
-  return GROUP_BY_DOMAIN.get(s.domain) === focus;
+  return focusMatches(focus, s.domain);
 }
 
 // 既定は 3 文。毎日必ず終わる量にしておき、気が乗ったら画面から足す。
@@ -35,7 +32,7 @@ export interface DailyPlan {
   newCount: number;
   /** 今日の期日が来ている総数 (プランに入りきらなかった分も含む)。範囲を絞ればその中の数。 */
   dueTotal: number;
-  /** 絞っている範囲。null = 全分野。 */
+  /** 絞っている範囲。 */
   focus: PracticeFocus;
   /** 範囲の外で期日が来ている文の数。絞っている間は出ないので、数だけ知らせる。 */
   dueOutside: number;
@@ -49,15 +46,16 @@ export function buildDailyPlan(
   size: number = DAILY_PLAN_SIZE,
   /** すでに今日やった文 (続けて足すときに重複させない)。 */
   exclude: ReadonlySet<string> = new Set(),
-  /** グループを渡すと、その日の出題をそのグループだけに絞る。 */
-  focus: PracticeFocus = null,
+  /** グループ / 分野を渡すと、その日の出題をそこだけに絞る。 */
+  focus: PracticeFocus = FOCUS_ALL,
 ): DailyPlan {
   const all = JA_SENTENCES.filter((s) => s.en.length > 0 && !exclude.has(s.id));
   const usable = all.filter((s) => inFocus(s, focus));
   // 絞っている間は範囲外の復習が出ないので、溜まっている数だけ数えて知らせる。
-  const dueOutside = focus
-    ? all.filter((s) => !inFocus(s, focus) && isDue(srs[s.id], today)).length
-    : 0;
+  const dueOutside =
+    focus.kind === "all"
+      ? 0
+      : all.filter((s) => !inFocus(s, focus) && isDue(srs[s.id], today)).length;
 
   // 1. 復習: 期日が来ているものを、期日が古い順 → 落とした回数が多い順。
   const dueItems = usable
@@ -126,7 +124,7 @@ export function buildDailyPlan(
 export function countDueToday(
   srs: SrsMap,
   today: string = todayString(),
-  focus: PracticeFocus = null,
+  focus: PracticeFocus = FOCUS_ALL,
 ): number {
   let n = 0;
   for (const s of JA_SENTENCES) {
@@ -136,6 +134,6 @@ export function countDueToday(
 }
 
 /** 範囲を絞ったときに出せる文が何文あるか (英語が入っているもの)。 */
-export function countUsable(focus: PracticeFocus = null): number {
+export function countUsable(focus: PracticeFocus = FOCUS_ALL): number {
   return JA_SENTENCES.filter((s) => s.en.length > 0 && inFocus(s, focus)).length;
 }

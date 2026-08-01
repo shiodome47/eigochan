@@ -16,7 +16,7 @@ src/data/jaCorpus/        日本語コーパス本体 (リポジトリ内の静�
 src/utils/jaCorpusReview.ts  評価(◎○△×)・メモ・書き出し・フレーズ化
 src/utils/srs.ts             間隔反復 (出題間隔・XP 計算)
 src/utils/dailyPlan.ts       「今日の N 文」の組み立て (出題範囲の絞り込みもここ)
-src/utils/practiceFocus.ts   出題範囲 (全分野 / グループひとつ) の保存
+src/utils/practiceFocus.ts   出題範囲 (全分野 / グループ / 分野ひとつ) の保存
 src/pages/JaEnPage.tsx       /ja-en の画面 (コーパス一覧)
 src/pages/JaEnTodayPage.tsx  /ja-en/today の画面 (今日の練習)
 ```
@@ -100,16 +100,30 @@ src/pages/JaEnTodayPage.tsx  /ja-en/today の画面 (今日の練習)
 
 ### 出題の範囲を絞る (`practiceFocus.ts`)
 
-**「今週は RealFi のコールが近いので RealFi だけ」** ができるように、
-今日の出題をグループ 1 つに絞れる。`localStorage["eigochan.practiceFocus.v1"]`。
+**「今週は RealFi のコールが近いので RealFi だけ」** も
+**「今日は 41. オンライン会議だけ」** も、同じ 1 文ずつの流れで練習できるようにするための仕組み。
+`localStorage["eigochan.practiceFocus.v1"]` に入れる。
 
-- 絞ると **復習も新規もそのグループだけ** から選ばれる (今日の 3 文が全部 RealFi になる)。
+```ts
+type PracticeFocus =
+  | { kind: "all" }                      // 全分野 (既定。localStorage には書かない)
+  | { kind: "group"; group: string }     // グループ 1 つ
+  | { kind: "domain"; domain: number };  // 分野 1 つ
+```
+
+- 絞ると **復習も新規もその範囲だけ** から選ばれる (今日の 3 文が全部その分野になる)。
 - 範囲の外に期日が来ている文があれば、その数だけ画面下に出す (黙って消さない)。
 - 絞っても **SRS・XP・街・録音は共通**。別モードにしていないので、
-  RealFi をやった日も街全体が育つし、連続日数も途切れない。
-- 切り替えは `/ja-en/today` の「出題の範囲」。Home にも今の範囲が出る。
+  1 分野だけやった日も街全体が育つし、連続日数も途切れない。
+- 切り替えは `/ja-en/today` の「出題の範囲」。グループごとの `<optgroup>` に
+  「〇〇 ぜんぶ」+ その中の分野が並ぶ。Home にも今の範囲が出る。
+- **入口**: `/ja-en` の「分野を選ぶ」から「この分野を 1 文ずつ練習する →」で
+  `/ja-en/today?domain=NN` に飛ぶ (`focusFromParams`)。URL の指定は保存もされるので、
+  次に開いたときも同じ範囲で始まる。
+- 範囲を絞っている間は「触れた n/N 文」のバーを出す。分野 1 つなら 40 文なので終わりが見える。
+- 旧形式 (グループ名の文字列をそのまま保存していた頃) の値も読めるようにしてある。
 
-分野を増やしたいだけなら `domains.ts` にグループ名を足すだけで、この仕組みに乗る。
+分野やグループを増やしたいときは `domains.ts` に足すだけで、この仕組みに乗る。
 
 ### 間隔の伸び方 (`srs.ts`)
 

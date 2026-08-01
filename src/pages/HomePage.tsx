@@ -7,7 +7,7 @@ import { InstallHint } from "../components/InstallHint";
 import { getStreakEncouragement, pickHomeTagline } from "../utils/messages";
 import { JA_SENTENCES } from "../data/jaCorpus";
 import { DAILY_PLAN_SIZE, buildDailyPlan, countUsable } from "../utils/dailyPlan";
-import { loadFocus } from "../utils/practiceFocus";
+import { focusLabel, loadFocus } from "../utils/practiceFocus";
 import { loadSrs } from "../utils/srs";
 import { todayString } from "../utils/date";
 
@@ -60,9 +60,9 @@ export function HomePage({
           {jaPlan.newCount})。まずはこれだけ。気が向いたら画面から足せます。
           コーパス全体は {JA_SENTENCES.length} 文です。
         </p>
-        {jaFocus && (
+        {jaFocus.kind !== "all" && (
           <p className="home-jaen__focus">
-            🎯 いまは <b>{jaFocus}</b> だけを出しています ({countUsable(jaFocus)} 文)。
+            🎯 いまは <b>{focusLabel(jaFocus)}</b> だけを出しています ({countUsable(jaFocus)} 文)。
             範囲は「今日の練習」の画面で変えられます。
           </p>
         )}
