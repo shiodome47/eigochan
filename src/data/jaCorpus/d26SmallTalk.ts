@@ -43,6 +43,6 @@ export const D26_ADD: JaSentenceInput[] = [
   { ja: "話し込んでしまいましたね。", en: "We really got into talking, didn't we?", ch: ["We really got into talking,", "didn't we?"], scene: "会話", to: "友人", imp: "sub" },
   { ja: "そろそろ時間ですね。", en: "It's about that time.", ch: ["It's about", "that time"], scene: "会話", to: "友人", imp: "often" },
   { ja: "無理しないでくださいね。", en: "Please don't overdo it.", ch: ["Please don't", "overdo it"], scene: "会話", to: "友人", imp: "must" },
-  { ja: "何かあれば言ってください。", en: "Let me know if anything comes up.", ch: ["Let me know if", "anything comes up"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "何かあれば言ってください。", en: "Just tell me if you need anything.", ch: ["Let me know if", "anything comes up"], scene: "会話", to: "友人", imp: "must" },
   { ja: "気をつけて帰ってくださいね。", en: "Get home safely.", ch: ["Get home", "safely"], scene: "会話", to: "友人", imp: "must" },
 ];

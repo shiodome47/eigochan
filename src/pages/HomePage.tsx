@@ -6,7 +6,8 @@ import { MissionCard } from "../components/MissionCard";
 import { InstallHint } from "../components/InstallHint";
 import { getStreakEncouragement, pickHomeTagline } from "../utils/messages";
 import { JA_SENTENCES } from "../data/jaCorpus";
-import { buildDailyPlan } from "../utils/dailyPlan";
+import { DAILY_PLAN_SIZE, buildDailyPlan, countUsable } from "../utils/dailyPlan";
+import { loadFocus } from "../utils/practiceFocus";
 import { loadSrs } from "../utils/srs";
 import { todayString } from "../utils/date";
 
@@ -26,7 +27,8 @@ export function HomePage({
 }: HomePageProps) {
   const completedToday = mission.completed;
   // 日→英モードの「今日の出題」。表示するだけなので描画のたびに計算してよい。
-  const jaPlan = buildDailyPlan(loadSrs());
+  const jaFocus = loadFocus();
+  const jaPlan = buildDailyPlan(loadSrs(), todayString(), DAILY_PLAN_SIZE, new Set(), jaFocus);
   const today = todayString();
   const tagline = pickHomeTagline(today);
   const streakWord = getStreakEncouragement(progress.streakDays);
@@ -58,6 +60,12 @@ export function HomePage({
           {jaPlan.newCount})。まずはこれだけ。気が向いたら画面から足せます。
           コーパス全体は {JA_SENTENCES.length} 文です。
         </p>
+        {jaFocus && (
+          <p className="home-jaen__focus">
+            🎯 いまは <b>{jaFocus}</b> だけを出しています ({countUsable(jaFocus)} 文)。
+            範囲は「今日の練習」の画面で変えられます。
+          </p>
+        )}
         <div className="btn-row" style={{ marginTop: 12 }}>
           <Link to="/ja-en/today" className="btn">
             今日の {jaPlan.items.length} 文をやる →

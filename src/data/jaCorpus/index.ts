@@ -65,6 +65,12 @@ import { D63_ADD, D63_SELF } from "./d63Possibilities";
 import { D64_ADD, D64_SELF } from "./d64Cautious";
 import { D65_ADD, D65_SELF } from "./d65Revising";
 import { D66_ADD, D66_SELF } from "./d66AskingDetail";
+import { D67_ADD, D67_SELF } from "./d67RealfiCallOpen";
+import { D68_ADD, D68_SELF } from "./d68RealfiUpdate";
+import { D69_ADD, D69_SELF } from "./d69RealfiRespond";
+import { D70_ADD, D70_SELF } from "./d70RealfiField";
+import { D71_ADD, D71_SELF } from "./d71RealfiFunding";
+import { D72_ADD, D72_SELF } from "./d72RealfiNextSteps";
 import type { JaAuthor, JaDomain, JaSentence, JaSentenceInput } from "./types";
 
 export type {
@@ -81,6 +87,12 @@ interface DomainRaw {
   self: JaSentenceInput[];
   /** 本人の文に口調を寄せて足した提案文。まだ用意していない分野では省略。 */
   add?: JaSentenceInput[];
+  /**
+   * **あとから足した本人の文**。self / add の後ろに付くので、既にある文の ID がずれない。
+   * 先に add だけ用意した分野 (RealFi など) に、文字起こしから起こした本人の文を
+   * 足すときはここに入れる。self に足すと ID が総入れ替えになり、評価と SRS がずれる。
+   */
+  late?: JaSentenceInput[];
 }
 
 // 分野番号 → その分野の文。
@@ -152,6 +164,12 @@ const RAW_BY_DOMAIN: Record<number, DomainRaw> = {
   64: { self: D64_SELF, add: D64_ADD },
   65: { self: D65_SELF, add: D65_ADD },
   66: { self: D66_SELF, add: D66_ADD },
+  67: { self: D67_SELF, add: D67_ADD },
+  68: { self: D68_SELF, add: D68_ADD },
+  69: { self: D69_SELF, add: D69_ADD },
+  70: { self: D70_SELF, add: D70_ADD },
+  71: { self: D71_SELF, add: D71_ADD },
+  72: { self: D72_SELF, add: D72_ADD },
 };
 
 /** "d01_003" 形式の ID。分野内の並び順で決まる (= 並べ替えると評価がずれる)。 */
@@ -184,11 +202,13 @@ function toSentence(
   };
 }
 
-// 本人の文 → 追加案 の順に並べる。ID は通し番号。
+// 本人の文 → 追加案 → あとから足した本人の文 の順に並べる。ID は通し番号。
+// この順番を変えると既存の評価・SRS が別の文にずれるので、追加は必ず末尾に。
 function expand(domainId: number, raw: DomainRaw): JaSentence[] {
   const out: JaSentence[] = [];
   raw.self.forEach((row) => out.push(toSentence(domainId, row, out.length + 1, "self")));
   (raw.add ?? []).forEach((row) => out.push(toSentence(domainId, row, out.length + 1, "add")));
+  (raw.late ?? []).forEach((row) => out.push(toSentence(domainId, row, out.length + 1, "self")));
   return out;
 }
 
@@ -222,5 +242,5 @@ export function jaSentenceCounts(): Map<number, number> {
   return counts;
 }
 
-/** 全分野の目標文数の合計 (現状 66 分野 × 40 = 2,640)。 */
+/** 全分野の目標文数の合計 (現状 72 分野 × 40 = 2,880)。 */
 export const JA_TARGET_TOTAL = JA_DOMAINS.reduce((sum, d) => sum + d.target, 0);
