@@ -3,7 +3,7 @@ import type { JaSentenceInput } from "./types";
 // 分野 55: 技術的な問題を相談する
 export const D55_SELF: JaSentenceInput[] = [
   { ja: "まず、現在の状況を説明します。", en: "First, let me explain the current situation.", ch: ["First, let me explain", "the current situation"], scene: "相談", to: "SPO仲間", imp: "must" },
-  { ja: "昨日までは、正常に動いていました。", en: "It was working normally up until yesterday.", ch: ["It was working normally", "up until yesterday"], scene: "相談", to: "SPO仲間", imp: "must" },
+  { ja: "昨日までは、正常に動いていました。", en: "Everything was fine until yesterday.", ch: ["It was working normally", "up until yesterday"], scene: "相談", to: "SPO仲間", imp: "must" },
   { ja: "今日確認したところ、同期が止まっていました。", en: "When I checked today, syncing had stopped.", ch: ["When I checked today,", "syncing had stopped"], scene: "相談", to: "SPO仲間", imp: "must" },
   { ja: "ノード自体は起動しています。", en: "The node itself is running.", ch: ["The node itself", "is running"], scene: "相談", to: "SPO仲間", imp: "must" },
   { ja: "ただ、ブロックの高さが更新されていません。", en: "However, the block height isn't updating.", ch: ["the block height", "isn't updating"], scene: "相談", to: "SPO仲間", imp: "must" },

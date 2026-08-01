@@ -21,7 +21,7 @@ export const D31_SELF: JaSentenceInput[] = [
   { ja: "まず、小さく始めてみるのがいいんじゃないですか。", en: "Wouldn't it be good to start small first?", ch: ["Wouldn't it be good to", "start small?"], scene: "会話", to: "同僚", imp: "must" },
   { ja: "うまくいかなければ、そのとき考え直しましょう。", en: "If it doesn't work, we can rethink it then.", ch: ["If it doesn't work,", "we can rethink it then"], scene: "会話", to: "同僚", imp: "must" },
   { ja: "とりあえず、その方向で進めてみましょう。", en: "For now, let's move ahead in that direction.", ch: ["let's move ahead", "in that direction"], scene: "会話", to: "同僚", imp: "must" },
-  { ja: "では、それでいきましょう。", en: "All right, let's go with that.", ch: ["All right,", "let's go with that"], scene: "会話", to: "同僚", imp: "must" },
+  { ja: "では、それでいきましょう。", en: "Okay, let's do that then.", ch: ["All right,", "let's go with that"], scene: "会話", to: "同僚", imp: "must" },
 ];
 
 export const D31_ADD: JaSentenceInput[] = [

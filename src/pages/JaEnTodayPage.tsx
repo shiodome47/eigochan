@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
-import { findJaDomain, type JaSentence } from "../data/jaCorpus";
+import { JA_DOMAIN_GROUPS, findJaDomain, type JaSentence } from "../data/jaCorpus";
 import {
   BIG_PLAN_SIZE,
   DAILY_PLAN_SIZE,
   EXTRA_PLAN_SIZE,
   buildDailyPlan,
 } from "../utils/dailyPlan";
+import { loadFocus, saveFocus, type PracticeFocus } from "../utils/practiceFocus";
 import { analyzeAudioBlob, isAudioAnalysisSupported } from "../utils/audioAnalysis";
 import { loadPhraseAudio } from "../utils/phraseAudioStorage";
 import { jaPhraseId, materializeJaSentence } from "../utils/jaCorpusReview";
@@ -48,12 +49,44 @@ interface Answered {
   xp: number;
 }
 
+/** 出題範囲の選択。「RealFi のコールが近い週は RealFi だけ」ができるようにする。 */
+function FocusPicker({
+  focus,
+  onChange,
+}: {
+  focus: PracticeFocus;
+  onChange: (next: PracticeFocus) => void;
+}) {
+  return (
+    <div className="jaen-focus">
+      <span className="jaen-focus__label">出題の範囲</span>
+      <select
+        className="jaen-focus__select"
+        value={focus ?? ""}
+        onChange={(e) => onChange(e.target.value === "" ? null : e.target.value)}
+        aria-label="今日の練習で出す範囲"
+      >
+        <option value="">全分野</option>
+        {JA_DOMAIN_GROUPS.map((g) => (
+          <option key={g} value={g}>
+            {g} だけ
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
 export function JaEnTodayPage({ progress, onCommit }: Props) {
   const today = todayString();
   const [srs, setSrs] = useState<SrsMap>(() => loadSrs());
+  // 出題の範囲 (null = 全分野 / グループ名 = そのグループだけ)。
+  const [focus, setFocus] = useState<PracticeFocus>(() => loadFocus());
   // 出題は開いた時点で固定する (答えるたびに並びが変わらないように)。
   // 足りなければ画面のボタンで足す。
-  const [plan, setPlan] = useState(() => buildDailyPlan(loadSrs(), today));
+  const [plan, setPlan] = useState(() =>
+    buildDailyPlan(loadSrs(), today, DAILY_PLAN_SIZE, new Set(), loadFocus()),
+  );
   const [items, setItems] = useState<JaSentence[]>(() => plan.items);
   const [voiceBonusIds, setVoiceBonusIds] = useState<Set<string>>(() => new Set());
   const [index, setIndex] = useState(0);
@@ -132,15 +165,35 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
         if (a.grade !== "again") settled.add(a.sentence.id);
       });
       items.slice(index).forEach((s) => settled.add(s.id));
-      const more = buildDailyPlan(srs, today, count, settled);
+      const more = buildDailyPlan(srs, today, count, settled, focus);
       if (more.items.length === 0) {
-        setMessage("これ以上出せる文がありません");
+        setMessage(
+          focus ? `${focus} でこれ以上出せる文がありません` : "これ以上出せる文がありません",
+        );
         return;
       }
       setPlan(more);
       setItems((prev) => [...prev, ...more.items]);
     },
-    [answered, index, items, srs, today],
+    [answered, focus, index, items, srs, today],
+  );
+
+  // 出題の範囲を切り替える。すでに答えた文はそのまま残し、これから出る文だけ入れ替える。
+  const changeFocus = useCallback(
+    (next: PracticeFocus) => {
+      setFocus(next);
+      if (!saveFocus(next)) setMessage("⚠ この端末に範囲を保存できませんでした");
+      const settled = new Set<string>();
+      answered.forEach((a) => {
+        if (a.grade !== "again") settled.add(a.sentence.id);
+      });
+      const fresh = buildDailyPlan(srs, today, DAILY_PLAN_SIZE, settled, next);
+      setPlan(fresh);
+      setItems((prev) => [...prev.slice(0, index), ...fresh.items]);
+      setRevealed(false);
+      setRecorderOpen(false);
+    },
+    [answered, index, srs, today],
   );
 
   // 「この文は今じゃない」ときに、今出ている 1 文だけ別の文に差し替える。
@@ -150,7 +203,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
     const exclude = new Set<string>();
     items.forEach((s) => exclude.add(s.id));
     answered.forEach((a) => exclude.add(a.sentence.id));
-    const more = buildDailyPlan(srs, today, 1, exclude);
+    const more = buildDailyPlan(srs, today, 1, exclude, focus);
     if (more.items.length === 0) {
       setMessage("入れ替えられる文がもうありません");
       return;
@@ -160,7 +213,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
     setRevealed(false);
     setRecorderOpen(false);
     setMessage(null);
-  }, [answered, current, index, items, srs, today]);
+  }, [answered, current, focus, index, items, srs, today]);
 
   // 録音に声が入っていたら 1 文につき 1 回だけボーナス。
   // 音量を競わせないよう、閾値を超えたかどうかだけを見る。
@@ -192,8 +245,11 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
         <section className="card">
           <h2 className="card__title">今日の練習</h2>
           <p className="jaen__lead">
-            今日ぶんの文がありません。コーパスの文がすべて先の日付に予約されています。
+            {focus
+              ? `「${focus}」で今日出せる文がありません。範囲を広げるか、また明日どうぞ。`
+              : "今日ぶんの文がありません。コーパスの文がすべて先の日付に予約されています。"}
           </p>
+          <FocusPicker focus={focus} onChange={changeFocus} />
           <div className="btn-row">
             <Link to="/ja-en" className="btn btn--secondary">
               日→英モードに戻る
@@ -252,6 +308,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
           <p className="jaen-note">
             今日のぶんは終わりです。ここでやめても大丈夫。気が向いたら足してください。
           </p>
+          <FocusPicker focus={focus} onChange={changeFocus} />
         </section>
 
         <section className="card">
@@ -287,6 +344,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
         <div className="jaen-today__bar">
           <i style={{ width: `${(index / items.length) * 100}%` }} />
         </div>
+        <FocusPicker focus={focus} onChange={changeFocus} />
         <p className="jaen-today__meta">
           {isReview ? `復習 ・ 前回から ${prevCard?.interval ?? 0} 日` : "はじめての文"}
           {domain ? ` ・ ${domain.title}` : ""}
@@ -391,6 +449,10 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
         今日の出題: 復習 {plan.reviewCount} 文 ・ 新規 {plan.newCount} 文
         {plan.dueTotal > plan.reviewCount
           ? ` (期日が来ている文は全部で ${plan.dueTotal} 文)`
+          : ""}
+        {focus ? ` ・ 範囲は「${focus}」だけ` : ""}
+        {plan.dueOutside > 0
+          ? ` (範囲の外に期日が来ている文が ${plan.dueOutside} 文あります)`
           : ""}
       </p>
     </div>

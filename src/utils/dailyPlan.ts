@@ -6,9 +6,17 @@
 //   まだ手をつけていない分野から順に散らす (1 分野に偏らせない)。
 // - 同じ日なら並びが変わらないように、日付から作った seed で決める。
 
-import { JA_SENTENCES, type JaSentence } from "../data/jaCorpus";
+import { JA_DOMAINS, JA_SENTENCES, type JaSentence } from "../data/jaCorpus";
 import { daysBetween, todayString } from "./date";
+import type { PracticeFocus } from "./practiceFocus";
 import { isDue, type SrsMap } from "./srs";
+
+const GROUP_BY_DOMAIN = new Map(JA_DOMAINS.map((d) => [d.id, d.group]));
+
+function inFocus(s: JaSentence, focus: PracticeFocus): boolean {
+  if (!focus) return true;
+  return GROUP_BY_DOMAIN.get(s.domain) === focus;
+}
 
 // 既定は 3 文。毎日必ず終わる量にしておき、気が乗ったら画面から足す。
 export const DAILY_PLAN_SIZE = 3;
@@ -25,8 +33,12 @@ export interface DailyPlan {
   reviewCount: number;
   /** items のうち新規の件数。 */
   newCount: number;
-  /** 今日の期日が来ている総数 (プランに入りきらなかった分も含む)。 */
+  /** 今日の期日が来ている総数 (プランに入りきらなかった分も含む)。範囲を絞ればその中の数。 */
   dueTotal: number;
+  /** 絞っている範囲。null = 全分野。 */
+  focus: PracticeFocus;
+  /** 範囲の外で期日が来ている文の数。絞っている間は出ないので、数だけ知らせる。 */
+  dueOutside: number;
 }
 
 const IMP_WEIGHT: Record<string, number> = { must: 0, often: 1, sub: 2 };
@@ -37,8 +49,15 @@ export function buildDailyPlan(
   size: number = DAILY_PLAN_SIZE,
   /** すでに今日やった文 (続けて足すときに重複させない)。 */
   exclude: ReadonlySet<string> = new Set(),
+  /** グループを渡すと、その日の出題をそのグループだけに絞る。 */
+  focus: PracticeFocus = null,
 ): DailyPlan {
-  const usable = JA_SENTENCES.filter((s) => s.en.length > 0 && !exclude.has(s.id));
+  const all = JA_SENTENCES.filter((s) => s.en.length > 0 && !exclude.has(s.id));
+  const usable = all.filter((s) => inFocus(s, focus));
+  // 絞っている間は範囲外の復習が出ないので、溜まっている数だけ数えて知らせる。
+  const dueOutside = focus
+    ? all.filter((s) => !inFocus(s, focus) && isDue(srs[s.id], today)).length
+    : 0;
 
   // 1. 復習: 期日が来ているものを、期日が古い順 → 落とした回数が多い順。
   const dueItems = usable
@@ -98,14 +117,25 @@ export function buildDailyPlan(
     reviewCount,
     newCount: items.length - reviewCount,
     dueTotal: dueItems.length,
+    focus,
+    dueOutside,
   };
 }
 
 /** ホーム等で「今日やることが何件あるか」だけ知りたいとき用。 */
-export function countDueToday(srs: SrsMap, today: string = todayString()): number {
+export function countDueToday(
+  srs: SrsMap,
+  today: string = todayString(),
+  focus: PracticeFocus = null,
+): number {
   let n = 0;
   for (const s of JA_SENTENCES) {
-    if (s.en.length > 0 && isDue(srs[s.id], today)) n += 1;
+    if (s.en.length > 0 && inFocus(s, focus) && isDue(srs[s.id], today)) n += 1;
   }
   return n;
+}
+
+/** 範囲を絞ったときに出せる文が何文あるか (英語が入っているもの)。 */
+export function countUsable(focus: PracticeFocus = null): number {
+  return JA_SENTENCES.filter((s) => s.en.length > 0 && inFocus(s, focus)).length;
 }

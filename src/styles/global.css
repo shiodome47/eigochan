@@ -3177,6 +3177,9 @@ textarea.form-input {
 .is-g4 .city-districts__roof { fill: #7f9455; }
 .is-g5 .city-districts__building { fill: #e8ddef; stroke: #8f7bad; }
 .is-g5 .city-districts__roof { fill: #8f7bad; }
+/* RealFi 街区。実際のやりとりの分野なので、少し目立つ色にしている。 */
+.is-g6 .city-districts__building { fill: #d8ecdc; stroke: #3f8f63; }
+.is-g6 .city-districts__roof { fill: #3f8f63; }
 
 .city-districts__plot.is-stage4 .city-districts__building {
   filter: brightness(0.97);
@@ -3357,6 +3360,41 @@ textarea.form-input {
   .city-star {
     animation: none;
   }
+}
+
+/* === 今日の練習の出題範囲 === */
+.jaen-focus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0 2px;
+}
+
+.jaen-focus__label {
+  font-size: 11.5px;
+  color: var(--text-faint);
+}
+
+.jaen-focus__select {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm, 8px);
+  background: var(--surface);
+  font-size: 13px;
+  color: var(--text);
+}
+
+.home-jaen__focus {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm, 8px);
+  background: var(--surface-soft);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-soft);
 }
 
 /* === ホーム画面に追加の案内 === */

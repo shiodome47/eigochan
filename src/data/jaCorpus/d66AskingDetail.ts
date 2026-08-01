@@ -44,5 +44,5 @@ export const D66_ADD: JaSentenceInput[] = [
   { ja: "分かったところまで、まとめてみます。", en: "Let me summarize what I've understood so far.", ch: ["summarize what I've understood", "so far"], scene: "会話", to: "相手", imp: "must" },
   { ja: "この理解で合っていれば、先に進めます。", en: "If this understanding is right, I can move on.", ch: ["If this is right,", "I can move on"], scene: "会話", to: "相手", imp: "must" },
   { ja: "おかげで、かなり整理できました。", en: "Thanks to you, it's much clearer in my head.", ch: ["Thanks to you,", "it's much clearer"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "ありがとうございます。とても助かりました。", en: "Thank you. That was a big help.", ch: ["Thank you.", "That was a big help"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "ありがとうございます。とても助かりました。", en: "Thank you. That helped a lot.", ch: ["Thank you.", "That was a big help"], scene: "会話", to: "相手", imp: "must" },
 ];

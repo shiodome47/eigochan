@@ -25,7 +25,7 @@ export function CityPage({ progress }: CityPageProps) {
   const unlocked = unlockedFacilities(progress.level);
   const locked = lockedFacilities(progress.level);
 
-  // 66 分野の街区。日→英モードの定着状況で姿が変わる。
+  // 分野ごとの街区。日→英モードの定着状況で姿が変わる。
   const srs = useMemo(() => loadSrs(), []);
   const districts = useMemo(() => buildDistricts(srs), [srs]);
   const city = useMemo(() => summarizeCity(districts), [districts]);
@@ -65,7 +65,8 @@ export function CityPage({ progress }: CityPageProps) {
       <section className="card">
         <h2 className="card__title">分野の街</h2>
         <p className="card__heading">
-          66 分野が 66 の街区です。思い出せる文が増えると建物が育ち、灯りがつきます。
+          {districts.length} 分野が {districts.length} の街区です。
+          思い出せる文が増えると建物が育ち、灯りがつきます。
         </p>
         <div className="city-zoom-tabs">
           <button
