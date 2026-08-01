@@ -1,7 +1,7 @@
 import type { JaDomain } from "./types";
 
-// 72 分野 / 7 グループ。target = その分野で目標とする文数。
-// 平均 40 文 × 72 分野 = 約 2,880 文。
+// 78 分野 / 7 グループ。target = その分野で目標とする文数。
+// 平均 40 文 × 78 分野 = 約 3,120 文。
 export const JA_DOMAINS: JaDomain[] = [
   // ── 日常生活 ─────────────────────────────
   { id: 1, group: "日常生活", title: "朝起きてから出かけるまで", target: 40 },
@@ -90,6 +90,16 @@ export const JA_DOMAINS: JaDomain[] = [
   { id: 70, group: "RealFi", title: "現場と数字の話", target: 40 },
   { id: 71, group: "RealFi", title: "資金・提案・パートナー", target: 40 },
   { id: 72, group: "RealFi", title: "決めごとと次の一歩", target: 40 },
+
+  // ── RealFi (Office Hours の中身の話) ─────────
+  // 67〜72 が「コールの進行」なのに対して、ここは **実際に出た話題**。
+  // 週一回の文字起こしを読んで足していく。
+  { id: 73, group: "RealFi", title: "テストネットの数字を読む", target: 40 },
+  { id: 74, group: "RealFi", title: "SPO 加速プログラムと委任", target: 40 },
+  { id: 75, group: "RealFi", title: "ステーブルコインと利回り", target: 40 },
+  { id: 76, group: "RealFi", title: "流動性と DeFi 連携", target: 40 },
+  { id: 77, group: "RealFi", title: "開発ロードマップと監査", target: 40 },
+  { id: 78, group: "RealFi", title: "不具合を報告する・質問する", target: 40 },
 ];
 
 export const JA_DOMAIN_GROUPS: string[] = Array.from(

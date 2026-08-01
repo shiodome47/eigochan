@@ -71,6 +71,12 @@ import { D69_ADD, D69_SELF } from "./d69RealfiRespond";
 import { D70_ADD, D70_SELF } from "./d70RealfiField";
 import { D71_ADD, D71_SELF } from "./d71RealfiFunding";
 import { D72_ADD, D72_SELF } from "./d72RealfiNextSteps";
+import { D73_ADD, D73_SELF } from "./d73RealfiNumbers";
+import { D74_ADD, D74_SELF } from "./d74RealfiSpoProgram";
+import { D75_ADD, D75_SELF } from "./d75RealfiStablecoin";
+import { D76_ADD, D76_SELF } from "./d76RealfiLiquidity";
+import { D77_ADD, D77_SELF } from "./d77RealfiRoadmap";
+import { D78_ADD, D78_SELF } from "./d78RealfiFeedback";
 import type { JaAuthor, JaDomain, JaSentence, JaSentenceInput } from "./types";
 
 export type {
@@ -170,6 +176,12 @@ const RAW_BY_DOMAIN: Record<number, DomainRaw> = {
   70: { self: D70_SELF, add: D70_ADD },
   71: { self: D71_SELF, add: D71_ADD },
   72: { self: D72_SELF, add: D72_ADD },
+  73: { self: D73_SELF, add: D73_ADD },
+  74: { self: D74_SELF, add: D74_ADD },
+  75: { self: D75_SELF, add: D75_ADD },
+  76: { self: D76_SELF, add: D76_ADD },
+  77: { self: D77_SELF, add: D77_ADD },
+  78: { self: D78_SELF, add: D78_ADD },
 };
 
 /** "d01_003" 形式の ID。分野内の並び順で決まる (= 並べ替えると評価がずれる)。 */
@@ -242,5 +254,5 @@ export function jaSentenceCounts(): Map<number, number> {
   return counts;
 }
 
-/** 全分野の目標文数の合計 (現状 72 分野 × 40 = 2,880)。 */
+/** 全分野の目標文数の合計 (現状 78 分野 × 40 = 3,120)。 */
 export const JA_TARGET_TOTAL = JA_DOMAINS.reduce((sum, d) => sum + d.target, 0);

@@ -110,7 +110,7 @@ function hashOf(n: number): number {
 }
 
 /**
- * 全分野 (現在 72) を「街区」として描く。
+ * 全分野 (現在 78) を「街区」として描く。
  * 画像ではなく SVG なので、定着状況と時間帯に応じて毎回姿が変わる。
  */
 export function CityDistricts({

@@ -9,8 +9,8 @@
 ```
 src/data/jaCorpus/        日本語コーパス本体 (リポジトリ内の静的データ)
   types.ts                JaDomain / JaSentenceInput / JaSentence
-  domains.ts              72 分野 × 7 グループの定義 (target = 目標文数)
-  d01Morning.ts 〜 d72RealfiNextSteps.ts  分野 01〜72 の文
+  domains.ts              78 分野 × 7 グループの定義 (target = 目標文数)
+  d01Morning.ts 〜 d78RealfiFeedback.ts  分野 01〜78 の文
   index.ts                ID 採番・検索・集計。分野を書いたらここに 1 行足す
 
 src/utils/jaCorpusReview.ts  評価(◎○△×)・メモ・書き出し・フレーズ化
@@ -74,7 +74,7 @@ src/pages/JaEnTodayPage.tsx  /ja-en/today の画面 (今日の練習)
 3. 画面で ◎ ○ △ × を付けながら読み、違和感はメモに書く。
 4. △ × とメモを次の分野の作成方針に反映する (進むほど自分の言い回しに寄る)。
 
-目標は 72 分野 × 平均 40 文 = **約 2,880 文**。数合わせはせず、
+目標は 78 分野 × 平均 40 文 = **約 3,120 文**。数合わせはせず、
 
 - 本当に使いそう
 - 似すぎていない
@@ -160,7 +160,7 @@ D1 同期には乗せていない。`masteryByDomain()` は分野ごとの定着
 
 ## 街を分野に紐づける (`cityDistricts.ts` / `CityDistricts.tsx`)
 
-**1 分野 = 1 街区 (現在 72 街区)。** 街の成長上限をレベル表ではなくコーパスに合わせる。
+**1 分野 = 1 街区 (現在 78 街区)。** 街の成長上限をレベル表ではなくコーパスに合わせる。
 街は画像ではなく SVG で描くので、定着状況に応じて毎回姿が変わる。
 
 | stage | 見た目 | 条件 |
