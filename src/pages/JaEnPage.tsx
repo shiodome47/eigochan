@@ -356,6 +356,19 @@ export function JaEnPage() {
             );
           })}
         </select>
+        {domainCount > 0 && (
+          <>
+            <div className="btn-row">
+              <Link to={`/ja-en/today?domain=${domainId}`} className="btn">
+                この分野を 1 文ずつ練習する →
+              </Link>
+            </div>
+            <p className="jaen-note">
+              「今日の練習」と同じ流れで、この分野だけを {DAILY_PLAN_SIZE} 文ずつ出します。
+              期日が来た文があればそちらが先です。範囲はあとから画面で戻せます。
+            </p>
+          </>
+        )}
         {domainCount === 0 && !searching && (
           <p className="jaen-empty">
             この分野の日本語はまだ作っていません。

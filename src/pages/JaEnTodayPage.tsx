@@ -1,14 +1,29 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
-import { JA_DOMAIN_GROUPS, findJaDomain, type JaSentence } from "../data/jaCorpus";
+import {
+  JA_DOMAINS,
+  JA_DOMAIN_GROUPS,
+  JA_SENTENCES,
+  findJaDomain,
+  type JaSentence,
+} from "../data/jaCorpus";
 import {
   BIG_PLAN_SIZE,
   DAILY_PLAN_SIZE,
   EXTRA_PLAN_SIZE,
   buildDailyPlan,
 } from "../utils/dailyPlan";
-import { loadFocus, saveFocus, type PracticeFocus } from "../utils/practiceFocus";
+import {
+  focusFromParams,
+  focusFromValue,
+  focusLabel,
+  focusMatches,
+  focusToValue,
+  loadFocus,
+  saveFocus,
+  type PracticeFocus,
+} from "../utils/practiceFocus";
 import { analyzeAudioBlob, isAudioAnalysisSupported } from "../utils/audioAnalysis";
 import { loadPhraseAudio } from "../utils/phraseAudioStorage";
 import { jaPhraseId, materializeJaSentence } from "../utils/jaCorpusReview";
@@ -49,7 +64,11 @@ interface Answered {
   xp: number;
 }
 
-/** 出題範囲の選択。「RealFi のコールが近い週は RealFi だけ」ができるようにする。 */
+/**
+ * 出題範囲の選択。
+ * 「RealFi だけ」のようなグループ単位でも、「41. オンライン会議だけ」の分野単位でも絞れる。
+ * 分野はグループごとに <optgroup> でまとめてあるので、長い一覧でも探しやすい。
+ */
 function FocusPicker({
   focus,
   onChange,
@@ -62,15 +81,20 @@ function FocusPicker({
       <span className="jaen-focus__label">出題の範囲</span>
       <select
         className="jaen-focus__select"
-        value={focus ?? ""}
-        onChange={(e) => onChange(e.target.value === "" ? null : e.target.value)}
+        value={focusToValue(focus)}
+        onChange={(e) => onChange(focusFromValue(e.target.value))}
         aria-label="今日の練習で出す範囲"
       >
-        <option value="">全分野</option>
+        <option value="all">全分野</option>
         {JA_DOMAIN_GROUPS.map((g) => (
-          <option key={g} value={g}>
-            {g} だけ
-          </option>
+          <optgroup key={g} label={g}>
+            <option value={`g:${g}`}>{g} ぜんぶ</option>
+            {JA_DOMAINS.filter((d) => d.group === g).map((d) => (
+              <option key={d.id} value={`d:${d.id}`}>
+                {String(d.id).padStart(2, "0")}. {d.title}
+              </option>
+            ))}
+          </optgroup>
         ))}
       </select>
     </div>
@@ -79,14 +103,25 @@ function FocusPicker({
 
 export function JaEnTodayPage({ progress, onCommit }: Props) {
   const today = todayString();
+  const [searchParams] = useSearchParams();
+  // 分野一覧から「この分野を 1 文ずつ練習する」で来たときは、URL の指定を優先する。
+  const startFocus = () => focusFromParams(searchParams) ?? loadFocus();
   const [srs, setSrs] = useState<SrsMap>(() => loadSrs());
-  // 出題の範囲 (null = 全分野 / グループ名 = そのグループだけ)。
-  const [focus, setFocus] = useState<PracticeFocus>(() => loadFocus());
+  // 出題の範囲 (全分野 / グループ / 分野)。
+  const [focus, setFocus] = useState<PracticeFocus>(startFocus);
   // 出題は開いた時点で固定する (答えるたびに並びが変わらないように)。
   // 足りなければ画面のボタンで足す。
   const [plan, setPlan] = useState(() =>
-    buildDailyPlan(loadSrs(), today, DAILY_PLAN_SIZE, new Set(), loadFocus()),
+    buildDailyPlan(loadSrs(), today, DAILY_PLAN_SIZE, new Set(), startFocus()),
   );
+
+  // URL で指定された範囲は、次に開いたときも同じになるよう覚えておく。
+  useEffect(() => {
+    const fromUrl = focusFromParams(searchParams);
+    if (fromUrl) saveFocus(fromUrl);
+    // 初回のみ。以降の切り替えは changeFocus が保存する。
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [items, setItems] = useState<JaSentence[]>(() => plan.items);
   const [voiceBonusIds, setVoiceBonusIds] = useState<Set<string>>(() => new Set());
   const [index, setIndex] = useState(0);
@@ -128,6 +163,18 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
 
   const summary = useMemo(() => summarizeSrs(srs, today), [srs, today]);
 
+  // 範囲を絞っているときは「その中でどこまで進んだか」を出す。
+  // 分野 1 つに絞ると 40 文なので、終わりが見えるのが励みになる。
+  const focusProgress = useMemo(() => {
+    if (focus.kind === "all") return null;
+    const list = JA_SENTENCES.filter((s) => s.en.length > 0 && focusMatches(focus, s.domain));
+    return {
+      total: list.length,
+      seen: list.filter((s) => srs[s.id]).length,
+      mature: list.filter((s) => (srs[s.id]?.interval ?? 0) >= 21).length,
+    };
+  }, [focus, srs]);
+
   const grade = useCallback(
     (g: JaGrade) => {
       if (!current) return;
@@ -168,7 +215,9 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
       const more = buildDailyPlan(srs, today, count, settled, focus);
       if (more.items.length === 0) {
         setMessage(
-          focus ? `${focus} でこれ以上出せる文がありません` : "これ以上出せる文がありません",
+          focus.kind === "all"
+            ? "これ以上出せる文がありません"
+            : `「${focusLabel(focus)}」でこれ以上出せる文がありません`,
         );
         return;
       }
@@ -245,9 +294,9 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
         <section className="card">
           <h2 className="card__title">今日の練習</h2>
           <p className="jaen__lead">
-            {focus
-              ? `「${focus}」で今日出せる文がありません。範囲を広げるか、また明日どうぞ。`
-              : "今日ぶんの文がありません。コーパスの文がすべて先の日付に予約されています。"}
+            {focus.kind === "all"
+              ? "今日ぶんの文がありません。コーパスの文がすべて先の日付に予約されています。"
+              : `「${focusLabel(focus)}」で今日出せる文がありません。範囲を広げるか、また明日どうぞ。`}
           </p>
           <FocusPicker focus={focus} onChange={changeFocus} />
           <div className="btn-row">
@@ -345,6 +394,23 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
           <i style={{ width: `${(index / items.length) * 100}%` }} />
         </div>
         <FocusPicker focus={focus} onChange={changeFocus} />
+        {focusProgress && (
+          <p className="jaen-focus__progress">
+            「{focusLabel(focus)}」 触れた {focusProgress.seen}/{focusProgress.total} 文
+            {focusProgress.mature > 0 ? ` ・ 定着 ${focusProgress.mature} 文` : ""}
+            <i
+              className="jaen-focus__bar"
+              style={{
+                // 触れた割合。分野を絞ったときの「終わりが見える」表示。
+                ["--w" as string]: `${
+                  focusProgress.total
+                    ? Math.round((focusProgress.seen / focusProgress.total) * 100)
+                    : 0
+                }%`,
+              }}
+            />
+          </p>
+        )}
         <p className="jaen-today__meta">
           {isReview ? `復習 ・ 前回から ${prevCard?.interval ?? 0} 日` : "はじめての文"}
           {domain ? ` ・ ${domain.title}` : ""}
@@ -450,7 +516,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
         {plan.dueTotal > plan.reviewCount
           ? ` (期日が来ている文は全部で ${plan.dueTotal} 文)`
           : ""}
-        {focus ? ` ・ 範囲は「${focus}」だけ` : ""}
+        {focus.kind === "all" ? "" : ` ・ 範囲は「${focusLabel(focus)}」だけ`}
         {plan.dueOutside > 0
           ? ` (範囲の外に期日が来ている文が ${plan.dueOutside} 文あります)`
           : ""}
