@@ -3385,6 +3385,29 @@ textarea.form-input {
   color: var(--text-faint);
 }
 
+/* 開いた英文をまとめて閉じるボタン。リストの下の方でも押せるよう画面に固定する。 */
+.jaen-hide-all {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  /* 下のタブに重ならない位置 */
+  bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  z-index: 30;
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.jaen-hide-all:active {
+  transform: translateX(-50%) scale(0.97);
+}
+
 /* === 今日の練習の出題範囲 === */
 .jaen-focus {
   display: flex;

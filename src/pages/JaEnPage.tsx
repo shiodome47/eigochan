@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
 import {
@@ -86,9 +86,9 @@ export function JaEnPage() {
   const [impFilter, setImpFilter] = useState<ImpFilter>("all");
   const [authorFilter, setAuthorFilter] = useState<AuthorFilter>("all");
   const [hideEnglish, setHideEnglish] = useState(true);
-  // 「ぜんぶ隠す」を押した回数。カードごとの表示指定を捨てる合図に使う
-  // (リロードしなくても、上から順に開いた英文をまとめて閉じられる)。
-  const [hideGeneration, setHideGeneration] = useState(0);
+  // カードごとの表示指定 (英文をタップして開け閉めしたぶん)。
+  // 何枚開いているかを画面下のボタンに出したいので、親側で持つ。
+  const [openIds, setOpenIds] = useState<ReadonlySet<string>>(() => new Set());
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [materialized, setMaterialized] = useState<Set<string>>(() =>
     materializedJaSentenceIds(),
@@ -154,8 +154,29 @@ export function JaEnPage() {
 
   const shown = list.slice(0, limit);
   const overall = useMemo(() => summarizeJaReview(review), [review]);
+  // 英文を出すか。「英語を隠す」が OFF なら既定で全部表示、ON なら開けたものだけ。
+  const showEnglishFor = useCallback(
+    (id: string) => (hideEnglish ? openIds.has(id) : !openIds.has(id)),
+    [hideEnglish, openIds],
+  );
+  const toggleEnglish = useCallback((id: string) => {
+    setOpenIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+  // 上のスイッチを切り替えたら、カードごとの指定は捨てて全体に従う。
+  const setHideAll = useCallback((hide: boolean) => {
+    setHideEnglish(hide);
+    setOpenIds(new Set());
+  }, []);
+
   const domainInfo = findJaDomain(domainId);
   const domainCount = COUNTS.get(domainId) ?? 0;
+  // いま英文が出ているカードの数。0 なら下のボタンは出さない。
+  const openCount = shown.filter((s) => showEnglishFor(s.id)).length;
 
   const resetPaging = useCallback(() => setLimit(PAGE_SIZE), []);
 
@@ -445,22 +466,10 @@ export function JaEnPage() {
           <input
             type="checkbox"
             checked={hideEnglish}
-            onChange={(e) => setHideEnglish(e.target.checked)}
+            onChange={(e) => setHideAll(e.target.checked)}
           />
           英語を隠す (日本語を見て自分で言ってから答え合わせ)
         </label>
-        <div className="btn-row">
-          <button
-            type="button"
-            className="btn btn--ghost btn--small"
-            onClick={() => {
-              setHideEnglish(true);
-              setHideGeneration((g) => g + 1);
-            }}
-          >
-            🙈 開いた英文をぜんぶ隠す
-          </button>
-        </div>
       </section>
 
       <p className="jaen-count">
@@ -475,6 +484,18 @@ export function JaEnPage() {
         </p>
       )}
 
+      {/* 開いた英文があるあいだ、画面の下に出しておく。
+          リストの下の方まで来ても、上に戻らずにまとめて閉じられる。 */}
+      {openCount > 0 && (
+        <button
+          type="button"
+          className="jaen-hide-all"
+          onClick={() => setHideAll(true)}
+        >
+          🙈 英文をぜんぶ隠す ({openCount})
+        </button>
+      )}
+
       <div className="jaen-list">
         {shown.map((sentence) => (
           <JaSentenceCard
@@ -483,8 +504,8 @@ export function JaEnPage() {
             rating={review[sentence.id]?.rating ?? ""}
             note={review[sentence.id]?.note ?? ""}
             storedJa={review[sentence.id]?.ja ?? ""}
-            hideEnglish={hideEnglish}
-            hideGeneration={hideGeneration}
+            showEnglish={showEnglishFor(sentence.id)}
+            onToggleEnglish={toggleEnglish}
             hasPhrase={materialized.has(sentence.id)}
             onRate={handleRating}
             onNote={handleNote}
@@ -587,9 +608,8 @@ interface CardProps {
   rating: JaRating | "";
   note: string;
   storedJa: string;
-  hideEnglish: boolean;
-  /** 増えるたびにカードごとの表示指定を捨てる。 */
-  hideGeneration: number;
+  showEnglish: boolean;
+  onToggleEnglish: (id: string) => void;
   hasPhrase: boolean;
   onRate: (sentence: JaSentence, rating: JaRating) => void;
   onNote: (sentence: JaSentence, note: string) => void;
@@ -601,26 +621,19 @@ function JaSentenceCard({
   rating,
   note,
   storedJa,
-  hideEnglish,
-  hideGeneration,
+  showEnglish,
+  onToggleEnglish,
   hasPhrase,
   onRate,
   onNote,
   onEnsurePhrase,
 }: CardProps) {
   const navigate = useNavigate();
-  // null = 上の「英語を隠す」に従う / true・false = このカードだけの指定。
-  // 英文をタップするたびに表示と非表示が入れ替わるので、同じ文を何度も練習できる。
-  const [override, setOverride] = useState<boolean | null>(null);
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteDraft, setNoteDraft] = useState(note);
   const [recorderOpen, setRecorderOpen] = useState(false);
   const speechOk = isSpeechSupported();
-  const showEnglish = override ?? !hideEnglish;
 
-  // 上のスイッチを切り替えたときと「ぜんぶ隠す」を押したときは、
-  // カードごとの指定を捨てて全体に従う。
-  useEffect(() => setOverride(null), [hideEnglish, hideGeneration]);
   const drifted = storedJa.length > 0 && storedJa !== sentence.ja;
   const phraseId = jaPhraseId(sentence.id);
 
@@ -650,7 +663,7 @@ function JaSentenceCard({
               <button
                 type="button"
                 className="jaen-en-toggle"
-                onClick={() => setOverride(false)}
+                onClick={() => onToggleEnglish(sentence.id)}
                 title="タップで英語を隠す"
                 aria-label="英語を隠す"
               >
@@ -686,7 +699,11 @@ function JaSentenceCard({
           )}
         </>
       ) : (
-        <button type="button" className="jaen-card__reveal" onClick={() => setOverride(true)}>
+        <button
+          type="button"
+          className="jaen-card__reveal"
+          onClick={() => onToggleEnglish(sentence.id)}
+        >
           英語を見る
         </button>
       )}
