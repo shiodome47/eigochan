@@ -2,7 +2,7 @@ import type { JaSentenceInput } from "./types";
 
 // 分野 25: 初対面の人との会話
 export const D25_SELF: JaSentenceInput[] = [
-  { ja: "はじめまして。中塚と申します。", en: "Nice to meet you. My name is Nakatsuka.", ch: ["Nice to meet you.", "My name is ..."], scene: "イベント", to: "初対面", imp: "must" },
+  { ja: "はじめまして。山田と申します。", en: "Nice to meet you. My name is Yamada.", ch: ["Nice to meet you.", "My name is ..."], scene: "イベント", to: "初対面", imp: "must" },
   { ja: "今日はお会いできてうれしいです。", en: "I'm glad we got to meet today.", ch: ["I'm glad we got to", "meet today"], scene: "イベント", to: "初対面", imp: "must" },
   { ja: "こちらにはよく来られるんですか。", en: "Do you come here often?", ch: ["Do you come here", "often?"], scene: "イベント", to: "初対面", imp: "must" },
   { ja: "私は今回が初めてです。", en: "This is my first time.", ch: ["This is", "my first time"], scene: "イベント", to: "初対面", imp: "must" },

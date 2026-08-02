@@ -27,7 +27,7 @@ export const D36_ADD: JaSentenceInput[] = [
   // 本人の文にあった「今日はありがとうございました。」は分野 25 と重複していたため、
   // 電話・メッセージ側はこの文に差し替え。
   { ja: "わざわざ連絡をいただき、ありがとうございます。", en: "Thank you for taking the trouble to get in touch.", ch: ["Thank you for taking the trouble", "to get in touch"], scene: "電話", to: "相手", imp: "must" },
-  { ja: "もしもし、中塚です。", en: "Hello, this is Nakatsuka.", ch: ["Hello,", "this is ..."], scene: "電話", to: "相手", imp: "must" },
+  { ja: "もしもし、山田です。", en: "Hello, this is Yamada.", ch: ["Hello,", "this is ..."], scene: "電話", to: "相手", imp: "must" },
   { ja: "声が遠いようです。", en: "You sound far away.", ch: ["You sound", "far away"], scene: "電話", to: "相手", imp: "often" },
   { ja: "電波の良いところに移動します。", en: "I'll move somewhere with better reception.", ch: ["I'll move somewhere", "with better reception"], scene: "電話", to: "相手", imp: "often" },
   { ja: "少し電話を切ってかけ直します。", en: "I'll hang up and call you back.", ch: ["I'll hang up", "and call you back"], scene: "電話", to: "相手", imp: "often" },

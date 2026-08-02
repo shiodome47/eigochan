@@ -3,7 +3,7 @@ import type { JaSentenceInput } from "./types";
 // 分野 23: ホテル
 export const D23_SELF: JaSentenceInput[] = [
   { ja: "予約している者です。", en: "I have a reservation.", ch: ["I have", "a reservation"], scene: "ホテル", to: "フロント", imp: "must" },
-  { ja: "名前は中塚です。", en: "The name is Nakatsuka.", ch: ["The name is ..."], scene: "ホテル", to: "フロント", imp: "must" },
+  { ja: "名前は山田です。", en: "The name is Yamada.", ch: ["The name is ..."], scene: "ホテル", to: "フロント", imp: "must" },
   { ja: "チェックインをお願いします。", en: "I'd like to check in.", ch: ["I'd like to", "check in"], scene: "ホテル", to: "フロント", imp: "must" },
   { ja: "予約内容を確認してもらえますか。", en: "Could you check my reservation?", ch: ["Could you check", "my reservation?"], scene: "ホテル", to: "フロント", imp: "must" },
   { ja: "朝食は付いていますか。", en: "Is breakfast included?", ch: ["Is breakfast", "included?"], scene: "ホテル", to: "フロント", imp: "must" },
