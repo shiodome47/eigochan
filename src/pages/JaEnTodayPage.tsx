@@ -126,6 +126,9 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
   const [voiceBonusIds, setVoiceBonusIds] = useState<Set<string>>(() => new Set());
   const [index, setIndex] = useState(0);
   const [revealed, setRevealed] = useState(false);
+  // 答え合わせのあとでも、英文をタップすればもう一度隠せる。
+  // 判定ボタンは出したままなので、何度か言い直してから判定できる。
+  const [enHidden, setEnHidden] = useState(false);
   const [recorderOpen, setRecorderOpen] = useState(false);
   const [answered, setAnswered] = useState<Answered[]>([]);
   const [message, setMessage] = useState<string | null>(null);
@@ -193,6 +196,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
 
       setAnswered((prevList) => [...prevList, { sentence: current, grade: g, xp: gained }]);
       setRevealed(false);
+      setEnHidden(false);
       setRecorderOpen(false);
       setIndex((i) => i + 1);
     },
@@ -240,6 +244,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
       setPlan(fresh);
       setItems((prev) => [...prev.slice(0, index), ...fresh.items]);
       setRevealed(false);
+      setEnHidden(false);
       setRecorderOpen(false);
     },
     [answered, index, srs, today],
@@ -260,6 +265,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
     const next = more.items[0];
     setItems((prev) => prev.map((s, i) => (i === index ? next : s)));
     setRevealed(false);
+    setEnHidden(false);
     setRecorderOpen(false);
     setMessage(null);
   }, [answered, current, focus, index, items, srs, today]);
@@ -438,7 +444,15 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
         ) : (
           <>
             <p className="jaen-today__en">
-              {current?.en}
+              <button
+                type="button"
+                className={`jaen-en-toggle${enHidden ? " is-hidden" : ""}`}
+                onClick={() => setEnHidden((v) => !v)}
+                title={enHidden ? "タップで英語を表示" : "タップで英語を隠す"}
+                aria-label={enHidden ? "英語を表示する" : "英語を隠す"}
+              >
+                {enHidden ? "・・・・・・" : current?.en}
+              </button>
               {speechOk && current && (
                 <button
                   type="button"
@@ -450,7 +464,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
                 </button>
               )}
             </p>
-            {current && current.chunks.length > 0 && (
+            {!enHidden && current && current.chunks.length > 0 && (
               <div className="jaen-card__chunks">
                 {current.chunks.map((chunk, i) => (
                   <button

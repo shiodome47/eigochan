@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
 import {
@@ -590,12 +590,17 @@ function JaSentenceCard({
   onEnsurePhrase,
 }: CardProps) {
   const navigate = useNavigate();
-  const [revealed, setRevealed] = useState(false);
+  // null = 上の「英語を隠す」に従う / true・false = このカードだけの指定。
+  // 英文をタップするたびに表示と非表示が入れ替わるので、同じ文を何度も練習できる。
+  const [override, setOverride] = useState<boolean | null>(null);
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteDraft, setNoteDraft] = useState(note);
   const [recorderOpen, setRecorderOpen] = useState(false);
   const speechOk = isSpeechSupported();
-  const showEnglish = !hideEnglish || revealed;
+  const showEnglish = override ?? !hideEnglish;
+
+  // 上のスイッチを切り替えたら、カードごとの指定は捨てて全体に従う。
+  useEffect(() => setOverride(null), [hideEnglish]);
   const drifted = storedJa.length > 0 && storedJa !== sentence.ja;
   const phraseId = jaPhraseId(sentence.id);
 
@@ -621,7 +626,19 @@ function JaSentenceCard({
       {showEnglish ? (
         <>
           <p className="jaen-card__en">
-            {sentence.en || <span className="jaen-card__warn">英語 未入力</span>}
+            {sentence.en ? (
+              <button
+                type="button"
+                className="jaen-en-toggle"
+                onClick={() => setOverride(false)}
+                title="タップで英語を隠す"
+                aria-label="英語を隠す"
+              >
+                {sentence.en}
+              </button>
+            ) : (
+              <span className="jaen-card__warn">英語 未入力</span>
+            )}
             {sentence.en && speechOk && (
               <button
                 type="button"
@@ -649,7 +666,7 @@ function JaSentenceCard({
           )}
         </>
       ) : (
-        <button type="button" className="jaen-card__reveal" onClick={() => setRevealed(true)}>
+        <button type="button" className="jaen-card__reveal" onClick={() => setOverride(true)}>
           英語を見る
         </button>
       )}
