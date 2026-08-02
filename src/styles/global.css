@@ -3362,6 +3362,29 @@ textarea.form-input {
   }
 }
 
+/* === 英文をタップして隠す === */
+/* 見た目は文字のまま。何度も練習するときに、答えを消してもう一度言える。 */
+.jaen-en-toggle {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.jaen-en-toggle:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.jaen-en-toggle.is-hidden {
+  letter-spacing: 0.12em;
+  color: var(--text-faint);
+}
+
 /* === 今日の練習の出題範囲 === */
 .jaen-focus {
   display: flex;
