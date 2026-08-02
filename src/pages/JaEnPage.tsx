@@ -2,6 +2,14 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
 import {
+  EMPTY_DOMAIN_NOTE,
+  bumpDomainRounds,
+  loadJaDomainNotes,
+  saveJaDomainNotes,
+  setDomainNoteText,
+  type JaDomainNoteMap,
+} from "../utils/jaDomainNote";
+import {
   JA_DOMAINS,
   JA_DOMAIN_GROUPS,
   JA_SENTENCES,
@@ -89,6 +97,8 @@ export function JaEnPage() {
   // カードごとの表示指定 (英文をタップして開け閉めしたぶん)。
   // 何枚開いているかを画面下のボタンに出したいので、親側で持つ。
   const [openIds, setOpenIds] = useState<ReadonlySet<string>>(() => new Set());
+  // 分野ごとのメモと周回カウンター (「この分野を 21 周回そう」を自分で数えるための欄)。
+  const [domainNotes, setDomainNotes] = useState<JaDomainNoteMap>(() => loadJaDomainNotes());
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [materialized, setMaterialized] = useState<Set<string>>(() =>
     materializedJaSentenceIds(),
@@ -102,6 +112,11 @@ export function JaEnPage() {
 
   const trimmedQuery = query.trim();
   const searching = trimmedQuery.length > 0;
+
+  const commitDomainNotes = useCallback((next: JaDomainNoteMap) => {
+    setDomainNotes(next);
+    if (!saveJaDomainNotes(next)) setMessage("⚠ この端末にメモを保存できませんでした");
+  }, []);
 
   const commitReview = useCallback((next: JaReviewMap) => {
     setReview(next);
@@ -175,6 +190,7 @@ export function JaEnPage() {
 
   const domainInfo = findJaDomain(domainId);
   const domainCount = COUNTS.get(domainId) ?? 0;
+  const domainNote = domainNotes[domainId] ?? EMPTY_DOMAIN_NOTE;
   // いま英文が出ているカードの数。0 なら下のボタンは出さない。
   const openCount = shown.filter((s) => showEnglishFor(s.id)).length;
 
@@ -232,11 +248,11 @@ export function JaEnPage() {
   const handleExportJson = useCallback(() => {
     downloadText(
       `eigochan-ja-corpus-${todayString()}.json`,
-      JSON.stringify(buildJaCorpusExport(review), null, 2),
+      JSON.stringify(buildJaCorpusExport(review, domainNotes), null, 2),
       "application/json",
     );
-    setMessage("評価つきの JSON を書き出しました");
-  }, [review]);
+    setMessage("評価と分野メモつきの JSON を書き出しました");
+  }, [domainNotes, review]);
 
   const handleExportTsv = useCallback(() => {
     downloadText(`eigochan-ja-corpus-${todayString()}.tsv`, buildJaCorpusTsv(review), "text/tab-separated-values");
@@ -258,12 +274,15 @@ export function JaEnPage() {
         return;
       }
       commitReview({ ...review, ...result.map });
+      const noteCount = Object.keys(result.domainNotes).length;
+      if (noteCount > 0) commitDomainNotes({ ...domainNotes, ...result.domainNotes });
       setMessage(
         `${result.applied} 件の評価を読み込みました` +
+          (noteCount > 0 ? ` ・ 分野メモ ${noteCount} 件` : "") +
           (result.unknown > 0 ? ` (見つからない文 ${result.unknown} 件は無視)` : ""),
       );
     },
-    [commitReview, review],
+    [commitDomainNotes, commitReview, domainNotes, review],
   );
 
   return (
@@ -471,6 +490,51 @@ export function JaEnPage() {
           英語を隠す (日本語を見て自分で言ってから答え合わせ)
         </label>
       </section>
+
+      {/* 分野ごとのメモと周回カウンター。検索中は分野をまたぐので出さない。 */}
+      {!searching && domainInfo && (
+        <section className="card domain-note">
+          <div className="domain-note__head">
+            <h3 className="card__heading domain-note__title">
+              {String(domainInfo.id).padStart(2, "0")}. {domainInfo.title} のメモ
+            </h3>
+            <div className="domain-note__rounds">
+              <button
+                type="button"
+                className="domain-note__step"
+                onClick={() => commitDomainNotes(bumpDomainRounds(domainNotes, domainId, -1))}
+                disabled={domainNote.rounds === 0}
+                aria-label="周回数をひとつ減らす"
+              >
+                −
+              </button>
+              <span className="domain-note__count">
+                <b>{domainNote.rounds}</b> 周
+              </span>
+              <button
+                type="button"
+                className="domain-note__step is-plus"
+                onClick={() => commitDomainNotes(bumpDomainRounds(domainNotes, domainId, 1))}
+                aria-label="周回数をひとつ増やす"
+              >
+                ＋
+              </button>
+            </div>
+          </div>
+          <textarea
+            className="domain-note__text"
+            value={domainNote.note}
+            placeholder="例: 21 周まわす。7 周目まで完了。d01_012 がまだ出てこない。"
+            rows={2}
+            onChange={(e) => commitDomainNotes(setDomainNoteText(domainNotes, domainId, e.target.value))}
+          />
+          {domainNote.updated && (
+            <p className="domain-note__updated">
+              最終更新 {new Date(domainNote.updated).toLocaleString("ja-JP")}
+            </p>
+          )}
+        </section>
+      )}
 
       <p className="jaen-count">
         {searching ? "検索結果 " : `${domainInfo?.title ?? ""} `}
