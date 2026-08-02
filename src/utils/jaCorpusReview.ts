@@ -5,10 +5,12 @@
 // リポジトリ内の静的データなので、ここには「評価とメモ」だけを持つ。
 
 import {
+  JA_DOMAINS,
   JA_SENTENCES,
   findJaDomain,
   type JaSentence,
 } from "../data/jaCorpus";
+import type { JaDomainNoteMap } from "./jaDomainNote";
 import { loadCustomPhrases, saveCustomPhrases } from "./customPhrases";
 import { enqueueSnapshotPush } from "./autoSync";
 import type { Phrase, PhraseCategory } from "../types";
@@ -233,6 +235,14 @@ export interface JaCorpusExportV1 {
   app: "eigochan-ja-corpus";
   version: 1;
   exportedAt: string;
+  /** 分野ごとのメモと周回数。古い書き出しには無いので読み込み側では任意扱い。 */
+  domains: {
+    id: number;
+    title: string;
+    group: string;
+    rounds: number;
+    note: string;
+  }[];
   sentences: {
     id: string;
     domain: number;
@@ -251,11 +261,23 @@ export interface JaCorpusExportV1 {
   }[];
 }
 
-export function buildJaCorpusExport(map: JaReviewMap): JaCorpusExportV1 {
+export function buildJaCorpusExport(
+  map: JaReviewMap,
+  domainNotes: JaDomainNoteMap = {},
+): JaCorpusExportV1 {
   return {
     app: "eigochan-ja-corpus",
     version: 1,
     exportedAt: new Date().toISOString(),
+    domains: JA_DOMAINS.filter(
+      (d) => (domainNotes[d.id]?.rounds ?? 0) > 0 || (domainNotes[d.id]?.note ?? "") !== "",
+    ).map((d) => ({
+      id: d.id,
+      title: d.title,
+      group: d.group,
+      rounds: domainNotes[d.id]?.rounds ?? 0,
+      note: domainNotes[d.id]?.note ?? "",
+    })),
     sentences: JA_SENTENCES.map((s) => {
       const e = map[s.id];
       const domain = findJaDomain(s.domain);
@@ -345,13 +367,16 @@ export interface JaReviewImportResult {
   map: JaReviewMap;
   applied: number;
   unknown: number;
+  /** 分野メモ。古い書き出しには入っていないので空になることがある。 */
+  domainNotes: JaDomainNoteMap;
 }
 
 /** 書き出した JSON から評価とメモだけを復元する (別端末への引き継ぎ用)。 */
 export function parseJaReviewImport(json: unknown): JaReviewImportResult {
   const empty: JaReviewMap = {};
+  const noNotes: JaDomainNoteMap = {};
   if (!json || typeof json !== "object") {
-    return { ok: false, error: "ファイルの形式が読み取れませんでした", map: empty, applied: 0, unknown: 0 };
+    return { ok: false, error: "ファイルの形式が読み取れませんでした", map: empty, applied: 0, unknown: 0, domainNotes: noNotes };
   }
   const obj = json as Record<string, unknown>;
   if (obj.app !== "eigochan-ja-corpus") {
@@ -361,10 +386,11 @@ export function parseJaReviewImport(json: unknown): JaReviewImportResult {
       map: empty,
       applied: 0,
       unknown: 0,
+      domainNotes: noNotes,
     };
   }
   if (obj.version !== 1) {
-    return { ok: false, error: "このバージョンにはまだ対応していません", map: empty, applied: 0, unknown: 0 };
+    return { ok: false, error: "このバージョンにはまだ対応していません", map: empty, applied: 0, unknown: 0, domainNotes: noNotes };
   }
   const rows = Array.isArray(obj.sentences) ? obj.sentences : [];
   const known = new Set(JA_SENTENCES.map((s) => s.id));
@@ -385,5 +411,19 @@ export function parseJaReviewImport(json: unknown): JaReviewImportResult {
     map[r.id] = { rating, note, ja: typeof r.ja === "string" ? r.ja : "" };
     applied += 1;
   }
-  return { ok: true, map, applied, unknown };
+  // 分野メモ (あれば)。無い書き出しでも読み込めるよう、欠けていても素通りする。
+  const domainNotes: JaDomainNoteMap = {};
+  const domainRows = Array.isArray(obj.domains) ? obj.domains : [];
+  const knownDomains = new Set(JA_DOMAINS.map((d) => d.id));
+  for (const row of domainRows) {
+    if (!row || typeof row !== "object") continue;
+    const r = row as Record<string, unknown>;
+    if (typeof r.id !== "number" || !knownDomains.has(r.id)) continue;
+    const rounds = typeof r.rounds === "number" && r.rounds > 0 ? Math.floor(r.rounds) : 0;
+    const note = typeof r.note === "string" ? r.note : "";
+    if (rounds === 0 && note === "") continue;
+    domainNotes[r.id] = { rounds, note, updated: new Date().toISOString() };
+  }
+
+  return { ok: true, map, applied, unknown, domainNotes };
 }
