@@ -86,6 +86,9 @@ export function JaEnPage() {
   const [impFilter, setImpFilter] = useState<ImpFilter>("all");
   const [authorFilter, setAuthorFilter] = useState<AuthorFilter>("all");
   const [hideEnglish, setHideEnglish] = useState(true);
+  // 「ぜんぶ隠す」を押した回数。カードごとの表示指定を捨てる合図に使う
+  // (リロードしなくても、上から順に開いた英文をまとめて閉じられる)。
+  const [hideGeneration, setHideGeneration] = useState(0);
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [materialized, setMaterialized] = useState<Set<string>>(() =>
     materializedJaSentenceIds(),
@@ -446,6 +449,18 @@ export function JaEnPage() {
           />
           英語を隠す (日本語を見て自分で言ってから答え合わせ)
         </label>
+        <div className="btn-row">
+          <button
+            type="button"
+            className="btn btn--ghost btn--small"
+            onClick={() => {
+              setHideEnglish(true);
+              setHideGeneration((g) => g + 1);
+            }}
+          >
+            🙈 開いた英文をぜんぶ隠す
+          </button>
+        </div>
       </section>
 
       <p className="jaen-count">
@@ -469,6 +484,7 @@ export function JaEnPage() {
             note={review[sentence.id]?.note ?? ""}
             storedJa={review[sentence.id]?.ja ?? ""}
             hideEnglish={hideEnglish}
+            hideGeneration={hideGeneration}
             hasPhrase={materialized.has(sentence.id)}
             onRate={handleRating}
             onNote={handleNote}
@@ -572,6 +588,8 @@ interface CardProps {
   note: string;
   storedJa: string;
   hideEnglish: boolean;
+  /** 増えるたびにカードごとの表示指定を捨てる。 */
+  hideGeneration: number;
   hasPhrase: boolean;
   onRate: (sentence: JaSentence, rating: JaRating) => void;
   onNote: (sentence: JaSentence, note: string) => void;
@@ -584,6 +602,7 @@ function JaSentenceCard({
   note,
   storedJa,
   hideEnglish,
+  hideGeneration,
   hasPhrase,
   onRate,
   onNote,
@@ -599,8 +618,9 @@ function JaSentenceCard({
   const speechOk = isSpeechSupported();
   const showEnglish = override ?? !hideEnglish;
 
-  // 上のスイッチを切り替えたら、カードごとの指定は捨てて全体に従う。
-  useEffect(() => setOverride(null), [hideEnglish]);
+  // 上のスイッチを切り替えたときと「ぜんぶ隠す」を押したときは、
+  // カードごとの指定を捨てて全体に従う。
+  useEffect(() => setOverride(null), [hideEnglish, hideGeneration]);
   const drifted = storedJa.length > 0 && storedJa !== sentence.ja;
   const phraseId = jaPhraseId(sentence.id);
 
