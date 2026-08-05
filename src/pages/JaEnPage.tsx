@@ -1,6 +1,13 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
+import { PracticeTimer } from "../components/PracticeTimer";
+import {
+  TIMER_PRESETS,
+  loadTimerSeconds,
+  perSentenceHint,
+  saveTimerSeconds,
+} from "../utils/practiceTimer";
 import {
   EMPTY_DOMAIN_NOTE,
   bumpDomainRounds,
@@ -99,6 +106,8 @@ export function JaEnPage() {
   const [openIds, setOpenIds] = useState<ReadonlySet<string>>(() => new Set());
   // 分野ごとのメモと周回カウンター (「この分野を 21 周回そう」を自分で数えるための欄)。
   const [domainNotes, setDomainNotes] = useState<JaDomainNoteMap>(() => loadJaDomainNotes());
+  // 1 周ぶんの持ち時間。0 ならタイマーを出さない。端末ごとの設定。
+  const [timerSeconds, setTimerSeconds] = useState(() => loadTimerSeconds());
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [materialized, setMaterialized] = useState<Set<string>>(() =>
     materializedJaSentenceIds(),
@@ -520,6 +529,32 @@ export function JaEnPage() {
                 ＋
               </button>
             </div>
+            <div className="domain-note__timer">
+              <label className="domain-note__timer-label" htmlFor="jaen-timer">
+                ⏱ 1 周の持ち時間
+              </label>
+              <select
+                id="jaen-timer"
+                className="domain-note__timer-select"
+                value={timerSeconds}
+                onChange={(e) => {
+                  const next = Number(e.target.value);
+                  setTimerSeconds(next);
+                  if (!saveTimerSeconds(next)) setMessage("⚠ この端末に設定を保存できませんでした");
+                }}
+              >
+                {TIMER_PRESETS.map((preset) => (
+                  <option key={preset.seconds} value={preset.seconds}>
+                    {preset.label}
+                  </option>
+                ))}
+              </select>
+              {timerSeconds > 0 && (
+                <span className="domain-note__timer-hint">
+                  {perSentenceHint(timerSeconds, domainCount)}
+                </span>
+              )}
+            </div>
           </div>
           <textarea
             className="domain-note__text"
@@ -548,16 +583,21 @@ export function JaEnPage() {
         </p>
       )}
 
-      {/* 開いた英文があるあいだ、画面の下に出しておく。
-          リストの下の方まで来ても、上に戻らずにまとめて閉じられる。 */}
-      {openCount > 0 && (
-        <button
-          type="button"
-          className="jaen-hide-all"
-          onClick={() => setHideAll(true)}
-        >
-          🙈 英文をぜんぶ隠す ({openCount})
-        </button>
+      {/* 画面の下に固定する道具。リストの下の方まで来ても手が届く。
+          左がタイマー、右が「英文をぜんぶ隠す」。 */}
+      {(timerSeconds > 0 || openCount > 0) && (
+        <div className="jaen-dock">
+          <PracticeTimer seconds={timerSeconds} />
+          {openCount > 0 && (
+            <button
+              type="button"
+              className="jaen-hide-all"
+              onClick={() => setHideAll(true)}
+            >
+              🙈 ぜんぶ隠す ({openCount})
+            </button>
+          )}
+        </div>
       )}
 
       <div className="jaen-list">
