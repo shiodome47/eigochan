@@ -8,6 +8,7 @@ import {
   deletePhraseAudio,
   isPhraseAudioSupported,
   loadPhraseAudio,
+  PHRASE_AUDIO_MAX_BYTES,
   savePhraseAudio,
   type PhraseAudioSlot,
   type SavedPhraseAudio,
@@ -22,7 +23,7 @@ interface Props {
   slot: PhraseAudioSlot;
   title: string;
   description: string;
-  /** ファイル取込の上限。デフォルト 10MB。 */
+  /** ファイル取込の上限。デフォルト 5MB (サーバ同期と同じ)。 */
   maxBytes?: number;
   /** 保存・削除のたびに呼ばれる(親が一覧を更新したい時に使う)。 */
   onChange?: () => void;
@@ -38,7 +39,7 @@ type Phase =
   | "denied"
   | "error";
 
-const DEFAULT_MAX_BYTES = 10 * 1024 * 1024;
+const DEFAULT_MAX_BYTES = PHRASE_AUDIO_MAX_BYTES;
 
 function formatSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;

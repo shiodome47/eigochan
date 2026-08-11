@@ -11,6 +11,7 @@
 import { loadCustomPhrases } from "./customPhrases";
 import {
   listAllPhraseAudio,
+  PHRASE_AUDIO_MAX_BYTES,
   savePhraseAudio,
 } from "./phraseAudioStorage";
 import { enqueueAudioUpload } from "./autoSync";
@@ -19,7 +20,7 @@ import { loadSyncCode } from "./syncClient";
 const FILENAME_RE = /^duo3_s\d{2}_\d{3}$/;
 
 // R2 側 (functions/api/audio/[phraseId]/[slot].ts) と同じ閾値。
-export const DUO3_AUDIO_MAX_SIZE = 5 * 1024 * 1024; // 5 MB
+export const DUO3_AUDIO_MAX_SIZE = PHRASE_AUDIO_MAX_BYTES;
 
 export type Duo3AudioStatus =
   | "ok"               // 新規保存予定

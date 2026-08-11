@@ -185,12 +185,23 @@ export function loadSrs(): SrsMap {
   }
 }
 
-export function saveSrs(map: SrsMap): boolean {
+export function saveSrs(map: SrsMap, options?: { skipSync?: boolean }): boolean {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+    if (!options?.skipSync) {
+      void import("./autoSync").then((m) => m.enqueueSnapshotPush());
+    }
     return true;
   } catch {
     return false;
+  }
+}
+
+export function clearSrs(): void {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // 無視
   }
 }
 

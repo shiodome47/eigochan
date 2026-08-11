@@ -9,6 +9,8 @@
 //     既存の saveCustomPhrases / saveProgress を呼ぶのは UI レイヤー(SyncSettings)の責務。
 
 import type { Phrase, UserProgress } from "../types";
+import type { JaSyncPayload } from "./jaSync";
+import { loadJaSyncPayload } from "./jaSync";
 
 const SYNC_CODE_KEY = "eigochan.sync.code";
 
@@ -119,6 +121,7 @@ export interface SyncSnapshot {
   snapshotUpdatedAt: string;
   phrases: Phrase[];
   progress: UserProgress | null;
+  ja?: JaSyncPayload | null;
 }
 
 export async function getSnapshot(code: string): Promise<SyncResult<SyncSnapshot>> {
@@ -144,12 +147,13 @@ export async function getSnapshot(code: string): Promise<SyncResult<SyncSnapshot
 
 export async function putSnapshot(
   code: string,
-  payload: { phrases: Phrase[]; progress: UserProgress },
+  payload: { phrases: Phrase[]; progress: UserProgress; ja?: JaSyncPayload },
 ): Promise<SyncResult<{ savedAt: string }>> {
   const body = {
     clientUpdatedAt: new Date().toISOString(),
     phrases: payload.phrases,
     progress: payload.progress,
+    ja: payload.ja ?? loadJaSyncPayload(),
   };
   let res: Response;
   try {

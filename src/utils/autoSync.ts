@@ -7,8 +7,8 @@
 //   - bootstrap は flush → 自動 pull の順(未送信の局所変更を上書きしないため)
 //   - 自動 pull は 1h 以内なら throttle(過剰アクセス防止)
 
-import { loadCustomPhrases, saveCustomPhrases } from "./customPhrases";
-import { loadProgress, saveProgress } from "./storage";
+import { saveCustomPhrases } from "./customPhrases";
+import { saveProgress } from "./storage";
 import { loadPhraseAudio } from "./phraseAudioStorage";
 import {
   deleteAudio,
@@ -27,6 +27,8 @@ import {
   type SyncQueueItem,
 } from "./syncQueue";
 import type { SyncFailReason } from "./syncClient";
+import { applyJaSyncPayload, buildSnapshotPushPayload } from "./jaSync";
+import { notifyLocalDataReload } from "./localDataEvents";
 
 const LAST_AUTO_PULL_KEY = "eigochan.sync.lastAutoPullAt";
 const LAST_SYNCED_KEY = "eigochan.sync.lastSyncedAt";
@@ -239,9 +241,8 @@ async function processItem(
   item: SyncQueueItem,
 ): Promise<ProcessResult> {
   if (item.type === "snapshotPush") {
-    const phrases = loadCustomPhrases();
-    const progress = loadProgress();
-    const result = await putSnapshot(code, { phrases, progress });
+    const payload = buildSnapshotPushPayload();
+    const result = await putSnapshot(code, payload);
     if (result.ok) {
       // 自端末が「サーバの最新が ここ までなのは知っている」状態に更新する。
       // 次回の bootstrap で自分自身の push が auto-pull の引き金にならないように。
@@ -349,11 +350,15 @@ export async function bootstrapAutoSync(): Promise<BootstrapResult> {
   if (result.value.progress) {
     saveProgress(result.value.progress);
   }
+  if (result.value.ja) {
+    applyJaSyncPayload(result.value.ja);
+  }
   const t = nowIso();
   setLastAutoPullAt(t);
   setLastSyncedAt(t);
   setLastKnownServerSnapshotAt(serverAt);
   notifyListeners();
+  notifyLocalDataReload();
   return { flushed: true, pulled: true };
 }
 
