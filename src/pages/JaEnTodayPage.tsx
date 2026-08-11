@@ -27,7 +27,7 @@ import {
 import { analyzeAudioBlob, isAudioAnalysisSupported } from "../utils/audioAnalysis";
 import { loadPhraseAudio } from "../utils/phraseAudioStorage";
 import { jaPhraseId, materializeJaSentence } from "../utils/jaCorpusReview";
-import { applyPractice } from "../utils/progress";
+import { applyPractice, JA_EN_SESSION_PHRASE_PREFIX } from "../utils/progress";
 import {
   loadSrs,
   saveSrs,
@@ -40,6 +40,7 @@ import {
 } from "../utils/srs";
 import { isSpeechSupported, speakText } from "../utils/speech";
 import { todayString } from "../utils/date";
+import { subscribeLocalDataReload } from "../utils/localDataEvents";
 import type { UserProgress } from "../types";
 
 interface Props {
@@ -122,6 +123,8 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
     // 初回のみ。以降の切り替えは changeFocus が保存する。
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => subscribeLocalDataReload(() => setSrs(loadSrs())), []);
   const [items, setItems] = useState<JaSentence[]>(() => plan.items);
   const [voiceBonusIds, setVoiceBonusIds] = useState<Set<string>>(() => new Set());
   const [index, setIndex] = useState(0);
@@ -146,7 +149,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
     pendingRef.current = { xp: 0, said: 0, easy: 0 };
     commitRef.current(
       applyPractice(progressRef.current, {
-        phraseId: `jaen_today_${today}`,
+        phraseId: `${JA_EN_SESSION_PHRASE_PREFIX}${today}`,
         readCount: said,
         reciteCount: easy,
         xpEarned: xp,

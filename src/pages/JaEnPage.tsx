@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
 import { PracticeTimer } from "../components/PracticeTimer";
@@ -48,6 +48,7 @@ import { buildDailyPlan, DAILY_PLAN_SIZE } from "../utils/dailyPlan";
 import { loadSrs, summarizeSrs } from "../utils/srs";
 import { isSpeechSupported, speakText } from "../utils/speech";
 import { todayString } from "../utils/date";
+import { subscribeLocalDataReload } from "../utils/localDataEvents";
 
 type RatingFilter = "all" | "none" | JaRating | "keep" | "drop" | "note";
 type ImpFilter = "all" | "must" | "often" | "sub";
@@ -115,8 +116,17 @@ export function JaEnPage() {
   const [message, setMessage] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
   // 今日の出題は開いた時点で計算する (ページ内の操作では変えない)。
-  const [srsSnapshot] = useState(() => loadSrs());
+  const [srsSnapshot, setSrsSnapshot] = useState(() => loadSrs());
   const todayPlan = useMemo(() => buildDailyPlan(srsSnapshot), [srsSnapshot]);
+
+  useEffect(() => {
+    return subscribeLocalDataReload(() => {
+      setReview(loadJaReview());
+      setDomainNotes(loadJaDomainNotes());
+      setSrsSnapshot(loadSrs());
+      setMaterialized(materializedJaSentenceIds());
+    });
+  }, []);
   const srsSummary = useMemo(() => summarizeSrs(srsSnapshot), [srsSnapshot]);
 
   const trimmedQuery = query.trim();

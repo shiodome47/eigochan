@@ -8,6 +8,9 @@ const DB_NAME = "eigochan-phrase-audio";
 const DB_VERSION = 1;
 const STORE_NAME = "audio";
 
+/** R2 側 (functions/api/audio/[phraseId]/[slot].ts) と同じ閾値。 */
+export const PHRASE_AUDIO_MAX_BYTES = 5 * 1024 * 1024; // 5 MB
+
 export type PhraseAudioSlot = "reference" | "practice";
 
 export interface SavedPhraseAudio {

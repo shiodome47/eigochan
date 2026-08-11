@@ -42,6 +42,8 @@ import {
   removeFromQueue,
   type SyncQueueItem,
 } from "../utils/syncQueue";
+import { notifyLocalDataReload } from "../utils/localDataEvents";
+import { applyJaSyncPayload, formatJaSyncSummary } from "../utils/jaSync";
 
 type Notice =
   | { kind: "idle" }
@@ -80,6 +82,31 @@ function describeQueueLastError(item: SyncQueueItem): string | null {
     default:
       return `失敗${statusPart} (${reason})`;
   }
+}
+
+const SNAPSHOT_SYNC_NOTES = [
+  "※ フレーズ・進捗・日→英の記録は「最後に送った側」で丸ごと置き換わります。",
+  "※ 練習タイマーなどの端末設定は同期されません。",
+] as const;
+
+function snapshotOverwriteConfirmLines(
+  serverCount: number,
+  localCount: number,
+  progressLine: string,
+  jaLine: string,
+  audioNote: string,
+): string {
+  return [
+    "サーバから 取り込めるデータ:",
+    `  ・自作フレーズ ${serverCount}件`,
+    progressLine,
+    jaLine,
+    "",
+    `この端末のフレーズ ${localCount}件と進捗は、サーバ側のデータに置き換わります。`,
+    audioNote,
+    ...SNAPSHOT_SYNC_NOTES,
+    "続けますか？",
+  ].join("\n");
 }
 
 export function SyncSettings() {
@@ -206,17 +233,15 @@ export function SyncSettings() {
     const localCount = loadCustomPhrases().length;
     const serverCount = snap.value.phrases.length;
     const proceed = window.confirm(
-      [
-        "サーバから 取り込めるデータ:",
-        `  ・自作フレーズ ${serverCount}件`,
+      snapshotOverwriteConfirmLines(
+        serverCount,
+        localCount,
         snap.value.progress
           ? `  ・進捗 XP=${snap.value.progress.totalXp} / レベル=${snap.value.progress.level}`
           : "  ・進捗 まだ無し",
-        "",
-        `この端末のいまのフレーズ ${localCount}件 と進捗は、サーバ側のデータに置き換わります。`,
+        formatJaSyncSummary(snap.value.ja),
         "(音声メモは自動同期されません。必要に応じて下のボタンで手動で取り込めます)",
-        "続けますか？",
-      ].join("\n"),
+      ),
     );
     if (!proceed) {
       setBusy(false);
@@ -232,14 +257,18 @@ export function SyncSettings() {
     if (snap.value.progress) {
       saveProgress(snap.value.progress);
     }
+    if (snap.value.ja) {
+      applyJaSyncPayload(snap.value.ja);
+    }
     saveSyncCode(input);
     setLastKnownServerSnapshotAt(snap.value.snapshotUpdatedAt);
     setCode(input);
+    notifyLocalDataReload();
     setBusy(false);
     setNotice({
       kind: "ok",
       message:
-        "同期コードでの参加が完了しました。次回以降は手動で同期を取り直す必要はありません(Phase 2 時点では自動同期はまだです)。",
+        "同期コードでの参加が完了しました。起動時に自動で同期されます。必要なら下の「サーバから取り込む」も使えます。",
     });
   };
 
@@ -522,7 +551,7 @@ export function SyncSettings() {
       setLastKnownServerSnapshotAt(result.value.savedAt);
       setNotice({
         kind: "ok",
-        message: `フレーズ ${phrases.length}件 と進捗をサーバに送りました。`,
+        message: `フレーズ ${phrases.length}件・進捗・日→英の記録をサーバに送りました。`,
       });
     } else {
       setNotice({ kind: "err", message: describeFailReason(result.reason) });
@@ -546,17 +575,15 @@ export function SyncSettings() {
     const localCount = loadCustomPhrases().length;
     const serverCount = result.value.phrases.length;
     const proceed = window.confirm(
-      [
-        "サーバから 取り込めるデータ:",
-        `  ・自作フレーズ ${serverCount}件`,
+      snapshotOverwriteConfirmLines(
+        serverCount,
+        localCount,
         result.value.progress
           ? `  ・進捗 XP=${result.value.progress.totalXp} / レベル=${result.value.progress.level}`
           : "  ・進捗 まだ無し",
-        "",
-        `この端末のフレーズ ${localCount}件と進捗は、サーバ側のデータに置き換わります。`,
+        formatJaSyncSummary(result.value.ja),
         "(音声メモは自動で取り込まれません。必要なら下の「音声メモをサーバから取り込む」を)",
-        "続けますか？",
-      ].join("\n"),
+      ),
     );
 
     if (!proceed) {
@@ -569,11 +596,15 @@ export function SyncSettings() {
     if (result.value.progress) {
       saveProgress(result.value.progress);
     }
+    if (result.value.ja) {
+      applyJaSyncPayload(result.value.ja);
+    }
     setLastKnownServerSnapshotAt(result.value.snapshotUpdatedAt);
+    notifyLocalDataReload();
     setSnapshotBusy(false);
     setNotice({
       kind: "ok",
-      message: `フレーズ ${serverCount}件 と進捗をこの端末に取り込みました。`,
+      message: `フレーズ ${serverCount}件・進捗・日→英の記録をこの端末に取り込みました。`,
     });
   };
 
@@ -619,6 +650,10 @@ export function SyncSettings() {
         同期を使わない場合、データはこのブラウザ内に保存されます。
         <br />
         音声メモは自動同期されません。必要に応じて手動でアップロード／取り込みできます。
+        <br />
+        {SNAPSHOT_SYNC_NOTES[0]}
+        <br />
+        {SNAPSHOT_SYNC_NOTES[1]}
       </p>
 
       {!isEnabled && view === "idle" && (

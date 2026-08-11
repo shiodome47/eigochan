@@ -68,12 +68,23 @@ export function loadJaReview(): JaReviewMap {
   }
 }
 
-export function saveJaReview(map: JaReviewMap): boolean {
+export function saveJaReview(map: JaReviewMap, options?: { skipSync?: boolean }): boolean {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+    if (!options?.skipSync) {
+      void import("./autoSync").then((m) => m.enqueueSnapshotPush());
+    }
     return true;
   } catch {
     return false;
+  }
+}
+
+export function clearJaReview(): void {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // 無視
   }
 }
 
