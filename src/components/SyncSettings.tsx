@@ -43,6 +43,7 @@ import {
   type SyncQueueItem,
 } from "../utils/syncQueue";
 import { notifyLocalDataReload } from "../utils/localDataEvents";
+import { applyJaSyncPayload, formatJaSyncSummary } from "../utils/jaSync";
 
 type Notice =
   | { kind: "idle" }
@@ -84,20 +85,22 @@ function describeQueueLastError(item: SyncQueueItem): string | null {
 }
 
 const SNAPSHOT_SYNC_NOTES = [
-  "※ フレーズと進捗は「最後に送った側」で丸ごと置き換わります。",
-  "※ 日→英モードの記録(SRS・評価・メモ)は同期されません。",
+  "※ フレーズ・進捗・日→英の記録は「最後に送った側」で丸ごと置き換わります。",
+  "※ 練習タイマーなどの端末設定は同期されません。",
 ] as const;
 
 function snapshotOverwriteConfirmLines(
   serverCount: number,
   localCount: number,
   progressLine: string,
+  jaLine: string,
   audioNote: string,
 ): string {
   return [
     "サーバから 取り込めるデータ:",
     `  ・自作フレーズ ${serverCount}件`,
     progressLine,
+    jaLine,
     "",
     `この端末のフレーズ ${localCount}件と進捗は、サーバ側のデータに置き換わります。`,
     audioNote,
@@ -236,6 +239,7 @@ export function SyncSettings() {
         snap.value.progress
           ? `  ・進捗 XP=${snap.value.progress.totalXp} / レベル=${snap.value.progress.level}`
           : "  ・進捗 まだ無し",
+        formatJaSyncSummary(snap.value.ja),
         "(音声メモは自動同期されません。必要に応じて下のボタンで手動で取り込めます)",
       ),
     );
@@ -252,6 +256,9 @@ export function SyncSettings() {
     saveCustomPhrases(snap.value.phrases);
     if (snap.value.progress) {
       saveProgress(snap.value.progress);
+    }
+    if (snap.value.ja) {
+      applyJaSyncPayload(snap.value.ja);
     }
     saveSyncCode(input);
     setLastKnownServerSnapshotAt(snap.value.snapshotUpdatedAt);
@@ -544,7 +551,7 @@ export function SyncSettings() {
       setLastKnownServerSnapshotAt(result.value.savedAt);
       setNotice({
         kind: "ok",
-        message: `フレーズ ${phrases.length}件 と進捗をサーバに送りました。`,
+        message: `フレーズ ${phrases.length}件・進捗・日→英の記録をサーバに送りました。`,
       });
     } else {
       setNotice({ kind: "err", message: describeFailReason(result.reason) });
@@ -574,6 +581,7 @@ export function SyncSettings() {
         result.value.progress
           ? `  ・進捗 XP=${result.value.progress.totalXp} / レベル=${result.value.progress.level}`
           : "  ・進捗 まだ無し",
+        formatJaSyncSummary(result.value.ja),
         "(音声メモは自動で取り込まれません。必要なら下の「音声メモをサーバから取り込む」を)",
       ),
     );
@@ -588,12 +596,15 @@ export function SyncSettings() {
     if (result.value.progress) {
       saveProgress(result.value.progress);
     }
+    if (result.value.ja) {
+      applyJaSyncPayload(result.value.ja);
+    }
     setLastKnownServerSnapshotAt(result.value.snapshotUpdatedAt);
     notifyLocalDataReload();
     setSnapshotBusy(false);
     setNotice({
       kind: "ok",
-      message: `フレーズ ${serverCount}件 と進捗をこの端末に取り込みました。`,
+      message: `フレーズ ${serverCount}件・進捗・日→英の記録をこの端末に取り込みました。`,
     });
   };
 

@@ -71,6 +71,35 @@ interface PutBody {
   clientUpdatedAt: string;
   phrases: PhrasePayload[];
   progress: ProgressPayload;
+  ja?: JaPayload;
+}
+
+interface SrsCardPayload {
+  id: string;
+  due: string;
+  interval: number;
+  ease: number;
+  reps: number;
+  lapses: number;
+  last: string;
+}
+
+interface JaReviewEntryPayload {
+  rating: "" | "A" | "B" | "C" | "D";
+  note: string;
+  ja: string;
+}
+
+interface JaDomainNotePayload {
+  note: string;
+  rounds: number;
+  updated: string;
+}
+
+interface JaPayload {
+  srs: Record<string, SrsCardPayload>;
+  review: Record<string, JaReviewEntryPayload>;
+  domainNotes: Record<string, JaDomainNotePayload>;
 }
 
 // ---- 検証 -------------------------------------------------------------
@@ -214,6 +243,88 @@ function validateProgress(o: unknown): ProgressPayload | null {
   };
 }
 
+function isDateString(v: unknown): v is string {
+  return typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v);
+}
+
+function validateSrsCard(o: unknown): SrsCardPayload | null {
+  if (!o || typeof o !== "object") return null;
+  const r = o as Record<string, unknown>;
+  if (typeof r.id !== "string" || !r.id) return null;
+  if (!isDateString(r.due)) return null;
+  if (!isDateString(r.last)) return null;
+  const interval = typeof r.interval === "number" && Number.isFinite(r.interval) ? r.interval : null;
+  const ease = typeof r.ease === "number" && Number.isFinite(r.ease) ? r.ease : null;
+  const reps = typeof r.reps === "number" && Number.isFinite(r.reps) ? r.reps : null;
+  const lapses = typeof r.lapses === "number" && Number.isFinite(r.lapses) ? r.lapses : null;
+  if (interval === null || ease === null || reps === null || lapses === null) return null;
+  return {
+    id: r.id,
+    due: r.due,
+    interval,
+    ease,
+    reps,
+    lapses,
+    last: r.last,
+  };
+}
+
+function validateJaReviewEntry(o: unknown): JaReviewEntryPayload | null {
+  if (!o || typeof o !== "object") return null;
+  const r = o as Record<string, unknown>;
+  const rating =
+    r.rating === "" || r.rating === "A" || r.rating === "B" || r.rating === "C" || r.rating === "D"
+      ? r.rating
+      : null;
+  if (rating === null) return null;
+  const note = typeof r.note === "string" ? r.note : "";
+  const ja = typeof r.ja === "string" ? r.ja : "";
+  if (!rating && !note) return null;
+  return { rating, note, ja };
+}
+
+function validateJaDomainNote(o: unknown): JaDomainNotePayload | null {
+  if (!o || typeof o !== "object") return null;
+  const r = o as Record<string, unknown>;
+  const note = typeof r.note === "string" ? r.note : "";
+  const rounds =
+    typeof r.rounds === "number" && Number.isFinite(r.rounds) && r.rounds >= 0
+      ? Math.floor(r.rounds)
+      : 0;
+  const updated = typeof r.updated === "string" ? r.updated : "";
+  if (!note && rounds === 0) return null;
+  return { note, rounds, updated };
+}
+
+function validateJaPayload(raw: unknown): JaPayload | null {
+  if (!raw || typeof raw !== "object") return null;
+  const r = raw as Record<string, unknown>;
+  if (!r.srs || typeof r.srs !== "object") return null;
+  if (!r.review || typeof r.review !== "object") return null;
+  if (!r.domainNotes || typeof r.domainNotes !== "object") return null;
+
+  const srs: Record<string, SrsCardPayload> = {};
+  for (const [id, value] of Object.entries(r.srs as Record<string, unknown>)) {
+    const card = validateSrsCard(value);
+    if (card && card.id === id) srs[id] = card;
+  }
+
+  const review: Record<string, JaReviewEntryPayload> = {};
+  for (const [id, value] of Object.entries(r.review as Record<string, unknown>)) {
+    const entry = validateJaReviewEntry(value);
+    if (entry) review[id] = entry;
+  }
+
+  const domainNotes: Record<string, JaDomainNotePayload> = {};
+  for (const [key, value] of Object.entries(r.domainNotes as Record<string, unknown>)) {
+    if (!isPositiveInt(Number(key))) continue;
+    const entry = validateJaDomainNote(value);
+    if (entry) domainNotes[key] = entry;
+  }
+
+  return { srs, review, domainNotes };
+}
+
 function validatePutBody(raw: unknown): PutBody | null {
   if (!raw || typeof raw !== "object") return null;
   const r = raw as Record<string, unknown>;
@@ -227,7 +338,13 @@ function validatePutBody(raw: unknown): PutBody | null {
   }
   const progress = validateProgress(r.progress);
   if (!progress) return null;
-  return { clientUpdatedAt: r.clientUpdatedAt, phrases, progress };
+  let ja: JaPayload | undefined;
+  if (r.ja !== undefined) {
+    const validatedJa = validateJaPayload(r.ja);
+    if (!validatedJa) return null;
+    ja = validatedJa;
+  }
+  return { clientUpdatedAt: r.clientUpdatedAt, phrases, progress, ja };
 }
 
 // ---- DB 行型 ----------------------------------------------------------
@@ -257,6 +374,13 @@ interface ProgressRow {
   completed_phrase_ids: string;
   recent_practices: string;
   last_practice_date: string | null;
+  updated_at: string;
+}
+
+interface JaStateRow {
+  srs: string;
+  review: string;
+  domain_notes: string;
   updated_at: string;
 }
 
@@ -362,8 +486,34 @@ export const onRequestGet: PagesFunction<Env> = async ({ env, request }) => {
     if (progressRow.updated_at > maxUpdated) maxUpdated = progressRow.updated_at;
   }
 
+  const jaRow = await env.DB.prepare(
+    `SELECT srs, review, domain_notes, updated_at
+     FROM ja_state
+     WHERE user_id = ?`,
+  )
+    .bind(user.user_id)
+    .first<JaStateRow>();
+
+  let ja: JaPayload | null = null;
+  if (jaRow) {
+    try {
+      const srsRaw = JSON.parse(jaRow.srs) as unknown;
+      const reviewRaw = JSON.parse(jaRow.review) as unknown;
+      const domainRaw = JSON.parse(jaRow.domain_notes) as unknown;
+      const validated = validateJaPayload({
+        srs: srsRaw,
+        review: reviewRaw,
+        domainNotes: domainRaw,
+      });
+      if (validated) ja = validated;
+    } catch {
+      // 壊れていたら null
+    }
+    if (jaRow.updated_at > maxUpdated) maxUpdated = jaRow.updated_at;
+  }
+
   const snapshotUpdatedAt = maxUpdated || new Date(0).toISOString();
-  return json({ snapshotUpdatedAt, phrases, progress });
+  return json({ snapshotUpdatedAt, phrases, progress, ja });
 };
 
 export const onRequestPut: PagesFunction<Env> = async ({ env, request }) => {
@@ -384,7 +534,7 @@ export const onRequestPut: PagesFunction<Env> = async ({ env, request }) => {
   const updatedAt =
     body.clientUpdatedAt > serverNow ? serverNow : body.clientUpdatedAt;
 
-  const { phrases, progress } = body;
+  const { phrases, progress, ja } = body;
 
   // 1. UPSERT phrases。LWW: incoming.updated_at >= existing.updated_at なら勝つ。
   //    INSERT 時は deleted_at を NULL に戻す(復活)。
@@ -510,6 +660,29 @@ export const onRequestPut: PagesFunction<Env> = async ({ env, request }) => {
       updatedAt,
     )
     .run();
+
+  // 4. UPSERT ja_state (optional)。旧クライアントは ja を送らないので触らない。
+  if (ja) {
+    await env.DB.prepare(
+      `INSERT INTO ja_state (
+         user_id, srs, review, domain_notes, updated_at
+       ) VALUES (?, ?, ?, ?, ?)
+       ON CONFLICT(user_id) DO UPDATE SET
+         srs           = excluded.srs,
+         review        = excluded.review,
+         domain_notes  = excluded.domain_notes,
+         updated_at    = excluded.updated_at
+       WHERE excluded.updated_at >= ja_state.updated_at`,
+    )
+      .bind(
+        user.user_id,
+        JSON.stringify(ja.srs),
+        JSON.stringify(ja.review),
+        JSON.stringify(ja.domainNotes),
+        updatedAt,
+      )
+      .run();
+  }
 
   return json({ ok: true, savedAt: updatedAt });
 };

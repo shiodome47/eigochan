@@ -44,9 +44,12 @@ export function loadJaDomainNotes(): JaDomainNoteMap {
   }
 }
 
-export function saveJaDomainNotes(map: JaDomainNoteMap): boolean {
+export function saveJaDomainNotes(map: JaDomainNoteMap, options?: { skipSync?: boolean }): boolean {
   try {
     localStorage.setItem(KEY, JSON.stringify(map));
+    if (!options?.skipSync) {
+      void import("./autoSync").then((m) => m.enqueueSnapshotPush());
+    }
     return true;
   } catch {
     return false;
