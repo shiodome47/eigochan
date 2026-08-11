@@ -84,6 +84,7 @@ import { D82_ADD, D82_SELF } from "./d82PatternFeel";
 import { D83_ADD, D83_SELF } from "./d83PatternExplain";
 import { D84_ADD, D84_SELF } from "./d84PatternAsk";
 import { D85_ADD, D85_SELF } from "./d85PatternRequest";
+import { D86_ADD, D86_SELF } from "./d86PatternMore";
 import type { JaAuthor, JaDomain, JaSentence, JaSentenceInput } from "./types";
 
 export type {
@@ -196,6 +197,7 @@ const RAW_BY_DOMAIN: Record<number, DomainRaw> = {
   83: { self: D83_SELF, add: D83_ADD },
   84: { self: D84_SELF, add: D84_ADD },
   85: { self: D85_SELF, add: D85_ADD },
+  86: { self: D86_SELF, add: D86_ADD },
 };
 
 /** "d01_003" 形式の ID。分野内の並び順で決まる (= 並べ替えると評価がずれる)。 */
@@ -269,5 +271,5 @@ export function jaSentenceCounts(): Map<number, number> {
   return counts;
 }
 
-/** 全分野の目標文数の合計 (現状 85 分野 × 40 = 3,400)。 */
+/** 全分野の目標文数の合計 (現状 86 分野 × 40 = 3,440)。 */
 export const JA_TARGET_TOTAL = JA_DOMAINS.reduce((sum, d) => sum + d.target, 0);

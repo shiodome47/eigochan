@@ -1,7 +1,7 @@
 import type { JaDomain } from "./types";
 
-// 85 分野 / 8 グループ。target = その分野で目標とする文数。
-// 平均 40 文 × 85 分野 = 約 3,400 文。
+// 86 分野 / 8 グループ。target = その分野で目標とする文数。
+// 平均 40 文 × 86 分野 = 約 3,440 文。
 export const JA_DOMAINS: JaDomain[] = [
   // ── 日常生活 ─────────────────────────────
   { id: 1, group: "日常生活", title: "朝起きてから出かけるまで", target: 40 },
@@ -110,6 +110,7 @@ export const JA_DOMAINS: JaDomain[] = [
   { id: 83, group: "英会話の型", title: "状況を説明する型", target: 40 },
   { id: 84, group: "英会話の型", title: "詳しく尋ねる型", target: 40 },
   { id: 85, group: "英会話の型", title: "頼む・すすめる・止める型", target: 40 },
+  { id: 86, group: "英会話の型", title: "経験・好み・伝える型", target: 40 },
 ];
 
 export const JA_DOMAIN_GROUPS: string[] = Array.from(
