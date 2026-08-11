@@ -4,6 +4,7 @@ import type { UserProgress } from "../types";
 import { formatDateLabel } from "../utils/date";
 import { resetAllLearningData } from "../utils/resetLearningData";
 import { getStreakEncouragement } from "../utils/messages";
+import { isJaEnSessionPhraseId } from "../utils/progress";
 import { exportToFile, mergeImport, readImportFile } from "../utils/dataIo";
 import {
   generateDuo3PhraseId,
@@ -12,6 +13,7 @@ import {
   type Duo3ImportResult,
 } from "../utils/customPhrases";
 import { enqueueSnapshotPush } from "../utils/autoSync";
+import { notifyLocalDataReload } from "../utils/localDataEvents";
 import {
   analyzeDuo3AudioFiles,
   importDuo3AudioFiles,
@@ -104,7 +106,10 @@ export function LogPage({ progress }: LogPageProps) {
     setDuoResult(result);
     setDuoShowPreview(false);
     // syncCode が設定されていれば同期キューに積む。未設定なら no-op。
-    if (result.imported > 0) enqueueSnapshotPush();
+    if (result.imported > 0) {
+      enqueueSnapshotPush();
+      notifyLocalDataReload();
+    }
   };
 
   // DUO 3.0 音声 Import
@@ -208,6 +213,7 @@ export function LogPage({ progress }: LogPageProps) {
       return;
     }
     const merge = mergeImport(result.customPhrases);
+    notifyLocalDataReload();
     setNotice({ kind: "success", added: merge.added, reassigned: merge.reassigned });
   };
 
@@ -277,7 +283,7 @@ export function LogPage({ progress }: LogPageProps) {
             {progress.recentPractices.slice(0, 12).map((log) => {
               const phrase = findPhraseById(log.phraseId);
               // 日→英モードの 1 セッションは phraseId が "jaen_today_<日付>"。
-              const isJaEn = log.phraseId.startsWith("jaen_today_");
+              const isJaEn = isJaEnSessionPhraseId(log.phraseId);
               return (
                 <li className="log-card" key={log.id}>
                   <div className="log-card__head">

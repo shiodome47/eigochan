@@ -80,8 +80,8 @@ export function App() {
   useEffect(() => {
     try {
       if (localStorage.getItem(DUO3_CHUNKS_MIGRATION_KEY)) return;
-      const changed = reChunkDuo3Phrases();
-      localStorage.setItem(DUO3_CHUNKS_MIGRATION_KEY, "1");
+      const { changed, complete } = reChunkDuo3Phrases();
+      if (complete) localStorage.setItem(DUO3_CHUNKS_MIGRATION_KEY, "1");
       if (changed > 0) enqueueSnapshotPush();
     } catch {
       // localStorage が使えない環境ではスキップ (次回起動でリトライされる)。

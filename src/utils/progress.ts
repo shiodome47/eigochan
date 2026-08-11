@@ -8,6 +8,13 @@ export const XP_RULES = {
   missionComplete: 30,
 } as const;
 
+/** 日→英モードの 1 セッションを progress に記録するときの phraseId 接頭辞。 */
+export const JA_EN_SESSION_PHRASE_PREFIX = "jaen_today_";
+
+export function isJaEnSessionPhraseId(phraseId: string): boolean {
+  return phraseId.startsWith(JA_EN_SESSION_PHRASE_PREFIX);
+}
+
 export function levelFromXp(totalXp: number): number {
   return Math.floor(totalXp / 100) + 1;
 }
@@ -36,6 +43,7 @@ export interface ApplyPracticeInput {
 
 export function applyPractice(prev: UserProgress, input: ApplyPracticeInput): UserProgress {
   const today = todayString();
+  const jaEnSession = isJaEnSessionPhraseId(input.phraseId);
   const log: PracticeLog = {
     id: `log_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
     phraseId: input.phraseId,
@@ -47,7 +55,14 @@ export function applyPractice(prev: UserProgress, input: ApplyPracticeInput): Us
 
   const totalXp = prev.totalXp + input.xpEarned;
   const completedSet = new Set(prev.completedPhraseIds);
-  if (input.reciteCount > 0) completedSet.add(input.phraseId);
+  // 日→英セッション用の仮 ID は「完了フレーズ」に数えない。
+  if (input.reciteCount > 0 && !jaEnSession) completedSet.add(input.phraseId);
+
+  // 同じ日のログは 1 件にまとめ、週次の点表示が古い日から消えにくくする。
+  const recentPractices = [
+    log,
+    ...prev.recentPractices.filter((entry) => entry.date !== today),
+  ].slice(0, 30);
 
   return {
     ...prev,
@@ -58,7 +73,7 @@ export function applyPractice(prev: UserProgress, input: ApplyPracticeInput): Us
     totalReadCount: prev.totalReadCount + input.readCount,
     totalReciteCount: prev.totalReciteCount + input.reciteCount,
     completedPhraseIds: Array.from(completedSet),
-    recentPractices: [log, ...prev.recentPractices].slice(0, 30),
+    recentPractices,
     lastPracticeDate: today,
   };
 }

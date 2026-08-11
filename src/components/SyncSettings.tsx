@@ -83,6 +83,29 @@ function describeQueueLastError(item: SyncQueueItem): string | null {
   }
 }
 
+const SNAPSHOT_SYNC_NOTES = [
+  "※ フレーズと進捗は「最後に送った側」で丸ごと置き換わります。",
+  "※ 日→英モードの記録(SRS・評価・メモ)は同期されません。",
+] as const;
+
+function snapshotOverwriteConfirmLines(
+  serverCount: number,
+  localCount: number,
+  progressLine: string,
+  audioNote: string,
+): string {
+  return [
+    "サーバから 取り込めるデータ:",
+    `  ・自作フレーズ ${serverCount}件`,
+    progressLine,
+    "",
+    `この端末のフレーズ ${localCount}件と進捗は、サーバ側のデータに置き換わります。`,
+    audioNote,
+    ...SNAPSHOT_SYNC_NOTES,
+    "続けますか？",
+  ].join("\n");
+}
+
 export function SyncSettings() {
   const [code, setCode] = useState<string | null>(() => loadSyncCode());
   const [view, setView] = useState<View>("idle");
@@ -207,17 +230,14 @@ export function SyncSettings() {
     const localCount = loadCustomPhrases().length;
     const serverCount = snap.value.phrases.length;
     const proceed = window.confirm(
-      [
-        "サーバから 取り込めるデータ:",
-        `  ・自作フレーズ ${serverCount}件`,
+      snapshotOverwriteConfirmLines(
+        serverCount,
+        localCount,
         snap.value.progress
           ? `  ・進捗 XP=${snap.value.progress.totalXp} / レベル=${snap.value.progress.level}`
           : "  ・進捗 まだ無し",
-        "",
-        `この端末のいまのフレーズ ${localCount}件 と進捗は、サーバ側のデータに置き換わります。`,
         "(音声メモは自動同期されません。必要に応じて下のボタンで手動で取り込めます)",
-        "続けますか？",
-      ].join("\n"),
+      ),
     );
     if (!proceed) {
       setBusy(false);
@@ -548,17 +568,14 @@ export function SyncSettings() {
     const localCount = loadCustomPhrases().length;
     const serverCount = result.value.phrases.length;
     const proceed = window.confirm(
-      [
-        "サーバから 取り込めるデータ:",
-        `  ・自作フレーズ ${serverCount}件`,
+      snapshotOverwriteConfirmLines(
+        serverCount,
+        localCount,
         result.value.progress
           ? `  ・進捗 XP=${result.value.progress.totalXp} / レベル=${result.value.progress.level}`
           : "  ・進捗 まだ無し",
-        "",
-        `この端末のフレーズ ${localCount}件と進捗は、サーバ側のデータに置き換わります。`,
         "(音声メモは自動で取り込まれません。必要なら下の「音声メモをサーバから取り込む」を)",
-        "続けますか？",
-      ].join("\n"),
+      ),
     );
 
     if (!proceed) {
@@ -622,6 +639,10 @@ export function SyncSettings() {
         同期を使わない場合、データはこのブラウザ内に保存されます。
         <br />
         音声メモは自動同期されません。必要に応じて手動でアップロード／取り込みできます。
+        <br />
+        {SNAPSHOT_SYNC_NOTES[0]}
+        <br />
+        {SNAPSHOT_SYNC_NOTES[1]}
       </p>
 
       {!isEnabled && view === "idle" && (

@@ -27,7 +27,7 @@ import {
 import { analyzeAudioBlob, isAudioAnalysisSupported } from "../utils/audioAnalysis";
 import { loadPhraseAudio } from "../utils/phraseAudioStorage";
 import { jaPhraseId, materializeJaSentence } from "../utils/jaCorpusReview";
-import { applyPractice } from "../utils/progress";
+import { applyPractice, JA_EN_SESSION_PHRASE_PREFIX } from "../utils/progress";
 import {
   loadSrs,
   saveSrs,
@@ -146,7 +146,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
     pendingRef.current = { xp: 0, said: 0, easy: 0 };
     commitRef.current(
       applyPractice(progressRef.current, {
-        phraseId: `jaen_today_${today}`,
+        phraseId: `${JA_EN_SESSION_PHRASE_PREFIX}${today}`,
         readCount: said,
         reciteCount: easy,
         xpEarned: xp,

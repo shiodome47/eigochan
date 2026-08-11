@@ -423,7 +423,7 @@ export function findCustomPhraseById(id: string): Phrase | undefined {
  *
  * 戻り値: 実際に書き換えた件数。書き換え対象が無かった場合や保存失敗時は 0。
  */
-export function reChunkDuo3Phrases(): number {
+export function reChunkDuo3Phrases(): { changed: number; complete: boolean } {
   const phrases = loadCustomPhrases();
   let changed = 0;
   for (const p of phrases) {
@@ -434,9 +434,9 @@ export function reChunkDuo3Phrases(): number {
     p.chunks = next;
     changed += 1;
   }
-  if (changed === 0) return 0;
-  if (!saveCustomPhrases(phrases)) return 0;
-  return changed;
+  if (changed === 0) return { changed: 0, complete: true };
+  if (!saveCustomPhrases(phrases)) return { changed, complete: false };
+  return { changed, complete: true };
 }
 
 // ---- DUO 3.0 テキスト貼り付け Import ---------------------------------
