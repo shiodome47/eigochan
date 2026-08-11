@@ -14,6 +14,7 @@ import { findPhraseById, getAllPhrases, PHRASES } from "./data/phrases";
 import { loadMission, loadProgress, saveMission, saveProgress } from "./utils/storage";
 import { todayString } from "./utils/date";
 import { bootstrapAutoSync, enqueueSnapshotPush } from "./utils/autoSync";
+import { subscribeLocalDataReload } from "./utils/localDataEvents";
 import { reChunkDuo3Phrases } from "./utils/customPhrases";
 import { pickRandomPhraseId } from "./utils/phrasePicker";
 import type { DailyMissionState, UserProgress } from "./types";
@@ -60,15 +61,18 @@ export function App() {
     return () => window.removeEventListener("focus", handler);
   }, []);
 
-  // 起動時に自動同期(syncCode が無ければ no-op)。
-  // pull 成功時は localStorage が書き換わっているので React state を再ロード。
+  // 手動同期 pull / 参加、起動時の自動 pull などで localStorage が
+  // 書き換わったあと、画面上の進捗・ミッションを再読み込みする。
   useEffect(() => {
-    void bootstrapAutoSync().then((result) => {
-      if (result.pulled) {
-        setProgress(loadProgress());
-        setMission(ensureMission());
-      }
+    return subscribeLocalDataReload(() => {
+      setProgress(loadProgress());
+      setMission(ensureMission());
     });
+  }, []);
+
+  // 起動時に自動同期(syncCode が無ければ no-op)。
+  useEffect(() => {
+    void bootstrapAutoSync();
   }, []);
 
   // 起動時に 1 度だけ DUO 3.0 フレーズの chunks を再計算する移行処理。

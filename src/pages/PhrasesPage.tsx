@@ -15,6 +15,7 @@ import {
   enqueueAudioDelete,
   enqueueSnapshotPush,
 } from "../utils/autoSync";
+import { subscribeLocalDataReload } from "../utils/localDataEvents";
 import type { Phrase, PhraseCategory, UserProgress } from "../types";
 
 interface PhrasesPageProps {
@@ -57,10 +58,12 @@ export function PhrasesPage({ progress }: PhrasesPageProps) {
   const [sectionFilter, setSectionFilter] = useState<SectionFilter>("all");
   const [version, setVersion] = useState(0);
 
-  // 編集ページから戻ってきたら最新の自作フレーズを取り直す
+  // 編集ページから戻ったとき、手動同期 pull 後などに最新の自作フレーズを取り直す
   useEffect(() => {
     setVersion((v) => v + 1);
   }, [location.key]);
+
+  useEffect(() => subscribeLocalDataReload(() => setVersion((v) => v + 1)), []);
 
   const allPhrases = useMemo(() => getAllPhrases(), [version]);
   const sourceCounts = useMemo(() => {

@@ -194,6 +194,14 @@ export function saveSrs(map: SrsMap): boolean {
   }
 }
 
+export function clearSrs(): void {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // 無視
+  }
+}
+
 export interface SrsSummary {
   /** 一度でも出題した文の数。 */
   seen: number;

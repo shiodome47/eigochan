@@ -77,6 +77,14 @@ export function saveJaReview(map: JaReviewMap): boolean {
   }
 }
 
+export function clearJaReview(): void {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // 無視
+  }
+}
+
 function withEntry(
   map: JaReviewMap,
   sentence: JaSentence,

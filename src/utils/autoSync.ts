@@ -27,6 +27,7 @@ import {
   type SyncQueueItem,
 } from "./syncQueue";
 import type { SyncFailReason } from "./syncClient";
+import { notifyLocalDataReload } from "./localDataEvents";
 
 const LAST_AUTO_PULL_KEY = "eigochan.sync.lastAutoPullAt";
 const LAST_SYNCED_KEY = "eigochan.sync.lastSyncedAt";
@@ -354,6 +355,7 @@ export async function bootstrapAutoSync(): Promise<BootstrapResult> {
   setLastSyncedAt(t);
   setLastKnownServerSnapshotAt(serverAt);
   notifyListeners();
+  notifyLocalDataReload();
   return { flushed: true, pulled: true };
 }
 

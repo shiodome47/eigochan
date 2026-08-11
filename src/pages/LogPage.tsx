@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from "react";
 import { findPhraseById } from "../data/phrases";
 import type { UserProgress } from "../types";
 import { formatDateLabel } from "../utils/date";
-import { resetAll } from "../utils/storage";
+import { resetAllLearningData } from "../utils/resetLearningData";
 import { getStreakEncouragement } from "../utils/messages";
 import { exportToFile, mergeImport, readImportFile } from "../utils/dataIo";
 import {
@@ -159,13 +159,13 @@ export function LogPage({ progress }: LogPageProps) {
     audioInputRef.current?.click();
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     if (
       window.confirm(
-        "すべての学習データ(進捗・ミッション・自作フレーズ)を消去しますか？この操作は取り消せません。",
+        "すべての学習データ(進捗・ミッション・自作フレーズ・日→英の記録・音声メモ)を消去しますか？この操作は取り消せません。",
       )
     ) {
-      resetAll();
+      await resetAllLearningData();
       window.location.reload();
     }
   };

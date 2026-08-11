@@ -53,6 +53,14 @@ export function saveJaDomainNotes(map: JaDomainNoteMap): boolean {
   }
 }
 
+export function clearJaDomainNotes(): void {
+  try {
+    localStorage.removeItem(KEY);
+  } catch {
+    // 無視
+  }
+}
+
 function touch(prev: JaDomainNote | undefined, patch: Partial<JaDomainNote>): JaDomainNote {
   const base = prev ?? EMPTY_DOMAIN_NOTE;
   return { ...base, ...patch, updated: new Date().toISOString() };

@@ -42,6 +42,7 @@ import {
   removeFromQueue,
   type SyncQueueItem,
 } from "../utils/syncQueue";
+import { notifyLocalDataReload } from "../utils/localDataEvents";
 
 type Notice =
   | { kind: "idle" }
@@ -235,11 +236,12 @@ export function SyncSettings() {
     saveSyncCode(input);
     setLastKnownServerSnapshotAt(snap.value.snapshotUpdatedAt);
     setCode(input);
+    notifyLocalDataReload();
     setBusy(false);
     setNotice({
       kind: "ok",
       message:
-        "同期コードでの参加が完了しました。次回以降は手動で同期を取り直す必要はありません(Phase 2 時点では自動同期はまだです)。",
+        "同期コードでの参加が完了しました。起動時に自動で同期されます。必要なら下の「サーバから取り込む」も使えます。",
     });
   };
 
@@ -570,6 +572,7 @@ export function SyncSettings() {
       saveProgress(result.value.progress);
     }
     setLastKnownServerSnapshotAt(result.value.snapshotUpdatedAt);
+    notifyLocalDataReload();
     setSnapshotBusy(false);
     setNotice({
       kind: "ok",
