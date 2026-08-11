@@ -28,45 +28,24 @@ interface CityMapProps {
   activeBuildingId?: FacilityId | null;
 }
 
-/** 背景画像にない装飾(気球・夜空のあかり)。CSSのみで描画。 */
+/** 背景画像にない装飾(気球・夜空のあかり)。CSS で描画。 */
 function SkyDecoration({ id, x, y }: { id: FacilityId; x: number; y: number }) {
   if (id === "balloon") {
     return (
       <div
-        className="city-deco city-deco--balloon"
+        className="city-deco city-deco--balloon-css"
         style={{ left: `${x}%`, top: `${y}%` }}
         aria-hidden="true"
-      >
-        <svg viewBox="0 0 50 70" preserveAspectRatio="xMidYMid meet">
-          <ellipse cx="25" cy="22" rx="16" ry="20" fill="#e98a6a" />
-          <path d="M 9 22 A 16 16 0 0 1 41 22" fill="#f5a382" opacity="0.7" />
-          <path d="M 25 4 Q 22 22 23 38" stroke="#fcefcf" strokeWidth="0.7" fill="none" opacity="0.7" />
-          <path d="M 25 4 Q 28 22 27 38" stroke="#fcefcf" strokeWidth="0.7" fill="none" opacity="0.7" />
-          <line x1="9" y1="38" x2="20" y2="50" stroke="#7a5a3a" strokeWidth="0.9" />
-          <line x1="41" y1="38" x2="30" y2="50" stroke="#7a5a3a" strokeWidth="0.9" />
-          <rect x="20" y="50" width="10" height="7" fill="#7a5a3a" />
-          <rect x="20" y="50" width="10" height="2.5" fill="#5e453a" />
-        </svg>
-      </div>
+      />
     );
   }
   if (id === "stars") {
     return (
       <div
-        className="city-deco city-deco--stars"
+        className="city-deco city-deco--stars-css"
         style={{ left: `${x}%`, top: `${y}%` }}
         aria-hidden="true"
-      >
-        <svg viewBox="0 0 60 36" preserveAspectRatio="xMidYMid meet">
-          <circle cx="30" cy="18" r="9" fill="#fcefcf" opacity="0.18" />
-          <circle cx="30" cy="18" r="2.4" fill="#fcefcf" opacity="0.95" />
-          <circle cx="14" cy="26" r="1.8" fill="#fcefcf" opacity="0.85" />
-          <circle cx="46" cy="10" r="2.1" fill="#fcefcf" opacity="0.95" />
-          <circle cx="20" cy="6" r="1.4" fill="#fcefcf" opacity="0.8" />
-          <circle cx="48" cy="28" r="1.6" fill="#fcefcf" opacity="0.85" />
-          <circle cx="38" cy="30" r="1.2" fill="#fcefcf" opacity="0.8" />
-        </svg>
-      </div>
+      />
     );
   }
   return null;
