@@ -2524,7 +2524,10 @@ textarea.form-input {
   .city-tap.is-active,
   .city-locked,
   .city-deco--balloon,
-  .city-deco--stars {
+  .city-deco--stars,
+  .city-deco--balloon-css,
+  .city-deco--stars-css,
+  .city-skyline__star {
     animation: none;
   }
   /* 朝の状態(最終フレーム)で固定 */
