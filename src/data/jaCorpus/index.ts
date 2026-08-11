@@ -77,6 +77,13 @@ import { D75_ADD, D75_SELF } from "./d75RealfiStablecoin";
 import { D76_ADD, D76_SELF } from "./d76RealfiLiquidity";
 import { D77_ADD, D77_SELF } from "./d77RealfiRoadmap";
 import { D78_ADD, D78_SELF } from "./d78RealfiFeedback";
+import { D79_ADD, D79_SELF } from "./d79PatternCheck";
+import { D80_ADD, D80_SELF } from "./d80PatternThink";
+import { D81_ADD, D81_SELF } from "./d81PatternPlan";
+import { D82_ADD, D82_SELF } from "./d82PatternFeel";
+import { D83_ADD, D83_SELF } from "./d83PatternExplain";
+import { D84_ADD, D84_SELF } from "./d84PatternAsk";
+import { D85_ADD, D85_SELF } from "./d85PatternRequest";
 import type { JaAuthor, JaDomain, JaSentence, JaSentenceInput } from "./types";
 
 export type {
@@ -182,6 +189,13 @@ const RAW_BY_DOMAIN: Record<number, DomainRaw> = {
   76: { self: D76_SELF, add: D76_ADD },
   77: { self: D77_SELF, add: D77_ADD },
   78: { self: D78_SELF, add: D78_ADD },
+  79: { self: D79_SELF, add: D79_ADD },
+  80: { self: D80_SELF, add: D80_ADD },
+  81: { self: D81_SELF, add: D81_ADD },
+  82: { self: D82_SELF, add: D82_ADD },
+  83: { self: D83_SELF, add: D83_ADD },
+  84: { self: D84_SELF, add: D84_ADD },
+  85: { self: D85_SELF, add: D85_ADD },
 };
 
 /** "d01_003" 形式の ID。分野内の並び順で決まる (= 並べ替えると評価がずれる)。 */
@@ -211,6 +225,7 @@ function toSentence(
     to: row.to ?? "",
     imp: row.imp ?? "often",
     by,
+    pattern: row.pat ?? "",
   };
 }
 
@@ -254,5 +269,5 @@ export function jaSentenceCounts(): Map<number, number> {
   return counts;
 }
 
-/** 全分野の目標文数の合計 (現状 78 分野 × 40 = 3,120)。 */
+/** 全分野の目標文数の合計 (現状 85 分野 × 40 = 3,400)。 */
 export const JA_TARGET_TOTAL = JA_DOMAINS.reduce((sum, d) => sum + d.target, 0);

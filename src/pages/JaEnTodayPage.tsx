@@ -464,6 +464,9 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
                 </button>
               )}
             </p>
+            {!enHidden && current?.pattern && (
+              <p className="jaen-today__pattern">型: {current.pattern}</p>
+            )}
             {!enHidden && current && current.chunks.length > 0 && (
               <div className="jaen-card__chunks">
                 {current.chunks.map((chunk, i) => (

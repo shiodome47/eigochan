@@ -5,7 +5,7 @@
 export type JaImportance = "must" | "often" | "sub";
 
 export interface JaDomain {
-  /** 1〜66 の分野番号 */
+  /** 分野番号 */
   id: number;
   /** グループ名 (日常生活 / 外出 / …) */
   group: string;
@@ -26,6 +26,11 @@ export interface JaSentenceInput {
   to?: string;
   /** 重要度。省略時は "often"。 */
   imp?: JaImportance;
+  /**
+   * 英会話の型 (例: "I'm about to ~")。
+   * **枠だけ覚えて中身を差し替える** ための目印。省略可。
+   */
+  pat?: string;
 }
 
 /** self = 本人が書いた日本語 / add = そこに寄せて足した提案文 */
@@ -42,4 +47,6 @@ export interface JaSentence {
   to: string;
   imp: JaImportance;
   by: JaAuthor;
+  /** 英会話の型。持たない文は空文字。 */
+  pattern: string;
 }

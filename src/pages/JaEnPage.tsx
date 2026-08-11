@@ -169,7 +169,7 @@ export function JaEnPage() {
       }
 
       if (q) {
-        const hay = `${s.ja} ${s.en} ${s.chunks.join(" ")} ${s.scene} ${s.to}`.toLowerCase();
+        const hay = `${s.ja} ${s.en} ${s.chunks.join(" ")} ${s.scene} ${s.to} ${s.pattern}`.toLowerCase();
         if (!hay.includes(q)) return false;
       }
       return true;
@@ -755,6 +755,9 @@ function JaSentenceCard({
         <span className={`jaen-card__tag is-${sentence.by}`}>
           {sentence.by === "self" ? "本人の文" : "追加案"}
         </span>
+        {sentence.pattern && (
+          <span className="jaen-card__tag is-pattern">型: {sentence.pattern}</span>
+        )}
         {hasPhrase && <span className="jaen-card__tag is-linked">フレーズ化ずみ</span>}
       </div>
 

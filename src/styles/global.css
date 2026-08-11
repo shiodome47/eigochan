@@ -2717,6 +2717,21 @@ textarea.form-input {
   color: var(--green);
 }
 
+/* 英会話の型。枠だけ覚えて中身を差し替えるための目印。 */
+.jaen-card__tag.is-pattern {
+  border-style: solid;
+  border-color: var(--accent);
+  color: var(--accent);
+  font-family: inherit;
+}
+
+.jaen-today__pattern {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
 .jaen-card__ja {
   margin: 8px 0 6px;
   font-size: 18px;
@@ -3180,6 +3195,9 @@ textarea.form-input {
 /* RealFi 街区。実際のやりとりの分野なので、少し目立つ色にしている。 */
 .is-g6 .city-districts__building { fill: #d8ecdc; stroke: #3f8f63; }
 .is-g6 .city-districts__roof { fill: #3f8f63; }
+/* 英会話の型の街区。 */
+.is-g7 .city-districts__building { fill: #f3e6cf; stroke: #b98a3e; }
+.is-g7 .city-districts__roof { fill: #b98a3e; }
 
 .city-districts__plot.is-stage4 .city-districts__building {
   filter: brightness(0.97);
