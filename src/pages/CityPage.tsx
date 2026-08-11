@@ -1,4 +1,4 @@
-import { useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import type { UserProgress } from "../types";
 import { CityView } from "../components/CityView";
@@ -13,6 +13,7 @@ import { lockedFacilities, unlockedFacilities } from "../utils/progress";
 import { buildDistricts, summarizeCity, STAGE_LABELS, type District } from "../utils/cityDistricts";
 import { districtVoices, nextVoiceIndex } from "../utils/districtVoices";
 import { loadSrs } from "../utils/srs";
+import { subscribeLocalDataReload } from "../utils/localDataEvents";
 import { isSpeechSupported, speakText } from "../utils/speech";
 import { isCityStage } from "../data/cityAssets";
 
@@ -26,8 +27,10 @@ export function CityPage({ progress }: CityPageProps) {
   const locked = lockedFacilities(progress.level);
 
   // 分野ごとの街区。日→英モードの定着状況で姿が変わる。
-  const srs = useMemo(() => loadSrs(), []);
+  const [srs, setSrs] = useState(() => loadSrs());
   const districts = useMemo(() => buildDistricts(srs), [srs]);
+
+  useEffect(() => subscribeLocalDataReload(() => setSrs(loadSrs())), []);
   const city = useMemo(() => summarizeCity(districts), [districts]);
   const [selected, setSelected] = useState<District | null>(null);
   // 選んだ街区で「覚えた文」を吹き出しに出す。🔀 で別の文に変えられる。
