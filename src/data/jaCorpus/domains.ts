@@ -1,7 +1,7 @@
 import type { JaDomain } from "./types";
 
-// 78 分野 / 7 グループ。target = その分野で目標とする文数。
-// 平均 40 文 × 78 分野 = 約 3,120 文。
+// 85 分野 / 8 グループ。target = その分野で目標とする文数。
+// 平均 40 文 × 85 分野 = 約 3,400 文。
 export const JA_DOMAINS: JaDomain[] = [
   // ── 日常生活 ─────────────────────────────
   { id: 1, group: "日常生活", title: "朝起きてから出かけるまで", target: 40 },
@@ -100,6 +100,16 @@ export const JA_DOMAINS: JaDomain[] = [
   { id: 76, group: "RealFi", title: "流動性と DeFi 連携", target: 40 },
   { id: 77, group: "RealFi", title: "開発ロードマップと監査", target: 40 },
   { id: 78, group: "RealFi", title: "不具合を報告する・質問する", target: 40 },
+
+  // ── 英会話の型 ───────────────────────────
+  // 型 (枠) を覚えて中身を差し替えるための分野。各文が pat に型を持つ。
+  { id: 79, group: "英会話の型", title: "相手に確認する型", target: 40 },
+  { id: 80, group: "英会話の型", title: "考えと確信を言う型", target: 40 },
+  { id: 81, group: "英会話の型", title: "意志と予定を言う型", target: 40 },
+  { id: 82, group: "英会話の型", title: "気持ちと好みを言う型", target: 40 },
+  { id: 83, group: "英会話の型", title: "状況を説明する型", target: 40 },
+  { id: 84, group: "英会話の型", title: "詳しく尋ねる型", target: 40 },
+  { id: 85, group: "英会話の型", title: "頼む・すすめる・止める型", target: 40 },
 ];
 
 export const JA_DOMAIN_GROUPS: string[] = Array.from(
