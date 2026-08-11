@@ -765,7 +765,8 @@ function JaSentenceCard({
         <span className={`jaen-card__tag is-${sentence.by}`}>
           {sentence.by === "self" ? "本人の文" : "追加案"}
         </span>
-        {sentence.pattern && (
+        {/* 型は答えのヒントになるので、英文を出したときだけ見せる。 */}
+        {sentence.pattern && showEnglish && (
           <span className="jaen-card__tag is-pattern">型: {sentence.pattern}</span>
         )}
         {hasPhrase && <span className="jaen-card__tag is-linked">フレーズ化ずみ</span>}
