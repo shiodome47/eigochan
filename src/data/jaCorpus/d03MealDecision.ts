@@ -18,7 +18,7 @@ export const D03_SELF: JaSentenceInput[] = [
   { ja: "せっかくなので、何か好きなものを食べましょう。", en: "While we're at it, let's have something you like.", ch: ["While we're at it,", "something you like"], scene: "家", to: "家族", imp: "must" },
   { ja: "今日は外で食べてもいいんじゃないですか。", en: "Why don't we eat out today?", ch: ["Why don't we", "eat out today?"], scene: "家", to: "家族", imp: "must" },
   { ja: "でも、この暑さの中を出かけるのも大変ですね。", en: "But going out in this heat is rough too.", ch: ["going out in this heat", "is rough too"], scene: "家", to: "家族", imp: "must" },
-  { ja: "出前にするという方法もあります。", en: "We could always order delivery.", ch: ["We could always", "order delivery"], scene: "家", to: "家族", imp: "must" },
+  { ja: "出前にするという方法もあります。", en: "We could always order in.", ch: ["We could always", "order in"], scene: "家", to: "家族", imp: "must" },
   { ja: "もう少し考えてから決めましょうか。", en: "Should we think about it a little more before deciding?", ch: ["think about it a little more", "before deciding"], scene: "家", to: "家族", imp: "must" },
   { ja: "結局、いつものものになりそうですね。", en: "It looks like we'll end up with the usual.", ch: ["we'll end up with", "the usual"], scene: "家", to: "家族", imp: "must" },
   { ja: "では、それにしましょう。", en: "All right, let's go with that.", ch: ["All right,", "let's go with that"], scene: "家", to: "家族", imp: "must" },
