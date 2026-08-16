@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { VoicePicker } from "../components/VoicePicker";
 import {
   COMBINATION_COUNT,
+  chunkHints,
+  chunkLine,
   drawChunks,
   type ChunkSet,
 } from "../data/chunkBuilder";
@@ -45,7 +47,10 @@ export function ChunkBuildPage() {
     setSet((prev) => drawChunks(prev));
   };
 
-  const line = `${set.opener.en} ${set.verb.en} ${set.extra.en}`;
+  // 画面に出す形は空所つき。読み上げは空所を読ませたくないので素の並びを渡す。
+  const line = chunkLine(set);
+  const spoken = `${set.opener.en} ${set.verb.en} ${set.extra.en}`;
+  const hints = chunkHints(set);
 
   return (
     <div className="jaen">
@@ -79,6 +84,14 @@ export function ChunkBuildPage() {
           言える文にしてください。使いにくい組み合わせなら 🔀 で引き直して構いません。
         </p>
 
+        {hints.length > 0 && (
+          <ul className="chunk-build__notes">
+            {hints.map((h) => (
+              <li key={h}>{h}</li>
+            ))}
+          </ul>
+        )}
+
         <div className="btn-row">
           <button type="button" className="btn" onClick={() => next(true)}>
             言えた! 次の 3 つへ →
@@ -99,7 +112,7 @@ export function ChunkBuildPage() {
             <button
               type="button"
               className="btn btn--ghost btn--small"
-              onClick={() => void speakText(line, { rate: 0.9 })}
+              onClick={() => void speakText(spoken, { rate: 0.9 })}
               aria-label="3 つの部品を読み上げる"
             >
               🔊 部品を聞く
