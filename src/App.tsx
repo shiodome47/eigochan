@@ -9,6 +9,7 @@ import { PhrasesPage } from "./pages/PhrasesPage";
 import { PhraseEditPage } from "./pages/PhraseEditPage";
 import { JaEnPage } from "./pages/JaEnPage";
 import { JaEnTodayPage } from "./pages/JaEnTodayPage";
+import { ChunkBuildPage } from "./pages/ChunkBuildPage";
 import { LogPage } from "./pages/LogPage";
 import { findPhraseById, getAllPhrases, PHRASES } from "./data/phrases";
 import { loadMission, loadProgress, saveMission, saveProgress } from "./utils/storage";
@@ -179,6 +180,7 @@ export function App() {
             path="/ja-en/today"
             element={<JaEnTodayPage progress={progress} onCommit={commitProgress} />}
           />
+          <Route path="/ja-en/build" element={<ChunkBuildPage />} />
           <Route path="/log" element={<LogPage progress={progress} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

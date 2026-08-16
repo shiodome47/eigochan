@@ -3198,6 +3198,9 @@ textarea.form-input {
 /* 英会話の型の街区。 */
 .is-g7 .city-districts__building { fill: #f3e6cf; stroke: #b98a3e; }
 .is-g7 .city-districts__roof { fill: #b98a3e; }
+/* チャンクの街区。型の隣に並ぶので、同系だが青寄りにしている。 */
+.is-g8 .city-districts__building { fill: #dbe8ee; stroke: #55839b; }
+.is-g8 .city-districts__roof { fill: #55839b; }
 
 .city-districts__plot.is-stage4 .city-districts__building {
   filter: brightness(0.97);
@@ -3790,4 +3793,72 @@ textarea.form-input {
   margin-left: 4px;
   font-size: 11px;
   color: var(--text-faint);
+}
+
+/* === 組み合わせ練習 (言い出し × 動詞 × 補足) === */
+.chunk-build {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 4px 0 12px;
+}
+
+.chunk-build__slot {
+  display: grid;
+  grid-template-columns: 62px 1fr;
+  grid-template-areas:
+    "role en"
+    "role ja";
+  align-items: center;
+  gap: 2px 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+}
+
+.chunk-build__slot.is-opener {
+  border-left-color: var(--primary);
+}
+
+.chunk-build__slot.is-verb {
+  border-left-color: var(--accent);
+}
+
+.chunk-build__slot.is-extra {
+  border-left-color: var(--primary-soft);
+}
+
+.chunk-build__role {
+  grid-area: role;
+  align-self: center;
+  font-size: 11px;
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+}
+
+.chunk-build__en {
+  grid-area: en;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.chunk-build__ja {
+  grid-area: ja;
+  font-size: 12px;
+  color: var(--text-soft);
+}
+
+/* 日本語を隠したときに高さが飛ばないよう、行だけ残す */
+.chunk-build__slot:not(:has(.chunk-build__ja)) {
+  grid-template-areas: "role en";
+}
+
+.chunk-build__hint {
+  margin: 0 0 12px;
+  font-size: 12px;
+  color: var(--text-soft);
+  line-height: 1.8;
 }

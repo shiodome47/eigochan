@@ -336,6 +336,9 @@ export function JaEnPage() {
           <Link to="/ja-en/today" className="btn">
             今日の {todayPlan.items.length} 文をやる →
           </Link>
+          <Link to="/ja-en/build" className="btn btn--secondary">
+            🧩 組み合わせ練習
+          </Link>
         </div>
         {srsSummary.due > todayPlan.reviewCount && (
           <p className="jaen-note">
