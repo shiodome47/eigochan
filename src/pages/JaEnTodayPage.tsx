@@ -361,6 +361,9 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
             >
               まとめて {BIG_PLAN_SIZE} 文やる
             </button>
+            <Link to="/ja-en/build" className="btn btn--secondary btn--small">
+              🧩 組み合わせ練習
+            </Link>
             <Link to="/city" className="btn btn--ghost btn--small">
               街を見る
             </Link>
