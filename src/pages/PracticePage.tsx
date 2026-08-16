@@ -17,6 +17,7 @@ import {
 import { getCompletionHeadline, pickCityGrowthMessage } from "../utils/messages";
 import { todayString } from "../utils/date";
 import { isCustomPhrase } from "../utils/customPhrases";
+import { VoicePicker } from "../components/VoicePicker";
 import { pickRandomPhraseId } from "../utils/phrasePicker";
 import { loadPhraseAudio, type SavedPhraseAudio } from "../utils/phraseAudioStorage";
 import type { UserProgress } from "../types";
@@ -384,6 +385,7 @@ export function PracticePage({
             />
             <span className="rate-row__label">{rateLabel(rate)}</span>
           </div>
+          <VoicePicker />
         </section>
       )}
 
