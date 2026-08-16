@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
 import { PracticeTimer } from "../components/PracticeTimer";
+import { VoicePicker } from "../components/VoicePicker";
 import {
   TIMER_PRESETS,
   loadTimerSeconds,
@@ -508,6 +509,7 @@ export function JaEnPage() {
           />
           英語を隠す (日本語を見て自分で言ってから答え合わせ)
         </label>
+        <VoicePicker />
       </section>
 
       {/* 分野ごとのメモと周回カウンター。検索中は分野をまたぐので出さない。 */}

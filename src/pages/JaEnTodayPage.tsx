@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { PhraseAudioRecorder } from "../components/PhraseAudioRecorder";
+import { VoicePicker } from "../components/VoicePicker";
 import {
   JA_DOMAINS,
   JA_DOMAIN_GROUPS,
@@ -346,6 +347,7 @@ export function JaEnTodayPage({ progress, onCommit }: Props) {
             「言えなかった」文は今日のうちにもう一度出ます。
             「すぐ言えた」文は間隔が伸びて、しばらく先に出ます。
           </p>
+          <VoicePicker />
           <div className="btn-row">
             <button type="button" className="btn" onClick={() => extend(EXTRA_PLAN_SIZE)}>
               もう {EXTRA_PLAN_SIZE} 文やる
