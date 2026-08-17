@@ -3201,6 +3201,9 @@ textarea.form-input {
 /* チャンクの街区。型の隣に並ぶので、同系だが青寄りにしている。 */
 .is-g8 .city-districts__building { fill: #dbe8ee; stroke: #55839b; }
 .is-g8 .city-districts__roof { fill: #55839b; }
+/* 暮らしの場面の街区。日常生活 (g0) と役割が近いので、そちら寄りの暖色。 */
+.is-g9 .city-districts__building { fill: #f0e0e4; stroke: #a86b7d; }
+.is-g9 .city-districts__roof { fill: #a86b7d; }
 
 .city-districts__plot.is-stage4 .city-districts__building {
   filter: brightness(0.97);

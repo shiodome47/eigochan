@@ -88,6 +88,16 @@ import { D86_ADD, D86_SELF } from "./d86PatternMore";
 import { D87_ADD, D87_SELF } from "./d87ChunkVerbs";
 import { D88_ADD, D88_SELF } from "./d88ChunkVerbs2";
 import { D89_ADD, D89_SELF } from "./d89ChunkExtras";
+import { D90_ADD, D90_SELF } from "./d90ChoosePurchase";
+import { D91_ADD, D91_SELF } from "./d91NetworkTrouble";
+import { D92_ADD, D92_SELF } from "./d92RoomTemperature";
+import { D93_ADD, D93_SELF } from "./d93MoneyPlan";
+import { D94_ADD, D94_SELF } from "./d94FoodPreference";
+import { D95_ADD, D95_SELF } from "./d95ChildhoodMemory";
+import { D96_ADD, D96_SELF } from "./d96WalkAndZoo";
+import { D97_ADD, D97_SELF } from "./d97AdoptPet";
+import { D98_ADD, D98_SELF } from "./d98CheerUp";
+import { D99_ADD, D99_SELF } from "./d99WorkTogether";
 import type { JaAuthor, JaDomain, JaSentence, JaSentenceInput } from "./types";
 
 export type {
@@ -204,6 +214,16 @@ const RAW_BY_DOMAIN: Record<number, DomainRaw> = {
   87: { self: D87_SELF, add: D87_ADD },
   88: { self: D88_SELF, add: D88_ADD },
   89: { self: D89_SELF, add: D89_ADD },
+  90: { self: D90_SELF, add: D90_ADD },
+  91: { self: D91_SELF, add: D91_ADD },
+  92: { self: D92_SELF, add: D92_ADD },
+  93: { self: D93_SELF, add: D93_ADD },
+  94: { self: D94_SELF, add: D94_ADD },
+  95: { self: D95_SELF, add: D95_ADD },
+  96: { self: D96_SELF, add: D96_ADD },
+  97: { self: D97_SELF, add: D97_ADD },
+  98: { self: D98_SELF, add: D98_ADD },
+  99: { self: D99_SELF, add: D99_ADD },
 };
 
 /** "d01_003" 形式の ID。分野内の並び順で決まる (= 並べ替えると評価がずれる)。 */
@@ -277,5 +297,5 @@ export function jaSentenceCounts(): Map<number, number> {
   return counts;
 }
 
-/** 全分野の目標文数の合計 (現状 89 分野 × 40 = 3,560)。 */
+/** 全分野の目標文数の合計 (現状 99 分野 × 40 = 3,960)。 */
 export const JA_TARGET_TOTAL = JA_DOMAINS.reduce((sum, d) => sum + d.target, 0);

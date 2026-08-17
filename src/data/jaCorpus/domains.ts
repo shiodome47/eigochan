@@ -1,7 +1,7 @@
 import type { JaDomain } from "./types";
 
-// 89 分野 / 9 グループ。target = その分野で目標とする文数。
-// 平均 40 文 × 89 分野 = 約 3,560 文。
+// 99 分野 / 10 グループ。target = その分野で目標とする文数。
+// 平均 40 文 × 99 分野 = 約 3,960 文。
 export const JA_DOMAINS: JaDomain[] = [
   // ── 日常生活 ─────────────────────────────
   { id: 1, group: "日常生活", title: "朝起きてから出かけるまで", target: 40 },
@@ -118,6 +118,21 @@ export const JA_DOMAINS: JaDomain[] = [
   { id: 87, group: "チャンク", title: "動詞チャンク (日常の動き)", target: 40 },
   { id: 88, group: "チャンク", title: "動詞チャンク (仕事とやりとり)", target: 40 },
   { id: 89, group: "チャンク", title: "言い出しと補足のチャンク", target: 40 },
+
+  // ── 暮らしの場面 (二人のやりとり) ─────────────
+  // 日常生活 01〜10 が「自分の動き」なのに対して、ここは
+  // **相手と一緒に一つのことを進める / 相手の話を受けて返す** 場面。
+  // 選ぶ・直す・調節する・励ます・手分けする、といった往復のある会話。
+  { id: 90, group: "暮らしの場面", title: "買うものを選んで決める", target: 40 },
+  { id: 91, group: "暮らしの場面", title: "ネットと機器の調子が悪い", target: 40 },
+  { id: 92, group: "暮らしの場面", title: "部屋の暑さ寒さを調節する", target: 40 },
+  { id: 93, group: "暮らしの場面", title: "お金の使い方と貯金の計画", target: 40 },
+  { id: 94, group: "暮らしの場面", title: "食べ物の好き嫌いを話す", target: 40 },
+  { id: 95, group: "暮らしの場面", title: "子どもの頃の思い出を話す", target: 40 },
+  { id: 96, group: "暮らしの場面", title: "散歩と動物を見に行く", target: 40 },
+  { id: 97, group: "暮らしの場面", title: "犬や猫を飼う相談", target: 40 },
+  { id: 98, group: "暮らしの場面", title: "落ち込んだ相手を励ます", target: 40 },
+  { id: 99, group: "暮らしの場面", title: "二人で手分けして進める", target: 40 },
 ];
 
 export const JA_DOMAIN_GROUPS: string[] = Array.from(
