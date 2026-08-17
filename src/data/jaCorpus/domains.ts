@@ -1,7 +1,7 @@
 import type { JaDomain } from "./types";
 
-// 99 分野 / 10 グループ。target = その分野で目標とする文数。
-// 平均 40 文 × 99 分野 = 約 3,960 文。
+// 105 分野 / 10 グループ。target = その分野で目標とする文数。
+// 平均 40 文 × 105 分野 = 約 4,200 文。
 export const JA_DOMAINS: JaDomain[] = [
   // ── 日常生活 ─────────────────────────────
   { id: 1, group: "日常生活", title: "朝起きてから出かけるまで", target: 40 },
@@ -133,6 +133,16 @@ export const JA_DOMAINS: JaDomain[] = [
   { id: 97, group: "暮らしの場面", title: "犬や猫を飼う相談", target: 40 },
   { id: 98, group: "暮らしの場面", title: "落ち込んだ相手を励ます", target: 40 },
   { id: 99, group: "暮らしの場面", title: "二人で手分けして進める", target: 40 },
+
+  // ── 暮らしの場面 (会話の往復そのもの) ─────────
+  // 100 は 1〜3 語の返し。長い文が言えても、この一言が出ないと会話が止まる。
+  // 101〜105 は 90〜99 で拾いきれなかった場面。
+  { id: 100, group: "暮らしの場面", title: "短い受け答え", target: 40 },
+  { id: 101, group: "暮らしの場面", title: "具合の悪い人の世話をする", target: 40 },
+  { id: 102, group: "暮らしの場面", title: "なくし物を一緒に探す", target: 40 },
+  { id: 103, group: "暮らしの場面", title: "同僚の仕事を手伝う", target: 40 },
+  { id: 104, group: "暮らしの場面", title: "見送りと再会の約束", target: 40 },
+  { id: 105, group: "暮らしの場面", title: "泊まる宿を比べて決める", target: 40 },
 ];
 
 export const JA_DOMAIN_GROUPS: string[] = Array.from(

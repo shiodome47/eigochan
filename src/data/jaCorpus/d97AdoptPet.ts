@@ -49,3 +49,15 @@ export const D97_ADD: JaSentenceInput[] = [
   { ja: "うまくやっていけるといいですね。", en: "I hope it works out.", ch: ["I hope", "it works out"], scene: "家", to: "家族", imp: "must" },
   { ja: "迎えられて本当によかったです。", en: "I'm really glad we took them in.", ch: ["I'm really glad", "we took them in"], scene: "家", to: "家族", imp: "must" },
 ];
+
+// あとから足したぶん (犬種の話)。`late` に入れるので既存の ID はずれない。
+export const D97_LATE: JaSentenceInput[] = [
+  { ja: "どんな犬を考えていますか。", en: "What kind of dog are you thinking about?", ch: ["What kind of dog", "are you thinking about?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "散歩で横を歩けるくらいの小さい子がいいです。", en: "Something small enough to walk right beside me.", ch: ["Something small enough", "to walk right beside me"], scene: "家", to: "家族", imp: "often" },
+  { ja: "柴犬かトイプードルが合うかもしれません。", en: "A Shiba or a toy poodle might be a good match.", ch: ["A Shiba or a toy poodle", "might be a good match"], scene: "家", to: "家族", imp: "must" },
+  { ja: "柴犬は日本でとても人気があります。", en: "Shibas are very popular in Japan.", ch: ["Shibas are very popular", "in Japan"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "柴犬は少し頑固だと聞きます。", en: "I hear Shibas can be a little stubborn.", ch: ["I hear Shibas", "can be a little stubborn"], scene: "家", to: "家族", imp: "often" },
+  { ja: "毛が抜けるので掃除が増えます。", en: "They shed, so there's more cleaning.", ch: ["They shed,", "so there's more cleaning"], scene: "家", to: "家族", imp: "often" },
+  { ja: "想像しただけで胸がいっぱいになります。", en: "Just imagining it makes my chest tighten.", ch: ["Just imagining it", "makes my chest tighten"], scene: "家", to: "家族", imp: "often" },
+  { ja: "落ち着いてください。まず会ってからです。", en: "Easy — let's meet them first.", ch: ["Easy —", "let's meet them first"], scene: "家", to: "家族", imp: "must" },
+];
