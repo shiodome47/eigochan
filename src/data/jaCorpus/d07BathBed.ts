@@ -11,7 +11,9 @@ export const D07_SELF: JaSentenceInput[] = [
   { ja: "そろそろ寝る準備をした方がいいですね。", en: "We should start getting ready for bed.", ch: ["start getting ready", "for bed"], scene: "家", to: "家族", imp: "must" },
   { ja: "明日は何時に起きるんでしたか。", en: "What time were you getting up tomorrow?", ch: ["What time were you", "getting up tomorrow?"], scene: "家", to: "家族", imp: "must" },
   { ja: "目覚ましはかけましたか。", en: "Did you set your alarm?", ch: ["Did you set", "your alarm?"], scene: "寝室", to: "家族", imp: "must" },
-  { ja: "携帯電話を充電しておいた方がいいですよ。", en: "You should put your phone on the charger.", ch: ["You should put your phone", "on the charger"], scene: "家", to: "家族", imp: "must" },
+  // ケーブルを挿して充電する家が大半なので plug ~ in にしている。
+  // 充電台に置くタイプなら put it on the charger の方が合う。
+  { ja: "携帯電話を充電しておいた方がいいですよ。", en: "You should plug your phone in.", ch: ["You should", "plug your phone in"], scene: "家", to: "家族", imp: "must" },
   { ja: "戸締まりは確認しましたか。", en: "Did you check that everything's locked?", ch: ["Did you check that", "everything's locked?"], scene: "家", to: "家族", imp: "must" },
   { ja: "電気を消しても大丈夫ですか。", en: "Is it okay if I turn off the light?", ch: ["Is it okay if I", "turn off the light?"], scene: "寝室", to: "家族", imp: "must" },
   { ja: "まだ何かやることが残っていましたか。", en: "Was there anything else you still had to do?", ch: ["Was there anything else", "you still had to do?"], scene: "家", to: "家族", imp: "must" },
