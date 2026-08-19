@@ -36,7 +36,7 @@ export const D07_ADD: JaSentenceInput[] = [
   { ja: "お風呂から上がったら教えてください。", en: "Let me know when you're out of the bath.", ch: ["Let me know when", "you're out of the bath"], scene: "風呂", to: "家族", imp: "often" },
   { ja: "水分を取ってから寝た方がいいですよ。", en: "You should drink some water before bed.", ch: ["You should drink some water", "before bed"], scene: "家", to: "家族", imp: "often" },
   { ja: "歯を磨きましたか。", en: "Did you brush your teeth?", ch: ["Did you brush", "your teeth?"], scene: "洗面所", to: "家族", imp: "often" },
-  { ja: "冷房は何度にしておきますか。", en: "What temperature should I leave the air conditioning at?", ch: ["What temperature", "should I leave it at?"], scene: "寝室", to: "家族", imp: "often" },
+  { ja: "冷房は何度にしておきますか。", en: "What temperature should I leave the air conditioning at?", ch: ["What temperature", "should I leave the air conditioning at?"], scene: "寝室", to: "家族", imp: "often" },
   { ja: "窓は閉めておきますね。", en: "I'll close the windows.", ch: ["I'll close", "the windows"], scene: "家", to: "家族", imp: "often" },
   { ja: "明日の準備はできていますか。", en: "Are you ready for tomorrow?", ch: ["Are you ready", "for tomorrow?"], scene: "家", to: "家族", imp: "often" },
   { ja: "早く起きないといけないんでしたよね。", en: "You have to get up early, right?", ch: ["You have to get up early,", "right?"], scene: "家", to: "家族", imp: "often" },

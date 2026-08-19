@@ -2,19 +2,19 @@ import type { JaSentenceInput } from "./types";
 
 // 分野 59: 違和感を伝える
 export const D59_SELF: JaSentenceInput[] = [
-  { ja: "説明としては分かるのですが、まだ少し違和感があります。", en: "I follow the explanation, but something still feels off.", ch: ["I follow the explanation,", "but something feels off"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "説明としては分かるのですが、まだ少し違和感があります。", en: "I follow the explanation, but something still feels off.", ch: ["I follow the explanation", ", but something still feels off."], scene: "会話", to: "相手", imp: "must" },
   { ja: "なぜか、この部分だけ引っかかるんですよね。", en: "For some reason, just this part bothers me.", ch: ["For some reason,", "just this part bothers me"], scene: "会話", to: "相手", imp: "must" },
   { ja: "理屈としては合っているのかもしれませんが、完全には納得できません。", en: "The logic may hold, but I'm not fully convinced.", ch: ["The logic may hold,", "but I'm not fully convinced"], scene: "会話", to: "相手", imp: "must" },
   { ja: "うまく言葉にできないのですが、何かが足りない気がします。", en: "I can't quite put it into words, but something feels missing.", ch: ["I can't quite put it into words,", "but something feels missing"], scene: "会話", to: "相手", imp: "must" },
   { ja: "この説明だけでは、まだ全部は説明できていないように思います。", en: "This explanation alone doesn't seem to account for everything.", ch: ["doesn't seem to account for", "everything"], scene: "会話", to: "相手", imp: "must" },
   { ja: "何か別の前提が隠れているのではないでしょうか。", en: "Isn't there some other assumption hidden in there?", ch: ["Isn't there some other assumption", "hidden in there?"], scene: "会話", to: "相手", imp: "must" },
   { ja: "少し話がきれいすぎるような気がします。", en: "The story feels a little too clean.", ch: ["feels a little", "too clean"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "実際には、そこまで単純ではないと思います。", en: "In reality, I don't think it's that simple.", ch: ["In reality,", "it's not that simple"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "実際には、そこまで単純ではないと思います。", en: "In reality, I don't think it's that simple.", ch: ["In reality", ", I don't think it's that simple."], scene: "会話", to: "相手", imp: "must" },
   { ja: "良い面だけが強調されすぎている気がします。", en: "It feels like only the upsides are being emphasized.", ch: ["only the upsides", "are being emphasized"], scene: "会話", to: "相手", imp: "must" },
   { ja: "その説明だと、悪い場合の話が抜けていますよね。", en: "That explanation leaves out what happens in the bad case.", ch: ["leaves out what happens", "in the bad case"], scene: "会話", to: "相手", imp: "must" },
   { ja: "誰にとって便利なのかが、少し曖昧です。", en: "It's a bit vague who this is convenient for.", ch: ["It's a bit vague", "who this is convenient for"], scene: "会話", to: "相手", imp: "must" },
   { ja: "利用者にとってのメリットが、まだはっきり見えません。", en: "The benefit for users still isn't clear to me.", ch: ["The benefit for users", "still isn't clear"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "これは運営側には便利でも、利用者には負担ではありませんか。", en: "This may be convenient for the operator, but isn't it a burden on users?", ch: ["convenient for the operator,", "but a burden on users?"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "これは運営側には便利でも、利用者には負担ではありませんか。", en: "This may be convenient for the operator, but isn't it a burden on users?", scene: "会話", to: "相手", imp: "must" },
   { ja: "最初の説明と、少し話が変わってきているように感じます。", en: "It feels like the story has shifted a little from the first explanation.", ch: ["the story has shifted", "from the first explanation"], scene: "会話", to: "相手", imp: "must" },
   { ja: "前に聞いた内容と、完全には一致していない気がします。", en: "It doesn't quite line up with what I heard before.", ch: ["It doesn't quite line up with", "what I heard before"], scene: "会話", to: "相手", imp: "must" },
   { ja: "そこまで言い切ってしまうのは、少し危険ではないでしょうか。", en: "Isn't it a bit risky to state it that definitively?", ch: ["a bit risky to state it", "that definitively"], scene: "会話", to: "相手", imp: "must" },
@@ -43,6 +43,6 @@ export const D59_ADD: JaSentenceInput[] = [
   { ja: "気のせいならそれで構いません。", en: "If it's just me, that's fine.", ch: ["If it's just me,", "that's fine"], scene: "会話", to: "相手", imp: "often" },
   { ja: "後から問題になると困るので、先に言っておきます。", en: "I'm raising it now so it doesn't become a problem later.", ch: ["I'm raising it now so", "it doesn't become a problem"], scene: "会話", to: "相手", imp: "must" },
   { ja: "一度立ち止まって考えませんか。", en: "Shall we pause and think for a moment?", ch: ["pause and think", "for a moment"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "私の心配が外れていればいいのですが。", en: "I hope my worry turns out to be unfounded.", ch: ["I hope my worry", "is unfounded"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "私の心配が外れていればいいのですが。", en: "I hope my worry turns out to be unfounded.", ch: ["I hope my worry", "turns out to be unfounded."], scene: "会話", to: "相手", imp: "often" },
   { ja: "説明を聞いて、少し納得しました。", en: "After your explanation, I'm somewhat convinced.", ch: ["After your explanation,", "I'm somewhat convinced"], scene: "会話", to: "相手", imp: "must" },
 ];

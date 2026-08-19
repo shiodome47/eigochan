@@ -3,7 +3,7 @@ import type { JaSentenceInput } from "./types";
 // 分野 39: パソコン作業
 export const D39_SELF: JaSentenceInput[] = [
   { ja: "まず、パソコンを再起動してみます。", en: "First, I'll try restarting the computer.", ch: ["First, I'll try", "restarting the computer"], scene: "仕事", to: "ひとりごと", imp: "must" },
-  { ja: "さっきまで普通に動いていたんですけどね。", en: "It was working fine until just a moment ago.", ch: ["It was working fine", "until just now"], scene: "仕事", to: "ひとりごと", imp: "must" },
+  { ja: "さっきまで普通に動いていたんですけどね。", en: "It was working fine until just a moment ago.", ch: ["It was working fine", "until just a moment ago."], scene: "仕事", to: "ひとりごと", imp: "must" },
   { ja: "何が原因なのか、まだ分かりません。", en: "I still don't know what's causing it.", ch: ["I still don't know", "what's causing it"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "まず、エラーメッセージを確認した方がよさそうです。", en: "I should check the error message first.", ch: ["I should check", "the error message first"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "一度、ログを見てみましょう。", en: "Let's take a look at the logs.", ch: ["Let's take a look at", "the logs"], scene: "仕事", to: "同僚", imp: "must" },
@@ -18,7 +18,7 @@ export const D39_SELF: JaSentenceInput[] = [
   { ja: "一度、バックアップを取っておいた方がいいですね。", en: "I should take a backup first.", ch: ["I should take", "a backup first"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "この作業には、思っていたより時間がかかります。", en: "This task is taking longer than I expected.", ch: ["taking longer", "than I expected"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "今日はここまで終わらせたいと思っています。", en: "I want to get this far today.", ch: ["I want to get this far", "today"], scene: "仕事", to: "同僚", imp: "must" },
-  { ja: "あと少しで終わりそうです。", en: "I'm almost done.", ch: ["I'm almost", "done"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "あと少しで終わりそうです。", en: "I'm almost done.", scene: "仕事", to: "同僚", imp: "must" },
   { ja: "途中で止まると困るので、しばらく触らないでおきます。", en: "I don't want it stopping midway, so I'll leave it alone for a while.", ch: ["I'll leave it alone", "for a while"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "これで正常に動いているように見えます。", en: "It looks like it's working properly now.", ch: ["It looks like", "it's working properly"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "念のため、もう一度最初から確認してみます。", en: "Just to be safe, I'll check it again from the beginning.", ch: ["I'll check it again", "from the beginning"], scene: "仕事", to: "同僚", imp: "must" },
@@ -29,7 +29,7 @@ export const D39_ADD: JaSentenceInput[] = [
   { ja: "少し動作が遅いですね。", en: "It's running a bit slow.", ch: ["It's running", "a bit slow"], scene: "仕事", to: "同僚", imp: "often" },
   { ja: "アプリを一度閉じてみます。", en: "I'll try closing the app once.", ch: ["I'll try closing", "the app"], scene: "仕事", to: "ひとりごと", imp: "often" },
   { ja: "更新が必要なようです。", en: "It looks like it needs an update.", ch: ["It looks like it needs", "an update"], scene: "仕事", to: "同僚", imp: "often" },
-  { ja: "アップデートには時間がかかりそうです。", en: "The update looks like it'll take a while.", ch: ["The update will take", "a while"], scene: "仕事", to: "同僚", imp: "often" },
+  { ja: "アップデートには時間がかかりそうです。", en: "The update looks like it'll take a while.", ch: ["The update looks like it'll take", "a while."], scene: "仕事", to: "同僚", imp: "often" },
   { ja: "パスワードを忘れてしまいました。", en: "I've forgotten my password.", ch: ["I've forgotten", "my password"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "ログインできません。", en: "I can't log in.", ch: ["I can't", "log in"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "二段階認証が届きません。", en: "The two-factor code isn't arriving.", ch: ["The two-factor code", "isn't arriving"], scene: "仕事", to: "同僚", imp: "often" },

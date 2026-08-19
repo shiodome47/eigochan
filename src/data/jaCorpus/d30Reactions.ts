@@ -4,7 +4,7 @@ import type { JaSentenceInput } from "./types";
 export const D30_SELF: JaSentenceInput[] = [
   { ja: "それはすごいですね。", en: "That's impressive.", ch: ["That's impressive."], scene: "会話", to: "相手", imp: "must" },
   { ja: "本当にそんなことがあったんですか。", en: "Did that really happen?", ch: ["Did that", "really happen?"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "それはかなり意外です。", en: "That's quite unexpected.", ch: ["That's quite", "unexpected"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "それはかなり意外です。", en: "That's quite unexpected.", scene: "会話", to: "相手", imp: "must" },
   { ja: "まさか、そこまでとは思いませんでした。", en: "I never thought it would go that far.", ch: ["I never thought", "it would go that far"], scene: "会話", to: "相手", imp: "must" },
   { ja: "思っていた以上ですね。", en: "It's even more than I expected.", ch: ["even more than", "I expected"], scene: "会話", to: "相手", imp: "must" },
   { ja: "これは大きな変化ですね。", en: "This is a big change.", ch: ["This is", "a big change"], scene: "会話", to: "相手", imp: "must" },
@@ -29,7 +29,7 @@ export const D30_ADD: JaSentenceInput[] = [
   { ja: "今、少し驚いています。", en: "I'm a little stunned right now.", ch: ["I'm a little stunned", "right now"], scene: "会話", to: "相手", imp: "often" },
   { ja: "そんな話は初めてです。", en: "I've never heard anything like that.", ch: ["I've never heard", "anything like that"], scene: "会話", to: "相手", imp: "often" },
   { ja: "予想していませんでした。", en: "I wasn't expecting that.", ch: ["I wasn't", "expecting that"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "うれしい知らせですね。", en: "That's good news.", ch: ["That's", "good news"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "うれしい知らせですね。", en: "That's good news.", scene: "会話", to: "相手", imp: "must" },
   { ja: "自分のことのようにうれしいです。", en: "I'm as happy as if it were my own news.", ch: ["I'm as happy as if", "it were my own"], scene: "会話", to: "相手", imp: "often" },
   { ja: "頑張った甲斐がありましたね。", en: "All that effort paid off.", ch: ["All that effort", "paid off"], scene: "会話", to: "相手", imp: "must" },
   { ja: "ここまで来られたのがすごいです。", en: "Getting this far is impressive.", ch: ["Getting this far", "is impressive"], scene: "会話", to: "相手", imp: "often" },

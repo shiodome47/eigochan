@@ -20,7 +20,7 @@ export const D54_SELF: JaSentenceInput[] = [
   { ja: "最後に、自然な形で案内を入れたいです。", en: "At the end, I want to work in a pointer naturally.", ch: ["work in a pointer", "naturally"], scene: "相談", to: "AI", imp: "must" },
   { ja: "宣伝っぽくなりすぎないようにしてください。", en: "Please keep it from sounding too promotional.", ch: ["keep it from sounding", "too promotional"], scene: "相談", to: "AI", imp: "must" },
   { ja: "別の人が書いたような文章にもできますか。", en: "Could you also make it read as if someone else wrote it?", ch: ["make it read as if", "someone else wrote it"], scene: "相談", to: "AI", imp: "must" },
-  { ja: "同じ内容で、もう少し親しみやすくしてください。", en: "Keep the same content, but make it a bit friendlier.", ch: ["Keep the same content,", "but make it friendlier"], scene: "相談", to: "AI", imp: "must" },
+  { ja: "同じ内容で、もう少し親しみやすくしてください。", en: "Keep the same content, but make it a bit friendlier.", ch: ["Keep the same content", ", but make it a bit friendlier."], scene: "相談", to: "AI", imp: "must" },
   { ja: "この形なら、そのまま投稿できそうです。", en: "In this form, I think I can post it as it is.", ch: ["I can post it", "as it is"], scene: "相談", to: "AI", imp: "must" },
 ];
 
@@ -43,6 +43,6 @@ export const D54_ADD: JaSentenceInput[] = [
   { ja: "英語版も作ってもらえますか。", en: "Could you make an English version too?", ch: ["make an English version", "too?"], scene: "相談", to: "AI", imp: "must" },
   { ja: "英語は簡単な表現でお願いします。", en: "Please keep the English simple.", ch: ["keep the English", "simple"], scene: "相談", to: "AI", imp: "must" },
   { ja: "文字数の目安を教えてください。", en: "Please tell me the rough character count.", ch: ["the rough", "character count"], scene: "相談", to: "AI", imp: "often" },
-  { ja: "投稿する時間帯も考えましょう。", en: "Let's also think about what time to post.", ch: ["what time", "to post"], scene: "相談", to: "AI", imp: "sub" },
+  { ja: "投稿する時間帯も考えましょう。", en: "Let's also think about what time to post.", ch: ["what time to post"], scene: "相談", to: "AI", imp: "sub" },
   { ja: "では、この内容で投稿します。", en: "All right, I'll post this version.", ch: ["All right,", "I'll post this version"], scene: "相談", to: "AI", imp: "must" },
 ];

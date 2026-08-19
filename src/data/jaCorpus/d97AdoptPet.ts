@@ -28,7 +28,7 @@ export const D97_ADD: JaSentenceInput[] = [
   { ja: "そこが一番大事だと思います。", en: "I think that's the most important part.", ch: ["I think that's", "the most important part"], scene: "家", to: "家族", imp: "must" },
   { ja: "家族全員が賛成していますか。", en: "Is everyone in the family on board?", ch: ["Is everyone in the family", "on board?"], scene: "家", to: "家族", imp: "must" },
   { ja: "一人でも反対なら難しいです。", en: "If even one person is against it, it's tough.", ch: ["If even one person is against it,", "it's tough"], scene: "家", to: "家族", imp: "must" },
-  { ja: "アレルギーの人はいませんか。", en: "Is anyone allergic?", ch: ["Is anyone", "allergic?"], scene: "家", to: "家族", imp: "must" },
+  { ja: "アレルギーの人はいませんか。", en: "Is anyone allergic?", scene: "家", to: "家族", imp: "must" },
   { ja: "うちの建物は飼えますか。", en: "Does our building allow pets?", ch: ["Does our building", "allow pets?"], scene: "家", to: "家族", imp: "must" },
   { ja: "規約を確認しておきます。", en: "I'll check the rules.", ch: ["I'll check", "the rules"], scene: "家", to: "家族", imp: "must" },
   { ja: "大きさに制限があるようです。", en: "There seems to be a size limit.", ch: ["There seems to be", "a size limit"], scene: "家", to: "家族", imp: "often" },

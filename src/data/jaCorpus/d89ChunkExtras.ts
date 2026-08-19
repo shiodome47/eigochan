@@ -37,7 +37,7 @@ export const D89_ADD: JaSentenceInput[] = [
   { ja: "この前、そこで会いました。", en: "I saw them there the other day.", ch: ["I saw them there", "the other day"], scene: "会話", to: "相手", imp: "must", pat: "the other day" },
   { ja: "この前の話の続きですが。", en: "About what we talked about the other day.", ch: ["what we talked about", "the other day"], scene: "仕事", to: "相手", imp: "must", pat: "the other day" },
   { ja: "お昼ごろに着きます。", en: "I'll get there around noon.", ch: ["I'll get there", "around noon"], scene: "外出", to: "家族", imp: "must", pat: "around noon" },
-  { ja: "今、向かっているところです。", en: "I'm on my way.", ch: ["I'm on", "my way"], scene: "外出", to: "家族", imp: "must", pat: "on my way" },
+  { ja: "今、向かっているところです。", en: "I'm on my way.", scene: "外出", to: "家族", imp: "must", pat: "on my way" },
   { ja: "帰りに寄っていきます。", en: "I'll stop by on my way home.", ch: ["I'll stop by", "on my way home"], scene: "買い物", to: "家族", imp: "must", pat: "on my way" },
   { ja: "隣に座ってもいいですか。", en: "Can you sit next to me?", ch: ["Can you sit", "next to me?"], scene: "外出", to: "家族", imp: "must", pat: "next to me" },
   { ja: "一人で行ってきます。", en: "I'll go by myself.", ch: ["I'll go", "by myself"], scene: "外出", to: "家族", imp: "must", pat: "by myself" },

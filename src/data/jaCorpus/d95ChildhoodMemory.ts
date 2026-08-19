@@ -47,5 +47,5 @@ export const D95_ADD: JaSentenceInput[] = [
   { ja: "でも思い出すのは好きです。", en: "But I like remembering them.", ch: ["But I like", "remembering them"], scene: "会話", to: "相手", imp: "must" },
   { ja: "子どもにも同じ経験をさせたいです。", en: "I want my kids to have the same experience.", ch: ["I want my kids to have", "the same experience"], scene: "会話", to: "相手", imp: "must" },
   { ja: "今はなかなか難しいですね。", en: "It's not so easy these days.", ch: ["It's not so easy", "these days"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "だから話だけでも伝えたいです。", en: "So at least I want to tell them about it.", ch: ["So at least I want", "to tell them about it"], scene: "会話", to: "相手", imp: "often" },
+  { ja: "だから話だけでも伝えたいです。", en: "So at least I want to tell them about it.", ch: ["So at least I want to", "tell them about it"], scene: "会話", to: "相手", imp: "often" },
 ];

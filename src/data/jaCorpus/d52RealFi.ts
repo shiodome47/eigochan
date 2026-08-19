@@ -12,7 +12,7 @@ export const D52_SELF: JaSentenceInput[] = [
   { ja: "利回りがどこから生まれるのかを理解することが重要です。", en: "It's important to understand where the yield comes from.", ch: ["understand where", "the yield comes from"], scene: "説明", to: "相手", imp: "must" },
   { ja: "高い利回りだけを見て判断するのは危険です。", en: "Judging by the high yield alone is dangerous.", ch: ["Judging by the high yield alone", "is dangerous"], scene: "説明", to: "相手", imp: "must" },
   { ja: "DEXで取引できることには、良い面と難しい面があります。", en: "Being tradable on a DEX has both good sides and difficult sides.", ch: ["has both good sides", "and difficult sides"], scene: "説明", to: "相手", imp: "must" },
-  { ja: "市場価格と公式の交換レートが違うこともあります。", en: "The market price and the official exchange rate can differ.", ch: ["The market price and", "the official rate can differ"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "市場価格と公式の交換レートが違うこともあります。", en: "The market price and the official exchange rate can differ.", ch: ["The market price and", "the official exchange rate can differ."], scene: "説明", to: "相手", imp: "must" },
   { ja: "その差は、裁定取引によって調整される可能性があります。", en: "That gap may be corrected through arbitrage.", ch: ["That gap may be corrected", "through arbitrage"], scene: "説明", to: "相手", imp: "must" },
   { ja: "ただ、実際にどの程度うまく機能するかは、運用してみないと分かりません。", en: "How well it actually works, though, won't be clear until it's in operation.", ch: ["won't be clear until", "it's in operation"], scene: "説明", to: "相手", imp: "must" },
   { ja: "メインネット開始前に、十分なテストが必要だと思います。", en: "I think it needs thorough testing before the mainnet launch.", ch: ["needs thorough testing", "before the mainnet launch"], scene: "説明", to: "相手", imp: "must" },
@@ -43,6 +43,6 @@ export const D52_ADD: JaSentenceInput[] = [
   { ja: "この機能は実際に使われるでしょうか。", en: "Will this feature actually get used?", ch: ["Will this feature", "actually get used?"], scene: "議論", to: "相手", imp: "often" },
   { ja: "需要があるかどうかは、まだ分かりません。", en: "Whether there's demand is still unclear.", ch: ["Whether there's demand", "is still unclear"], scene: "議論", to: "相手", imp: "often" },
   { ja: "既存の金融と比べて何が良いのでしょうか。", en: "What's better about it compared with existing finance?", ch: ["compared with", "existing finance"], scene: "議論", to: "相手", imp: "must" },
-  { ja: "そこを説明できないと広がらないと思います。", en: "If we can't explain that, I don't think it will spread.", ch: ["If we can't explain that,", "it won't spread"], scene: "議論", to: "相手", imp: "must" },
+  { ja: "そこを説明できないと広がらないと思います。", en: "If we can't explain that, I don't think it will spread.", ch: ["If we can't explain that", ", I don't think it will spread."], scene: "議論", to: "相手", imp: "must" },
   { ja: "しばらくは様子を見ようと思います。", en: "I'm going to watch it for a while.", ch: ["watch it", "for a while"], scene: "議論", to: "相手", imp: "must" },
 ];

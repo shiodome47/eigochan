@@ -4,7 +4,7 @@ import type { JaSentenceInput } from "./types";
 export const D48_SELF: JaSentenceInput[] = [
   { ja: "ステーキングとは、ネットワークの運営に参加する仕組みです。", en: "Staking is a way of taking part in running the network.", ch: ["Staking is a way of", "taking part in running the network"], scene: "説明", to: "相手", imp: "must" },
   { ja: "ADAを持っている人は、委任先のステークプールを選べます。", en: "People who hold ADA can choose a stake pool to delegate to.", ch: ["can choose a stake pool", "to delegate to"], scene: "説明", to: "相手", imp: "must" },
-  { ja: "委任しても、ADAは自分のウォレットに残ったままです。", en: "Even after delegating, your ADA stays in your own wallet.", ch: ["Even after delegating,", "your ADA stays in your wallet"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "委任しても、ADAは自分のウォレットに残ったままです。", en: "Even after delegating, your ADA stays in your own wallet.", ch: ["Even after delegating", ", your ADA stays in your own wallet."], scene: "説明", to: "相手", imp: "must" },
   { ja: "ADAがロックされるわけではありません。", en: "Your ADA doesn't get locked up.", ch: ["Your ADA doesn't", "get locked up"], scene: "説明", to: "相手", imp: "must" },
   { ja: "必要であれば、いつでも送金できます。", en: "You can send it at any time if you need to.", ch: ["You can send it", "at any time"], scene: "説明", to: "相手", imp: "must" },
   { ja: "委任しただけで、プール運営者に資産を預けたことにはなりません。", en: "Delegating alone doesn't mean you've entrusted your assets to the pool operator.", ch: ["Delegating alone doesn't mean", "you've entrusted your assets"], scene: "説明", to: "相手", imp: "must" },
@@ -14,8 +14,8 @@ export const D48_SELF: JaSentenceInput[] = [
   { ja: "小さなプールでは、報酬の波が大きくなることがあります。", en: "With small pools, rewards can swing more widely.", ch: ["With small pools,", "rewards can swing more widely"], scene: "説明", to: "相手", imp: "must" },
   { ja: "ブロックを生成できないエポックもあります。", en: "There are epochs where no block gets produced.", ch: ["There are epochs where", "no block gets produced"], scene: "説明", to: "相手", imp: "must" },
   { ja: "ただし、長い期間で見ると平均に近づいていきます。", en: "Over a long period, though, it moves toward the average.", ch: ["Over a long period,", "it moves toward the average"], scene: "説明", to: "相手", imp: "must" },
-  { ja: "一回の結果だけで判断しない方がいいと思います。", en: "I don't think you should judge by a single result.", ch: ["don't judge by", "a single result"], scene: "説明", to: "相手", imp: "must" },
-  { ja: "プールの規模だけでなく、運営方針も見た方がいいです。", en: "You should look at the operator's approach, not just the pool's size.", ch: ["not just the pool's size,", "but the operator's approach"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "一回の結果だけで判断しない方がいいと思います。", en: "I don't think you should judge by a single result.", ch: ["I don't think you should judge by", "a single result."], scene: "説明", to: "相手", imp: "must" },
+  { ja: "プールの規模だけでなく、運営方針も見た方がいいです。", en: "You should look at the operator's approach, not just the pool's size.", scene: "説明", to: "相手", imp: "must" },
   { ja: "どのような活動をしているかも、選ぶ基準になります。", en: "What kind of activity they do is also a criterion for choosing.", ch: ["is also a criterion", "for choosing"], scene: "説明", to: "相手", imp: "must" },
   { ja: "委任先は、あとから変更できます。", en: "You can change where you delegate later.", ch: ["You can change", "where you delegate later"], scene: "説明", to: "相手", imp: "must" },
   { ja: "変更しても、ADAを送金する必要はありません。", en: "Even when you change it, you don't have to move your ADA.", ch: ["you don't have to", "move your ADA"], scene: "説明", to: "相手", imp: "must" },
@@ -25,7 +25,7 @@ export const D48_SELF: JaSentenceInput[] = [
 ];
 
 export const D48_ADD: JaSentenceInput[] = [
-  { ja: "ステーキングは難しくありません。", en: "Staking isn't difficult.", ch: ["Staking isn't", "difficult"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "ステーキングは難しくありません。", en: "Staking isn't difficult.", scene: "説明", to: "相手", imp: "must" },
   { ja: "ウォレットの画面から数回の操作で終わります。", en: "It takes just a few taps in the wallet.", ch: ["just a few taps", "in the wallet"], scene: "説明", to: "相手", imp: "must" },
   { ja: "まず、プールを検索します。", en: "First, you search for a pool.", ch: ["First, you search for", "a pool"], scene: "説明", to: "相手", imp: "must" },
   { ja: "プールのIDや名前で探せます。", en: "You can look it up by the pool's ID or name.", ch: ["by the pool's", "ID or name"], scene: "説明", to: "相手", imp: "often" },
@@ -36,13 +36,13 @@ export const D48_ADD: JaSentenceInput[] = [
   { ja: "そのあとは、五日ごとに受け取れます。", en: "After that, you receive them every five days.", ch: ["you receive them", "every five days"], scene: "説明", to: "相手", imp: "must" },
   { ja: "報酬は自動的にウォレットに入ります。", en: "The rewards go into your wallet automatically.", ch: ["go into your wallet", "automatically"], scene: "説明", to: "相手", imp: "must" },
   { ja: "受け取りの操作は必要ありません。", en: "You don't need to do anything to claim them.", ch: ["You don't need to do anything", "to claim them"], scene: "説明", to: "相手", imp: "must" },
-  { ja: "年利はおおよそ三パーセント前後です。", en: "The annual return is roughly three percent.", ch: ["The annual return", "is roughly ..."], scene: "説明", to: "相手", imp: "must" },
+  { ja: "年利はおおよそ三パーセント前後です。", en: "The annual return is roughly three percent.", ch: ["The annual return", "is roughly three percent"], scene: "説明", to: "相手", imp: "must" },
   { ja: "その数字は保証されたものではありません。", en: "That number isn't guaranteed.", ch: ["That number", "isn't guaranteed"], scene: "説明", to: "相手", imp: "must" },
-  { ja: "価格が下がれば、資産の価値も下がります。", en: "If the price falls, the value of your holdings falls too.", ch: ["If the price falls,", "the value falls too"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "価格が下がれば、資産の価値も下がります。", en: "If the price falls, the value of your holdings falls too.", ch: ["If the price falls", ", the value of your holdings falls too."], scene: "説明", to: "相手", imp: "must" },
   { ja: "報酬だけを見て判断しないでください。", en: "Please don't decide by looking only at rewards.", ch: ["don't decide by looking", "only at rewards"], scene: "説明", to: "相手", imp: "must" },
   { ja: "手数料はプールごとに違います。", en: "The fees differ from pool to pool.", ch: ["The fees differ", "from pool to pool"], scene: "説明", to: "相手", imp: "must" },
   { ja: "固定手数料と変動手数料があります。", en: "There's a fixed fee and a variable fee.", ch: ["a fixed fee and", "a variable fee"], scene: "説明", to: "相手", imp: "often" },
   { ja: "飽和しているプールは避けた方がいいです。", en: "It's better to avoid pools that are saturated.", ch: ["avoid pools", "that are saturated"], scene: "説明", to: "相手", imp: "often" },
-  { ja: "分からなければ、一緒に見ましょうか。", en: "If you're unsure, shall we look at it together?", ch: ["If you're unsure,", "shall we look together?"], scene: "説明", to: "相手", imp: "must" },
+  { ja: "分からなければ、一緒に見ましょうか。", en: "If you're unsure, shall we look at it together?", ch: ["If you're unsure", ", shall we look at it together?"], scene: "説明", to: "相手", imp: "must" },
   { ja: "焦って決めなくても大丈夫ですよ。", en: "There's no need to decide in a hurry.", ch: ["no need to decide", "in a hurry"], scene: "説明", to: "相手", imp: "must" },
 ];

@@ -27,7 +27,7 @@ export const D83_ADD: JaSentenceInput[] = [
   { ja: "選ぶのが難しいです。", en: "It's hard to choose.", ch: ["It's hard to", "choose"], scene: "買い物", to: "家族", imp: "must", pat: "It's hard to ~" },
   { ja: "早起きするのが難しいです。", en: "It's hard to get up early.", ch: ["It's hard to", "get up early"], scene: "家", to: "家族", imp: "must", pat: "It's hard to ~" },
   { ja: "この単語は発音が難しいです。", en: "It's hard to pronounce this word.", ch: ["It's hard to pronounce", "this word"], scene: "学習", to: "相手", imp: "must", pat: "It's hard to ~" },
-  { ja: "説明するのが難しいです。", en: "It's hard to explain.", ch: ["It's hard", "to explain"], scene: "会話", to: "相手", imp: "must", pat: "It's hard to ~" },
+  { ja: "説明するのが難しいです。", en: "It's hard to explain.", ch: ["It's hard to", "explain"], scene: "会話", to: "相手", imp: "must", pat: "It's hard to ~" },
   { ja: "あとから払うこともできます。", en: "It's possible to pay later.", ch: ["It's possible to", "pay later"], scene: "買い物", to: "店員", imp: "must", pat: "It's possible to ~" },
   { ja: "日程を変えることもできます。", en: "It's possible to reschedule.", ch: ["It's possible to", "reschedule"], scene: "仕事", to: "相手", imp: "must", pat: "It's possible to ~" },
   { ja: "早めにチェックインすることもできます。", en: "It's possible to check in early.", ch: ["It's possible to", "check in early"], scene: "ホテル", to: "フロント", imp: "often", pat: "It's possible to ~" },

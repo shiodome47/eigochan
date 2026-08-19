@@ -37,7 +37,7 @@ export const D41_ADD: JaSentenceInput[] = [
   { ja: "チャットに書いておきます。", en: "I'll put it in the chat.", ch: ["I'll put it", "in the chat"], scene: "会議", to: "同僚", imp: "must" },
   { ja: "ここまでで質問はありますか。", en: "Any questions so far?", ch: ["Any questions", "so far?"], scene: "会議", to: "同僚", imp: "must" },
   { ja: "順番に話しましょうか。", en: "Should we speak one at a time?", ch: ["Should we speak", "one at a time?"], scene: "会議", to: "同僚", imp: "often" },
-  { ja: "先にどうぞ。", en: "Please, go ahead.", ch: ["Please,", "go ahead"], scene: "会議", to: "同僚", imp: "must" },
+  { ja: "先にどうぞ。", en: "Please, go ahead.", scene: "会議", to: "同僚", imp: "must" },
   { ja: "話が重なってしまいました。", en: "We were talking over each other.", ch: ["We were talking", "over each other"], scene: "会議", to: "同僚", imp: "often" },
   { ja: "時間が押しているようです。", en: "It looks like we're running over.", ch: ["It looks like", "we're running over"], scene: "会議", to: "同僚", imp: "often" },
   { ja: "残りは次回にしませんか。", en: "Shall we leave the rest for next time?", ch: ["leave the rest", "for next time"], scene: "会議", to: "同僚", imp: "often" },

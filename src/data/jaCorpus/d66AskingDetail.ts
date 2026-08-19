@@ -42,7 +42,7 @@ export const D66_ADD: JaSentenceInput[] = [
   { ja: "何度も聞いてしまい、すみません。", en: "Sorry for asking so many times.", ch: ["Sorry for asking", "so many times"], scene: "会話", to: "相手", imp: "often" },
   { ja: "理解できるまで付き合っていただけますか。", en: "Would you stay with me until I understand it?", ch: ["stay with me", "until I understand"], scene: "会話", to: "相手", imp: "often" },
   { ja: "分かったところまで、まとめてみます。", en: "Let me summarize what I've understood so far.", ch: ["summarize what I've understood", "so far"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "この理解で合っていれば、先に進めます。", en: "If this understanding is right, I can move on.", ch: ["If this is right,", "I can move on"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "この理解で合っていれば、先に進めます。", en: "If this understanding is right, I can move on.", ch: ["If this understanding is right,", "I can move on."], scene: "会話", to: "相手", imp: "must" },
   { ja: "おかげで、かなり整理できました。", en: "Thanks to you, it's much clearer in my head.", ch: ["Thanks to you,", "it's much clearer"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "ありがとうございます。とても助かりました。", en: "Thank you. That helped a lot.", ch: ["Thank you.", "That was a big help"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "ありがとうございます。とても助かりました。", en: "Thank you. That helped a lot.", ch: ["Thank you", ". That helped a lot."], scene: "会話", to: "相手", imp: "must" },
 ];

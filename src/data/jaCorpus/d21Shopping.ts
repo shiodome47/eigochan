@@ -26,7 +26,7 @@ export const D21_SELF: JaSentenceInput[] = [
 
 export const D21_ADD: JaSentenceInput[] = [
   { ja: "試着室はどちらですか。", en: "Where is the fitting room?", ch: ["Where is", "the fitting room?"], scene: "店", to: "店員", imp: "must" },
-  { ja: "鏡はどこにありますか。", en: "Where's the mirror?", ch: ["Where's", "the mirror?"], scene: "店", to: "店員", imp: "often" },
+  { ja: "鏡はどこにありますか。", en: "Where's the mirror?", scene: "店", to: "店員", imp: "often" },
   { ja: "これは洗濯機で洗えますか。", en: "Can this go in the washing machine?", ch: ["Can this go in", "the washing machine?"], scene: "店", to: "店員", imp: "often" },
   { ja: "素材は何ですか。", en: "What is it made of?", ch: ["What is it", "made of?"], scene: "店", to: "店員", imp: "often" },
   { ja: "夏でも着られそうですね。", en: "It looks wearable in summer too.", ch: ["It looks wearable", "in summer too"], scene: "店", to: "家族", imp: "sub" },

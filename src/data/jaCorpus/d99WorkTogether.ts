@@ -25,7 +25,7 @@ export const D99_ADD: JaSentenceInput[] = [
   { ja: "味を見てもらえますか。", en: "Could you taste it for me?", ch: ["Could you taste it", "for me?"], scene: "家", to: "家族", imp: "must" },
   { ja: "もう少し味が要るかもしれません。", en: "I think it needs a bit more flavor.", ch: ["I think it needs", "a bit more flavor"], scene: "家", to: "家族", imp: "must" },
   { ja: "塩を足しましょうか。", en: "Should we add some salt?", ch: ["Should we add", "some salt?"], scene: "家", to: "家族", imp: "must" },
-  { ja: "これくらいでちょうどいいです。", en: "That's just right.", ch: ["That's", "just right"], scene: "家", to: "家族", imp: "must" },
+  { ja: "これくらいでちょうどいいです。", en: "That's just right.", scene: "家", to: "家族", imp: "must" },
   { ja: "皿を出しておきます。", en: "I'll get the plates out.", ch: ["I'll get", "the plates out"], scene: "家", to: "家族", imp: "must" },
   { ja: "温めておいた方がいいですか。", en: "Should I warm them up?", ch: ["Should I", "warm them up?"], scene: "家", to: "家族", imp: "must" },
   { ja: "あと少しで出来上がります。", en: "It'll be ready in a minute.", ch: ["It'll be ready", "in a minute"], scene: "家", to: "家族", imp: "must" },

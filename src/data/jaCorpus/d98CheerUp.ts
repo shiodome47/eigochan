@@ -10,7 +10,7 @@ export const D98_SELF: JaSentenceInput[] = [];
 
 export const D98_ADD: JaSentenceInput[] = [
   { ja: "元気がなさそうですね。", en: "You don't seem like yourself.", ch: ["You don't seem", "like yourself"], scene: "会話", to: "友人", imp: "must" },
-  { ja: "何かありましたか。", en: "Did something happen?", ch: ["Did something", "happen?"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "何かありましたか。", en: "Did something happen?", scene: "会話", to: "友人", imp: "must" },
   { ja: "話したくなければ大丈夫です。", en: "You don't have to talk about it.", ch: ["You don't have to", "talk about it"], scene: "会話", to: "友人", imp: "must" },
   { ja: "聞くことならできます。", en: "I can at least listen.", ch: ["I can", "at least listen"], scene: "会話", to: "友人", imp: "must" },
   { ja: "それはつらかったですね。", en: "That must have been hard.", ch: ["That must have", "been hard"], scene: "会話", to: "友人", imp: "must" },
@@ -33,7 +33,7 @@ export const D98_ADD: JaSentenceInput[] = [
   { ja: "自分では気づきにくいだけです。", en: "It's just hard to see in yourself.", ch: ["It's just hard", "to see in yourself"], scene: "会話", to: "友人", imp: "often" },
   { ja: "周りはちゃんと見ています。", en: "People around you do notice.", ch: ["People around you", "do notice"], scene: "会話", to: "友人", imp: "often" },
   { ja: "力になれることがあれば言ってください。", en: "Tell me if there's any way I can help.", ch: ["Tell me if there's any way", "I can help"], scene: "会話", to: "友人", imp: "must" },
-  { ja: "いつでも連絡してください。", en: "Reach out anytime.", ch: ["Reach out", "anytime"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "いつでも連絡してください。", en: "Reach out anytime.", scene: "会話", to: "友人", imp: "must" },
   { ja: "一人で抱えないでください。", en: "Don't carry it alone.", ch: ["Don't carry it", "alone"], scene: "会話", to: "友人", imp: "must" },
   { ja: "気晴らしに出かけませんか。", en: "Want to go out and take your mind off it?", ch: ["Want to go out", "and take your mind off it?"], scene: "会話", to: "友人", imp: "must" },
   { ja: "おいしいものでも食べましょう。", en: "Let's go get something good to eat.", ch: ["Let's go get", "something good to eat"], scene: "会話", to: "友人", imp: "must" },
@@ -43,7 +43,7 @@ export const D98_ADD: JaSentenceInput[] = [
   { ja: "その人だけが全てではありません。", en: "That person isn't everything.", ch: ["That person", "isn't everything"], scene: "会話", to: "友人", imp: "often" },
   { ja: "あなたを大事に思う人は他にもいます。", en: "There are other people who care about you.", ch: ["There are other people", "who care about you"], scene: "会話", to: "友人", imp: "must" },
   { ja: "今はそう思えなくて当然です。", en: "It's natural not to feel that way right now.", ch: ["It's natural not to feel that way", "right now"], scene: "会話", to: "友人", imp: "often" },
-  { ja: "焦らなくていいです。", en: "There's no rush.", ch: ["There's", "no rush"], scene: "会話", to: "友人", imp: "must" },
+  { ja: "焦らなくていいです。", en: "There's no rush.", scene: "会話", to: "友人", imp: "must" },
   { ja: "いつか笑って話せる日が来ます。", en: "Someday you'll be able to laugh about it.", ch: ["Someday you'll be able", "to laugh about it"], scene: "会話", to: "友人", imp: "must" },
   { ja: "私はずっとここにいます。", en: "I'm not going anywhere.", ch: ["I'm not", "going anywhere"], scene: "会話", to: "友人", imp: "must" },
   { ja: "少し顔色がよくなりましたね。", en: "You look a little better.", ch: ["You look", "a little better"], scene: "会話", to: "友人", imp: "must" },

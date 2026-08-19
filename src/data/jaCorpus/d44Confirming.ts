@@ -3,8 +3,8 @@ import type { JaSentenceInput } from "./types";
 // 分野 44: 相手に確認する
 export const D44_SELF: JaSentenceInput[] = [
   { ja: "念のため、一点確認させてください。", en: "Just to be safe, let me confirm one thing.", ch: ["Just to be safe,", "let me confirm one thing"], scene: "仕事", to: "同僚", imp: "must" },
-  { ja: "私の理解では、この作業はまだ必要ありません。", en: "My understanding is that this work isn't needed yet.", ch: ["My understanding is that", "this isn't needed yet"], scene: "仕事", to: "同僚", imp: "must" },
-  { ja: "それで合っていますでしょうか。", en: "Is that correct?", ch: ["Is that", "correct?"], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "私の理解では、この作業はまだ必要ありません。", en: "My understanding is that this work isn't needed yet.", ch: ["My understanding is that", "this work isn't needed yet."], scene: "仕事", to: "同僚", imp: "must" },
+  { ja: "それで合っていますでしょうか。", en: "Is that correct?", scene: "仕事", to: "同僚", imp: "must" },
   { ja: "この設定は変更しなくても大丈夫ですか。", en: "Is it okay to leave this setting as it is?", ch: ["Is it okay to leave this", "as it is?"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "前回と同じ手順で進めてよいですか。", en: "Can I proceed with the same steps as last time?", ch: ["the same steps", "as last time"], scene: "仕事", to: "同僚", imp: "must" },
   { ja: "このファイルを使えばいいんですよね。", en: "This is the file to use, right?", ch: ["This is the file to use,", "right?"], scene: "仕事", to: "同僚", imp: "must" },

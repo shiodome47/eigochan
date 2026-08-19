@@ -32,7 +32,7 @@ export const D93_ADD: JaSentenceInput[] = [
   { ja: "少しは現金を用意しておきます。", en: "I'll have some cash on hand.", ch: ["I'll have some cash", "on hand"], scene: "会話", to: "家族", imp: "must" },
   { ja: "為替が動くと変わってきます。", en: "It changes with the exchange rate.", ch: ["It changes with", "the exchange rate"], scene: "会話", to: "相手", imp: "must" },
   { ja: "今は円が安いので厳しいです。", en: "The yen is weak right now, so it's tough.", ch: ["The yen is weak right now,", "so it's tough"], scene: "会話", to: "相手", imp: "often" },
-  { ja: "もう少し待った方がいいかもしれません。", en: "It might be better to wait a little.", ch: ["It might be better", "to wait a little"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "もう少し待った方がいいかもしれません。", en: "It might be better to wait a little.", ch: ["It might be better to", "wait a little"], scene: "会話", to: "相手", imp: "must" },
   { ja: "無理のない範囲でやります。", en: "I'll keep it to what I can manage.", ch: ["I'll keep it to", "what I can manage"], scene: "会話", to: "友人", imp: "must" },
   { ja: "我慢しすぎると続きません。", en: "If you deprive yourself too much, it doesn't last.", ch: ["If you deprive yourself too much,", "it doesn't last"], scene: "会話", to: "友人", imp: "often" },
   { ja: "たまには使ってもいいと思います。", en: "I think it's fine to spend sometimes.", ch: ["I think it's fine", "to spend sometimes"], scene: "会話", to: "友人", imp: "must" },

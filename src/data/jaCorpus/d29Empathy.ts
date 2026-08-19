@@ -16,10 +16,10 @@ export const D29_SELF: JaSentenceInput[] = [
   { ja: "それだけでも十分だと思います。", en: "I think that alone is enough.", ch: ["I think that alone", "is enough"], scene: "会話", to: "相手", imp: "must" },
   { ja: "ちゃんと考えて行動した結果なら、仕方がないですよ。", en: "If you thought it through and acted, there's nothing more to be done.", ch: ["If you thought it through,", "there's nothing more to be done"], scene: "会話", to: "相手", imp: "must" },
   { ja: "あとからなら、何とでも言えますからね。", en: "It's easy to say anything in hindsight.", ch: ["It's easy to say anything", "in hindsight"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "その状況では、判断するのが難しかったと思います。", en: "In that situation, it must have been hard to judge.", ch: ["In that situation,", "it was hard to judge"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "その状況では、判断するのが難しかったと思います。", en: "In that situation, it must have been hard to judge.", ch: ["In that situation", ", it must have been hard to judge."], scene: "会話", to: "相手", imp: "must" },
   { ja: "少し時間がたてば、見え方も変わるかもしれません。", en: "Given a little time, it might look different.", ch: ["Given a little time,", "it might look different"], scene: "会話", to: "相手", imp: "must" },
   { ja: "話したくなったら、いつでも聞きますよ。", en: "If you feel like talking, I'm here anytime.", ch: ["If you feel like talking,", "I'm here anytime"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "今すぐ答えを出さなくてもいいんじゃないですか。", en: "You don't have to come up with an answer right now.", ch: ["You don't have to", "come up with an answer now"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "今すぐ答えを出さなくてもいいんじゃないですか。", en: "You don't have to come up with an answer right now.", ch: ["You don't have to", "come up with an answer right now."], scene: "会話", to: "相手", imp: "must" },
   { ja: "少しでも楽になるといいですね。", en: "I hope it gets a little easier.", ch: ["I hope it gets", "a little easier"], scene: "会話", to: "相手", imp: "must" },
   { ja: "今日はゆっくりしてください。", en: "Please take it easy today.", ch: ["Please take it easy", "today"], scene: "会話", to: "相手", imp: "must" },
 ];
@@ -27,7 +27,7 @@ export const D29_SELF: JaSentenceInput[] = [
 export const D29_ADD: JaSentenceInput[] = [
   { ja: "話してくれてありがとうございます。", en: "Thank you for telling me.", ch: ["Thank you for", "telling me"], scene: "会話", to: "相手", imp: "must" },
   { ja: "それは気になりますよね。", en: "Of course that would weigh on you.", ch: ["Of course that", "would weigh on you"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "私も同じ立場なら悩むと思います。", en: "In your position, I'd struggle with it too.", ch: ["In your position,", "I'd struggle too"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "私も同じ立場なら悩むと思います。", en: "In your position, I'd struggle with it too.", ch: ["In your position", ", I'd struggle with it too."], scene: "会話", to: "相手", imp: "must" },
   { ja: "誰にでも起きることだと思います。", en: "I think it could happen to anyone.", ch: ["It could happen", "to anyone"], scene: "会話", to: "相手", imp: "often" },
   { ja: "自分を責めないでください。", en: "Please don't blame yourself.", ch: ["Please don't", "blame yourself"], scene: "会話", to: "相手", imp: "must" },
   { ja: "十分にやってこられたと思います。", en: "I think you've done plenty.", ch: ["I think you've", "done plenty"], scene: "会話", to: "相手", imp: "must" },
@@ -42,7 +42,7 @@ export const D29_ADD: JaSentenceInput[] = [
   { ja: "今日はよく眠れるといいですね。", en: "I hope you can sleep well tonight.", ch: ["I hope you can", "sleep well tonight"], scene: "会話", to: "相手", imp: "often" },
   { ja: "何かあれば、すぐに言ってください。", en: "If anything comes up, tell me right away.", ch: ["If anything comes up,", "tell me right away"], scene: "会話", to: "相手", imp: "must" },
   { ja: "私にできることがあれば手伝います。", en: "If there's anything I can do, I'll help.", ch: ["If there's anything I can do,", "I'll help"], scene: "会話", to: "相手", imp: "must" },
-  { ja: "焦らなくても大丈夫ですよ。", en: "There's no need to rush.", ch: ["There's no need", "to rush"], scene: "会話", to: "相手", imp: "must" },
+  { ja: "焦らなくても大丈夫ですよ。", en: "There's no need to rush.", ch: ["There's no need to", "rush"], scene: "会話", to: "相手", imp: "must" },
   { ja: "少しずつでいいと思います。", en: "A little at a time is fine.", ch: ["A little at a time", "is fine"], scene: "会話", to: "相手", imp: "must" },
   { ja: "また話を聞かせてください。", en: "Tell me how it goes again sometime.", ch: ["Tell me how it goes", "again sometime"], scene: "会話", to: "相手", imp: "often" },
 ];

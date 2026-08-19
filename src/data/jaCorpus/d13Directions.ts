@@ -18,7 +18,7 @@ export const D13_SELF: JaSentenceInput[] = [
   { ja: "近くに目印になるものはありますか。", en: "Is there a landmark nearby?", ch: ["Is there a landmark", "nearby?"], scene: "道", to: "通行人", imp: "must" },
   { ja: "あのコンビニを越えたところですか。", en: "Is it just past that convenience store?", ch: ["Is it just past", "that convenience store?"], scene: "道", to: "通行人", imp: "must" },
   { ja: "道を聞いた方が早いかもしれません。", en: "It might be faster to ask someone.", ch: ["It might be faster", "to ask someone"], scene: "道", to: "家族", imp: "must" },
-  { ja: "すみません、この場所はどちらですか。", en: "Excuse me, how do I get to this place?", ch: ["Excuse me,", "how do I get to ...?"], scene: "道", to: "通行人", imp: "must" },
+  { ja: "すみません、この場所はどちらですか。", en: "Excuse me, how do I get to this place?", ch: ["Excuse me,", "how do I get to this place?"], scene: "道", to: "通行人", imp: "must" },
   { ja: "ここから歩いて行けますか。", en: "Can I walk there from here?", ch: ["Can I walk there", "from here?"], scene: "道", to: "通行人", imp: "must" },
   { ja: "分かりやすく教えていただいて、ありがとうございます。", en: "Thank you for explaining it so clearly.", ch: ["Thank you for explaining it", "so clearly"], scene: "道", to: "通行人", imp: "must" },
   { ja: "ようやく場所が分かりました。", en: "We finally found it.", ch: ["We finally", "found it"], scene: "道", to: "家族", imp: "must" },

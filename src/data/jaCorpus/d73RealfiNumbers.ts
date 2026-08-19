@@ -26,5 +26,5 @@ export const D73_ADD: JaSentenceInput[] = [
   { ja: "私たちはどの数字を追いかけるべきだと思いますか。", en: "Which numbers do you think we should be watching?", ch: ["Which numbers do you think", "we should be watching?"], scene: "コール", to: "参加者", imp: "must" },
   { ja: "ウォレットの数より、使い続けている人の数を知りたいです。", en: "More than the number of wallets, I want to know how many keep using it.", ch: ["More than the number of wallets,", "how many keep using it"], scene: "コール", to: "参加者", imp: "must" },
   { ja: "次はどの数字を出す予定ですか。", en: "Which numbers are you planning to show next time?", ch: ["Which numbers are you planning", "to show next time?"], scene: "コール", to: "参加者", imp: "often" },
-  { ja: "数字が出ると、話がぐっと具体的になりますね。", en: "Once there are numbers, the conversation gets much more concrete.", ch: ["Once there are numbers,", "the conversation gets concrete"], scene: "コール", to: "参加者", imp: "often" },
+  { ja: "数字が出ると、話がぐっと具体的になりますね。", en: "Once there are numbers, the conversation gets much more concrete.", ch: ["Once there are numbers", ", the conversation gets much more concrete."], scene: "コール", to: "参加者", imp: "often" },
 ];

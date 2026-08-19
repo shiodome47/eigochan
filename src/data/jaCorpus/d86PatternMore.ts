@@ -10,7 +10,7 @@ export const D86_SELF: JaSentenceInput[] = [];
 export const D86_ADD: JaSentenceInput[] = [
   // ── 抜けていた型 ──────────────────────────
   { ja: "今、お時間ありますか。", en: "Are you free right now?", ch: ["Are you free", "right now?"], scene: "仕事", to: "相手", imp: "must", pat: "Are you [adj]?" },
-  { ja: "寒くないですか。", en: "Are you cold?", ch: ["Are you", "cold?"], scene: "家", to: "家族", imp: "must", pat: "Are you [adj]?" },
+  { ja: "寒くないですか。", en: "Are you cold?", scene: "家", to: "家族", imp: "must", pat: "Are you [adj]?" },
   { ja: "海外で運転したことはありますか。", en: "Have you ever driven overseas?", ch: ["Have you ever", "driven overseas?"], scene: "会話", to: "相手", imp: "must", pat: "Have you ever ~?" },
   { ja: "日本に来たことはありますか。", en: "Have you ever been to Japan?", ch: ["Have you ever", "been to Japan?"], scene: "コール", to: "参加者", imp: "must", pat: "Have you ever ~?" },
   { ja: "こういうことは前にもありましたか。", en: "Have you ever run into this before?", ch: ["Have you ever run into this", "before?"], scene: "仕事", to: "相手", imp: "must", pat: "Have you ever ~?" },

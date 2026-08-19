@@ -3,10 +3,10 @@ import type { JaSentenceInput } from "./types";
 // 分野 03: 食事を決める
 export const D03_SELF: JaSentenceInput[] = [
   { ja: "今日のお昼は何が食べたいですか。", en: "What would you like for lunch today?", ch: ["What would you like", "for lunch today?"], scene: "家", to: "家族", imp: "must" },
-  { ja: "また、うどんですか。", en: "Noodles again?", ch: ["... again?"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "また、うどんですか。", en: "Noodles again?", scene: "台所", to: "家族", imp: "must" },
   { ja: "ほかに食べられそうなものはありませんか。", en: "Is there anything else you could eat?", ch: ["Is there anything else", "you could eat?"], scene: "台所", to: "家族", imp: "must" },
-  { ja: "おにぎりでもいいですか。", en: "Would a rice ball be okay?", ch: ["Would ...", "be okay?"], scene: "台所", to: "家族", imp: "must" },
-  { ja: "鰻丼みたいなものでも食べられそうですか。", en: "Do you think you could eat something like an eel rice bowl?", ch: ["Do you think you could eat", "something like ..."], scene: "家", to: "家族", imp: "must" },
+  { ja: "おにぎりでもいいですか。", en: "Would a rice ball be okay?", ch: ["Would a rice ball", "be okay?"], scene: "台所", to: "家族", imp: "must" },
+  { ja: "鰻丼みたいなものでも食べられそうですか。", en: "Do you think you could eat something like an eel rice bowl?", ch: ["Do you think you could eat", "something like an eel rice bowl?"], scene: "家", to: "家族", imp: "must" },
   { ja: "温かいものの方がよさそうですね。", en: "Something warm sounds better.", ch: ["Something warm", "sounds better"], scene: "台所", to: "家族", imp: "must" },
   { ja: "あまり重たいものはやめておいた方がいいかもしれません。", en: "Maybe we should stay away from anything too heavy.", ch: ["Maybe we should stay away from", "anything too heavy"], scene: "台所", to: "家族", imp: "must" },
   { ja: "今日は簡単なもので済ませましょうか。", en: "Should we just keep it simple today?", ch: ["Should we just", "keep it simple today?"], scene: "台所", to: "家族", imp: "must" },
@@ -30,7 +30,7 @@ export const D03_ADD: JaSentenceInput[] = [
   { ja: "昨日と同じでも構いませんか。", en: "Do you mind having the same as yesterday?", ch: ["Do you mind having", "the same as yesterday?"], scene: "台所", to: "家族", imp: "often" },
   { ja: "少しだけでも食べておいた方がいいですよ。", en: "You should eat at least a little.", ch: ["You should eat", "at least a little"], scene: "家", to: "家族", imp: "must" },
   { ja: "味の濃いものは今日はやめておきましょう。", en: "Let's skip anything heavily seasoned today.", ch: ["Let's skip", "anything heavily seasoned"], scene: "台所", to: "家族", imp: "often" },
-  { ja: "麺類ばかりになっていますね。", en: "It's been nothing but noodles lately.", ch: ["It's been nothing but", "... lately"], scene: "台所", to: "家族", imp: "often" },
+  { ja: "麺類ばかりになっていますね。", en: "It's been nothing but noodles lately.", ch: ["It's been nothing but", "noodles lately"], scene: "台所", to: "家族", imp: "often" },
   { ja: "野菜も少し入れておきます。", en: "I'll add some vegetables too.", ch: ["I'll add", "some vegetables too"], scene: "台所", to: "家族", imp: "often" },
   { ja: "買い物に行く必要がありますか。", en: "Do we need to go shopping?", ch: ["Do we need to", "go shopping?"], scene: "家", to: "家族", imp: "must" },
   { ja: "卵が切れていました。", en: "We were out of eggs.", ch: ["We were out of", "eggs"], scene: "台所", to: "家族", imp: "often" },

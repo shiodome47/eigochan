@@ -10,7 +10,7 @@ export const D82_ADD: JaSentenceInput[] = [
   { ja: "少しふらふらします。", en: "I feel a little dizzy.", ch: ["I feel", "a little dizzy"], scene: "病院", to: "医師", imp: "must", pat: "I feel [adj]" },
   { ja: "何か変な感じがします。", en: "I feel like something's off.", ch: ["I feel like", "something's off"], scene: "会話", to: "相手", imp: "must", pat: "I feel [adj]" },
   { ja: "ここは居心地がいいです。", en: "I feel comfortable here.", ch: ["I feel comfortable", "here"], scene: "カフェ", to: "家族", imp: "often", pat: "I feel [adj]" },
-  { ja: "その人は気の毒だと思います。", en: "I feel sorry for them.", ch: ["I feel sorry", "for them"], scene: "会話", to: "相手", imp: "must", pat: "I feel sorry for ~" },
+  { ja: "その人は気の毒だと思います。", en: "I feel sorry for them.", ch: ["I feel sorry for", "them"], scene: "会話", to: "相手", imp: "must", pat: "I feel sorry for ~" },
   { ja: "待たされている人たちが気の毒です。", en: "I feel sorry for the people waiting.", ch: ["I feel sorry for", "the people waiting"], scene: "外出", to: "家族", imp: "often", pat: "I feel sorry for ~" },
   { ja: "現場の人が気の毒です。", en: "I feel sorry for the staff.", ch: ["I feel sorry for", "the staff"], scene: "仕事", to: "相手", imp: "often", pat: "I feel sorry for ~" },
   { ja: "その時間で大丈夫です。", en: "I'm okay with that time.", ch: ["I'm okay with", "that time"], scene: "仕事", to: "相手", imp: "must", pat: "I'm okay with ~" },

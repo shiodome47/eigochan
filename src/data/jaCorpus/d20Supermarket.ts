@@ -18,10 +18,10 @@ export const D20_SELF: JaSentenceInput[] = [
   { ja: "これは冷凍しておけばいいと思います。", en: "I think we can just freeze this.", ch: ["I think we can just", "freeze this"], scene: "スーパー", to: "家族", imp: "must" },
   { ja: "何か忘れているような気がします。", en: "I feel like we're forgetting something.", ch: ["I feel like we're", "forgetting something"], scene: "スーパー", to: "家族", imp: "must" },
   { ja: "牛乳は買いましたか。", en: "Did we get milk?", ch: ["Did we get", "milk?"], scene: "スーパー", to: "家族", imp: "must" },
-  { ja: "そういえば、卵も必要でした。", en: "Come to think of it, we needed eggs too.", ch: ["Come to think of it,", "we needed ... too"], scene: "スーパー", to: "家族", imp: "must" },
+  { ja: "そういえば、卵も必要でした。", en: "Come to think of it, we needed eggs too.", ch: ["Come to think of it,", "we needed eggs too"], scene: "スーパー", to: "家族", imp: "must" },
   { ja: "これ以上買うと、持って帰るのが大変ですね。", en: "If we buy any more, it'll be hard to carry home.", ch: ["If we buy any more,", "it'll be hard to carry"], scene: "スーパー", to: "家族", imp: "must" },
   { ja: "今日はこのくらいにしておきましょう。", en: "Let's stop here for today.", ch: ["Let's stop here", "for today"], scene: "スーパー", to: "家族", imp: "must" },
-  { ja: "思っていたよりたくさん買いましたね。", en: "We bought more than I expected.", ch: ["We bought more", "than I expected"], scene: "スーパー", to: "家族", imp: "must" },
+  { ja: "思っていたよりたくさん買いましたね。", en: "We bought more than I expected.", ch: ["We bought", "more than I expected"], scene: "スーパー", to: "家族", imp: "must" },
 ];
 
 export const D20_ADD: JaSentenceInput[] = [
@@ -31,7 +31,7 @@ export const D20_ADD: JaSentenceInput[] = [
   { ja: "こちらは半額になっています。", en: "This one is half price.", ch: ["This one is", "half price"], scene: "スーパー", to: "家族", imp: "often" },
   { ja: "安いですが、量が多すぎますね。", en: "It's cheap, but it's too much.", ch: ["It's cheap,", "but it's too much"], scene: "スーパー", to: "家族", imp: "often" },
   { ja: "産地はどこですか。", en: "Where is this from?", ch: ["Where is this", "from?"], scene: "スーパー", to: "家族", imp: "often" },
-  { ja: "国産の方が安心ですね。", en: "Domestic feels safer.", ch: ["Domestic", "feels safer"], scene: "スーパー", to: "家族", imp: "sub" },
+  { ja: "国産の方が安心ですね。", en: "Domestic feels safer.", scene: "スーパー", to: "家族", imp: "sub" },
   { ja: "魚も見ていきましょうか。", en: "Should we look at the fish too?", ch: ["Should we look at", "the fish too?"], scene: "スーパー", to: "家族", imp: "often" },
   { ja: "お肉は何にしますか。", en: "What meat should we get?", ch: ["What meat", "should we get?"], scene: "スーパー", to: "家族", imp: "often" },
   { ja: "パンも買っておきましょう。", en: "Let's pick up some bread too.", ch: ["Let's pick up", "some bread too"], scene: "スーパー", to: "家族", imp: "often" },
